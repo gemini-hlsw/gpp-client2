@@ -154,6 +154,16 @@ data = gpp.graphql(
 Promote a stable query by dropping it in `graphql/operations/<domain>/` and
 running `uv run python -m codegen generate`.
 
+## CLI
+
+Every domain method is also a shell command, derived by reflection:
+`client.programs.get_by_id` is `gpp programs get-by-id --program-id p-123`.
+Input models become JSON options (`--properties '{"name": "X"}'` or
+`--properties @file.json`), `watch-*` commands stream JSON events, and
+`gpp graphql` is the raw escape hatch. Global options mirror the client
+constructor: `-e/--environment`, `--profile`, `--url`, `--token`,
+`--read-only`.
+
 ## Errors
 
 All inherit `GPPError`: `GPPConfigError`, `GPPAuthError` (401/403 or no

@@ -18,6 +18,8 @@ uv run python -m codegen download [env]  # refresh schemas (needs a token)
 uv run python -m codegen scaffold <name> # skeleton for a new domain
 uv run pytest -m live                    # read-only tests against a real deployment
 GPP_LIVE_WRITE=1 uv run pytest -m live   # + write round-trips (see rules below)
+uv run gpp --help                        # the CLI (every domain method is a command)
+uv run sphinx-build -W docs/source docs/_build  # build the documentation
 ```
 
 ## Architecture in one breath
@@ -34,7 +36,10 @@ transition guards, scheduler tree assembly, attachment REST transfer) and are
 wired to `GPPClient`/`AsyncGPPClient` via `DOMAIN_REGISTRY`. Queries and
 mutations run over httpx; subscriptions (`watch_*`, one graphql-transport-ws
 connection per call, `src/gpp_client/_ws.py`) run over `websockets`, whose
-sync and asyncio clients keep the two surfaces identical.
+sync and asyncio clients keep the two surfaces identical. The `gpp` CLI
+(`src/gpp_client/cli.py`) derives every command from the sync domain APIs by
+reflection at startup - no generated file, cannot drift, and
+`tests/test_cli.py` pins the rule.
 
 ## Hard rules
 
@@ -75,18 +80,17 @@ sync and asyncio clients keep the two surfaces identical.
 
 1. **Set up the GitHub remote** and secrets (`GPP_LIVE_TOKEN` for
    live_tests.yaml, a PR-capable token for schema_sync.yaml).
-2. **CLI** - derive a Typer CLI from the same operation specs the domain
-   bases come from; add a `[project.scripts]` entry.
-3. **Verify prod-only field VALUES** (Igrins2/F2 offsets, saveSVCImages) -
+2. **Verify prod-only field VALUES** (Igrins2/F2 offsets, saveSVCImages) -
    needs a token that can see F2/IGRINS2 observations; Dan's sees only his
    test program. Query text is already validated by production.
-4. **Dev-token tasks once Dan has a replacement**: run the write round-trips
+3. **Dev-token tasks once Dan has a replacement**: run the write round-trips
    against development, re-download the dev schema (committed copy predates
    known drift: ToO trigger types, TooActivation rename).
-5. **site_status domain** (scrapes a status web page in the old client) and
-   **Sphinx docs** - port if still wanted.
-6. **Token hygiene**: Dan's prod token passed through a chat transcript;
+4. **site_status domain** (scrapes a status web page in the old client) -
+   port if still wanted.
+5. **Token hygiene**: Dan's prod token passed through a chat transcript;
    rotate it.
-7. **Publishing decision**: distribution is named `gpp-client` like the
-   original; decide replacement strategy and tag `vX.Y.Z` for
-   uv-dynamic-versioning before any release.
+6. **Release**: the distribution is `gpp-client2` (Dan's decision,
+   2026-08-10); tag `vX.Y.Z` for uv-dynamic-versioning before any release.
+7. **ReadTheDocs**: connect the repo on readthedocs.org once the GitHub
+   remote exists; `.readthedocs.yaml` and the Sphinx tree are committed.

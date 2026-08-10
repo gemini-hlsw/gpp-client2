@@ -3,7 +3,7 @@ requires = ["hatchling", "uv-dynamic-versioning"]
 build-backend = "hatchling.build"
 
 [project]
-name = "gpp-client"
+name = "gpp-client2"
 description = "Gemini Program Platform client."
 readme = "README.md"
 authors = [{ name = "NOIRLab" }]
@@ -24,15 +24,28 @@ dependencies = [
     "graphql-core>=3.2",
     "httpx>=0.27",
     "pydantic>=2.7",
+    "typer>=0.12",
     "websockets>=13",
 ]
 dynamic = ["version"]
 keywords = ["gemini", "gpp", "client", "program", "platform"]
 
+[project.scripts]
+gpp = "gpp_client.cli:main"
+
 [project.urls]
 Homepage = "https://github.com/gemini-hlsw/gpp-client"
 Source = "https://github.com/gemini-hlsw/gpp-client"
 Issues = "https://github.com/gemini-hlsw/gpp-client/issues"
+
+[project.optional-dependencies]
+docs = [
+    "furo>=2024.8",
+    "myst-parser>=4",
+    "sphinx>=8",
+    "sphinx-copybutton>=0.5",
+    "sphinxcontrib-typer>=0.9.1",
+]
 
 [tool.hatch.version]
 source = "uv-dynamic-versioning"
