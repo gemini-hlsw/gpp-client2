@@ -88,11 +88,6 @@ def build_operation_specs(
             continue
         name = definition.name.value
         kind = definition.operation.value
-        if kind == "subscription":
-            raise CodegenError(
-                f"Operation '{name}' is a subscription; subscriptions are not "
-                "supported yet."
-            )
         domain = domains[name]
         try:
             method_name = method_name_for_operation(name, domain)
@@ -372,13 +367,23 @@ def _method_docstring(spec: OperationSpec, indent: str) -> list[str]:
             detail += ")."
             lines.append(f"{indent}    {detail}")
     lines.append("")
-    lines.append(f"{indent}Returns")
-    lines.append(f"{indent}-------")
-    lines.append(f"{indent}{spec.return_annotation}")
-    lines.append(
-        f"{indent}    Parsed from ``data.{'.'.join(spec.unwrap_path)}`` in the "
-        "response."
-    )
+    if spec.kind == "subscription":
+        lines.append(f"{indent}Yields")
+        lines.append(f"{indent}------")
+        lines.append(f"{indent}{spec.return_annotation}")
+        lines.append(
+            f"{indent}    Parsed from ``data.{'.'.join(spec.unwrap_path)}`` in "
+            "each event. Iteration ends when the server completes the"
+        )
+        lines.append(f"{indent}    subscription.")
+    else:
+        lines.append(f"{indent}Returns")
+        lines.append(f"{indent}-------")
+        lines.append(f"{indent}{spec.return_annotation}")
+        lines.append(
+            f"{indent}    Parsed from ``data.{'.'.join(spec.unwrap_path)}`` in "
+            "the response."
+        )
     lines.append(f'{indent}"""')
     return lines
 
@@ -395,6 +400,9 @@ def _method_source(spec: OperationSpec, *, is_async: bool) -> list[str]:
         params.append("*")
         for variable in optional:
             params.append(f"{variable.python_name}: {variable.annotation} = UNSET")
+
+    if spec.kind == "subscription":
+        return _subscription_method_source(spec, params, adapter, is_async=is_async)
 
     prefix = "async def" if is_async else "def"
     awaiting = "await " if is_async else ""
@@ -418,6 +426,36 @@ def _method_source(spec: OperationSpec, *, is_async: bool) -> list[str]:
     return lines
 
 
+def _subscription_method_source(
+    spec: OperationSpec, params: list[str], adapter: str, *, is_async: bool
+) -> list[str]:
+    """
+    Source lines for one generated subscription method.
+
+    A plain ``def`` in both variants: it pre-flights availability and builds
+    the payload eagerly, then returns the (sync or async) event iterator, so
+    environment errors surface at the call site rather than mid-iteration.
+    """
+    iterator = "AsyncIterator" if is_async else "Iterator"
+    mapper = "_map_astream" if is_async else "_map_stream"
+    lines = [f"    def {spec.method_name}("]
+    lines.extend(f"        {p}," for p in params)
+    lines.append(f"    ) -> {iterator}[{spec.return_annotation}]:")
+    lines.extend(_method_docstring(spec, "        "))
+    lines.append("        stream = self._executor.stream(")
+    lines.append(f'            "{spec.name}",')
+    lines.append("            {")
+    for variable in spec.variables:
+        lines.append(
+            f'                "{variable.graphql_name}": {variable.python_name},'
+        )
+    lines.append("            },")
+    lines.append("        )")
+    lines.append(f"        return {mapper}(stream, {adapter}, {spec.unwrap_path!r})")
+    lines.append("")
+    return lines
+
+
 def emit_domains(specs: list[OperationSpec]) -> str:
     """Render the _generated/domains.py module with sync and async bases."""
     domains: dict[str, list[OperationSpec]] = {}
@@ -427,6 +465,8 @@ def emit_domains(specs: list[OperationSpec]) -> str:
     lines = [
         GENERATED_HEADER,
         "from __future__ import annotations",
+        "",
+        "from collections.abc import AsyncIterator, Iterator  # noqa: F401",
         "",
         "from pydantic import TypeAdapter",
         "",
@@ -446,6 +486,18 @@ def emit_domains(specs: list[OperationSpec]) -> str:
         "            return None",
         "        current = current.get(key)",
         "    return current",
+        "",
+        "",
+        "def _map_stream(stream, adapter, path):",
+        '    """Parse each subscription event with the operation\'s adapter."""',
+        "    for data in stream:",
+        "        yield adapter.validate_python(_unwrap(data, path))",
+        "",
+        "",
+        "async def _map_astream(stream, adapter, path):",
+        '    """Async twin of :func:`_map_stream`."""',
+        "    async for data in stream:",
+        "        yield adapter.validate_python(_unwrap(data, path))",
         "",
     ]
 

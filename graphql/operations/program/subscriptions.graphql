@@ -1,0 +1,21 @@
+# Emits an event whenever a program is created or edited; a program id
+# narrows events to that program.
+subscription watchProgramEdits($programId: ProgramId) {
+  programEdit(input: { programId: $programId }) {
+    editType
+    value {
+      id
+      existence
+      name
+      description
+      allGroupElements {
+        observation {
+          id
+        }
+        group {
+          id
+        }
+      }
+    }
+  }
+}

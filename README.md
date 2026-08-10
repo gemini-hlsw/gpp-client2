@@ -144,6 +144,27 @@ attachment_id = gpp.attachments.upload(  # REST content transfer
 gpp.attachments.download_by_id(attachment_id, save_to="~/Downloads")
 ```
 
+### Subscriptions
+
+`watch_*` methods stream server events over GraphQL WebSocket
+subscriptions (`graphql-transport-ws`). Sync iterates, async
+`async`-iterates - same names, same arguments, same typed models:
+
+```python
+for event in gpp.programs.watch_edits(program_id="p-123"):
+    print(event.edit_type, event.value.name)
+
+async for event in gpp.observations.watch_calculations(program_id="p-123"):
+    print(event.new_calculation_state)
+```
+
+Also available: `observations.watch_edits`, `targets.watch_edits`, and
+`scheduler.watch_observation_updates(executable_only=True)` - the
+calculation-state stream the Scheduler service consumes. Iteration ends
+when the server completes the subscription; a dropped connection raises
+`GPPConnectionError`, and reconnecting is the caller's decision (events
+during a gap are not replayed).
+
 ## Development
 
 ```bash
@@ -248,7 +269,6 @@ the wiring steps; the conformance tests enforce completion.
 
 ## Not yet ported from the original client
 
-Subscriptions (GraphQL over WebSocket), the site-status page scraper, the
-Typer CLI, and Sphinx docs. The architecture reserves their places:
-subscriptions need a WebSocket transport beside the httpx one; the CLI can
-derive from the same operation specs the domain bases come from.
+The site-status page scraper, the Typer CLI, and Sphinx docs. The
+architecture reserves their places: the CLI can derive from the same
+operation specs the domain bases come from.

@@ -31,7 +31,10 @@ models (one per schema type, every field defaulting to `UNSET`), inputs
 `graphql/availability.json`, and sync+async domain base classes. Hand-written
 subclasses in `src/gpp_client/domains/` add curated logic (workflow-state
 transition guards, scheduler tree assembly, attachment REST transfer) and are
-wired to `GPPClient`/`AsyncGPPClient` via `DOMAIN_REGISTRY`.
+wired to `GPPClient`/`AsyncGPPClient` via `DOMAIN_REGISTRY`. Queries and
+mutations run over httpx; subscriptions (`watch_*`, one graphql-transport-ws
+connection per call, `src/gpp_client/_ws.py`) run over `websockets`, whose
+sync and asyncio clients keep the two surfaces identical.
 
 ## Hard rules
 
@@ -52,7 +55,8 @@ wired to `GPPClient`/`AsyncGPPClient` via `DOMAIN_REGISTRY`.
   constructor parameter name and break user code).
 - GraphQL partial responses: raise only when every root field is null;
   otherwise return data and log a warning (fresh observations legitimately
-  error on background-calculated fields).
+  error on background-calculated fields). The same rule applies per
+  subscription event.
 - Do not prune `__typename`-only selection sets; authors probe types that
   way (GOATS `opportunity { __typename }`).
 
@@ -69,28 +73,20 @@ wired to `GPPClient`/`AsyncGPPClient` via `DOMAIN_REGISTRY`.
 
 ## Roadmap / next steps
 
-1. **Initial git commit(s)** - the repo has ZERO commits; nothing is durable
-   yet. Dan must say the word (his rule: never commit unproposed). Committing
-   also makes `codegen check` fully functional in CI.
-2. **Set up the GitHub remote** and secrets (`GPP_LIVE_TOKEN` for
+1. **Set up the GitHub remote** and secrets (`GPP_LIVE_TOKEN` for
    live_tests.yaml, a PR-capable token for schema_sync.yaml).
-3. **Subscriptions** - the last API-parity gap: add a graphql-ws WebSocket
-   transport beside httpx, extend codegen to accept subscription operations
-   (currently a hard error in `emit_operations.py`), port the old
-   subscriptions (programEdit, observationEdit, targetEdit,
-   obsCalculationUpdate, schedulerObservationsUpdates); async-only is fine.
-4. **CLI** - derive a Typer CLI from the same operation specs the domain
+2. **CLI** - derive a Typer CLI from the same operation specs the domain
    bases come from; add a `[project.scripts]` entry.
-5. **Verify prod-only field VALUES** (Igrins2/F2 offsets, saveSVCImages) -
+3. **Verify prod-only field VALUES** (Igrins2/F2 offsets, saveSVCImages) -
    needs a token that can see F2/IGRINS2 observations; Dan's sees only his
    test program. Query text is already validated by production.
-6. **Dev-token tasks once Dan has a replacement**: run the write round-trips
+4. **Dev-token tasks once Dan has a replacement**: run the write round-trips
    against development, re-download the dev schema (committed copy predates
    known drift: ToO trigger types, TooActivation rename).
-7. **site_status domain** (scrapes a status web page in the old client) and
+5. **site_status domain** (scrapes a status web page in the old client) and
    **Sphinx docs** - port if still wanted.
-8. **Token hygiene**: Dan's prod token passed through a chat transcript;
+6. **Token hygiene**: Dan's prod token passed through a chat transcript;
    rotate it.
-9. **Publishing decision**: distribution is named `gpp-client` like the
+7. **Publishing decision**: distribution is named `gpp-client` like the
    original; decide replacement strategy and tag `vX.Y.Z` for
    uv-dynamic-versioning before any release.

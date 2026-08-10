@@ -1,0 +1,136 @@
+# Emits an event whenever an observation is created or edited; a program id
+# narrows events to that program's observations.
+subscription watchObservationEdits($programId: ProgramId) {
+  observationEdit(input: { programId: $programId }) {
+    editType
+    observationId
+    value {
+      id
+      existence
+      reference {
+        label
+      }
+      calibrationRole
+      instrument
+      index
+      title
+      subtitle
+      scienceRequirements {
+        mode
+      }
+      scienceBand
+      observingMode {
+        instrument
+        mode
+        gmosNorthLongSlit {
+          grating
+          filter
+          fpu
+          centralWavelength {
+            nanometers
+          }
+        }
+        gmosSouthLongSlit {
+          grating
+          filter
+          fpu
+          centralWavelength {
+            nanometers
+          }
+        }
+      }
+      constraintSet {
+        imageQuality
+        cloudExtinction
+        skyBackground
+        waterVapor
+        elevationRange {
+          airMass {
+            min
+            max
+          }
+          hourAngle {
+            minHours
+            maxHours
+          }
+        }
+      }
+      timingWindows {
+        inclusion
+        startUtc
+        end {
+          ... on TimingWindowEndAt {
+            atUtc
+          }
+          ... on TimingWindowEndAfter {
+            after {
+              seconds
+            }
+            repeat {
+              period {
+                seconds
+              }
+              times
+            }
+          }
+        }
+      }
+      targetEnvironment {
+        asterism {
+          name
+          sidereal {
+            ra {
+              hms
+            }
+            dec {
+              dms
+            }
+            epoch
+          }
+          nonsidereal {
+            des
+          }
+        }
+        explicitBase {
+          ra {
+            hms
+          }
+          dec {
+            dms
+          }
+        }
+      }
+    }
+  }
+}
+
+# Emits an event whenever an observation's background calculation changes
+# state, e.g. after an edit or execution; a program id narrows events to
+# that program's observations.
+subscription watchObservationCalculations($programId: ProgramId) {
+  obscalcUpdate(input: { programId: $programId }) {
+    editType
+    observationId
+    oldCalculationState
+    newCalculationState
+    value {
+      id
+      observationTime
+      execution {
+        visits {
+          matches {
+            observation {
+              id
+            }
+            atomRecords {
+              matches {
+                executionState
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

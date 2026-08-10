@@ -96,5 +96,5 @@ def test_availability_manifest_matches_generated_map():
         assert sorted(texts) == manifest["operations"][name]
 
 
-def test_operation_kinds_are_query_or_mutation():
-    assert set(OPERATION_KIND.values()) <= {"query", "mutation"}
+def test_operation_kinds_are_known():
+    assert set(OPERATION_KIND.values()) <= {"query", "mutation", "subscription"}

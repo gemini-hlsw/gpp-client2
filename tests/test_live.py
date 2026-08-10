@@ -7,12 +7,14 @@ They are read-only: no mutations.
 Run with: uv run pytest tests/test_live.py -m live
 """
 
+import asyncio
 import os
 from pathlib import Path
 
 import pytest
 
 from gpp_client import AsyncGPPClient, GPPClient
+from gpp_client._generated.models import ProgramEdit
 
 pytestmark = pytest.mark.live
 
@@ -89,3 +91,25 @@ async def test_async_client_ping(monkeypatch):
     async with AsyncGPPClient(read_only=True) as client:
         ok, reason = await client.ping()
     assert ok, reason
+
+
+@requires_live
+async def test_subscription_handshake(monkeypatch):
+    """
+    The deployment's /ws endpoint accepts our graphql-transport-ws handshake.
+
+    Reaching the event wait proves connect + auth + ack + subscribe were all
+    accepted (each failure mode raises a GPP error instead). Silence within
+    the window is the expected outcome; an event only arrives if someone
+    happens to edit a visible program, and that is fine too.
+    """
+    monkeypatch.delenv("GPP_CONFIG_FILE", raising=False)
+    async with AsyncGPPClient(read_only=True, timeout=15.0) as client:
+        stream = client.programs.watch_edits()
+        try:
+            event = await asyncio.wait_for(anext(stream), timeout=5)
+            assert isinstance(event, ProgramEdit)
+        except TimeoutError:
+            pass
+        finally:
+            await stream.aclose()

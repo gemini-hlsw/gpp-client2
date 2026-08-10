@@ -17,16 +17,19 @@ Double opt-in: these run only with ``-m live`` AND ``GPP_LIVE_WRITE=1``:
     GPP_LIVE_WRITE=1 uv run pytest tests/test_live_roundtrip.py -m live
 """
 
+import asyncio
 import datetime as dt
 import json
 import os
+import threading
+import time
 import uuid
 from pathlib import Path
 
 import pytest
 
-from gpp_client import GPPClient, is_set
-from gpp_client._generated.enums import Existence, TimingWindowInclusion
+from gpp_client import AsyncGPPClient, GPPClient, is_set
+from gpp_client._generated.enums import EditType, Existence, TimingWindowInclusion
 from gpp_client._generated.inputs import (
     BandBrightnessIntegratedInput,
     BandNormalizedIntegratedInput,
@@ -282,6 +285,76 @@ class TestObservationRoundTrip:
         if returned.tzinfo is None:
             returned = returned.replace(tzinfo=dt.UTC)
         assert returned == instant
+
+
+class TestSubscriptionRoundTrip:
+    """
+    A real event round-trip: watch the test program while updating it.
+
+    Only updates to the already-tracked program - no additional creates.
+    The updater pokes repeatedly because subscribing and updating race:
+    the first poke can land before the subscription is active, but a later
+    one is guaranteed to land after it.
+    """
+
+    def _poke(self, tracker, program_id: str, sequence: int) -> None:
+        tracker.client.programs.update_by_id(
+            program_id,
+            properties=ProgramPropertiesInput(
+                description=f"subscription poke {NONCE} {sequence}"
+            ),
+        )
+
+    def test_sync_watch_receives_update_event(self, tracker, live_program):
+        received: dict[str, object] = {}
+
+        def consume():
+            stream = tracker.client.programs.watch_edits(program_id=live_program.id)
+            for event in stream:
+                if event.edit_type is EditType.UPDATED:
+                    received["event"] = event
+                    break
+
+        watcher = threading.Thread(target=consume, daemon=True)
+        watcher.start()
+        deadline = time.monotonic() + 30
+        sequence = 0
+        while watcher.is_alive() and time.monotonic() < deadline:
+            sequence += 1
+            self._poke(tracker, live_program.id, sequence)
+            watcher.join(timeout=3)
+        assert "event" in received, "no subscription event arrived within 30s"
+        event = received["event"]
+        assert event.value.id == live_program.id
+
+    async def test_async_watch_receives_update_event(
+        self, tracker, live_program, monkeypatch
+    ):
+        monkeypatch.delenv("GPP_CONFIG_FILE", raising=False)
+        async with AsyncGPPClient() as watcher_client:
+            stream = watcher_client.programs.watch_edits(program_id=live_program.id)
+
+            async def consume():
+                async for event in stream:
+                    if event.edit_type is EditType.UPDATED:
+                        return event
+                return None
+
+            task = asyncio.create_task(consume())
+            event = None
+            try:
+                for sequence in range(10):
+                    self._poke(tracker, live_program.id, 100 + sequence)
+                    done, _ = await asyncio.wait({task}, timeout=3)
+                    if done:
+                        event = task.result()
+                        break
+            finally:
+                task.cancel()
+                await asyncio.gather(task, return_exceptions=True)
+                await stream.aclose()
+            assert event is not None, "no subscription event arrived"
+            assert event.value.id == live_program.id
 
 
 class TestDeletion:

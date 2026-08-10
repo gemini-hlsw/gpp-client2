@@ -1,0 +1,107 @@
+# The calculation-state stream the Scheduler service consumes: one event per
+# observation whose calculations changed, with the scheduling-relevant shape.
+subscription watchSchedulerObservationUpdates($executableOnly: Boolean) {
+  obscalcUpdate(input: { executableOnly: $executableOnly }) {
+    editType
+    oldCalculationState
+    newCalculationState
+    value {
+      id
+      observationTime
+      instrument
+      program {
+        active {
+          start
+          end
+        }
+      }
+      workflow {
+        value {
+          state
+        }
+      }
+      execution {
+        visits {
+          matches {
+            observation {
+              id
+            }
+            atomRecords {
+              matches {
+                executionState
+                id
+              }
+            }
+          }
+        }
+      }
+      targetEnvironment {
+        asterism {
+          name
+          sidereal {
+            ra {
+              hours
+              hms
+              degrees
+            }
+            dec {
+              degrees
+              dms
+            }
+            epoch
+          }
+          nonsidereal {
+            des
+            keyType
+            key
+          }
+        }
+        explicitBase {
+          ra {
+            hms
+          }
+          dec {
+            dms
+          }
+        }
+      }
+      constraintSet {
+        imageQuality
+        cloudExtinction
+        skyBackground
+        waterVapor
+        elevationRange {
+          airMass {
+            min
+            max
+          }
+          hourAngle {
+            minHours
+            maxHours
+          }
+        }
+      }
+      timingWindows {
+        inclusion
+        startUtc
+        end {
+          __typename
+          ... on TimingWindowEndAt {
+            atUtc
+          }
+          ... on TimingWindowEndAfter {
+            after {
+              seconds
+            }
+            repeat {
+              period {
+                seconds
+              }
+              times
+            }
+          }
+        }
+      }
+    }
+  }
+}

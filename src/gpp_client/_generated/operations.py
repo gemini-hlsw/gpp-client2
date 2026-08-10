@@ -18782,6 +18782,288 @@ fragment TargetProgramSummary on Target {
     ...ProgramCore
   }
 }"""
+_T62 = """\
+subscription watchObservationCalculations($programId: ProgramId) {
+  obscalcUpdate(input: {programId: $programId}) {
+    editType
+    observationId
+    oldCalculationState
+    newCalculationState
+    value {
+      id
+      observationTime
+      execution {
+        visits {
+          matches {
+            observation {
+              id
+            }
+            atomRecords {
+              matches {
+                executionState
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}"""
+_T63 = """\
+subscription watchObservationEdits($programId: ProgramId) {
+  observationEdit(input: {programId: $programId}) {
+    editType
+    observationId
+    value {
+      id
+      existence
+      reference {
+        label
+      }
+      calibrationRole
+      instrument
+      index
+      title
+      subtitle
+      scienceRequirements {
+        mode
+      }
+      scienceBand
+      observingMode {
+        instrument
+        mode
+        gmosNorthLongSlit {
+          grating
+          filter
+          fpu
+          centralWavelength {
+            nanometers
+          }
+        }
+        gmosSouthLongSlit {
+          grating
+          filter
+          fpu
+          centralWavelength {
+            nanometers
+          }
+        }
+      }
+      constraintSet {
+        imageQuality
+        cloudExtinction
+        skyBackground
+        waterVapor
+        elevationRange {
+          airMass {
+            min
+            max
+          }
+          hourAngle {
+            minHours
+            maxHours
+          }
+        }
+      }
+      timingWindows {
+        inclusion
+        startUtc
+        end {
+          __typename
+          ... on TimingWindowEndAt {
+            atUtc
+          }
+          ... on TimingWindowEndAfter {
+            after {
+              seconds
+            }
+            repeat {
+              period {
+                seconds
+              }
+              times
+            }
+          }
+        }
+      }
+      targetEnvironment {
+        asterism {
+          name
+          sidereal {
+            ra {
+              hms
+            }
+            dec {
+              dms
+            }
+            epoch
+          }
+          nonsidereal {
+            des
+          }
+        }
+        explicitBase {
+          ra {
+            hms
+          }
+          dec {
+            dms
+          }
+        }
+      }
+    }
+  }
+}"""
+_T64 = """\
+subscription watchProgramEdits($programId: ProgramId) {
+  programEdit(input: {programId: $programId}) {
+    editType
+    value {
+      id
+      existence
+      name
+      description
+      allGroupElements {
+        observation {
+          id
+        }
+        group {
+          id
+        }
+      }
+    }
+  }
+}"""
+_T65 = """\
+subscription watchSchedulerObservationUpdates($executableOnly: Boolean) {
+  obscalcUpdate(input: {executableOnly: $executableOnly}) {
+    editType
+    oldCalculationState
+    newCalculationState
+    value {
+      id
+      observationTime
+      instrument
+      program {
+        active {
+          start
+          end
+        }
+      }
+      workflow {
+        value {
+          state
+        }
+      }
+      execution {
+        visits {
+          matches {
+            observation {
+              id
+            }
+            atomRecords {
+              matches {
+                executionState
+                id
+              }
+            }
+          }
+        }
+      }
+      targetEnvironment {
+        asterism {
+          name
+          sidereal {
+            ra {
+              hours
+              hms
+              degrees
+            }
+            dec {
+              degrees
+              dms
+            }
+            epoch
+          }
+          nonsidereal {
+            des
+            keyType
+            key
+          }
+        }
+        explicitBase {
+          ra {
+            hms
+          }
+          dec {
+            dms
+          }
+        }
+      }
+      constraintSet {
+        imageQuality
+        cloudExtinction
+        skyBackground
+        waterVapor
+        elevationRange {
+          airMass {
+            min
+            max
+          }
+          hourAngle {
+            minHours
+            maxHours
+          }
+        }
+      }
+      timingWindows {
+        inclusion
+        startUtc
+        end {
+          __typename
+          ... on TimingWindowEndAt {
+            atUtc
+          }
+          ... on TimingWindowEndAfter {
+            after {
+              seconds
+            }
+            repeat {
+              period {
+                seconds
+              }
+              times
+            }
+          }
+        }
+      }
+    }
+  }
+}"""
+_T66 = """\
+subscription watchTargetEdits($targetId: TargetId) {
+  targetEdit(input: {targetId: $targetId}) {
+    editType
+    targetId
+    value {
+      id
+      name
+      nonsidereal {
+        des
+        key
+      }
+      sidereal {
+        ra {
+          degrees
+        }
+        dec {
+          degrees
+        }
+      }
+    }
+  }
+}"""
 
 OPERATION_TEXT: dict[str, dict[str, str]] = {
     "cloneObservation": {"development": _T0, "production": _T1},
@@ -18834,6 +19116,11 @@ OPERATION_TEXT: dict[str, dict[str, str]] = {
     "updatePrograms": {"development": _T59, "production": _T59},
     "updateTargetById": {"development": _T60, "production": _T60},
     "updateTargets": {"development": _T61, "production": _T61},
+    "watchObservationCalculations": {"development": _T62, "production": _T62},
+    "watchObservationEdits": {"development": _T63, "production": _T63},
+    "watchProgramEdits": {"development": _T64, "production": _T64},
+    "watchSchedulerObservationUpdates": {"development": _T65, "production": _T65},
+    "watchTargetEdits": {"development": _T66, "production": _T66},
 }
 """Executable text per operation per schema source. An operation absent
 from a source's entry is unavailable in that environment."""
@@ -18889,6 +19176,11 @@ OPERATION_KIND: dict[str, str] = {
     "updatePrograms": "mutation",
     "updateTargetById": "mutation",
     "updateTargets": "mutation",
+    "watchObservationCalculations": "subscription",
+    "watchObservationEdits": "subscription",
+    "watchProgramEdits": "subscription",
+    "watchSchedulerObservationUpdates": "subscription",
+    "watchTargetEdits": "subscription",
 }
 
 OPERATION_DOMAIN: dict[str, str] = {
@@ -18942,6 +19234,11 @@ OPERATION_DOMAIN: dict[str, str] = {
     "updatePrograms": "program",
     "updateTargetById": "target",
     "updateTargets": "target",
+    "watchObservationCalculations": "observation",
+    "watchObservationEdits": "observation",
+    "watchProgramEdits": "program",
+    "watchSchedulerObservationUpdates": "scheduler",
+    "watchTargetEdits": "target",
 }
 
 FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {

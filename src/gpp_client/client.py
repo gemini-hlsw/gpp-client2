@@ -16,6 +16,7 @@ from typing import Any, Self
 import httpx
 
 from gpp_client._executor import AsyncExecutor, ExecutorCore, SyncExecutor
+from gpp_client._ws import AsyncWsTransport, SyncWsTransport, WsConfig, get_ws_url
 from gpp_client.config import ResolvedConfig, resolve_config
 from gpp_client.domains import (
     AsyncAttachmentAPI,
@@ -78,6 +79,13 @@ class _ClientBase:
             environment_name=self._config.environment_name,
             schema_source=self._config.schema_source,
             read_only=self._read_only,
+        )
+
+    def _ws_config(self, timeout: float) -> WsConfig:
+        return WsConfig(
+            url=get_ws_url(self._config.base_url),
+            token=self._config.token,
+            connect_timeout=timeout,
         )
 
     def _http_kwargs(
@@ -173,8 +181,10 @@ class GPPClient(_ClientBase):
         GPP API token.
     read_only : bool, default=False
         When ``True``, the client refuses to execute mutations.
+        Subscriptions are reads and stay available.
     timeout : float, default=30.0
-        Request timeout in seconds.
+        Request timeout in seconds; also the WebSocket connect timeout for
+        subscriptions.
     transport : httpx.BaseTransport, optional
         Custom HTTP transport, e.g. ``httpx.MockTransport`` in tests.
 
@@ -231,7 +241,10 @@ class GPPClient(_ClientBase):
             config_path=config_path,
         )
         self._http = httpx.Client(**self._http_kwargs(timeout, transport))
-        self._executor = SyncExecutor(self._http, self._core())
+        core = self._core()
+        self._executor = SyncExecutor(
+            self._http, core, ws=SyncWsTransport(self._ws_config(timeout), core)
+        )
         self.programs = ProgramAPI(self._executor)
         self.observations = ObservationAPI(self._executor)
         self.targets = TargetAPI(self._executor)
@@ -348,7 +361,10 @@ class AsyncGPPClient(_ClientBase):
             config_path=config_path,
         )
         self._http = httpx.AsyncClient(**self._http_kwargs(timeout, transport))
-        self._executor = AsyncExecutor(self._http, self._core())
+        core = self._core()
+        self._executor = AsyncExecutor(
+            self._http, core, ws=AsyncWsTransport(self._ws_config(timeout), core)
+        )
         self.programs = AsyncProgramAPI(self._executor)
         self.observations = AsyncObservationAPI(self._executor)
         self.targets = AsyncTargetAPI(self._executor)

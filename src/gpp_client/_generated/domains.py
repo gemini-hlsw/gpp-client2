@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator, Iterator  # noqa: F401
+
 from pydantic import TypeAdapter
 
 from gpp_client._base import UNSET, UnsetType  # noqa: F401
@@ -21,6 +23,18 @@ def _unwrap(data, path):
             return None
         current = current.get(key)
     return current
+
+
+def _map_stream(stream, adapter, path):
+    """Parse each subscription event with the operation's adapter."""
+    for data in stream:
+        yield adapter.validate_python(_unwrap(data, path))
+
+
+async def _map_astream(stream, adapter, path):
+    """Async twin of :func:`_map_stream`."""
+    async for data in stream:
+        yield adapter.validate_python(_unwrap(data, path))
 
 _a_clone_observation = TypeAdapter(Observation)
 _a_clone_target = TypeAdapter(Target)
@@ -72,6 +86,11 @@ _a_update_program_by_id = TypeAdapter(UpdateProgramsResult)
 _a_update_programs = TypeAdapter(UpdateProgramsResult)
 _a_update_target_by_id = TypeAdapter(UpdateTargetsResult)
 _a_update_targets = TypeAdapter(UpdateTargetsResult)
+_a_watch_observation_calculations = TypeAdapter(ObscalcUpdate)
+_a_watch_observation_edits = TypeAdapter(ObservationEdit)
+_a_watch_program_edits = TypeAdapter(ProgramEdit)
+_a_watch_scheduler_observation_updates = TypeAdapter(ObscalcUpdate)
+_a_watch_target_edits = TypeAdapter(TargetEdit)
 
 
 class AttachmentOperations:
@@ -1215,6 +1234,60 @@ class ObservationOperations:
         )
         return _a_update_observation_by_reference.validate_python(_unwrap(data, ('updateObservations',)))
 
+    def watch_calculations(
+        self,
+        *,
+        program_id: ProgramId | None | UnsetType = UNSET,
+    ) -> Iterator[ObscalcUpdate]:
+        """
+        Subscribes to an event that is generated whenever an observation calculation is updated.
+
+        Parameters
+        ----------
+        program_id : ProgramId | None | UnsetType
+            GraphQL variable ``$programId`` (``ProgramId``).
+
+        Yields
+        ------
+        ObscalcUpdate
+            Parsed from ``data.obscalcUpdate`` in each event. Iteration ends when the server completes the
+            subscription.
+        """
+        stream = self._executor.stream(
+            "watchObservationCalculations",
+            {
+                "programId": program_id,
+            },
+        )
+        return _map_stream(stream, _a_watch_observation_calculations, ('obscalcUpdate',))
+
+    def watch_edits(
+        self,
+        *,
+        program_id: ProgramId | None | UnsetType = UNSET,
+    ) -> Iterator[ObservationEdit]:
+        """
+        Subscribes to an event that is generated whenever a(n) observation is created or updated.
+
+        Parameters
+        ----------
+        program_id : ProgramId | None | UnsetType
+            GraphQL variable ``$programId`` (``ProgramId``).
+
+        Yields
+        ------
+        ObservationEdit
+            Parsed from ``data.observationEdit`` in each event. Iteration ends when the server completes the
+            subscription.
+        """
+        stream = self._executor.stream(
+            "watchObservationEdits",
+            {
+                "programId": program_id,
+            },
+        )
+        return _map_stream(stream, _a_watch_observation_edits, ('observationEdit',))
+
 
 class AsyncObservationOperations:
     """Generated async operations for the ``observation`` domain."""
@@ -1545,6 +1618,60 @@ class AsyncObservationOperations:
         )
         return _a_update_observation_by_reference.validate_python(_unwrap(data, ('updateObservations',)))
 
+    def watch_calculations(
+        self,
+        *,
+        program_id: ProgramId | None | UnsetType = UNSET,
+    ) -> AsyncIterator[ObscalcUpdate]:
+        """
+        Subscribes to an event that is generated whenever an observation calculation is updated.
+
+        Parameters
+        ----------
+        program_id : ProgramId | None | UnsetType
+            GraphQL variable ``$programId`` (``ProgramId``).
+
+        Yields
+        ------
+        ObscalcUpdate
+            Parsed from ``data.obscalcUpdate`` in each event. Iteration ends when the server completes the
+            subscription.
+        """
+        stream = self._executor.stream(
+            "watchObservationCalculations",
+            {
+                "programId": program_id,
+            },
+        )
+        return _map_astream(stream, _a_watch_observation_calculations, ('obscalcUpdate',))
+
+    def watch_edits(
+        self,
+        *,
+        program_id: ProgramId | None | UnsetType = UNSET,
+    ) -> AsyncIterator[ObservationEdit]:
+        """
+        Subscribes to an event that is generated whenever a(n) observation is created or updated.
+
+        Parameters
+        ----------
+        program_id : ProgramId | None | UnsetType
+            GraphQL variable ``$programId`` (``ProgramId``).
+
+        Yields
+        ------
+        ObservationEdit
+            Parsed from ``data.observationEdit`` in each event. Iteration ends when the server completes the
+            subscription.
+        """
+        stream = self._executor.stream(
+            "watchObservationEdits",
+            {
+                "programId": program_id,
+            },
+        )
+        return _map_astream(stream, _a_watch_observation_edits, ('observationEdit',))
+
 
 class ProgramOperations:
     """Generated sync operations for the ``program`` domain."""
@@ -1843,6 +1970,33 @@ class ProgramOperations:
             },
         )
         return _a_update_program_by_id.validate_python(_unwrap(data, ('updatePrograms',)))
+
+    def watch_edits(
+        self,
+        *,
+        program_id: ProgramId | None | UnsetType = UNSET,
+    ) -> Iterator[ProgramEdit]:
+        """
+        Subscribes to an event that is generated whenever a program is created or edited.
+
+        Parameters
+        ----------
+        program_id : ProgramId | None | UnsetType
+            GraphQL variable ``$programId`` (``ProgramId``).
+
+        Yields
+        ------
+        ProgramEdit
+            Parsed from ``data.programEdit`` in each event. Iteration ends when the server completes the
+            subscription.
+        """
+        stream = self._executor.stream(
+            "watchProgramEdits",
+            {
+                "programId": program_id,
+            },
+        )
+        return _map_stream(stream, _a_watch_program_edits, ('programEdit',))
 
 
 class AsyncProgramOperations:
@@ -2143,6 +2297,33 @@ class AsyncProgramOperations:
         )
         return _a_update_program_by_id.validate_python(_unwrap(data, ('updatePrograms',)))
 
+    def watch_edits(
+        self,
+        *,
+        program_id: ProgramId | None | UnsetType = UNSET,
+    ) -> AsyncIterator[ProgramEdit]:
+        """
+        Subscribes to an event that is generated whenever a program is created or edited.
+
+        Parameters
+        ----------
+        program_id : ProgramId | None | UnsetType
+            GraphQL variable ``$programId`` (``ProgramId``).
+
+        Yields
+        ------
+        ProgramEdit
+            Parsed from ``data.programEdit`` in each event. Iteration ends when the server completes the
+            subscription.
+        """
+        stream = self._executor.stream(
+            "watchProgramEdits",
+            {
+                "programId": program_id,
+            },
+        )
+        return _map_astream(stream, _a_watch_program_edits, ('programEdit',))
+
 
 class SchedulerOperations:
     """Generated sync operations for the ``scheduler`` domain."""
@@ -2204,6 +2385,33 @@ class SchedulerOperations:
         )
         return _a_get_scheduler_programs.validate_python(_unwrap(data, ('programs', 'matches')))
 
+    def watch_observation_updates(
+        self,
+        *,
+        executable_only: bool | None | UnsetType = UNSET,
+    ) -> Iterator[ObscalcUpdate]:
+        """
+        Subscribes to an event that is generated whenever an observation calculation is updated.
+
+        Parameters
+        ----------
+        executable_only : bool | None | UnsetType
+            GraphQL variable ``$executableOnly`` (``Boolean``).
+
+        Yields
+        ------
+        ObscalcUpdate
+            Parsed from ``data.obscalcUpdate`` in each event. Iteration ends when the server completes the
+            subscription.
+        """
+        stream = self._executor.stream(
+            "watchSchedulerObservationUpdates",
+            {
+                "executableOnly": executable_only,
+            },
+        )
+        return _map_stream(stream, _a_watch_scheduler_observation_updates, ('obscalcUpdate',))
+
 
 class AsyncSchedulerOperations:
     """Generated async operations for the ``scheduler`` domain."""
@@ -2264,6 +2472,33 @@ class AsyncSchedulerOperations:
             },
         )
         return _a_get_scheduler_programs.validate_python(_unwrap(data, ('programs', 'matches')))
+
+    def watch_observation_updates(
+        self,
+        *,
+        executable_only: bool | None | UnsetType = UNSET,
+    ) -> AsyncIterator[ObscalcUpdate]:
+        """
+        Subscribes to an event that is generated whenever an observation calculation is updated.
+
+        Parameters
+        ----------
+        executable_only : bool | None | UnsetType
+            GraphQL variable ``$executableOnly`` (``Boolean``).
+
+        Yields
+        ------
+        ObscalcUpdate
+            Parsed from ``data.obscalcUpdate`` in each event. Iteration ends when the server completes the
+            subscription.
+        """
+        stream = self._executor.stream(
+            "watchSchedulerObservationUpdates",
+            {
+                "executableOnly": executable_only,
+            },
+        )
+        return _map_astream(stream, _a_watch_scheduler_observation_updates, ('obscalcUpdate',))
 
 
 class TargetOperations:
@@ -2614,6 +2849,33 @@ class TargetOperations:
         )
         return _a_update_target_by_id.validate_python(_unwrap(data, ('updateTargets',)))
 
+    def watch_edits(
+        self,
+        *,
+        target_id: TargetId | None | UnsetType = UNSET,
+    ) -> Iterator[TargetEdit]:
+        """
+        Subscribes to an event that is generated whenever a(n) target is created or updated.
+
+        Parameters
+        ----------
+        target_id : TargetId | None | UnsetType
+            GraphQL variable ``$targetId`` (``TargetId``).
+
+        Yields
+        ------
+        TargetEdit
+            Parsed from ``data.targetEdit`` in each event. Iteration ends when the server completes the
+            subscription.
+        """
+        stream = self._executor.stream(
+            "watchTargetEdits",
+            {
+                "targetId": target_id,
+            },
+        )
+        return _map_stream(stream, _a_watch_target_edits, ('targetEdit',))
+
 
 class AsyncTargetOperations:
     """Generated async operations for the ``target`` domain."""
@@ -2962,6 +3224,33 @@ class AsyncTargetOperations:
             },
         )
         return _a_update_target_by_id.validate_python(_unwrap(data, ('updateTargets',)))
+
+    def watch_edits(
+        self,
+        *,
+        target_id: TargetId | None | UnsetType = UNSET,
+    ) -> AsyncIterator[TargetEdit]:
+        """
+        Subscribes to an event that is generated whenever a(n) target is created or updated.
+
+        Parameters
+        ----------
+        target_id : TargetId | None | UnsetType
+            GraphQL variable ``$targetId`` (``TargetId``).
+
+        Yields
+        ------
+        TargetEdit
+            Parsed from ``data.targetEdit`` in each event. Iteration ends when the server completes the
+            subscription.
+        """
+        stream = self._executor.stream(
+            "watchTargetEdits",
+            {
+                "targetId": target_id,
+            },
+        )
+        return _map_astream(stream, _a_watch_target_edits, ('targetEdit',))
 
 
 class WorkflowStateOperations:

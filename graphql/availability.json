@@ -1155,6 +1155,26 @@
     "updateTargets": [
       "development",
       "production"
+    ],
+    "watchObservationCalculations": [
+      "development",
+      "production"
+    ],
+    "watchObservationEdits": [
+      "development",
+      "production"
+    ],
+    "watchProgramEdits": [
+      "development",
+      "production"
+    ],
+    "watchSchedulerObservationUpdates": [
+      "development",
+      "production"
+    ],
+    "watchTargetEdits": [
+      "development",
+      "production"
     ]
   },
   "sources": [

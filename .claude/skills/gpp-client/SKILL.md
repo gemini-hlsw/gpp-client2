@@ -70,14 +70,17 @@ Enums live in `gpp_client._generated.enums`; models in
 
 - `client.programs`: `create`, `get_by_id`, `get_by_reference`,
   `get_by_proposal_reference`, `get_all`, `update_by_id`, `update_all`,
-  `delete_by_id`, `restore_by_id` (deletes are soft: `existence` flips).
+  `delete_by_id`, `restore_by_id` (deletes are soft: `existence` flips), and
+  the subscription `watch_edits(program_id=)`.
 - `client.observations`: `create`, `clone`, `get_by_id`, `get_by_reference`,
   `get_all`, `update_by_id`, `update_by_reference`, `update_all`,
   `delete_by_id`, `delete_by_reference`, `restore_by_id`,
-  `restore_by_reference`.
+  `restore_by_reference`, and the subscriptions `watch_edits(program_id=)`
+  and `watch_calculations(program_id=)`.
 - `client.targets`: `create_by_program_id`, `create_by_program_reference`,
   `create_by_proposal_reference`, `clone`, `get_by_id`, `get_all`,
-  `update_by_id`, `update_all`, `delete_by_id`, `restore_by_id`.
+  `update_by_id`, `update_all`, `delete_by_id`, `restore_by_id`, and the
+  subscription `watch_edits(target_id=)`.
 - `client.calls_for_proposals`: `create`, `get_by_id`, `get_all`,
   `update_by_id`, `update_all`, `delete_by_id`, `restore_by_id`.
 - `client.attachments`: metadata via `get_by_program_id`,
@@ -95,11 +98,34 @@ Enums live in `gpp_client._generated.enums`; models in
   raise `GPPRetryableError` while the background calculation runs.
 - `client.scheduler`: `get_programs(programs_list=)`, `get_program_ids`,
   `get_all_reference_labels(date=)`, REST `atom_digests(observation_ids)`
-  (TSV) and `visibility_changes(since=)` (-> `list[VisibilityChange]`), and
+  (TSV) and `visibility_changes(since=)` (-> `list[VisibilityChange]`),
   `get_all()` - programs as dicts with a `root` group tree, observation data,
-  and atom `sequence`s, trimmed to READY/ONGOING observations.
+  and atom `sequence`s, trimmed to READY/ONGOING observations - and the
+  subscription `watch_observation_updates(executable_only=)`.
 - `client.goats`: `get_programs`, `get_observations(program_id)` - the bulk
   shapes the GOATS tool consumes.
+
+## Subscriptions
+
+`watch_*` methods stream server events over graphql-transport-ws
+(`wss://<host>/ws`). The sync client returns an `Iterator`, the async client
+an `AsyncIterator` - same names, same arguments:
+
+```python
+for event in gpp.programs.watch_edits(program_id="p-123"):  # sync
+    print(event.edit_type, event.value.name)
+
+async for event in gpp.observations.watch_calculations(program_id="p-123"):
+    ...  # async: iterate with `async for` (no await on the call itself)
+```
+
+Each call opens its own WebSocket connection, closed when iteration ends.
+Iteration ends normally only when the server completes the subscription;
+a dropped connection raises `GPPConnectionError` mid-iteration, and there
+is no automatic reconnect - long-running consumers decide their own retry
+policy by re-calling the method. Subscriptions are reads: they work on
+`read_only=True` clients. Environment availability is checked at the call
+site (before connecting), like every generated operation.
 
 ## Environments and availability
 
@@ -190,3 +216,12 @@ regression test.
 - **Interface/union-typed responses always carry `__typename`** (codegen
   injects it). When building mock fixtures for tests, include it -
   discriminated-union parsing fails without it.
+- **`watch_*` iterators are unbounded and blocking.** They yield forever
+  until the server completes the subscription; `break` when done (that
+  closes the connection). Partial-response semantics apply per event: an
+  event whose root survived yields with a warning, one with every root
+  null raises `GPPGraphQLError`.
+- **A dropped subscription raises `GPPConnectionError`; events during a
+  gap are gone.** There is no replay on reconnect - after re-calling
+  `watch_*`, re-fetch current state with the corresponding `get_*` before
+  trusting the stream again.

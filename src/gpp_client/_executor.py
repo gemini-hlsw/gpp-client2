@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import datetime as _dt
 import logging
+from collections.abc import AsyncIterator, Iterator
 from enum import Enum
 from typing import Any
 
@@ -19,6 +20,7 @@ import httpx
 from pydantic import BaseModel
 
 from gpp_client._base import GPPInput, UnsetType
+from gpp_client._ws import AsyncWsTransport, SyncWsTransport
 from gpp_client.errors import (
     GPPAuthError,
     GPPConnectionError,
@@ -199,6 +201,15 @@ class ExecutorCore:
             raise GPPResponseError(
                 response.status_code, f"Response is not JSON: {response.text[:200]}"
             ) from exc
+        return self.process_body(body)
+
+    def process_body(self, body: dict[str, Any]) -> Any:
+        """
+        Apply root-null semantics to a GraphQL result body.
+
+        Shared by HTTP responses and subscription events: each carries the
+        same ``{"data": ..., "errors": ...}`` shape.
+        """
         errors = body.get("errors")
         data = body.get("data")
         if errors:
@@ -223,13 +234,33 @@ def _map_transport_error(exc: httpx.HTTPError, url: str) -> Exception:
 class SyncExecutor:
     """Executes operations over an ``httpx.Client``."""
 
-    def __init__(self, http: httpx.Client, core: ExecutorCore) -> None:
+    def __init__(
+        self,
+        http: httpx.Client,
+        core: ExecutorCore,
+        ws: SyncWsTransport | None = None,
+    ) -> None:
         self._http = http
         self.core = core
+        self._ws = ws
 
     def run(self, operation_name: str, variables: dict[str, Any]) -> Any:
         """Execute a generated operation and return the ``data`` dict."""
         return self._post(self.core.payload(operation_name, variables))
+
+    def stream(self, operation_name: str, variables: dict[str, Any]) -> Iterator[Any]:
+        """
+        Open a subscription and return its raw event iterator.
+
+        Availability and the payload are resolved eagerly, so environment
+        errors raise at the call site rather than mid-iteration.
+        """
+        payload = self.core.payload(operation_name, variables)
+        if self._ws is None:
+            raise GPPConnectionError(
+                "This client was built without a WebSocket transport."
+            )
+        return self._ws.stream(payload)
 
     def run_raw(
         self,
@@ -251,13 +282,35 @@ class SyncExecutor:
 class AsyncExecutor:
     """Executes operations over an ``httpx.AsyncClient``."""
 
-    def __init__(self, http: httpx.AsyncClient, core: ExecutorCore) -> None:
+    def __init__(
+        self,
+        http: httpx.AsyncClient,
+        core: ExecutorCore,
+        ws: AsyncWsTransport | None = None,
+    ) -> None:
         self._http = http
         self.core = core
+        self._ws = ws
 
     async def run(self, operation_name: str, variables: dict[str, Any]) -> Any:
         """Execute a generated operation and return the ``data`` dict."""
         return await self._post(self.core.payload(operation_name, variables))
+
+    def stream(
+        self, operation_name: str, variables: dict[str, Any]
+    ) -> AsyncIterator[Any]:
+        """
+        Open a subscription and return its raw event iterator.
+
+        Availability and the payload are resolved eagerly, so environment
+        errors raise at the call site rather than mid-iteration.
+        """
+        payload = self.core.payload(operation_name, variables)
+        if self._ws is None:
+            raise GPPConnectionError(
+                "This client was built without a WebSocket transport."
+            )
+        return self._ws.stream(payload)
 
     async def run_raw(
         self,

@@ -1,0 +1,24 @@
+# Emits an event whenever a target is created or edited; a target id narrows
+# events to that target.
+subscription watchTargetEdits($targetId: TargetId) {
+  targetEdit(input: { targetId: $targetId }) {
+    editType
+    targetId
+    value {
+      id
+      name
+      nonsidereal {
+        des
+        key
+      }
+      sidereal {
+        ra {
+          degrees
+        }
+        dec {
+          degrees
+        }
+      }
+    }
+  }
+}
