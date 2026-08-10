@@ -1,12 +1,14 @@
-# gpp-client
+# gpp-client2
 
-Python client for the Gemini Program Platform (GPP).
+Python client for the Gemini Program Platform (GPP) - the second
+generation, redesigned from scratch and built end to end by an AI coding
+agent. The distribution is `gpp-client2`; the import stays `gpp_client`.
 
 One installable package that talks to any GPP deployment - development,
 staging, or production - as a **runtime choice**. No environment-tagged
-releases, no prerelease-channel gymnastics: `pip install gpp-client` works for
-everyone, and which backend you talk to is decided when you construct the
-client.
+releases, no prerelease-channel gymnastics: `pip install gpp-client2` works
+for everyone, and which backend you talk to is decided when you construct
+the client.
 
 ```python
 from gpp_client import GPPClient
@@ -164,6 +166,26 @@ calculation-state stream the Scheduler service consumes. Iteration ends
 when the server completes the subscription; a dropped connection raises
 `GPPConnectionError`, and reconnecting is the caller's decision (events
 during a gap are not replayed).
+
+### The CLI
+
+Installing the package also installs `gpp`. Every domain method is a
+command, derived from the Python API by reflection, so the two surfaces
+cannot drift:
+
+```bash
+gpp ping
+gpp programs get-by-id --program-id p-123
+gpp programs get-all --limit 5 --include-deleted
+gpp programs create --properties '{"name": "New program"}'
+gpp observations update-by-id --observation-id o-42 --properties @props.json
+gpp programs watch-edits --program-id p-123   # streams JSON events
+gpp graphql 'query { programs(LIMIT: 1) { matches { id } } }'
+```
+
+Input models are JSON options (inline or `@file.json`); global options
+(`-e/--environment`, `--profile`, `--url`, `--token`, `--read-only`) mirror
+the client constructor; results print as JSON.
 
 ## Development
 
