@@ -1,0 +1,589 @@
+# Fragments shared across domains. This tree is the union of every selection
+# used in any environment: codegen prunes per environment, so a field only
+# production serves (e.g. Igrins2 offsets) or only development serves (e.g.
+# GNIRS imaging) belongs here, written once, in the natural place.
+
+fragment ScienceRequirementsDetails on ScienceRequirements {
+  mode
+}
+
+fragment ConstraintSetDetails on ConstraintSet {
+  imageQuality
+  cloudExtinction
+  skyBackground
+  waterVapor
+  elevationRange {
+    airMass {
+      min
+      max
+    }
+    hourAngle {
+      minHours
+      maxHours
+    }
+  }
+}
+
+fragment TimingWindowDetails on TimingWindow {
+  inclusion
+  startUtc
+  end {
+    ... on TimingWindowEndAt {
+      atUtc
+    }
+    ... on TimingWindowEndAfter {
+      after {
+        seconds
+      }
+      repeat {
+        period {
+          seconds
+        }
+        times
+      }
+    }
+  }
+}
+
+fragment WorkflowDetails on CalculatedObservationWorkflow {
+  state
+  value {
+    state
+    validTransitions
+    validationErrors {
+      code
+      messages
+    }
+  }
+}
+
+# NOTE: do not factor exposureTimeMode selections into a shared fragment.
+# Grackle (the ODB server) raises a false "Fragment cycle" validation error
+# when two sibling fragments spread the same fragment by name (GPC-151); the
+# selections below must stay inlined.
+
+fragment GmosNorthLongSlitDetails on GmosNorthLongSlit {
+  grating
+  filter
+  fpu
+  centralWavelength {
+    nanometers
+  }
+  offsets {
+    arcseconds
+  }
+  xBin
+  yBin
+}
+
+fragment GmosSouthLongSlitDetails on GmosSouthLongSlit {
+  grating
+  filter
+  fpu
+  centralWavelength {
+    nanometers
+  }
+  offsets {
+    arcseconds
+  }
+  xBin
+  yBin
+}
+
+fragment GmosNorthImagingDetails on GmosNorthImaging {
+  filters {
+    filter
+  }
+  bin
+}
+
+fragment GmosSouthImagingDetails on GmosSouthImaging {
+  filters {
+    filter
+  }
+  bin
+}
+
+fragment Flamingos2LongSlitDetails on Flamingos2LongSlit {
+  decker
+  defaultDecker
+  disperser
+  filter
+  fpu
+  telluricType {
+    tag
+    starTypes
+  }
+  exposureTimeMode {
+    signalToNoise {
+      value
+      at {
+        nanometers
+      }
+    }
+    timeAndCount {
+      time {
+        seconds
+      }
+      count
+      at {
+        nanometers
+      }
+    }
+  }
+  explicitReadMode
+  explicitReads
+  explicitDecker
+  readoutMode
+  defaultReadoutMode
+  acquisition {
+    exposureTimeMode {
+      signalToNoise {
+        value
+        at {
+          nanometers
+        }
+      }
+      timeAndCount {
+        time {
+          seconds
+        }
+        count
+        at {
+          nanometers
+        }
+      }
+    }
+  }
+  initialDisperser
+  initialFilter
+  initialFpu
+  # Deprecated on development, still served by production. Pruned per
+  # environment automatically; tracked in graphql/availability.json.
+  offsets {
+    p {
+      arcseconds
+    }
+    q {
+      arcseconds
+    }
+  }
+  defaultOffsets {
+    p {
+      arcseconds
+    }
+    q {
+      arcseconds
+    }
+  }
+  explicitOffsets {
+    p {
+      arcseconds
+    }
+    q {
+      arcseconds
+    }
+  }
+}
+
+fragment GhostDetectorConfigDetails on GhostDetectorConfig {
+  binning
+  defaultBinning
+  defaultReadMode
+  explicitBinning
+  explicitReadMode
+  readMode
+  exposureTimeMode {
+    signalToNoise {
+      value
+      at {
+        nanometers
+      }
+    }
+    timeAndCount {
+      at {
+        nanometers
+      }
+      time {
+        seconds
+      }
+      count
+    }
+  }
+}
+
+fragment GhostIfuDetails on GhostIfu {
+  defaultIfu1Agitator
+  defaultIfu2Agitator
+  explicitIfu1Agitator
+  explicitIfu2Agitator
+  ifu1Agitator
+  ifu2Agitator
+  resolutionMode
+  stepCount
+  blue {
+    ...GhostDetectorConfigDetails
+  }
+  red {
+    ...GhostDetectorConfigDetails
+  }
+  skyPosition {
+    dec {
+      degrees
+    }
+    ra {
+      degrees
+    }
+  }
+  slitViewingCameraExposureTime {
+    seconds
+  }
+}
+
+fragment VisitorDetails on Visitor {
+  mode
+  name
+  centralWavelength {
+    nanometers
+  }
+  totalRequestTime {
+    seconds
+  }
+  agsDiameter {
+    dms
+    hms
+  }
+}
+
+fragment Igrins2LongSlitDetails on Igrins2LongSlit {
+  exposureTimeMode {
+    signalToNoise {
+      value
+      at {
+        nanometers
+      }
+    }
+    timeAndCount {
+      time {
+        seconds
+      }
+      count
+      at {
+        nanometers
+      }
+    }
+  }
+  telluricType {
+    tag
+    starTypes
+  }
+  # Deprecated on development, still served by production. Pruned per
+  # environment automatically; tracked in graphql/availability.json.
+  saveSVCImages
+  defaultSaveSVCImages
+  explicitSaveSVCImages
+  offsetMode
+  defaultOffsetMode
+  explicitOffsetMode
+  offsets {
+    p {
+      arcseconds
+    }
+    q {
+      arcseconds
+    }
+  }
+  defaultOffsets {
+    p {
+      arcseconds
+    }
+    q {
+      arcseconds
+    }
+  }
+  explicitOffsets {
+    p {
+      arcseconds
+    }
+    q {
+      arcseconds
+    }
+  }
+}
+
+fragment Flamingos2ImagingDetails on Flamingos2Imaging {
+  filters {
+    filter
+    exposureTimeMode {
+      signalToNoise {
+        at {
+          nanometers
+        }
+        value
+      }
+      timeAndCount {
+        time {
+          seconds
+        }
+        count
+      }
+    }
+  }
+  initialFilters {
+    filter
+    exposureTimeMode {
+      signalToNoise {
+        at {
+          nanometers
+        }
+        value
+      }
+      timeAndCount {
+        at {
+          nanometers
+        }
+        count
+        time {
+          seconds
+        }
+      }
+    }
+  }
+  defaultReadMode
+  explicitReadMode
+  defaultReads
+  explicitReads
+  defaultDecker
+  explicitDecker
+  readoutMode
+  defaultReadoutMode
+  explicitReadoutMode
+}
+
+fragment GnirsImagingDetails on GnirsImaging {
+  camera
+  coadds
+  defaultWellDepth
+  explicitReadMode
+  explicitWellDepth
+  filters {
+    exposureTimeMode {
+      signalToNoise {
+        at {
+          nanometers
+        }
+        value
+      }
+      timeAndCount {
+        at {
+          nanometers
+        }
+        count
+        time {
+          seconds
+        }
+      }
+    }
+    filter
+  }
+  initialFilters {
+    exposureTimeMode {
+      signalToNoise {
+        at {
+          nanometers
+        }
+        value
+      }
+      timeAndCount {
+        at {
+          nanometers
+        }
+        count
+        time {
+          seconds
+        }
+      }
+    }
+    filter
+  }
+  wellDepth
+}
+
+fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
+  acquisition {
+    coadds
+    explicitAcquisitionType
+    explicitFilter
+    exposureTimeMode {
+      signalToNoise {
+        at {
+          nanometers
+        }
+        value
+      }
+      timeAndCount {
+        at {
+          nanometers
+        }
+        count
+        time {
+          seconds
+        }
+      }
+    }
+    skyOffset {
+      p {
+        arcseconds
+      }
+      q {
+        arcseconds
+      }
+    }
+  }
+  camera
+  centralWavelength {
+    nanometers
+  }
+  coadds
+  decker
+  defaultDecker
+  defaultWellDepth
+  explicitDecker
+  explicitFocusMotorSteps
+  explicitGrating
+  explicitPrism
+  explicitReadMode
+  explicitWellDepth
+  filter
+  grating
+  ifu {
+    fpu
+    initialFpu
+    telescopeConfigs {
+      guiding
+      offset {
+        p {
+          arcseconds
+        }
+        q {
+          arcseconds
+        }
+      }
+    }
+  }
+  initialCamera
+  initialCentralWavelength {
+    nanometers
+  }
+  initialFilter
+  initialGrating
+  initialPrism
+  prism
+  telluricType {
+    starTypes
+    tag
+  }
+  wellDepth
+  slit {
+    fpu
+    initialFpu
+    defaultTelescopeConfigs {
+      alongSlit {
+        guiding
+        q {
+          arcseconds
+        }
+      }
+      offsetMode
+      toSky {
+        guiding
+        offset {
+          p {
+            arcseconds
+          }
+          q {
+            arcseconds
+          }
+        }
+      }
+    }
+    explicitTelescopeConfigs {
+      alongSlit {
+        guiding
+        q {
+          arcseconds
+        }
+      }
+      offsetMode
+      toSky {
+        guiding
+        offset {
+          p {
+            arcseconds
+          }
+          q {
+            arcseconds
+          }
+        }
+      }
+    }
+    telescopeConfigs {
+      alongSlit {
+        guiding
+        q {
+          arcseconds
+        }
+      }
+      offsetMode
+      toSky {
+        guiding
+        offset {
+          p {
+            arcseconds
+          }
+          q {
+            arcseconds
+          }
+        }
+      }
+    }
+  }
+}
+
+fragment ObservingModeDetails on ObservingMode {
+  instrument
+  mode
+  gmosNorthLongSlit {
+    ...GmosNorthLongSlitDetails
+  }
+  gmosSouthLongSlit {
+    ...GmosSouthLongSlitDetails
+  }
+  gmosNorthImaging {
+    ...GmosNorthImagingDetails
+  }
+  gmosSouthImaging {
+    ...GmosSouthImagingDetails
+  }
+  flamingos2LongSlit {
+    ...Flamingos2LongSlitDetails
+  }
+  flamingos2Imaging {
+    ...Flamingos2ImagingDetails
+  }
+  igrins2LongSlit {
+    ...Igrins2LongSlitDetails
+  }
+  gnirsSpectroscopy {
+    ...GnirsSpectroscopyDetails
+  }
+  gnirsImaging {
+    ...GnirsImagingDetails
+  }
+  visitor {
+    ...VisitorDetails
+  }
+  ghostIfu {
+    ...GhostIfuDetails
+  }
+}

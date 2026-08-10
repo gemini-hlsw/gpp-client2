@@ -1,0 +1,51 @@
+name: Live tests
+
+# Read-only smoke tests on a schedule; write round-trips only on explicit
+# dispatch. Both need a GPP_LIVE_TOKEN secret for the target environment.
+#
+# The write suite creates at most a handful of items (hard budget: 2 per
+# domain, 50 total), tracks every created ID in a ledger, deletes only those
+# IDs, and heals leftovers from a crashed run on the next start.
+
+on:
+  schedule:
+    - cron: "30 9 * * *"  # 09:30 UTC daily, after schema sync
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        type: choice
+        options: [production, development, staging]
+        default: production
+      write:
+        description: "Also run write round-trips (create/update/delete)"
+        type: boolean
+        default: false
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    if: ${{ vars.LIVE_TESTS_ENABLED == 'true' || github.event_name == 'workflow_dispatch' }}
+    env:
+      GPP_ENVIRONMENT: ${{ inputs.environment || 'production' }}
+      GPP_TOKEN: ${{ secrets.GPP_LIVE_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.13"
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Read-only smoke tests
+        run: uv run pytest tests/test_live.py -m live -v
+
+      - name: Write round-trips
+        if: ${{ inputs.write }}
+        env:
+          GPP_LIVE_WRITE: "1"
+        run: uv run pytest tests/test_live_roundtrip.py -m live -v

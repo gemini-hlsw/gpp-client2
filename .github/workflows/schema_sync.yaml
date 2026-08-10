@@ -1,0 +1,63 @@
+name: Schema sync
+
+# Nightly: download every environment's schema, regenerate, and open a PR if
+# anything moved. That PR IS the promotion workflow - its diff shows the
+# availability manifest changing, and merging it is the whole ceremony.
+
+on:
+  schedule:
+    - cron: "0 9 * * *"  # 09:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.13"
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Download schemas
+        env:
+          GPP_TOKEN: ${{ secrets.GPP_SCHEMA_TOKEN }}
+        run: uv run python -m codegen download
+
+      - name: Regenerate
+        run: uv run python -m codegen generate
+
+      - name: Readiness report
+        id: readiness
+        run: |
+          {
+            echo 'report<<EOF'
+            uv run python -m codegen readiness || true
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Tests
+        run: uv run pytest
+
+      - name: Open or update PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.SCHEMA_SYNC_TOKEN || github.token }}
+          branch: bot/schema-sync
+          commit-message: "chore: sync environment schemas"
+          title: "Schema sync"
+          body: |
+            Nightly schema refresh. Review `graphql/availability.json` for
+            what moved between environments.
+
+            ```
+            ${{ steps.readiness.outputs.report }}
+            ```

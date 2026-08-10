@@ -1,0 +1,27 @@
+fragment CallForProposalsCore on CallForProposals {
+  id
+  title
+  observatory
+  gemini {
+    type
+    instruments
+  }
+  keck {
+    instruments
+  }
+  subaru {
+    type
+    instruments
+  }
+}
+
+fragment CallForProposalsDetails on CallForProposals {
+  ...CallForProposalsCore
+  semester
+  active {
+    start
+    end
+  }
+  submissionDeadlineDefault
+  existence
+}

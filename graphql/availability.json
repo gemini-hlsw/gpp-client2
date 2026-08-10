@@ -1,0 +1,1164 @@
+{
+  "fields": {
+    "AddDatasetEventInput.clientTime": [
+      "development"
+    ],
+    "AddEventBatchEntryInput.dataset": [
+      "development"
+    ],
+    "AddEventBatchEntryInput.sequence": [
+      "development"
+    ],
+    "AddEventBatchEntryInput.slew": [
+      "development"
+    ],
+    "AddEventBatchEntryInput.step": [
+      "development"
+    ],
+    "AddEventBatchInput.events": [
+      "development"
+    ],
+    "AddEventBatchResult.events": [
+      "development"
+    ],
+    "AddEventBatchResult.hasMore": [
+      "development"
+    ],
+    "AddSequenceEventInput.clientTime": [
+      "development"
+    ],
+    "AddSlewEventInput.clientTime": [
+      "development"
+    ],
+    "AddStepEventInput.clientTime": [
+      "development"
+    ],
+    "ArchiveDuplication.error": [
+      "development"
+    ],
+    "ArchiveDuplication.lastCheckedAt": [
+      "development"
+    ],
+    "ArchiveDuplication.matchCount": [
+      "development"
+    ],
+    "ArchiveDuplication.matches": [
+      "development"
+    ],
+    "ArchiveDuplication.queryUrls": [
+      "development"
+    ],
+    "ArchiveDuplication.saturated": [
+      "development"
+    ],
+    "ArchiveDuplication.searchCoordinates": [
+      "development"
+    ],
+    "ArchiveDuplication.searchRadius": [
+      "development"
+    ],
+    "ArchiveDuplication.searchTargetName": [
+      "development"
+    ],
+    "ArchiveDuplication.state": [
+      "development"
+    ],
+    "ArchiveMatch.airmass": [
+      "development"
+    ],
+    "ArchiveMatch.azimuth": [
+      "development"
+    ],
+    "ArchiveMatch.coordinates": [
+      "development"
+    ],
+    "ArchiveMatch.dataLabel": [
+      "development"
+    ],
+    "ArchiveMatch.disperser": [
+      "development"
+    ],
+    "ArchiveMatch.distance": [
+      "development"
+    ],
+    "ArchiveMatch.elevation": [
+      "development"
+    ],
+    "ArchiveMatch.exposure": [
+      "development"
+    ],
+    "ArchiveMatch.filter": [
+      "development"
+    ],
+    "ArchiveMatch.instrument": [
+      "development"
+    ],
+    "ArchiveMatch.instrumentString": [
+      "development"
+    ],
+    "ArchiveMatch.name": [
+      "development"
+    ],
+    "ArchiveMatch.objectName": [
+      "development"
+    ],
+    "ArchiveMatch.observationReference": [
+      "development"
+    ],
+    "ArchiveMatch.observationType": [
+      "development"
+    ],
+    "ArchiveMatch.observeClass": [
+      "development"
+    ],
+    "ArchiveMatch.observeClassString": [
+      "development"
+    ],
+    "ArchiveMatch.programReference": [
+      "development"
+    ],
+    "ArchiveMatch.qaState": [
+      "development"
+    ],
+    "ArchiveMatch.qaStateString": [
+      "development"
+    ],
+    "ArchiveMatch.releaseDate": [
+      "development"
+    ],
+    "ArchiveMatch.utDateTime": [
+      "development"
+    ],
+    "ArchiveMatch.wavelength": [
+      "development"
+    ],
+    "AtomEvent.clientTime": [
+      "development"
+    ],
+    "AtomEvent.effectiveTime": [
+      "development"
+    ],
+    "AtomEvent.recordedTime": [
+      "development"
+    ],
+    "CallForProposalsExchangePartner.exchangePartner": [
+      "development"
+    ],
+    "CallForProposalsExchangePartner.submissionDeadline": [
+      "development"
+    ],
+    "CallForProposalsExchangePartner.submissionDeadlineOverride": [
+      "development"
+    ],
+    "CallForProposalsExchangePartnerInput.exchangePartner": [
+      "development"
+    ],
+    "CallForProposalsExchangePartnerInput.submissionDeadlineOverride": [
+      "development"
+    ],
+    "ConfigurationGmosNorthMos.grating": [
+      "development"
+    ],
+    "ConfigurationGmosSouthMos.grating": [
+      "development"
+    ],
+    "ConfigurationObservingMode.gmosNorthMos": [
+      "development"
+    ],
+    "ConfigurationObservingMode.gmosSouthMos": [
+      "development"
+    ],
+    "ConfigurationRequest.createdAt": [
+      "development"
+    ],
+    "ConfigurationRequest.feedback": [
+      "development"
+    ],
+    "ConfigurationRequest.updatedAt": [
+      "development"
+    ],
+    "ConfigurationRequestProperties.feedback": [
+      "development"
+    ],
+    "DatasetEvent.clientTime": [
+      "development"
+    ],
+    "DatasetEvent.effectiveTime": [
+      "development"
+    ],
+    "DatasetEvent.recordedTime": [
+      "development"
+    ],
+    "Execution.originalEstimate": [
+      "development"
+    ],
+    "ExecutionDigest.estimate": [
+      "development"
+    ],
+    "ExecutionEvent.clientTime": [
+      "development"
+    ],
+    "ExecutionEvent.effectiveTime": [
+      "development"
+    ],
+    "ExecutionEvent.recordedTime": [
+      "development"
+    ],
+    "Flamingos2CustomMask.attachmentId": [
+      "development"
+    ],
+    "Flamingos2CustomMask.filename": [
+      "production"
+    ],
+    "Flamingos2CustomMaskInput.attachmentId": [
+      "development"
+    ],
+    "Flamingos2CustomMaskInput.filename": [
+      "production"
+    ],
+    "Flamingos2LongSlit.defaultOffsets": [
+      "production"
+    ],
+    "Flamingos2LongSlit.defaultTelescopeConfigs": [
+      "development"
+    ],
+    "Flamingos2LongSlit.explicitOffsets": [
+      "production"
+    ],
+    "Flamingos2LongSlit.explicitTelescopeConfigs": [
+      "development"
+    ],
+    "Flamingos2LongSlit.offsets": [
+      "production"
+    ],
+    "Flamingos2LongSlit.telescopeConfigs": [
+      "development"
+    ],
+    "Flamingos2LongSlitInput.explicitOffsets": [
+      "production"
+    ],
+    "Flamingos2LongSlitInput.explicitTelescopeConfigs": [
+      "development"
+    ],
+    "GhostAtomInput.description": [
+      "development"
+    ],
+    "GhostAtomInput.steps": [
+      "development"
+    ],
+    "GhostDetectorInput.binning": [
+      "development"
+    ],
+    "GhostDetectorInput.exposureCount": [
+      "development"
+    ],
+    "GhostDetectorInput.exposureTime": [
+      "development"
+    ],
+    "GhostDetectorInput.readMode": [
+      "development"
+    ],
+    "GhostDynamicInput.blue": [
+      "development"
+    ],
+    "GhostDynamicInput.ifu1FiberAgitator": [
+      "development"
+    ],
+    "GhostDynamicInput.ifu2FiberAgitator": [
+      "development"
+    ],
+    "GhostDynamicInput.red": [
+      "development"
+    ],
+    "GhostStepInput.breakpoint": [
+      "development"
+    ],
+    "GhostStepInput.instrumentConfig": [
+      "development"
+    ],
+    "GhostStepInput.observeClass": [
+      "development"
+    ],
+    "GhostStepInput.stepConfig": [
+      "development"
+    ],
+    "GhostStepInput.telescopeConfig": [
+      "development"
+    ],
+    "GmosCustomMask.attachmentId": [
+      "development"
+    ],
+    "GmosCustomMask.filename": [
+      "production"
+    ],
+    "GmosCustomMaskInput.attachmentId": [
+      "development"
+    ],
+    "GmosCustomMaskInput.filename": [
+      "production"
+    ],
+    "GmosNorthMos.ampGain": [
+      "development"
+    ],
+    "GmosNorthMos.ampReadMode": [
+      "development"
+    ],
+    "GmosNorthMos.centralWavelength": [
+      "development"
+    ],
+    "GmosNorthMos.customMask": [
+      "development"
+    ],
+    "GmosNorthMos.defaultAmpGain": [
+      "development"
+    ],
+    "GmosNorthMos.defaultAmpReadMode": [
+      "development"
+    ],
+    "GmosNorthMos.defaultOffsets": [
+      "development"
+    ],
+    "GmosNorthMos.defaultRoi": [
+      "development"
+    ],
+    "GmosNorthMos.defaultWavelengthDithers": [
+      "development"
+    ],
+    "GmosNorthMos.defaultXBin": [
+      "development"
+    ],
+    "GmosNorthMos.defaultYBin": [
+      "development"
+    ],
+    "GmosNorthMos.explicitAmpGain": [
+      "development"
+    ],
+    "GmosNorthMos.explicitAmpReadMode": [
+      "development"
+    ],
+    "GmosNorthMos.explicitOffsets": [
+      "development"
+    ],
+    "GmosNorthMos.explicitRoi": [
+      "development"
+    ],
+    "GmosNorthMos.explicitWavelengthDithers": [
+      "development"
+    ],
+    "GmosNorthMos.explicitXBin": [
+      "development"
+    ],
+    "GmosNorthMos.explicitYBin": [
+      "development"
+    ],
+    "GmosNorthMos.exposureTimeMode": [
+      "development"
+    ],
+    "GmosNorthMos.filter": [
+      "development"
+    ],
+    "GmosNorthMos.grating": [
+      "development"
+    ],
+    "GmosNorthMos.initialCentralWavelength": [
+      "development"
+    ],
+    "GmosNorthMos.initialFilter": [
+      "development"
+    ],
+    "GmosNorthMos.initialGrating": [
+      "development"
+    ],
+    "GmosNorthMos.initialSlitWidth": [
+      "development"
+    ],
+    "GmosNorthMos.offsets": [
+      "development"
+    ],
+    "GmosNorthMos.roi": [
+      "development"
+    ],
+    "GmosNorthMos.wavelengthDithers": [
+      "development"
+    ],
+    "GmosNorthMos.xBin": [
+      "development"
+    ],
+    "GmosNorthMos.yBin": [
+      "development"
+    ],
+    "GmosNorthMosInput.centralWavelength": [
+      "development"
+    ],
+    "GmosNorthMosInput.customMask": [
+      "development"
+    ],
+    "GmosNorthMosInput.explicitAmpGain": [
+      "development"
+    ],
+    "GmosNorthMosInput.explicitAmpReadMode": [
+      "development"
+    ],
+    "GmosNorthMosInput.explicitOffsets": [
+      "development"
+    ],
+    "GmosNorthMosInput.explicitRoi": [
+      "development"
+    ],
+    "GmosNorthMosInput.explicitWavelengthDithers": [
+      "development"
+    ],
+    "GmosNorthMosInput.explicitXBin": [
+      "development"
+    ],
+    "GmosNorthMosInput.explicitYBin": [
+      "development"
+    ],
+    "GmosNorthMosInput.exposureTimeMode": [
+      "development"
+    ],
+    "GmosNorthMosInput.filter": [
+      "development"
+    ],
+    "GmosNorthMosInput.grating": [
+      "development"
+    ],
+    "GmosSouthMos.ampGain": [
+      "development"
+    ],
+    "GmosSouthMos.ampReadMode": [
+      "development"
+    ],
+    "GmosSouthMos.centralWavelength": [
+      "development"
+    ],
+    "GmosSouthMos.customMask": [
+      "development"
+    ],
+    "GmosSouthMos.defaultAmpGain": [
+      "development"
+    ],
+    "GmosSouthMos.defaultAmpReadMode": [
+      "development"
+    ],
+    "GmosSouthMos.defaultOffsets": [
+      "development"
+    ],
+    "GmosSouthMos.defaultRoi": [
+      "development"
+    ],
+    "GmosSouthMos.defaultWavelengthDithers": [
+      "development"
+    ],
+    "GmosSouthMos.defaultXBin": [
+      "development"
+    ],
+    "GmosSouthMos.defaultYBin": [
+      "development"
+    ],
+    "GmosSouthMos.explicitAmpGain": [
+      "development"
+    ],
+    "GmosSouthMos.explicitAmpReadMode": [
+      "development"
+    ],
+    "GmosSouthMos.explicitOffsets": [
+      "development"
+    ],
+    "GmosSouthMos.explicitRoi": [
+      "development"
+    ],
+    "GmosSouthMos.explicitWavelengthDithers": [
+      "development"
+    ],
+    "GmosSouthMos.explicitXBin": [
+      "development"
+    ],
+    "GmosSouthMos.explicitYBin": [
+      "development"
+    ],
+    "GmosSouthMos.exposureTimeMode": [
+      "development"
+    ],
+    "GmosSouthMos.filter": [
+      "development"
+    ],
+    "GmosSouthMos.grating": [
+      "development"
+    ],
+    "GmosSouthMos.initialCentralWavelength": [
+      "development"
+    ],
+    "GmosSouthMos.initialFilter": [
+      "development"
+    ],
+    "GmosSouthMos.initialGrating": [
+      "development"
+    ],
+    "GmosSouthMos.initialSlitWidth": [
+      "development"
+    ],
+    "GmosSouthMos.offsets": [
+      "development"
+    ],
+    "GmosSouthMos.roi": [
+      "development"
+    ],
+    "GmosSouthMos.wavelengthDithers": [
+      "development"
+    ],
+    "GmosSouthMos.xBin": [
+      "development"
+    ],
+    "GmosSouthMos.yBin": [
+      "development"
+    ],
+    "GmosSouthMosInput.centralWavelength": [
+      "development"
+    ],
+    "GmosSouthMosInput.customMask": [
+      "development"
+    ],
+    "GmosSouthMosInput.explicitAmpGain": [
+      "development"
+    ],
+    "GmosSouthMosInput.explicitAmpReadMode": [
+      "development"
+    ],
+    "GmosSouthMosInput.explicitOffsets": [
+      "development"
+    ],
+    "GmosSouthMosInput.explicitRoi": [
+      "development"
+    ],
+    "GmosSouthMosInput.explicitWavelengthDithers": [
+      "development"
+    ],
+    "GmosSouthMosInput.explicitXBin": [
+      "development"
+    ],
+    "GmosSouthMosInput.explicitYBin": [
+      "development"
+    ],
+    "GmosSouthMosInput.exposureTimeMode": [
+      "development"
+    ],
+    "GmosSouthMosInput.filter": [
+      "development"
+    ],
+    "GmosSouthMosInput.grating": [
+      "development"
+    ],
+    "GnirsImaging.camera": [
+      "development"
+    ],
+    "GnirsImaging.coadds": [
+      "development"
+    ],
+    "GnirsImaging.defaultWellDepth": [
+      "development"
+    ],
+    "GnirsImaging.explicitReadMode": [
+      "development"
+    ],
+    "GnirsImaging.explicitWellDepth": [
+      "development"
+    ],
+    "GnirsImaging.filters": [
+      "development"
+    ],
+    "GnirsImaging.initialFilters": [
+      "development"
+    ],
+    "GnirsImaging.variant": [
+      "development"
+    ],
+    "GnirsImaging.wellDepth": [
+      "development"
+    ],
+    "GnirsImagingFilter.exposureTimeMode": [
+      "development"
+    ],
+    "GnirsImagingFilter.filter": [
+      "development"
+    ],
+    "GnirsImagingFilterInput.exposureTimeMode": [
+      "development"
+    ],
+    "GnirsImagingFilterInput.filter": [
+      "development"
+    ],
+    "GnirsImagingInput.camera": [
+      "development"
+    ],
+    "GnirsImagingInput.coadds": [
+      "development"
+    ],
+    "GnirsImagingInput.explicitReadMode": [
+      "development"
+    ],
+    "GnirsImagingInput.explicitWellDepth": [
+      "development"
+    ],
+    "GnirsImagingInput.filters": [
+      "development"
+    ],
+    "GnirsImagingInput.variant": [
+      "development"
+    ],
+    "Igrins2ExecutionConfig.acquisition": [
+      "development"
+    ],
+    "Igrins2LongSlit.defaultOffsetMode": [
+      "production"
+    ],
+    "Igrins2LongSlit.defaultOffsets": [
+      "production"
+    ],
+    "Igrins2LongSlit.defaultSaveSVCImages": [
+      "production"
+    ],
+    "Igrins2LongSlit.defaultTelescopeConfigs": [
+      "development"
+    ],
+    "Igrins2LongSlit.explicitOffsetMode": [
+      "production"
+    ],
+    "Igrins2LongSlit.explicitOffsets": [
+      "production"
+    ],
+    "Igrins2LongSlit.explicitSaveSVCImages": [
+      "production"
+    ],
+    "Igrins2LongSlit.explicitTelescopeConfigs": [
+      "development"
+    ],
+    "Igrins2LongSlit.offsetMode": [
+      "production"
+    ],
+    "Igrins2LongSlit.offsets": [
+      "production"
+    ],
+    "Igrins2LongSlit.saveSVCImages": [
+      "production"
+    ],
+    "Igrins2LongSlit.svc": [
+      "development"
+    ],
+    "Igrins2LongSlit.telescopeConfigs": [
+      "development"
+    ],
+    "Igrins2LongSlitInput.explicitOffsetMode": [
+      "production"
+    ],
+    "Igrins2LongSlitInput.explicitOffsets": [
+      "production"
+    ],
+    "Igrins2LongSlitInput.explicitSaveSVCImages": [
+      "production"
+    ],
+    "Igrins2LongSlitInput.explicitTelescopeConfigs": [
+      "development"
+    ],
+    "Igrins2LongSlitInput.svc": [
+      "development"
+    ],
+    "Igrins2SvcConfig.defaultExposure": [
+      "development"
+    ],
+    "Igrins2SvcConfig.defaultTelescopeConfigs": [
+      "development"
+    ],
+    "Igrins2SvcConfig.explicitExposure": [
+      "development"
+    ],
+    "Igrins2SvcConfig.explicitTelescopeConfigs": [
+      "development"
+    ],
+    "Igrins2SvcConfig.exposure": [
+      "development"
+    ],
+    "Igrins2SvcConfig.telescopeConfigs": [
+      "development"
+    ],
+    "Igrins2SvcInput.explicitExposure": [
+      "development"
+    ],
+    "Igrins2SvcInput.explicitTelescopeConfigs": [
+      "development"
+    ],
+    "ImagingConfigOption.gnirs": [
+      "development"
+    ],
+    "ImagingConfigOptionGnirs.camera": [
+      "development"
+    ],
+    "ImagingConfigOptionGnirs.filter": [
+      "development"
+    ],
+    "ItcGnirsImaging.gnirsImagingScience": [
+      "development"
+    ],
+    "ItcGnirsImaging.itcType": [
+      "development"
+    ],
+    "ItcGnirsImagingResultSet.filter": [
+      "development"
+    ],
+    "ItcGnirsImagingResultSet.results": [
+      "development"
+    ],
+    "KeckProgramReference.label": [
+      "development"
+    ],
+    "KeckProgramReference.semester": [
+      "development"
+    ],
+    "KeckProgramReference.semesterIndex": [
+      "development"
+    ],
+    "KeckProgramReference.type": [
+      "development"
+    ],
+    "KeckProposalType.minPercentTime": [
+      "development"
+    ],
+    "KeckProposalTypeInput.minPercentTime": [
+      "development"
+    ],
+    "Mutation.addEventBatch": [
+      "development"
+    ],
+    "Mutation.refreshArchiveDuplication": [
+      "development"
+    ],
+    "Mutation.replaceGhostSequence": [
+      "development"
+    ],
+    "Observation.archiveDuplication": [
+      "development"
+    ],
+    "ObservationTimeEstimate.science": [
+      "development"
+    ],
+    "ObservationTimeEstimate.setup": [
+      "development"
+    ],
+    "ObservationTimeEstimate.setupCount": [
+      "development"
+    ],
+    "ObservationTimeEstimate.total": [
+      "development"
+    ],
+    "ObservingMode.gmosNorthMos": [
+      "development"
+    ],
+    "ObservingMode.gmosSouthMos": [
+      "development"
+    ],
+    "ObservingMode.gnirsImaging": [
+      "development"
+    ],
+    "ObservingModeInput.gmosNorthMos": [
+      "development"
+    ],
+    "ObservingModeInput.gmosSouthMos": [
+      "development"
+    ],
+    "ObservingModeInput.gnirsImaging": [
+      "development"
+    ],
+    "ProgramReferencePropertiesInput.keck": [
+      "development"
+    ],
+    "ProgramReferencePropertiesInput.subaru": [
+      "development"
+    ],
+    "ProgramReferencePropertiesKeckInput.semester": [
+      "development"
+    ],
+    "ProgramReferencePropertiesSubaruInput.semester": [
+      "development"
+    ],
+    "ProgramReferencePropertiesSubaruInput.subaruType": [
+      "development"
+    ],
+    "RecordFlamingos2VisitInput.time": [
+      "development"
+    ],
+    "RecordGmosNorthVisitInput.time": [
+      "development"
+    ],
+    "RecordGmosSouthVisitInput.time": [
+      "development"
+    ],
+    "RecordIgrins2VisitInput.time": [
+      "development"
+    ],
+    "RecordVisitInput.clientTime": [
+      "development"
+    ],
+    "RefreshArchiveDuplicationInput.observationId": [
+      "development"
+    ],
+    "RefreshArchiveDuplicationInput.observationReference": [
+      "development"
+    ],
+    "RefreshArchiveDuplicationResult.archiveDuplication": [
+      "development"
+    ],
+    "RefreshArchiveDuplicationResult.observation": [
+      "development"
+    ],
+    "ReplaceGhostSequenceInput.observationId": [
+      "development"
+    ],
+    "ReplaceGhostSequenceInput.observationReference": [
+      "development"
+    ],
+    "ReplaceGhostSequenceInput.sequence": [
+      "development"
+    ],
+    "ReplaceGhostSequenceInput.sequenceType": [
+      "development"
+    ],
+    "ReplaceGhostSequenceResult.sequence": [
+      "development"
+    ],
+    "SequenceEvent.clientTime": [
+      "development"
+    ],
+    "SequenceEvent.effectiveTime": [
+      "development"
+    ],
+    "SequenceEvent.recordedTime": [
+      "development"
+    ],
+    "SlewEvent.clientTime": [
+      "development"
+    ],
+    "SlewEvent.effectiveTime": [
+      "development"
+    ],
+    "SlewEvent.recordedTime": [
+      "development"
+    ],
+    "StepEvent.clientTime": [
+      "development"
+    ],
+    "StepEvent.effectiveTime": [
+      "development"
+    ],
+    "StepEvent.recordedTime": [
+      "development"
+    ],
+    "SubaruProgramReference.label": [
+      "development"
+    ],
+    "SubaruProgramReference.semester": [
+      "development"
+    ],
+    "SubaruProgramReference.semesterIndex": [
+      "development"
+    ],
+    "SubaruProgramReference.subaruType": [
+      "development"
+    ],
+    "SubaruProgramReference.type": [
+      "development"
+    ],
+    "SubaruProposalType.minPercentTime": [
+      "development"
+    ],
+    "SubaruProposalType.type": [
+      "production"
+    ],
+    "SubaruProposalTypeInput.minPercentTime": [
+      "development"
+    ],
+    "SubaruProposalTypeInput.type": [
+      "production"
+    ],
+    "TargetEnvironment.explicitSignalToNoiseTarget": [
+      "development"
+    ],
+    "TargetEnvironmentInput.explicitSignalToNoiseTargetId": [
+      "development"
+    ],
+    "Visit.clientTime": [
+      "development"
+    ],
+    "Visit.effectiveTime": [
+      "development"
+    ],
+    "Visit.recordedTime": [
+      "development"
+    ],
+    "Visitor.scienceFovDiameter": [
+      "development"
+    ],
+    "VisitorInput.scienceFovDiameter": [
+      "development"
+    ],
+    "WhereConfigurationRequest.createdAt": [
+      "development"
+    ],
+    "WhereConfigurationRequest.feedback": [
+      "development"
+    ],
+    "WhereConfigurationRequest.justification": [
+      "development"
+    ],
+    "WhereConfigurationRequest.updatedAt": [
+      "development"
+    ],
+    "WhereDataset.end": [
+      "development"
+    ],
+    "WhereDataset.program": [
+      "development"
+    ],
+    "WhereDataset.start": [
+      "development"
+    ],
+    "WhereDatasetChronicleEntry.program": [
+      "development"
+    ],
+    "WhereObservation.calibrationRole": [
+      "development"
+    ],
+    "WhereOptionOrderTimestamp.EQ": [
+      "development"
+    ],
+    "WhereOptionOrderTimestamp.GT": [
+      "development"
+    ],
+    "WhereOptionOrderTimestamp.GTE": [
+      "development"
+    ],
+    "WhereOptionOrderTimestamp.IN": [
+      "development"
+    ],
+    "WhereOptionOrderTimestamp.IS_NULL": [
+      "development"
+    ],
+    "WhereOptionOrderTimestamp.LT": [
+      "development"
+    ],
+    "WhereOptionOrderTimestamp.LTE": [
+      "development"
+    ],
+    "WhereOptionOrderTimestamp.NEQ": [
+      "development"
+    ],
+    "WhereOptionOrderTimestamp.NIN": [
+      "development"
+    ]
+  },
+  "operations": {
+    "cloneObservation": [
+      "development",
+      "production"
+    ],
+    "cloneTarget": [
+      "development",
+      "production"
+    ],
+    "createCallForProposals": [
+      "development",
+      "production"
+    ],
+    "createObservation": [
+      "development",
+      "production"
+    ],
+    "createProgram": [
+      "development",
+      "production"
+    ],
+    "createTargetByProgramId": [
+      "development",
+      "production"
+    ],
+    "createTargetByProgramReference": [
+      "development",
+      "production"
+    ],
+    "createTargetByProposalReference": [
+      "development",
+      "production"
+    ],
+    "deleteCallForProposalsById": [
+      "development",
+      "production"
+    ],
+    "deleteObservationById": [
+      "development",
+      "production"
+    ],
+    "deleteObservationByReference": [
+      "development",
+      "production"
+    ],
+    "deleteProgramById": [
+      "development",
+      "production"
+    ],
+    "deleteTargetById": [
+      "development",
+      "production"
+    ],
+    "getAttachmentsByObservationId": [
+      "development",
+      "production"
+    ],
+    "getAttachmentsByObservationReference": [
+      "development",
+      "production"
+    ],
+    "getAttachmentsByProgramId": [
+      "development",
+      "production"
+    ],
+    "getAttachmentsByProgramReference": [
+      "development",
+      "production"
+    ],
+    "getAttachmentsByProposalReference": [
+      "development",
+      "production"
+    ],
+    "getCallForProposalsById": [
+      "development",
+      "production"
+    ],
+    "getCallsForProposals": [
+      "development",
+      "production"
+    ],
+    "getGoatsObservations": [
+      "development",
+      "production"
+    ],
+    "getGoatsPrograms": [
+      "development",
+      "production"
+    ],
+    "getObservationById": [
+      "development",
+      "production"
+    ],
+    "getObservationByReference": [
+      "development",
+      "production"
+    ],
+    "getObservations": [
+      "development",
+      "production"
+    ],
+    "getProgramById": [
+      "development",
+      "production"
+    ],
+    "getProgramByProposalReference": [
+      "development",
+      "production"
+    ],
+    "getProgramByReference": [
+      "development",
+      "production"
+    ],
+    "getPrograms": [
+      "development",
+      "production"
+    ],
+    "getSchedulerProgramIds": [
+      "development",
+      "production"
+    ],
+    "getSchedulerPrograms": [
+      "development",
+      "production"
+    ],
+    "getTargetById": [
+      "development",
+      "production"
+    ],
+    "getTargets": [
+      "development",
+      "production"
+    ],
+    "getWorkflowStateByObservationId": [
+      "development",
+      "production"
+    ],
+    "getWorkflowStateByObservationReference": [
+      "development",
+      "production"
+    ],
+    "restoreCallForProposalsById": [
+      "development",
+      "production"
+    ],
+    "restoreObservationById": [
+      "development",
+      "production"
+    ],
+    "restoreObservationByReference": [
+      "development",
+      "production"
+    ],
+    "restoreProgramById": [
+      "development",
+      "production"
+    ],
+    "restoreTargetById": [
+      "development",
+      "production"
+    ],
+    "setWorkflowStateByObservationId": [
+      "development",
+      "production"
+    ],
+    "updateCallForProposalsById": [
+      "development",
+      "production"
+    ],
+    "updateCallsForProposals": [
+      "development",
+      "production"
+    ],
+    "updateObservationById": [
+      "development",
+      "production"
+    ],
+    "updateObservationByReference": [
+      "development",
+      "production"
+    ],
+    "updateObservations": [
+      "development",
+      "production"
+    ],
+    "updateProgramById": [
+      "development",
+      "production"
+    ],
+    "updatePrograms": [
+      "development",
+      "production"
+    ],
+    "updateTargetById": [
+      "development",
+      "production"
+    ],
+    "updateTargets": [
+      "development",
+      "production"
+    ]
+  },
+  "sources": [
+    "development",
+    "production"
+  ]
+}

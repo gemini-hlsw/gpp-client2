@@ -1,0 +1,8 @@
+fragment ObservationWorkflowDetails on ObservationWorkflow {
+  state
+  validTransitions
+  validationErrors {
+    code
+    messages
+  }
+}

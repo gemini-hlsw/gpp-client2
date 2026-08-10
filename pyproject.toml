@@ -1,0 +1,92 @@
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gpp-client"
+description = "Gemini Program Platform client."
+readme = "README.md"
+authors = [{ name = "NOIRLab" }]
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+dependencies = [
+    "graphql-core>=3.2",
+    "httpx>=0.27",
+    "pydantic>=2.7",
+]
+dynamic = ["version"]
+keywords = ["gemini", "gpp", "client", "program", "platform"]
+
+[project.urls]
+Homepage = "https://github.com/gemini-hlsw/gpp-client"
+Source = "https://github.com/gemini-hlsw/gpp-client"
+Issues = "https://github.com/gemini-hlsw/gpp-client/issues"
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+[tool.uv-dynamic-versioning]
+# Plain semver tags (vX.Y.Z). Prerelease tags carry normal PEP 440 semantics;
+# nothing about the version encodes a deployment environment.
+style = "pep440"
+fallback-version = "0.0.0"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gpp_client"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/gpp_client", "README.md", "LICENSE", "pyproject.toml"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.14",
+    "pytest>=8.3",
+    "pytest-asyncio>=0.25",
+    "ruff>=0.9",
+]
+
+[tool.ruff]
+line-length = 88
+extend-exclude = ["src/gpp_client/_generated"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+# Strict typing applies to the shipped package. The codegen package is a
+# dev-only tool manipulating graphql-core AST nodes whose stubs fight every
+# walk function; its correctness is enforced by its own validation steps
+# (pruned documents must re-validate) and a dedicated unit-test suite.
+# Generated modules carry `# mypy: ignore-errors` and are exercised by tests.
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src/gpp_client"]
+
+[[tool.mypy.overrides]]
+module = "gpp_client._generated.*"
+strict = false
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-r a -m 'not live'"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+pythonpath = ["."]
+markers = [
+    "live: tests that hit a real GPP deployment (need a token; run explicitly)",
+]

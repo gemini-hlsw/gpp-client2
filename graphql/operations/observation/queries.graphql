@@ -1,0 +1,30 @@
+query getObservationById($observationId: ObservationId!) {
+  observation(observationId: $observationId) {
+    ...ObservationDetails
+  }
+}
+
+query getObservationByReference($observationReference: ObservationReferenceLabel!) {
+  observation(observationReference: $observationReference) {
+    ...ObservationDetails
+  }
+}
+
+query getObservations(
+  $where: WhereObservation
+  $offset: ObservationId
+  $limit: NonNegInt
+  $includeDeleted: Boolean! = false
+) {
+  observations(
+    WHERE: $where
+    OFFSET: $offset
+    LIMIT: $limit
+    includeDeleted: $includeDeleted
+  ) {
+    hasMore
+    matches {
+      ...ObservationDetails
+    }
+  }
+}

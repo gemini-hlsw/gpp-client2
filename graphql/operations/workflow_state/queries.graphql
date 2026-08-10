@@ -1,0 +1,25 @@
+query getWorkflowStateByObservationId($observationId: ObservationId!) {
+  observation(observationId: $observationId) {
+    ...ObservationCore
+    program {
+      ...ProgramCore
+    }
+    workflow {
+      ...WorkflowDetails
+    }
+  }
+}
+
+query getWorkflowStateByObservationReference(
+  $observationReference: ObservationReferenceLabel!
+) {
+  observation(observationReference: $observationReference) {
+    ...ObservationCore
+    program {
+      ...ProgramCore
+    }
+    workflow {
+      ...WorkflowDetails
+    }
+  }
+}

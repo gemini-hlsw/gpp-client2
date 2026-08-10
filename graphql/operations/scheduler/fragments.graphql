@@ -1,0 +1,24 @@
+fragment SchedulerProposal on Proposal {
+  call {
+    semester
+    active {
+      start
+      end
+    }
+    observatory
+    gemini {
+      type
+      instruments
+    }
+    keck {
+      instruments
+    }
+    subaru {
+      type
+      instruments
+    }
+  }
+  gemini {
+    scienceSubtype
+  }
+}
