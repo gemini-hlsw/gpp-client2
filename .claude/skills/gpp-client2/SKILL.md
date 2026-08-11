@@ -152,8 +152,8 @@ data = gpp.graphql(
 )  # dict result, server judges
 ```
 
-Promote a stable query by dropping it in `graphql/operations/<domain>/` and
-running `uv run python -m codegen generate`.
+Promote a stable query by dropping it in `gpp-client2/graphql/operations/<domain>/` and
+running `uv run gqlforge generate`.
 
 ## CLI
 
@@ -240,9 +240,11 @@ regression test.
 ## Contributing to this repository
 
 When changing gpp-client2 itself (not just using it), two process rules
-apply on top of the hard rules in `CLAUDE.md`:
+apply on top of the hard rules in the root and per-project CLAUDE.md
+files:
 
-- Any user-visible change needs a towncrier fragment in `changelog.d/`
+- Any user-visible change needs a towncrier fragment in the changed project's `changelog.d/`
+  (`gpp-client2/changelog.d/` or `gqlforge/changelog.d/`)
   (`+<slug>.<type>.md`, types `feat|fix|perf|docs|removal|misc`) in the
   same commit. `CHANGELOG.md` is compiled by towncrier - never edit it
   directly.

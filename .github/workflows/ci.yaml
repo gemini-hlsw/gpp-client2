@@ -26,7 +26,7 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
-        run: uv sync
+        run: uv sync --all-packages
 
       - name: Lint
         run: |
@@ -34,10 +34,17 @@ jobs:
           uv run ruff format --check .
 
       - name: Type check
+        working-directory: gpp-client2
         run: uv run mypy
 
       - name: Generated artifacts are current
-        run: uv run python -m codegen check
+        working-directory: gpp-client2
+        run: uv run gqlforge check
 
-      - name: Tests
+      - name: gpp-client2 tests
+        working-directory: gpp-client2
+        run: uv run pytest
+
+      - name: gqlforge tests
+        working-directory: gqlforge
         run: uv run pytest

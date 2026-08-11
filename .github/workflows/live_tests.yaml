@@ -73,10 +73,11 @@ jobs:
 
       - name: Install dependencies
         if: ${{ steps.gate.outputs.run == 'true' }}
-        run: uv sync
+        run: uv sync --all-packages
 
       - name: Read-only smoke tests
         if: ${{ steps.gate.outputs.run == 'true' }}
+        working-directory: gpp-client2
         run: uv run pytest tests/test_live.py -m live -v
 
       - name: Write round-trips
@@ -87,6 +88,7 @@ jobs:
                   || (github.event_name == 'workflow_dispatch' && inputs.write)) }}
         env:
           GPP_LIVE_WRITE: "1"
+        working-directory: gpp-client2
         run: uv run pytest tests/test_live_roundtrip.py -m live -v
 
       # CI workspaces are ephemeral, so the suite's crashed-run self-healing
@@ -94,8 +96,8 @@ jobs:
       # non-empty ledger after a failure lists exactly the items that were
       # created and not deleted - preserve it for manual cleanup.
       - name: Preserve live-test ledger
-        if: ${{ failure() && hashFiles('.live-test-ledger.json') != '' }}
+        if: ${{ failure() && hashFiles('gpp-client2/.live-test-ledger.json') != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: live-test-ledger-${{ matrix.environment }}-${{ github.run_id }}
-          path: .live-test-ledger.json
+          path: gpp-client2/.live-test-ledger.json

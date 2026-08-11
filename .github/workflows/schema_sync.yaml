@@ -26,9 +26,10 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
-        run: uv sync
+        run: uv sync --all-packages
 
       - name: Download schemas
+        working-directory: gpp-client2
         env:
           GPP_DEV_TOKEN: ${{ secrets.GPP_DEV_TOKEN }}
           GPP_PROD_TOKEN: ${{ secrets.GPP_PROD_TOKEN }}
@@ -41,25 +42,28 @@ jobs:
               echo ":warning: No \`$secret\` secret - the **$env_name** schema was not refreshed." >> "$GITHUB_STEP_SUMMARY"
               return
             fi
-            GPP_TOKEN="$token" uv run python -m codegen download "$env_name" || status=1
+            GPP_TOKEN="$token" uv run gqlforge download "$env_name" || status=1
           }
           download development "$GPP_DEV_TOKEN" GPP_DEV_TOKEN
           download production "$GPP_PROD_TOKEN" GPP_PROD_TOKEN
           exit "$status"
 
       - name: Regenerate
-        run: uv run python -m codegen generate
+        working-directory: gpp-client2
+        run: uv run gqlforge generate
 
       - name: Readiness report
         id: readiness
+        working-directory: gpp-client2
         run: |
           {
             echo 'report<<EOF'
-            uv run python -m codegen readiness || true
+            uv run gqlforge readiness || true
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
 
       - name: Tests
+        working-directory: gpp-client2
         run: uv run pytest
 
       - name: Changelog fragment
@@ -67,9 +71,9 @@ jobs:
         # towncrier entry. The fixed slug keeps nightly re-runs of an
         # unmerged PR from stacking duplicate fragments.
         run: |
-          if ! git diff --quiet -- graphql/availability.json; then
+          if ! git diff --quiet -- gpp-client2/graphql/availability.json; then
             echo "Update environment availability from the nightly schema sync." \
-              > changelog.d/+schema-sync.misc.md
+              > gpp-client2/changelog.d/+schema-sync.misc.md
           fi
 
       - name: Open or update PR
@@ -80,7 +84,7 @@ jobs:
           commit-message: "chore: sync environment schemas"
           title: "Schema sync"
           body: |
-            Nightly schema refresh. Review `graphql/availability.json` for
+            Nightly schema refresh. Review `gpp-client2/graphql/availability.json` for
             what moved between environments.
 
             ```

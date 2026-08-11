@@ -24,5 +24,6 @@ htmlcov/
 .live-test-ledger.json
 
 # Documentation
-docs/_build/
-docs/source/cli/
+gpp-client2/docs/_build/
+gqlforge/docs/_build/
+gpp-client2/docs/source/cli/
