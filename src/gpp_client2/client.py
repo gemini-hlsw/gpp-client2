@@ -4,7 +4,7 @@ The GPP client entry points.
 ``GPPClient`` is synchronous; ``AsyncGPPClient`` is its async twin with an
 identical surface. Which deployment either talks to is a runtime choice
 resolved from arguments, ``GPP_*`` environment variables, and configuration
-profiles - see :mod:`gpp_client.config`.
+profiles - see :mod:`gpp_client2.config`.
 """
 
 from __future__ import annotations
@@ -15,10 +15,10 @@ from typing import Any, Self
 
 import httpx
 
-from gpp_client._executor import AsyncExecutor, ExecutorCore, SyncExecutor
-from gpp_client._ws import AsyncWsTransport, SyncWsTransport, WsConfig, get_ws_url
-from gpp_client.config import ResolvedConfig, resolve_config
-from gpp_client.domains import (
+from gpp_client2._executor import AsyncExecutor, ExecutorCore, SyncExecutor
+from gpp_client2._ws import AsyncWsTransport, SyncWsTransport, WsConfig, get_ws_url
+from gpp_client2.config import ResolvedConfig, resolve_config
+from gpp_client2.domains import (
     AsyncAttachmentAPI,
     AsyncCallForProposalsAPI,
     AsyncGoatsAPI,
@@ -36,7 +36,7 @@ from gpp_client.domains import (
     TargetAPI,
     WorkflowStateAPI,
 )
-from gpp_client.environments import Environment
+from gpp_client2.environments import Environment
 
 __all__ = ["AsyncGPPClient", "GPPClient"]
 
@@ -61,7 +61,7 @@ class _ClientBase:
         read_only: bool,
         config_path: Path | None,
     ) -> None:
-        from gpp_client._generated.operations import SCHEMA_SOURCES
+        from gpp_client2._generated.operations import SCHEMA_SOURCES
 
         self._config = resolve_config(
             environment=environment,
@@ -134,7 +134,7 @@ class _ClientBase:
             ``True`` if available in the active environment. Names codegen
             never restricted return ``True``.
         """
-        from gpp_client._generated.operations import (
+        from gpp_client2._generated.operations import (
             FIELD_AVAILABILITY,
             OPERATION_TEXT,
         )

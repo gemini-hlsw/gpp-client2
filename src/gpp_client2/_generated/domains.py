@@ -7,12 +7,12 @@ from collections.abc import AsyncIterator, Iterator  # noqa: F401
 
 from pydantic import TypeAdapter
 
-from gpp_client._base import UNSET, UnsetType  # noqa: F401
-from gpp_client._executor import AsyncExecutor, SyncExecutor
-from gpp_client._generated.enums import *  # noqa: F401,F403
-from gpp_client._generated.inputs import *  # noqa: F401,F403
-from gpp_client._generated.models import *  # noqa: F401,F403
-from gpp_client._generated.scalars import *  # noqa: F401,F403
+from gpp_client2._base import UNSET, UnsetType  # noqa: F401
+from gpp_client2._executor import AsyncExecutor, SyncExecutor
+from gpp_client2._generated.enums import *  # noqa: F401,F403
+from gpp_client2._generated.inputs import *  # noqa: F401,F403
+from gpp_client2._generated.models import *  # noqa: F401,F403
+from gpp_client2._generated.scalars import *  # noqa: F401,F403
 
 
 def _unwrap(data, path):

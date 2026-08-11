@@ -5,9 +5,9 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from gpp_client._base import GPPInput
-from gpp_client._generated.enums import *  # noqa: F401,F403
-from gpp_client._generated.scalars import *  # noqa: F401,F403
+from gpp_client2._base import GPPInput
+from gpp_client2._generated.enums import *  # noqa: F401,F403
+from gpp_client2._generated.scalars import *  # noqa: F401,F403
 
 
 class AddDatasetEventInput(GPPInput):

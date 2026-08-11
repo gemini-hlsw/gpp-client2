@@ -1,4 +1,4 @@
-# gpp-client
+# gpp-client2
 
 Python client for the Gemini Program Platform (GPP). One package, any
 deployment (development/staging/production) as a runtime choice, dual
@@ -18,7 +18,7 @@ uv run python -m codegen download [env]  # refresh schemas (needs a token)
 uv run python -m codegen scaffold <name> # skeleton for a new domain
 uv run pytest -m live                    # read-only tests against a real deployment
 GPP_LIVE_WRITE=1 uv run pytest -m live   # + write round-trips (see rules below)
-uv run gpp --help                        # the CLI (every domain method is a command)
+uv run gpp2 --help                        # the CLI (every domain method is a command)
 uv run sphinx-build -W docs/source docs/_build  # build the documentation
 ```
 
@@ -27,23 +27,23 @@ uv run sphinx-build -W docs/source docs/_build  # build the documentation
 `graphql/operations/<domain>/*.graphql` is the single union operations tree
 (the product). `codegen/` (dev-only, not shipped) merges the committed
 environment schemas in `graphql/schemas/`, prunes each operation per
-environment, and emits everything under `src/gpp_client/_generated/`: pydantic
+environment, and emits everything under `src/gpp_client2/_generated/`: pydantic
 models (one per schema type, every field defaulting to `UNSET`), inputs
 (omit-vs-null via `exclude_unset`), the per-environment operation map plus
 `graphql/availability.json`, and sync+async domain base classes. Hand-written
-subclasses in `src/gpp_client/domains/` add curated logic (workflow-state
+subclasses in `src/gpp_client2/domains/` add curated logic (workflow-state
 transition guards, scheduler tree assembly, attachment REST transfer) and are
 wired to `GPPClient`/`AsyncGPPClient` via `DOMAIN_REGISTRY`. Queries and
 mutations run over httpx; subscriptions (`watch_*`, one graphql-transport-ws
-connection per call, `src/gpp_client/_ws.py`) run over `websockets`, whose
-sync and asyncio clients keep the two surfaces identical. The `gpp` CLI
-(`src/gpp_client/cli.py`) derives every command from the sync domain APIs by
+connection per call, `src/gpp_client2/_ws.py`) run over `websockets`, whose
+sync and asyncio clients keep the two surfaces identical. The `gpp2` CLI
+(`src/gpp_client2/cli.py`) derives every command from the sync domain APIs by
 reflection at startup - no generated file, cannot drift, and
 `tests/test_cli.py` pins the rule.
 
 ## Hard rules
 
-- NEVER edit `src/gpp_client/_generated/` or `graphql/schemas/merged.graphql`
+- NEVER edit `src/gpp_client2/_generated/` or `graphql/schemas/merged.graphql`
   or `graphql/availability.json` by hand; edit operations/emitters and run
   `codegen generate`.
 - Every operation must be reachable as a domain method with identical sync
@@ -51,7 +51,7 @@ reflection at startup - no generated file, cannot drift, and
   coverage gap is a test failure, not a review comment.
 - Operation names follow `<verb><Resource>[By<Key>]` so method names derive
   (see `codegen/naming.py`); rename operations rather than special-casing.
-- The public-API skill (`.claude/skills/gpp-client/SKILL.md`) documents every
+- The public-API skill (`.claude/skills/gpp-client2/SKILL.md`) documents every
   client attribute and public method; `tests/test_skill_doc.py` fails when
   the API changes without the skill being updated. Update the skill in the
   same change that changes the API.
@@ -72,7 +72,7 @@ reflection at startup - no generated file, cannot drift, and
   `.live-test-ledger.json` before anything else, and delete ONLY recorded
   IDs - never name matches. Crashed-run leftovers are healed at next start.
 - Double opt-in: `-m live` AND `GPP_LIVE_WRITE=1`.
-- Config: `~/.config/gpp-client/config.toml` (profiles); tests isolate via
+- Config: `~/.config/gpp-client2/config.toml` (profiles); tests isolate via
   `GPP_CONFIG_FILE`. Currently only a production token exists (Dan's dev
   token is corrupted); all live testing so far ran against production.
 

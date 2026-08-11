@@ -28,7 +28,7 @@ uv run python -m codegen check       # CI fails if committed output is stale
 uv run python -m codegen readiness   # cross-environment promotion report
 ```
 
-Nothing under `src/gpp_client/_generated/` is edited by hand.
+Nothing under `src/gpp_client2/_generated/` is edited by hand.
 
 ## Adding an operation
 

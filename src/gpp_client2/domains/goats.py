@@ -2,7 +2,7 @@
 GOATS domain: bulk queries tailored to the GOATS follow-up tool.
 """
 
-from gpp_client._generated.domains import AsyncGoatsOperations, GoatsOperations
+from gpp_client2._generated.domains import AsyncGoatsOperations, GoatsOperations
 
 __all__ = ["AsyncGoatsAPI", "GoatsAPI"]
 

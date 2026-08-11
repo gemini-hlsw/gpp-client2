@@ -13,8 +13,8 @@ from pathlib import Path
 
 import pytest
 
-from gpp_client import AsyncGPPClient, GPPClient
-from gpp_client._generated.models import ProgramEdit
+from gpp_client2 import AsyncGPPClient, GPPClient
+from gpp_client2._generated.models import ProgramEdit
 
 pytestmark = pytest.mark.live
 
@@ -22,7 +22,7 @@ pytestmark = pytest.mark.live
 def _default_config() -> Path:
     xdg = os.environ.get("XDG_CONFIG_HOME")
     base = Path(xdg).expanduser() if xdg else Path.home() / ".config"
-    return base / "gpp-client" / "config.toml"
+    return base / "gpp-client2" / "config.toml"
 
 
 def has_live_configuration() -> bool:

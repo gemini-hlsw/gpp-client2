@@ -12,8 +12,10 @@ or, with uv:
 uv add gpp-client2
 ```
 
-The distribution is named `gpp-client2`, but the import stays `gpp_client`.
-Python 3.11 or newer is required.
+The distribution is `gpp-client2`, the import is `gpp_client2`, and the
+command is `gpp2`. Nothing collides with the original `gpp-client`, so the
+two generations can be installed side by side. Python 3.11 or newer is
+required.
 
 ## Your first query
 
@@ -22,7 +24,7 @@ into a profile or an environment variable (see {doc}`configuration`) so it
 stays out of your code.
 
 ```python
-from gpp_client import GPPClient
+from gpp_client2 import GPPClient
 
 with GPPClient(environment="production", token="your-token") as gpp:
     result = gpp.programs.get_all(limit=5)
@@ -49,7 +51,7 @@ token is accepted, and `(False, reason)` otherwise.
 operation is a coroutine.
 
 ```python
-from gpp_client import AsyncGPPClient
+from gpp_client2 import AsyncGPPClient
 
 async with AsyncGPPClient(environment="production", token="your-token") as gpp:
     program = await gpp.programs.get_by_id("p-123")

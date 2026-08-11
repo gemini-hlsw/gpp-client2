@@ -3,7 +3,7 @@ Code generation pipeline for the GPP client.
 
 This package is a development tool; it is not shipped in the wheel. It turns
 the committed environment schemas plus one union operations tree into
-everything under ``src/gpp_client/_generated``.
+everything under ``src/gpp_client2/_generated``.
 
 Run it with ``uv run python -m codegen <subcommand>``.
 """
@@ -15,7 +15,7 @@ SCHEMAS_DIR = REPO_ROOT / "graphql" / "schemas"
 OPERATIONS_DIR = REPO_ROOT / "graphql" / "operations"
 AVAILABILITY_PATH = REPO_ROOT / "graphql" / "availability.json"
 MERGED_SCHEMA_PATH = SCHEMAS_DIR / "merged.graphql"
-GENERATED_DIR = REPO_ROOT / "src" / "gpp_client" / "_generated"
+GENERATED_DIR = REPO_ROOT / "src" / "gpp_client2" / "_generated"
 
 # Schema sources ordered by distance ahead of production, newest first.
 # A source participates only when its .graphql file is committed.

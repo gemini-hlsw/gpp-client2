@@ -3,7 +3,7 @@
 import httpx
 import pytest
 
-from gpp_client.errors import GPPValidationError
+from gpp_client2.errors import GPPValidationError
 from tests.conftest import graphql_response
 
 
@@ -66,7 +66,7 @@ def test_download_streams_presigned_url_without_auth(make_client, tmp_path):
     client, handler = make_client(httpx.Response(200, text=presigned + "\n"))
     # Patch the presigned fetch to a mock transport; the URL fetch itself
     # goes through the authenticated client and is handled above.
-    import gpp_client.domains.attachment as attachment_module
+    import gpp_client2.domains.attachment as attachment_module
 
     original = attachment_module.httpx.Client
     attachment_module.httpx.Client = lambda: original(
@@ -93,7 +93,7 @@ def test_download_refuses_overwrite(make_client, tmp_path):
 
 def test_read_only_blocks_rest_writes(make_client):
     """read_only guards REST content writes exactly like GraphQL mutations."""
-    from gpp_client.errors import GPPReadOnlyError
+    from gpp_client2.errors import GPPReadOnlyError
 
     client, handler = make_client(read_only=True)
     with pytest.raises(GPPReadOnlyError):
@@ -108,7 +108,7 @@ def test_read_only_blocks_rest_writes(make_client):
 
 
 async def test_read_only_blocks_rest_writes_async(make_async_client):
-    from gpp_client.errors import GPPReadOnlyError
+    from gpp_client2.errors import GPPReadOnlyError
 
     client, handler = make_async_client(read_only=True)
     async with client:

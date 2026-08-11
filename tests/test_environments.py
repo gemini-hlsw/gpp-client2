@@ -2,7 +2,7 @@
 
 import pytest
 
-from gpp_client.environments import ENVIRONMENTS, Environment, spec_for
+from gpp_client2.environments import ENVIRONMENTS, Environment, spec_for
 
 
 def test_case_insensitive_construction():

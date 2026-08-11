@@ -14,7 +14,7 @@ profiles that are configured so you can see what the client actually found.
 
 ## The config file
 
-The file lives at `~/.config/gpp-client/config.toml` (or under
+The file lives at `~/.config/gpp-client2/config.toml` (or under
 `$XDG_CONFIG_HOME` if you set it; `$GPP_CONFIG_FILE` overrides the path
 entirely). A profile bundles an environment with its token:
 

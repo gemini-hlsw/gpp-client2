@@ -234,9 +234,9 @@ def emit_inputs(schema: GraphQLSchema) -> str:
         "",
         "from pydantic import Field",
         "",
-        "from gpp_client._base import GPPInput",
-        "from gpp_client._generated.enums import *  # noqa: F401,F403",
-        "from gpp_client._generated.scalars import *  # noqa: F401,F403",
+        "from gpp_client2._base import GPPInput",
+        "from gpp_client2._generated.enums import *  # noqa: F401,F403",
+        "from gpp_client2._generated.scalars import *  # noqa: F401,F403",
         "",
     ]
     names = []
@@ -314,9 +314,9 @@ def emit_output_models(schema: GraphQLSchema) -> str:
         "",
         "from pydantic import Field",
         "",
-        "from gpp_client._base import UNSET, GPPModel",
-        "from gpp_client._generated.enums import *  # noqa: F401,F403",
-        "from gpp_client._generated.scalars import *  # noqa: F401,F403",
+        "from gpp_client2._base import UNSET, GPPModel",
+        "from gpp_client2._generated.enums import *  # noqa: F401,F403",
+        "from gpp_client2._generated.scalars import *  # noqa: F401,F403",
         "",
     ]
 

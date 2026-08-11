@@ -20,18 +20,24 @@ it returns the async iterator you then `async for` over.
 
 ## What you can watch
 
-| Method | Fires when |
-| --- | --- |
-| `programs.watch_edits(program_id=)` | a program is created or edited |
-| `observations.watch_edits(program_id=)` | an observation is created or edited |
-| `observations.watch_calculations(program_id=)` | an observation's background calculation changes state |
-| `targets.watch_edits(target_id=)` | a target is created or edited |
-| `scheduler.watch_observation_updates(executable_only=)` | the calculation stream the Scheduler service consumes |
+The summaries below come from the methods' own docstrings, which codegen
+derives from the server's schema descriptions:
+
+```{eval-rst}
+.. autosummary::
+
+   gpp_client2.domains.ProgramAPI.watch_edits
+   gpp_client2.domains.ObservationAPI.watch_edits
+   gpp_client2.domains.ObservationAPI.watch_calculations
+   gpp_client2.domains.TargetAPI.watch_edits
+   gpp_client2.domains.SchedulerAPI.watch_observation_updates
+```
 
 Each event carries an `edit_type` (`CREATED`, `UPDATED`, or `HARD_DELETE`)
 and a `value` holding the affected item, parsed into the same models the
 query methods return. The filter arguments are optional; without them you
-receive events for everything your token can see.
+receive events for everything your token can see. Full signatures are in
+the {doc}`api`.
 
 ## Lifecycle
 

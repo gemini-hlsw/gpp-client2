@@ -7,17 +7,17 @@ maps an operations-tree directory to the client attribute exposing it; a
 conformance test keeps registry, client, and operations tree in lockstep.
 """
 
-from gpp_client.domains.attachment import AsyncAttachmentAPI, AttachmentAPI
-from gpp_client.domains.call_for_proposals import (
+from gpp_client2.domains.attachment import AsyncAttachmentAPI, AttachmentAPI
+from gpp_client2.domains.call_for_proposals import (
     AsyncCallForProposalsAPI,
     CallForProposalsAPI,
 )
-from gpp_client.domains.goats import AsyncGoatsAPI, GoatsAPI
-from gpp_client.domains.observation import AsyncObservationAPI, ObservationAPI
-from gpp_client.domains.program import AsyncProgramAPI, ProgramAPI
-from gpp_client.domains.scheduler import AsyncSchedulerAPI, SchedulerAPI
-from gpp_client.domains.target import AsyncTargetAPI, TargetAPI
-from gpp_client.domains.workflow_state import (
+from gpp_client2.domains.goats import AsyncGoatsAPI, GoatsAPI
+from gpp_client2.domains.observation import AsyncObservationAPI, ObservationAPI
+from gpp_client2.domains.program import AsyncProgramAPI, ProgramAPI
+from gpp_client2.domains.scheduler import AsyncSchedulerAPI, SchedulerAPI
+from gpp_client2.domains.target import AsyncTargetAPI, TargetAPI
+from gpp_client2.domains.workflow_state import (
     AsyncWorkflowStateAPI,
     WorkflowStateAPI,
 )

@@ -7,9 +7,9 @@ from typing import Annotated, Literal
 
 from pydantic import Field
 
-from gpp_client._base import UNSET, GPPModel
-from gpp_client._generated.enums import *  # noqa: F401,F403
-from gpp_client._generated.scalars import *  # noqa: F401,F403
+from gpp_client2._base import UNSET, GPPModel
+from gpp_client2._generated.enums import *  # noqa: F401,F403
+from gpp_client2._generated.scalars import *  # noqa: F401,F403
 
 
 class AddConditionsEntryResult(GPPModel):

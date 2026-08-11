@@ -8,7 +8,7 @@ drift. Each subscription call opens its own connection: one socket, one
 ``subscribe``, closed when iteration ends.
 
 Event payloads flow through the same root-null partial-response semantics as
-HTTP responses (see :meth:`gpp_client._executor.ExecutorCore.process_body`).
+HTTP responses (see :meth:`gpp_client2._executor.ExecutorCore.process_body`).
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ from websockets.exceptions import ConnectionClosed, InvalidStatus
 from websockets.sync.client import connect as _sync_connect
 from websockets.typing import Subprotocol
 
-from gpp_client.errors import (
+from gpp_client2.errors import (
     GPPAuthError,
     GPPConnectionError,
     GPPError,

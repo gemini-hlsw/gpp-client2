@@ -37,8 +37,8 @@ Two situations look like errors but are expected behavior:
 ## A pattern that works
 
 ```python
-from gpp_client import GPPClient
-from gpp_client.errors import (
+from gpp_client2 import GPPClient
+from gpp_client2.errors import (
     GPPAuthError,
     GPPConnectionError,
     GPPGraphQLError,

@@ -5,7 +5,7 @@ a tool to make AI agents better at using it: an agent skill.
 
 ## The bundled skill
 
-The repository contains a skill at `.claude/skills/gpp-client/SKILL.md`. A
+The repository contains a skill at `.claude/skills/gpp-client2/SKILL.md`. A
 skill is a compact instruction file that coding agents such as Claude Code
 load when relevant; this one teaches the agent the whole public surface of
 gpp-client2: how to construct clients, every domain and method, the `UNSET`
@@ -18,7 +18,7 @@ into your project:
 
 ```bash
 mkdir -p .claude/skills
-cp -r path/to/gpp-client2/.claude/skills/gpp-client .claude/skills/
+cp -r path/to/gpp-client2/.claude/skills/gpp-client2 .claude/skills/
 ```
 
 From then on, asking your agent to "fetch the READY observations for
@@ -40,5 +40,5 @@ The skill's most useful section for humans is its gotchas: truthiness
 conflating `UNSET`, `None`, and empty strings; fresh observations with
 null calculated fields; soft deletes that look like data loss; bulk-shaped
 results from by-id updates; and the rest. If you are debugging something
-surprising, reading `.claude/skills/gpp-client/SKILL.md` directly is a
+surprising, reading `.claude/skills/gpp-client2/SKILL.md` directly is a
 fast way to find out whether the surprise is a known one.

@@ -15,7 +15,7 @@ from dataclasses import dataclass
 
 import httpx
 
-from gpp_client.errors import (
+from gpp_client2.errors import (
     GPPAuthError,
     GPPConnectionError,
     GPPResponseError,

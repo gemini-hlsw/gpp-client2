@@ -14,9 +14,9 @@ import httpx
 import pytest
 from typer.testing import CliRunner
 
-import gpp_client.cli as cli
-from gpp_client import GPPClient
-from gpp_client.domains import DOMAIN_REGISTRY
+import gpp_client2.cli as cli
+from gpp_client2 import GPPClient
+from gpp_client2.domains import DOMAIN_REGISTRY
 from tests.conftest import RecordingHandler, graphql_response
 from tests.test_subscriptions import PROGRAM_EVENT, ScriptedWSServer
 

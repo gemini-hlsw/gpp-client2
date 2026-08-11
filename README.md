@@ -2,7 +2,9 @@
 
 Python client for the Gemini Program Platform (GPP) - the second
 generation, redesigned from scratch and built end to end by an AI coding
-agent. The distribution is `gpp-client2`; the import stays `gpp_client`.
+agent. Everything about it is versioned separately from the original
+client: the distribution is `gpp-client2`, the import is `gpp_client2`,
+and the command is `gpp2`, so both generations install side by side.
 
 One installable package that talks to any GPP deployment - development,
 staging, or production - as a **runtime choice**. No environment-tagged
@@ -11,7 +13,7 @@ for everyone, and which backend you talk to is decided when you construct
 the client.
 
 ```python
-from gpp_client import GPPClient
+from gpp_client2 import GPPClient
 
 with GPPClient(environment="development", token="...") as gpp:
     program = gpp.programs.get_by_id("p-123")
@@ -22,7 +24,7 @@ Every operation returns a typed pydantic model. There is a sync client and an
 async twin with an identical surface:
 
 ```python
-from gpp_client import AsyncGPPClient
+from gpp_client2 import AsyncGPPClient
 
 async with AsyncGPPClient(profile="dev") as gpp:
     result = await gpp.observations.get_all(limit=10)
@@ -38,13 +40,13 @@ Configuration resolves per field, highest priority first:
 2. Environment variables: `GPP_ENVIRONMENT`, `GPP_URL`, `GPP_TOKEN`,
    `GPP_PROFILE`, `GPP_SCHEMA_SOURCE`
 3. The profile selected by `GPP_PROFILE`, or `default_profile` from
-   `~/.config/gpp-client/config.toml`
+   `~/.config/gpp-client2/config.toml`
 
 There is no silent fallback to production; if nothing resolves, the error
 names the profiles that are configured.
 
 ```toml
-# ~/.config/gpp-client/config.toml
+# ~/.config/gpp-client2/config.toml
 default_profile = "dev"
 
 [profiles.dev]
@@ -169,18 +171,18 @@ during a gap are not replayed).
 
 ### The CLI
 
-Installing the package also installs `gpp`. Every domain method is a
+Installing the package also installs `gpp2`. Every domain method is a
 command, derived from the Python API by reflection, so the two surfaces
 cannot drift:
 
 ```bash
-gpp ping
-gpp programs get-by-id --program-id p-123
-gpp programs get-all --limit 5 --include-deleted
-gpp programs create --properties '{"name": "New program"}'
-gpp observations update-by-id --observation-id o-42 --properties @props.json
-gpp programs watch-edits --program-id p-123   # streams JSON events
-gpp graphql 'query { programs(LIMIT: 1) { matches { id } } }'
+gpp2 ping
+gpp2 programs get-by-id --program-id p-123
+gpp2 programs get-all --limit 5 --include-deleted
+gpp2 programs create --properties '{"name": "New program"}'
+gpp2 observations update-by-id --observation-id o-42 --properties @props.json
+gpp2 programs watch-edits --program-id p-123   # streams JSON events
+gpp2 graphql 'query { programs(LIMIT: 1) { matches { id } } }'
 ```
 
 Input models are JSON options (inline or `@file.json`); global options
@@ -243,7 +245,7 @@ graphql/
   schemas/           committed environment schemas + derived merged schema
   availability.json  what is available where (derived, committed, reviewed)
 codegen/             dev-only generator (merge, prune, emit) - not shipped
-src/gpp_client/
+src/gpp_client2/
   _generated/        DO NOT EDIT - models, inputs, enums, operation map,
                      sync + async domain bases
   domains/           hand-written subclasses; curated helpers live here
@@ -285,7 +287,7 @@ the wiring steps; the conformance tests enforce completion.
 
 ### Adding an environment (e.g. staging goes live)
 
-1. Set its URL in `src/gpp_client/environments.py`.
+1. Set its URL in `src/gpp_client2/environments.py`.
 2. `uv run python -m codegen download staging`, flip its `schema_source`.
 3. `uv run python -m codegen generate` and commit.
 

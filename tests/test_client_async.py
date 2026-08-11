@@ -3,9 +3,9 @@
 import httpx
 import pytest
 
-from gpp_client import AsyncGPPClient
-from gpp_client._generated.models import Program
-from gpp_client.errors import GPPReadOnlyError
+from gpp_client2 import AsyncGPPClient
+from gpp_client2._generated.models import Program
+from gpp_client2.errors import GPPReadOnlyError
 from tests.conftest import graphql_response
 
 

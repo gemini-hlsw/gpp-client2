@@ -1,8 +1,8 @@
 """Generated model behavior against realistic response shapes."""
 
-from gpp_client import UNSET
-from gpp_client._generated.enums import Existence, ObsStatus
-from gpp_client._generated.models import (
+from gpp_client2 import UNSET
+from gpp_client2._generated.enums import Existence, ObsStatus
+from gpp_client2._generated.models import (
     Observation,
     TimingWindowEndAfter,
     TimingWindowEndAt,

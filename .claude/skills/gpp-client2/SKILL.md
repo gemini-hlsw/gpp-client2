@@ -1,9 +1,9 @@
 ---
-name: gpp-client
-description: Use the gpp-client Python library to query and update the Gemini Program Platform (GPP) - programs, observations, targets, attachments, calls for proposals, scheduler data, and observation workflow states - against any GPP environment. Use whenever writing Python that talks to GPP.
+name: gpp-client2
+description: Use the gpp-client2 Python library to query and update the Gemini Program Platform (GPP) - programs, observations, targets, attachments, calls for proposals, scheduler data, and observation workflow states - against any GPP environment. Use whenever writing Python that talks to GPP.
 ---
 
-# Using gpp-client
+# Using gpp-client2
 
 `tests/test_skill_doc.py` enforces that this file names every client
 attribute and public method - update it in the same change as any API change.
@@ -11,7 +11,7 @@ attribute and public method - update it in the same change as any API change.
 ## Construct a client
 
 ```python
-from gpp_client import GPPClient, AsyncGPPClient
+from gpp_client2 import GPPClient, AsyncGPPClient
 
 with GPPClient(environment="development", token="...") as gpp:  # sync
     ...
@@ -25,7 +25,7 @@ Both clients accept the same keyword arguments: `environment`, `profile`,
 analysis notebooks against production), `timeout`, and `transport` (inject
 `httpx.MockTransport` in tests). Configuration resolves explicit args >
 `GPP_*` env vars (`GPP_ENVIRONMENT`, `GPP_URL`, `GPP_TOKEN`, `GPP_PROFILE`)
-> the profile from `~/.config/gpp-client/config.toml`:
+> the profile from `~/.config/gpp-client2/config.toml`:
 
 ```toml
 default_profile = "dev"
@@ -45,7 +45,7 @@ Every method returns pydantic models. A field the operation did not select
 server-returned `None`. `UNSET` is falsy; narrow with `is_set`:
 
 ```python
-from gpp_client import UNSET, is_set
+from gpp_client2 import UNSET, is_set
 
 program = gpp.programs.get_by_id("p-123")  # -> Program | None
 if is_set(program.description) and program.description:
@@ -54,17 +54,17 @@ if is_set(program.description) and program.description:
 
 `get_all` methods return a `*SelectResult` with `.matches` and `.has_more`;
 pass `where=`, `limit=`, `offset=`, `include_deleted=` to page and filter.
-Inputs (from `gpp_client._generated.inputs`) send only explicitly set
+Inputs (from `gpp_client2._generated.inputs`) send only explicitly set
 fields, so "omitted" and "explicitly null" keep GraphQL semantics:
 
 ```python
-from gpp_client._generated.inputs import ProgramPropertiesInput, WhereProgram
+from gpp_client2._generated.inputs import ProgramPropertiesInput, WhereProgram
 
 gpp.programs.update_by_id("p-1", properties=ProgramPropertiesInput(description=None))
 ```
 
-Enums live in `gpp_client._generated.enums`; models in
-`gpp_client._generated.models`.
+Enums live in `gpp_client2._generated.enums`; models in
+`gpp_client2._generated.models`.
 
 ## Domains and methods
 
@@ -157,10 +157,10 @@ running `uv run python -m codegen generate`.
 ## CLI
 
 Every domain method is also a shell command, derived by reflection:
-`client.programs.get_by_id` is `gpp programs get-by-id --program-id p-123`.
+`client.programs.get_by_id` is `gpp2 programs get-by-id --program-id p-123`.
 Input models become JSON options (`--properties '{"name": "X"}'` or
 `--properties @file.json`), `watch-*` commands stream JSON events, and
-`gpp graphql` is the raw escape hatch. Global options mirror the client
+`gpp2 graphql` is the raw escape hatch. Global options mirror the client
 constructor: `-e/--environment`, `--profile`, `--url`, `--token`,
 `--read-only`.
 

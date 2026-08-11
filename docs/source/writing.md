@@ -1,6 +1,6 @@
 # Writing data
 
-Mutations take typed input models from `gpp_client._generated.inputs`. The
+Mutations take typed input models from `gpp_client2._generated.inputs`. The
 single most important thing on this page is the difference between omitting
 a field and setting it to `None`.
 
@@ -11,7 +11,7 @@ the input models preserve that distinction exactly. A field you never set
 is not sent; a field you set to `None` is sent as null:
 
 ```python
-from gpp_client._generated.inputs import ProgramPropertiesInput
+from gpp_client2._generated.inputs import ProgramPropertiesInput
 
 # Renames the program. description is not sent and stays as it was.
 gpp.programs.update_by_id("p-123", properties=ProgramPropertiesInput(name="New name"))
@@ -27,7 +27,7 @@ into the payload just like passing it to the constructor.
 ## Creating
 
 ```python
-from gpp_client._generated.inputs import ProgramPropertiesInput
+from gpp_client2._generated.inputs import ProgramPropertiesInput
 
 program = gpp.programs.create(properties=ProgramPropertiesInput(name="My program"))
 print(program.id)
@@ -77,7 +77,7 @@ Inputs nest like the API's own input types, and every layer keeps the
 omit-vs-null rule:
 
 ```python
-from gpp_client._generated.inputs import (
+from gpp_client2._generated.inputs import (
     SiderealInput,
     TargetPropertiesInput,
 )
@@ -95,5 +95,5 @@ target = gpp.targets.create_by_program_id("p-123", properties=properties)
 
 Where the API accepts either a structured object or a shorthand (like the
 `ra` dict above), the input models accept both. Enums live in
-`gpp_client._generated.enums` and can be passed as members or as their
+`gpp_client2._generated.enums` and can be passed as members or as their
 string values.

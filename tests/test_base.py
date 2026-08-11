@@ -5,8 +5,8 @@ import pickle
 
 from pydantic import Field
 
-from gpp_client import UNSET, UnsetType, is_set
-from gpp_client._base import GPPInput, GPPModel
+from gpp_client2 import UNSET, UnsetType, is_set
+from gpp_client2._base import GPPInput, GPPModel
 
 
 def test_unset_is_a_falsy_singleton():

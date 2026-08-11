@@ -14,12 +14,12 @@ from websockets.asyncio.server import serve
 from websockets.exceptions import ConnectionClosed
 from websockets.typing import Subprotocol
 
-from gpp_client import AsyncGPPClient, GPPClient
-from gpp_client._generated.models import ObscalcUpdate, ProgramEdit
-from gpp_client._generated.operations import OPERATION_KIND, OPERATION_TEXT
-from gpp_client._ws import get_ws_url
-from gpp_client.environments import ENVIRONMENTS
-from gpp_client.errors import (
+from gpp_client2 import AsyncGPPClient, GPPClient
+from gpp_client2._generated.models import ObscalcUpdate, ProgramEdit
+from gpp_client2._generated.operations import OPERATION_KIND, OPERATION_TEXT
+from gpp_client2._ws import get_ws_url
+from gpp_client2.environments import ENVIRONMENTS
+from gpp_client2.errors import (
     GPPAuthError,
     GPPConnectionError,
     GPPGraphQLError,
@@ -230,7 +230,7 @@ def test_partial_event_warns_and_yields(ws_server, caplog):
     }
     server = ws_server([("next", partial), ("complete",)])
     with (
-        caplog.at_level("WARNING", logger="gpp_client._executor"),
+        caplog.at_level("WARNING", logger="gpp_client2._executor"),
         _sync_client(server) as client,
     ):
         events = list(client.programs.watch_edits())

@@ -4,7 +4,7 @@ import datetime as dt
 
 import httpx
 
-from gpp_client.rest import VisibilityChange
+from gpp_client2.rest import VisibilityChange
 from tests.conftest import graphql_response
 
 

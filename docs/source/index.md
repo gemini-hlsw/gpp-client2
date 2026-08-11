@@ -11,7 +11,7 @@ deployment. Which one, development, staging, or production, is a choice you
 make at runtime, not at install time.
 
 ```python
-from gpp_client import GPPClient
+from gpp_client2 import GPPClient
 
 with GPPClient(environment="production", token="...") as gpp:
     program = gpp.programs.get_by_id("p-123")
@@ -22,7 +22,7 @@ Every operation returns a typed pydantic model, every method exists in a
 sync and an async form, and every method is also a shell command:
 
 ```bash
-gpp programs get-by-id --program-id p-123
+gpp2 programs get-by-id --program-id p-123
 ```
 
 ## Where to start

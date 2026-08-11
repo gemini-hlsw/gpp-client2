@@ -16,23 +16,23 @@ from typing import Any
 
 import httpx
 
-from gpp_client._executor import AsyncExecutor, SyncExecutor
-from gpp_client._generated.domains import (
+from gpp_client2._executor import AsyncExecutor, SyncExecutor
+from gpp_client2._generated.domains import (
     AsyncObservationOperations,
     AsyncSchedulerOperations,
     ObservationOperations,
     SchedulerOperations,
 )
-from gpp_client._generated.enums import ObservationWorkflowState
-from gpp_client._generated.inputs import (
+from gpp_client2._generated.enums import ObservationWorkflowState
+from gpp_client2._generated.inputs import (
     WhereCalculatedObservationWorkflow,
     WhereObservation,
     WhereOptionEqObservingModeType,
     WhereOrderObservationId,
     WhereOrderObservationWorkflowState,
 )
-from gpp_client._generated.models import Program
-from gpp_client.rest import (
+from gpp_client2._generated.models import Program
+from gpp_client2.rest import (
     VisibilityChange,
     map_transport_error,
     parse_visibility,

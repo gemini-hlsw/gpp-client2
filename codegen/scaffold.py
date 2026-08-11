@@ -8,13 +8,13 @@ prints the two wiring steps the conformance tests will enforce.
 from codegen import OPERATIONS_DIR, REPO_ROOT, CodegenError
 from codegen.naming import to_pascal
 
-DOMAINS_DIR = REPO_ROOT / "src" / "gpp_client" / "domains"
+DOMAINS_DIR = REPO_ROOT / "src" / "gpp_client2" / "domains"
 
 _DOMAIN_TEMPLATE = '''"""
 {title} domain.
 """
 
-from gpp_client._generated.domains import (
+from gpp_client2._generated.domains import (
     Async{pascal}Operations,
     {pascal}Operations,
 )
@@ -74,7 +74,7 @@ def run_scaffold(domain: str) -> None:
     print(f"  1. Write operations in graphql/operations/{domain}/")
     print("  2. uv run python -m codegen generate")
     print(
-        f"  3. Register in src/gpp_client/domains/__init__.py: "
+        f"  3. Register in src/gpp_client2/domains/__init__.py: "
         f'"{domain}": ("<attribute>", {pascal}API, Async{pascal}API)'
     )
     print("  4. Add the attribute to GPPClient and AsyncGPPClient in client.py")

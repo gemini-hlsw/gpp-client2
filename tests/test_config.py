@@ -2,9 +2,9 @@
 
 import pytest
 
-from gpp_client.config import find_download_token, resolve_config
-from gpp_client.environments import Environment
-from gpp_client.errors import GPPAuthError, GPPConfigError
+from gpp_client2.config import find_download_token, resolve_config
+from gpp_client2.environments import Environment
+from gpp_client2.errors import GPPAuthError, GPPConfigError
 
 SOURCES = ("development", "production")
 

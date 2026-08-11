@@ -2,9 +2,9 @@
 
 import pytest
 
-from gpp_client._generated.enums import ObservationWorkflowState
-from gpp_client._generated.models import ObservationWorkflow
-from gpp_client.errors import GPPRetryableError, GPPValidationError
+from gpp_client2._generated.enums import ObservationWorkflowState
+from gpp_client2._generated.models import ObservationWorkflow
+from gpp_client2.errors import GPPRetryableError, GPPValidationError
 from tests.conftest import graphql_response
 
 

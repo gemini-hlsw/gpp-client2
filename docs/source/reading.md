@@ -47,7 +47,7 @@ that a particular operation never fetches a field. At runtime the
 difference is visible:
 
 ```python
-from gpp_client import UNSET, is_set
+from gpp_client2 import UNSET, is_set
 
 program = gpp.programs.get_by_id("p-123")
 if is_set(program.description):

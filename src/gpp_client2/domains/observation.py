@@ -2,7 +2,7 @@
 Observation domain.
 """
 
-from gpp_client._generated.domains import (
+from gpp_client2._generated.domains import (
     AsyncObservationOperations,
     ObservationOperations,
 )

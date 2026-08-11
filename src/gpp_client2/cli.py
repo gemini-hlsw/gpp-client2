@@ -1,8 +1,8 @@
 """
-The ``gpp`` command-line interface.
+The ``gpp2`` command-line interface.
 
 Every public method of every sync domain API becomes a command, derived by
-reflection at startup: ``client.programs.get_by_id`` is ``gpp programs
+reflection at startup: ``client.programs.get_by_id`` is ``gpp2 programs
 get-by-id``. The CLI therefore cannot drift from the Python API - adding a
 domain method adds its command, and a conformance test holds the two
 surfaces together.
@@ -41,15 +41,15 @@ from typing import Annotated, Any
 import typer
 from pydantic import BaseModel, ValidationError
 
-from gpp_client._base import UnsetType
-from gpp_client.client import GPPClient
-from gpp_client.domains import DOMAIN_REGISTRY
-from gpp_client.errors import GPPError
+from gpp_client2._base import UnsetType
+from gpp_client2.client import GPPClient
+from gpp_client2.domains import DOMAIN_REGISTRY
+from gpp_client2.errors import GPPError
 
 __all__ = ["app", "main"]
 
 app = typer.Typer(
-    name="gpp",
+    name="gpp2",
     help="Command-line interface for the Gemini Program Platform.",
     no_args_is_help=True,
     pretty_exceptions_show_locals=False,

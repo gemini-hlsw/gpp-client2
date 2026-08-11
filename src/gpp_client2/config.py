@@ -8,7 +8,7 @@ first:
 2. ``GPP_*`` environment variables (``GPP_ENVIRONMENT``, ``GPP_URL``,
    ``GPP_TOKEN``, ``GPP_PROFILE``, ``GPP_SCHEMA_SOURCE``).
 3. The profile named by ``GPP_PROFILE`` or ``default_profile`` in the config
-   file (``~/.config/gpp-client/config.toml``).
+   file (``~/.config/gpp-client2/config.toml``).
 
 There is no silent fallback: a client with no resolvable environment or
 token raises an error that names the profiles that are configured.
@@ -22,8 +22,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from gpp_client.environments import Environment, spec_for
-from gpp_client.errors import GPPAuthError, GPPConfigError
+from gpp_client2.environments import Environment, spec_for
+from gpp_client2.errors import GPPAuthError, GPPConfigError
 
 __all__ = [
     "ResolvedConfig",
@@ -41,15 +41,15 @@ def get_config_path() -> Path:
     Path of the configuration file.
 
     ``$GPP_CONFIG_FILE`` overrides; otherwise XDG conventions apply on every
-    platform: ``$XDG_CONFIG_HOME/gpp-client/config.toml``, defaulting to
-    ``~/.config/gpp-client/config.toml``.
+    platform: ``$XDG_CONFIG_HOME/gpp-client2/config.toml``, defaulting to
+    ``~/.config/gpp-client2/config.toml``.
     """
     override = os.environ.get(_CONFIG_ENV_VAR)
     if override:
         return Path(override).expanduser()
     xdg = os.environ.get("XDG_CONFIG_HOME")
     base = Path(xdg).expanduser() if xdg else Path.home() / ".config"
-    return base / "gpp-client" / "config.toml"
+    return base / "gpp-client2" / "config.toml"
 
 
 def load_profiles(

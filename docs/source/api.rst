@@ -9,80 +9,80 @@ enforces it), so the domain APIs are documented once, in their sync form.
 Clients
 -------
 
-.. autoclass:: gpp_client.GPPClient
+.. autoclass:: gpp_client2.GPPClient
    :members:
    :inherited-members:
 
-.. autoclass:: gpp_client.AsyncGPPClient
+.. autoclass:: gpp_client2.AsyncGPPClient
    :members:
    :inherited-members:
 
 The UNSET sentinel
 ------------------
 
-.. autoclass:: gpp_client.UnsetType
+.. autoclass:: gpp_client2.UnsetType
 
-.. autodata:: gpp_client._base.UNSET
+.. autodata:: gpp_client2._base.UNSET
 
-.. autofunction:: gpp_client.is_set
+.. autofunction:: gpp_client2.is_set
 
-.. autoclass:: gpp_client._base.GPPModel
+.. autoclass:: gpp_client2._base.GPPModel
 
-.. autoclass:: gpp_client._base.GPPInput
+.. autoclass:: gpp_client2._base.GPPInput
    :members: graphql_dump
 
 Domain APIs
 -----------
 
-.. autoclass:: gpp_client.domains.ProgramAPI
+.. autoclass:: gpp_client2.domains.ProgramAPI
    :members:
    :inherited-members:
 
-.. autoclass:: gpp_client.domains.ObservationAPI
+.. autoclass:: gpp_client2.domains.ObservationAPI
    :members:
    :inherited-members:
 
-.. autoclass:: gpp_client.domains.TargetAPI
+.. autoclass:: gpp_client2.domains.TargetAPI
    :members:
    :inherited-members:
 
-.. autoclass:: gpp_client.domains.AttachmentAPI
+.. autoclass:: gpp_client2.domains.AttachmentAPI
    :members:
    :inherited-members:
 
-.. autoclass:: gpp_client.domains.CallForProposalsAPI
+.. autoclass:: gpp_client2.domains.CallForProposalsAPI
    :members:
    :inherited-members:
 
-.. autoclass:: gpp_client.domains.GoatsAPI
+.. autoclass:: gpp_client2.domains.GoatsAPI
    :members:
    :inherited-members:
 
-.. autoclass:: gpp_client.domains.SchedulerAPI
+.. autoclass:: gpp_client2.domains.SchedulerAPI
    :members:
    :inherited-members:
 
-.. autoclass:: gpp_client.domains.WorkflowStateAPI
+.. autoclass:: gpp_client2.domains.WorkflowStateAPI
    :members:
    :inherited-members:
 
 Environments
 ------------
 
-.. automodule:: gpp_client.environments
+.. automodule:: gpp_client2.environments
    :members:
 
 Configuration
 -------------
 
-.. autoclass:: gpp_client.config.ResolvedConfig
+.. autoclass:: gpp_client2.config.ResolvedConfig
    :members:
 
-.. autofunction:: gpp_client.config.get_config_path
+.. autofunction:: gpp_client2.config.get_config_path
 
 Errors
 ------
 
-.. automodule:: gpp_client.errors
+.. automodule:: gpp_client2.errors
    :members:
    :show-inheritance:

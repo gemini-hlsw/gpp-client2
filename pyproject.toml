@@ -31,7 +31,7 @@ dynamic = ["version"]
 keywords = ["gemini", "gpp", "client", "program", "platform"]
 
 [project.scripts]
-gpp = "gpp_client.cli:main"
+gpp2 = "gpp_client2.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/gemini-hlsw/gpp-client"
@@ -57,10 +57,10 @@ style = "pep440"
 fallback-version = "0.0.0"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/gpp_client"]
+packages = ["src/gpp_client2"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/gpp_client", "README.md", "LICENSE", "pyproject.toml"]
+include = ["src/gpp_client2", "README.md", "LICENSE", "pyproject.toml"]
 
 [dependency-groups]
 dev = [
@@ -72,7 +72,7 @@ dev = [
 
 [tool.ruff]
 line-length = 88
-extend-exclude = ["src/gpp_client/_generated"]
+extend-exclude = ["src/gpp_client2/_generated"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
@@ -88,10 +88,10 @@ quote-style = "double"
 [tool.mypy]
 python_version = "3.11"
 strict = true
-files = ["src/gpp_client"]
+files = ["src/gpp_client2"]
 
 [[tool.mypy.overrides]]
-module = "gpp_client._generated.*"
+module = "gpp_client2._generated.*"
 strict = false
 disallow_untyped_defs = false
 

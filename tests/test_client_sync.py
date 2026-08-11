@@ -3,11 +3,11 @@
 import httpx
 import pytest
 
-from gpp_client import UNSET, GPPClient
-from gpp_client._generated.enums import Existence
-from gpp_client._generated.inputs import ProgramPropertiesInput
-from gpp_client._generated.models import Program, ProgramSelectResult
-from gpp_client.errors import (
+from gpp_client2 import UNSET, GPPClient
+from gpp_client2._generated.enums import Existence
+from gpp_client2._generated.inputs import ProgramPropertiesInput
+from gpp_client2._generated.models import Program, ProgramSelectResult
+from gpp_client2.errors import (
     GPPConnectionError,
     GPPGraphQLError,
     GPPReadOnlyError,

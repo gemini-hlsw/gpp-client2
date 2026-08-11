@@ -12,14 +12,14 @@ import pytest
 from codegen import AVAILABILITY_PATH
 from codegen.naming import method_name_for_operation
 from codegen.operations import load_operations
-from gpp_client import AsyncGPPClient, GPPClient
-from gpp_client._generated.operations import (
+from gpp_client2 import AsyncGPPClient, GPPClient
+from gpp_client2._generated.operations import (
     OPERATION_DOMAIN,
     OPERATION_KIND,
     OPERATION_TEXT,
     SCHEMA_SOURCES,
 )
-from gpp_client.domains import DOMAIN_REGISTRY
+from gpp_client2.domains import DOMAIN_REGISTRY
 
 
 @pytest.fixture(scope="module")
@@ -44,7 +44,7 @@ def test_every_domain_is_registered():
     domains = set(OPERATION_DOMAIN.values())
     assert domains == set(DOMAIN_REGISTRY), (
         "Domain registry out of sync with the operations tree. Add the "
-        "missing domain to gpp_client/domains/."
+        "missing domain to gpp_client2/domains/."
     )
 
 

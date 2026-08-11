@@ -10,7 +10,7 @@ from typing import Any
 import httpx
 import pytest
 
-import gpp_client.client  # noqa: F401  (ensure package imports before patching)
+import gpp_client2.client  # noqa: F401  (ensure package imports before patching)
 
 GPP_ENV_VARS = (
     "GPP_ENVIRONMENT",
@@ -56,7 +56,7 @@ def graphql_response(data: Any) -> httpx.Response:
 @pytest.fixture
 def make_client():
     """Factory for sync clients wired to a recording mock transport."""
-    from gpp_client import GPPClient
+    from gpp_client2 import GPPClient
 
     clients = []
 
@@ -80,7 +80,7 @@ def make_client():
 @pytest.fixture
 def make_async_client():
     """Factory for async clients wired to a recording mock transport."""
-    from gpp_client import AsyncGPPClient
+    from gpp_client2 import AsyncGPPClient
 
     def factory(*responses: httpx.Response, **kwargs: Any):
         handler = RecordingHandler(*responses)

@@ -5,12 +5,12 @@ import datetime as dt
 import httpx
 import pytest
 
-from gpp_client import UNSET
-from gpp_client._executor import ExecutorCore, serialize_variable
-from gpp_client._generated import operations as generated_operations
-from gpp_client._generated.enums import Existence
-from gpp_client._generated.inputs import ProgramPropertiesInput
-from gpp_client.errors import (
+from gpp_client2 import UNSET
+from gpp_client2._executor import ExecutorCore, serialize_variable
+from gpp_client2._generated import operations as generated_operations
+from gpp_client2._generated.enums import Existence
+from gpp_client2._generated.inputs import ProgramPropertiesInput
+from gpp_client2.errors import (
     GPPAuthError,
     GPPFieldUnavailableError,
     GPPGraphQLError,
@@ -152,7 +152,7 @@ class TestProcess:
             "data": {"observations": {"hasMore": False, "matches": [{"id": "o-1"}]}},
             "errors": [{"message": "Could not generate a sequence for o-984"}],
         }
-        with caplog.at_level("WARNING", logger="gpp_client._executor"):
+        with caplog.at_level("WARNING", logger="gpp_client2._executor"):
             data = core().process(self.response(json=body))
         assert data == body["data"]
         assert "o-984" in caplog.text
@@ -166,7 +166,7 @@ class TestProcess:
                 {"message": "The background calculation has not (yet) produced"}
             ],
         }
-        with caplog.at_level("WARNING", logger="gpp_client._executor"):
+        with caplog.at_level("WARNING", logger="gpp_client2._executor"):
             data = core().process(self.response(json=body))
         assert data == body["data"]
         assert "background calculation" in caplog.text

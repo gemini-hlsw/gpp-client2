@@ -13,18 +13,18 @@ import asyncio
 import logging
 import time
 
-from gpp_client._base import is_set
-from gpp_client._generated.domains import (
+from gpp_client2._base import is_set
+from gpp_client2._generated.domains import (
     AsyncWorkflowStateOperations,
     WorkflowStateOperations,
 )
-from gpp_client._generated.enums import CalculationState, ObservationWorkflowState
-from gpp_client._generated.models import (
+from gpp_client2._generated.enums import CalculationState, ObservationWorkflowState
+from gpp_client2._generated.models import (
     CalculatedObservationWorkflow,
     Observation,
     ObservationWorkflow,
 )
-from gpp_client.errors import GPPError, GPPRetryableError, GPPValidationError
+from gpp_client2.errors import GPPError, GPPRetryableError, GPPValidationError
 
 __all__ = ["AsyncWorkflowStateAPI", "WorkflowStateAPI"]
 

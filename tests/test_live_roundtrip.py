@@ -28,9 +28,9 @@ from pathlib import Path
 
 import pytest
 
-from gpp_client import AsyncGPPClient, GPPClient, is_set
-from gpp_client._generated.enums import EditType, Existence, TimingWindowInclusion
-from gpp_client._generated.inputs import (
+from gpp_client2 import AsyncGPPClient, GPPClient, is_set
+from gpp_client2._generated.enums import EditType, Existence, TimingWindowInclusion
+from gpp_client2._generated.inputs import (
     BandBrightnessIntegratedInput,
     BandNormalizedIntegratedInput,
     CreateObservationInput,

@@ -46,7 +46,7 @@ background calculation briefly cannot say which transitions are legal.
   the same and absorbs the retryable window for you.
 
 ```python
-from gpp_client._generated.enums import ObservationWorkflowState
+from gpp_client2._generated.enums import ObservationWorkflowState
 
 gpp.workflow_state.update_by_observation_id_with_retry(
     "o-123", state=ObservationWorkflowState.READY

@@ -325,8 +325,8 @@ def _kept_pairs(result, schema) -> set[str]:
 
 def run_download(source: str | None) -> None:
     """Download the schema for one or all environments."""
-    from gpp_client.config import find_download_token
-    from gpp_client.environments import ENVIRONMENTS
+    from gpp_client2.config import find_download_token
+    from gpp_client2.environments import ENVIRONMENTS
 
     targets = [source] if source else [e.name.lower() for e in ENVIRONMENTS]
     for target in targets:

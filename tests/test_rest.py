@@ -6,9 +6,9 @@ import gzip
 import httpx
 import pytest
 
-from gpp_client import GPPClient
-from gpp_client.errors import GPPAuthError, GPPResponseError
-from gpp_client.rest import VisibilityChange
+from gpp_client2 import GPPClient
+from gpp_client2.errors import GPPAuthError, GPPResponseError
+from gpp_client2.rest import VisibilityChange
 from tests.conftest import RecordingHandler
 
 
@@ -73,7 +73,7 @@ def test_rest_http_error():
 
 
 async def test_async_scheduler_mirrors_sync():
-    from gpp_client import AsyncGPPClient
+    from gpp_client2 import AsyncGPPClient
 
     handler = RecordingHandler(httpx.Response(200, text="o-1\tabc\n"))
     client = AsyncGPPClient(

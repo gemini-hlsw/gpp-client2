@@ -15,19 +15,19 @@ from urllib.parse import urlparse
 
 import httpx
 
-from gpp_client._executor import AsyncExecutor, SyncExecutor
-from gpp_client._generated.domains import (
+from gpp_client2._executor import AsyncExecutor, SyncExecutor
+from gpp_client2._generated.domains import (
     AsyncAttachmentOperations,
     AttachmentOperations,
 )
-from gpp_client._generated.enums import AttachmentType
-from gpp_client.errors import (
+from gpp_client2._generated.enums import AttachmentType
+from gpp_client2.errors import (
     GPPError,
     GPPReadOnlyError,
     GPPResponseError,
     GPPValidationError,
 )
-from gpp_client.rest import map_transport_error, process_text
+from gpp_client2.rest import map_transport_error, process_text
 
 __all__ = ["AsyncAttachmentAPI", "AttachmentAPI"]
 

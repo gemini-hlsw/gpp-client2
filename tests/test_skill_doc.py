@@ -2,7 +2,7 @@
 The usage skill must stay in lockstep with the public API.
 
 Any client attribute, public domain method, or exported error type missing
-from .claude/skills/gpp-client/SKILL.md fails here - the same philosophy as
+from .claude/skills/gpp-client2/SKILL.md fails here - the same philosophy as
 the conformance tests: documentation gaps break CI, not users.
 """
 
@@ -11,14 +11,14 @@ from pathlib import Path
 
 import pytest
 
-import gpp_client
-from gpp_client.domains import DOMAIN_REGISTRY
+import gpp_client2
+from gpp_client2.domains import DOMAIN_REGISTRY
 
 SKILL_PATH = (
     Path(__file__).resolve().parent.parent
     / ".claude"
     / "skills"
-    / "gpp-client"
+    / "gpp-client2"
     / "SKILL.md"
 )
 
@@ -49,7 +49,7 @@ def test_every_public_method_documented(skill_text):
 
 
 def test_every_error_documented(skill_text):
-    for name in gpp_client.__all__:
+    for name in gpp_client2.__all__:
         if name.startswith("GPP") and name.endswith("Error"):
             assert name in skill_text, (
                 f"SKILL.md does not mention {name}; update the skill "

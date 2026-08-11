@@ -2,7 +2,7 @@
 Program domain.
 """
 
-from gpp_client._generated.domains import AsyncProgramOperations, ProgramOperations
+from gpp_client2._generated.domains import AsyncProgramOperations, ProgramOperations
 
 __all__ = ["AsyncProgramAPI", "ProgramAPI"]
 

@@ -19,9 +19,9 @@ from typing import Any
 import httpx
 from pydantic import BaseModel
 
-from gpp_client._base import GPPInput, UnsetType
-from gpp_client._ws import AsyncWsTransport, SyncWsTransport
-from gpp_client.errors import (
+from gpp_client2._base import GPPInput, UnsetType
+from gpp_client2._ws import AsyncWsTransport, SyncWsTransport
+from gpp_client2.errors import (
     GPPAuthError,
     GPPConnectionError,
     GPPFieldUnavailableError,
@@ -83,7 +83,7 @@ class ExecutorCore:
 
     def payload(self, operation_name: str, variables: dict[str, Any]) -> dict[str, Any]:
         """Build the JSON payload for a generated operation."""
-        from gpp_client._generated.operations import OPERATION_KIND, OPERATION_TEXT
+        from gpp_client2._generated.operations import OPERATION_KIND, OPERATION_TEXT
 
         texts = OPERATION_TEXT.get(operation_name)
         if texts is None:
@@ -119,7 +119,7 @@ class ExecutorCore:
         read-only client, and selected field names whose availability is
         restricted and unambiguous.
         """
-        from gpp_client._generated.operations import RESTRICTED_FIELD_NAMES
+        from gpp_client2._generated.operations import RESTRICTED_FIELD_NAMES
 
         try:
             from graphql.language.visitor import Visitor
