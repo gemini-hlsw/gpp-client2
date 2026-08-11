@@ -1,0 +1,33 @@
+name: Corpus canary
+
+# Nightly: fetch live schemas from the public APIs the corpus snapshots
+# came from and run the full generate-and-import corpus against them.
+# An unreachable endpoint skips its leg (network noise); a schema that
+# fetches cleanly but breaks generation or import fails the run - that
+# is a new real-world shape the emitters need to learn.
+#
+# Public APIs, no secrets: this runs from day one.
+
+on:
+  schedule:
+    - cron: "0 8 * * *"  # 08:00 UTC daily, before schema sync
+  workflow_dispatch:
+
+jobs:
+  upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.13"
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --all-packages
+
+      - name: Corpus against live upstream schemas
+        working-directory: gqlforge
+        run: uv run pytest -m upstream -v
