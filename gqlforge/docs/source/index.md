@@ -1,57 +1,57 @@
 # gqlforge
 
-gqlforge is a multi-schema GraphQL-to-Python code generator: one union
-operations tree, validated against the merge of every schema you serve,
-pruned per schema, and emitted as pydantic models plus sync and async
-client bases that cannot drift apart.
+gqlforge generates a typed Python client from GraphQL. Its specialty is
+an API deployed in several environments whose schemas differ: you write
+each query once, and gqlforge derives a per-environment version of it -
+so one installed package talks to development, staging, or production,
+chosen at runtime.
 
-Most GraphQL codegen tools assume one schema. gqlforge exists for the
-case they don't cover: the same API deployed in several environments
-that genuinely diverge - development ahead on new fields *and* on
-removals - where you want **one** client package whose environment is a
-runtime choice, not an install-time one. It grew inside
-[gpp-client2](https://gpp-client2.readthedocs.io), the client for the
-Gemini Program Platform, which remains its reference consumer.
+It is also a perfectly ordinary single-schema codegen, and a
+models-only generator for projects that just want pydantic types (see
+{doc}`domains`).
 
-## The model
+## How it works
 
-- **One operations tree.** `operations/<domain>/*.graphql` holds the
-  union of every selection used anywhere. Nothing marks a field as
-  environment-specific by hand.
-- **Merged-schema validation.** Every operation must validate against
-  the union of all schemas - a selection no schema serves is a typo and
-  fails the build.
-- **Per-schema pruning.** Each operation is pruned against each schema:
-  a selection a schema cannot serve is dropped from that schema's query
-  text only, and every pruned document is re-validated. What survives
-  where is committed as an availability manifest whose diff is your
-  promotion review.
-- **One set of models,** generated from the merged schema, every field
-  defaulting to an `UNSET` sentinel - so "not selected", "not available
-  here", and "server returned null" are three distinguishable things.
-- **Sync and async surfaces from one spec,** so they cannot drift.
+1. Commit one SDL file per schema source, and write each GraphQL
+   operation once - selecting the union of everything you use anywhere.
+2. gqlforge **merges** the schemas into one superset used for
+   validation and models. The merge only ever adds: nothing is removed
+   from any source.
+3. Each operation is **pruned** per source: a field a source cannot
+   serve is dropped from *that source's* query text only. A field no
+   source serves is a typo and fails the build.
+4. It emits pydantic models (one per schema type, every field
+   defaulting to `UNSET`), the per-source query texts, and sync + async
+   client classes derived from one spec, so they cannot drift.
+
+Concretely: if `Widget.newThing` exists only in development, the
+development query selects it, the production query silently doesn't,
+and on a production client `widget.new_thing` is `UNSET` - distinct
+from a server-returned `None`. Development never loses a field because
+production lags.
 
 ## Commands
 
-Run from the consuming project's root (the directory holding the
-pyproject.toml with a `[tool.gqlforge]` table):
+Run from the consuming project's root; full options in {doc}`cli`.
 
 | Command | What it does |
 | --- | --- |
-| `gqlforge generate` | Merge, validate, prune, and emit everything |
-| `gqlforge check` | Run generate; fail if committed artifacts changed (CI) |
-| `gqlforge readiness` | Cross-schema promotion report |
-| `gqlforge download [source]` | Refresh schema SDL via introspection |
+| `gqlforge generate` | Merge, validate, prune, emit |
+| `gqlforge check` | Generate + fail on any diff vs committed output (CI) |
+| `gqlforge readiness` | What the newest source has that the oldest lacks |
+| `gqlforge download [source]` | Refresh committed SDL via introspection |
 | `gqlforge scaffold <domain>` | Skeleton for a new domain |
 
 ## Where to start
 
-{doc}`configuration` covers the `[tool.gqlforge]` table and the runtime
-contract your package provides. {doc}`domains` explains how folders
-become client attributes - and the layouts for projects that don't want
-domains at all. {doc}`docstrings` shows how documentation flows from
-your GraphQL sources into the generated methods, and {doc}`pipeline`
-walks the generator stage by stage.
+In order: {doc}`configuration` (the `[tool.gqlforge]` table and the
+small runtime contract your package provides), then {doc}`domains` (how
+folders become client attributes - or how to skip domains entirely).
+{doc}`docstrings` and {doc}`pipeline` are for authors and maintainers.
+
+gqlforge is developed in the
+[gpp-client2 monorepo](https://github.com/gemini-hlsw/gpp-client2);
+that client is its reference consumer.
 
 ```{toctree}
 :hidden:
@@ -61,5 +61,6 @@ configuration
 domains
 docstrings
 pipeline
+cli
 changelog
 ```

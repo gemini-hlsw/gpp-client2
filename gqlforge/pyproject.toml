@@ -26,13 +26,14 @@ docs = [
     "furo>=2024.8",
     "myst-parser>=4",
     "sphinx>=8",
+    "sphinx-argparse>=0.5",
     "sphinx-copybutton>=0.5",
 ]
 
 [project.urls]
 Homepage = "https://github.com/gemini-hlsw/gpp-client2/tree/main/gqlforge"
 Source = "https://github.com/gemini-hlsw/gpp-client2"
-Documentation = "https://gpp-client2.readthedocs.io/projects/gqlforge/"
+Documentation = "https://gqlforge.readthedocs.io"
 Issues = "https://github.com/gemini-hlsw/gpp-client2/issues"
 
 [project.scripts]

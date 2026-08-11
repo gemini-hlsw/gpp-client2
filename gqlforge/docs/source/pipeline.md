@@ -9,13 +9,15 @@ multi-schema logic as walks over graphql-core AST nodes.
 
 ### 1. Schema loading and merging - `schema.py`
 
-Builds each source's schema from its SDL, then a **merged schema**:
-union of types, union of fields per type, union of enum values.
-Nullability differences relax to the nullable form. Structural
-divergences (same field, incompatible types across sources) are
-recorded, not fatal - they become errors only if an operation actually
-selects the divergent field. `download` refreshes SDL via an
-introspection request.
+Builds each source's schema from its SDL, then a **merged schema**: the
+union of types, of fields per type, and of enum values. The merge is
+strictly additive - it never removes anything from any source. A field
+that exists only in development is fully available to development;
+omission happens later, in pruning (stage 3), and only for the sources
+that cannot serve the field. Nullability differences relax to the
+nullable form, and structural divergences (same field, incompatible
+types across sources) are recorded, becoming errors only if an
+operation selects them. `download` refreshes SDL via introspection.
 
 ### 2. Operations tree loading - `operations.py`
 

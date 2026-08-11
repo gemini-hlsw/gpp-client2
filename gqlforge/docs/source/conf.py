@@ -14,6 +14,7 @@ version = ".".join(release.split(".")[:2])
 extensions = [
     "myst_parser",
     "sphinx_copybutton",
+    "sphinxarg.ext",
 ]
 
 myst_enable_extensions = ["colon_fence"]
