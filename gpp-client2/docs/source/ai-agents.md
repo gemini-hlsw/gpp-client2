@@ -2,7 +2,7 @@
 
 This client ships with tools to make AI agents better at using it:
 agent skills - one for the client itself and one for
-[gqlforge](https://gpp-client2.readthedocs.io/projects/gqlforge/), the
+[gqlforge](https://gqlforge.readthedocs.io), the
 codegen it is built with (at `.claude/skills/gqlforge/SKILL.md`).
 
 ## The bundled skill

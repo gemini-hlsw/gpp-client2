@@ -46,11 +46,12 @@ cd gqlforge && uv run pytest              # codegen suite (see its CLAUDE.md)
    schema_sync.yaml), `SCHEMA_SYNC_TOKEN` (PR-capable, for
    schema_sync.yaml), and the `LIVE_TESTS_ENABLED=true` repo variable to
    arm the nightly live runs.
-2. **ReadTheDocs**: create the `gpp-client2` project with "Build
-   configuration file" `gpp-client2/.readthedocs.yaml`, then a
-   `gqlforge` project on the same repo with it set to
-   `gqlforge/.readthedocs.yaml`, and add the latter as a subproject of
-   gpp-client2 (Admin -> Subprojects, alias `gqlforge`). Both Sphinx
+2. **ReadTheDocs**: two independent top-level projects on the same
+   repo, each with its own subdomain - `gpp-client2` with "Build
+   configuration file" `gpp-client2/.readthedocs.yaml`, and `gqlforge`
+   with `gqlforge/.readthedocs.yaml` (-> gqlforge.readthedocs.io). Not
+   subprojects (Dan's decision, 2026-08-11): gqlforge keeps its own URL,
+   which also survives the eventual repo split unchanged. Both Sphinx
    trees and RTD configs are committed.
 3. **Eventual gqlforge split**: when it leaves the monorepo, flip
    `[tool.uv.sources]` in gpp-client2 from `workspace = true` to a

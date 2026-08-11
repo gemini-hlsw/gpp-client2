@@ -51,7 +51,7 @@ verbatim (the `watch*` subscriptions are examples). Everything else about
 the pipeline - the folder-to-domain mapping, no-domain and models-only
 layouts, the `[tool.gqlforge]` reference, and the stage-by-stage
 internals - lives in the
-[gqlforge documentation](https://gpp-client2.readthedocs.io/projects/gqlforge/),
+[gqlforge documentation](https://gqlforge.readthedocs.io),
 with `graphql/operations/README.md` as the in-tree quick reference.
 
 ## Changing what an existing query selects

@@ -5,7 +5,7 @@ tree, validated against the merge of every schema you serve, pruned per
 schema, and emitted as pydantic models plus sync and async client bases.
 
 **Documentation:**
-[gpp-client2.readthedocs.io/projects/gqlforge](https://gpp-client2.readthedocs.io/projects/gqlforge/)
+[gqlforge.readthedocs.io](https://gqlforge.readthedocs.io)
 
 Most GraphQL codegen tools assume one schema. gqlforge exists for the case
 they don't cover: the same API deployed in several environments that
