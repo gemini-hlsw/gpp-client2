@@ -25,7 +25,6 @@ class AddDatasetEventResult(Model):
 
 
 class AddEventBatchResult(Model):
-    """The result of adding a batch of events."""
     typename: Literal["AddEventBatchResult"] = Field(default="AddEventBatchResult", validation_alias="__typename", serialization_alias="__typename")
     events: list[ExecutionEvent] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
@@ -112,15 +111,6 @@ class Angle(Model):
 
 
 class ArchiveDuplication(Model):
-    """
-    Archive Duplication Search result for an observation, as of the last time the
-    search was run.
-
-    When `state` is ERROR only `error` describes the failed attempt.  A failure
-    leaves the previously found results in place rather than discarding them, so
-    `matchCount`, `matches`, `lastCheckedAt` and the search area still
-    describe the last search that succeeded, and `lastCheckedAt` says when that was.
-    """
     typename: Literal["ArchiveDuplication"] = Field(default="ArchiveDuplication", validation_alias="__typename", serialization_alias="__typename")
     state: ArchiveDuplicationState = UNSET
     match_count: NonNegInt = Field(default=UNSET, validation_alias="matchCount", serialization_alias="matchCount")
@@ -135,15 +125,6 @@ class ArchiveDuplication(Model):
 
 
 class ArchiveMatch(Model):
-    """
-    One archived file matched by an Archive Duplication Search.
-
-    The fields are the archive's own record of the file, assembled from its FITS
-    headers, so which of them are populated varies by instrument and by era.
-    Every nullable field here is null when the archive does not report a value for that
-    file; where absence means something more specific than that, the field says so.
-    fields are typed where possible.
-    """
     typename: Literal["ArchiveMatch"] = Field(default="ArchiveMatch", validation_alias="__typename", serialization_alias="__typename")
     name: str = UNSET
     data_label: str | None = Field(default=UNSET, validation_alias="dataLabel", serialization_alias="dataLabel")
@@ -228,6 +209,7 @@ class Attachment(Model):
     id: AttachmentId = UNSET
     attachment_type: AttachmentType = Field(default=UNSET, validation_alias="attachmentType", serialization_alias="attachmentType")
     file_name: NonEmptyString = Field(default=UNSET, validation_alias="fileName", serialization_alias="fileName")
+    mask_name: NonEmptyString | None = Field(default=UNSET, validation_alias="maskName", serialization_alias="maskName")
     description: NonEmptyString | None = UNSET
     checked: bool = UNSET
     file_size: Long = Field(default=UNSET, validation_alias="fileSize", serialization_alias="fileSize")
@@ -849,6 +831,11 @@ class DeclinationArc(Model):
     end: Declination | None = UNSET
 
 
+class DeclineTooTriggerResult(Model):
+    typename: Literal["DeclineTooTriggerResult"] = Field(default="DeclineTooTriggerResult", validation_alias="__typename", serialization_alias="__typename")
+    too_trigger: TooTrigger = Field(default=UNSET, validation_alias="tooTrigger", serialization_alias="tooTrigger")
+
+
 class DeleteProgramUserResult(Model):
     """The result of deleting a program user."""
     typename: Literal["DeleteProgramUserResult"] = Field(default="DeleteProgramUserResult", validation_alias="__typename", serialization_alias="__typename")
@@ -871,8 +858,11 @@ class DemoScience(Model):
     """Proposal properties for Demo Science CallForProposals."""
     typename: Literal["DemoScience"] = Field(default="DemoScience", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
-    to_o_activation: ToOActivation = Field(default=UNSET, validation_alias="toOActivation", serialization_alias="toOActivation")
+    too_activation_ceiling: TooActivation = Field(default=UNSET, validation_alias="tooActivationCeiling", serialization_alias="tooActivationCeiling")
+    default_too_activation_ceiling: TooActivation = Field(default=UNSET, validation_alias="defaultTooActivationCeiling", serialization_alias="defaultTooActivationCeiling")
+    explicit_too_activation_ceiling: TooActivation | None = Field(default=UNSET, validation_alias="explicitTooActivationCeiling", serialization_alias="explicitTooActivationCeiling")
     min_percent_time: IntPercent = Field(default=UNSET, validation_alias="minPercentTime", serialization_alias="minPercentTime")
+    to_o_activation: ToOActivation = Field(default=UNSET, validation_alias="toOActivation", serialization_alias="toOActivation")
 
 
 class DetectorEstimate(Model):
@@ -892,8 +882,11 @@ class DirectorsTime(Model):
     """Proposal properties for Director's Time CallForProposals."""
     typename: Literal["DirectorsTime"] = Field(default="DirectorsTime", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
-    to_o_activation: ToOActivation = Field(default=UNSET, validation_alias="toOActivation", serialization_alias="toOActivation")
+    too_activation_ceiling: TooActivation = Field(default=UNSET, validation_alias="tooActivationCeiling", serialization_alias="tooActivationCeiling")
+    default_too_activation_ceiling: TooActivation = Field(default=UNSET, validation_alias="defaultTooActivationCeiling", serialization_alias="defaultTooActivationCeiling")
+    explicit_too_activation_ceiling: TooActivation | None = Field(default=UNSET, validation_alias="explicitTooActivationCeiling", serialization_alias="explicitTooActivationCeiling")
     min_percent_time: IntPercent = Field(default=UNSET, validation_alias="minPercentTime", serialization_alias="minPercentTime")
+    to_o_activation: ToOActivation = Field(default=UNSET, validation_alias="toOActivation", serialization_alias="toOActivation")
 
 
 class ElevationRange(Model):
@@ -1031,10 +1024,13 @@ class FastTurnaround(Model):
     """Proposal properties for Fast Turnaround CallForProposals."""
     typename: Literal["FastTurnaround"] = Field(default="FastTurnaround", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
-    to_o_activation: ToOActivation = Field(default=UNSET, validation_alias="toOActivation", serialization_alias="toOActivation")
+    too_activation_ceiling: TooActivation = Field(default=UNSET, validation_alias="tooActivationCeiling", serialization_alias="tooActivationCeiling")
+    default_too_activation_ceiling: TooActivation = Field(default=UNSET, validation_alias="defaultTooActivationCeiling", serialization_alias="defaultTooActivationCeiling")
+    explicit_too_activation_ceiling: TooActivation | None = Field(default=UNSET, validation_alias="explicitTooActivationCeiling", serialization_alias="explicitTooActivationCeiling")
     min_percent_time: IntPercent = Field(default=UNSET, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     reviewer: ProgramUser | None = UNSET
     mentor: ProgramUser | None = UNSET
+    to_o_activation: ToOActivation = Field(default=UNSET, validation_alias="toOActivation", serialization_alias="toOActivation")
 
 
 class Flamingos2Atom(Model):
@@ -1525,12 +1521,12 @@ class GmosNorthLongSlitAcquisition(Model):
 
 
 class GmosNorthMos(Model):
-    """GMOS North MOS mode"""
     typename: Literal["GmosNorthMos"] = Field(default="GmosNorthMos", validation_alias="__typename", serialization_alias="__typename")
     grating: GmosNorthGrating = UNSET
     filter: GmosNorthFilter | None = UNSET
     custom_mask: GmosCustomMask = Field(default=UNSET, validation_alias="customMask", serialization_alias="customMask")
     central_wavelength: Wavelength = Field(default=UNSET, validation_alias="centralWavelength", serialization_alias="centralWavelength")
+    acquisition_type: GmosMosAcquisitionType = Field(default=UNSET, validation_alias="acquisitionType", serialization_alias="acquisitionType")
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
     x_bin: GmosBinning = Field(default=UNSET, validation_alias="xBin", serialization_alias="xBin")
     default_x_bin: GmosBinning = Field(default=UNSET, validation_alias="defaultXBin", serialization_alias="defaultXBin")
@@ -1557,6 +1553,15 @@ class GmosNorthMos(Model):
     initial_filter: GmosNorthFilter | None = Field(default=UNSET, validation_alias="initialFilter", serialization_alias="initialFilter")
     initial_slit_width: GmosCustomSlitWidth = Field(default=UNSET, validation_alias="initialSlitWidth", serialization_alias="initialSlitWidth")
     initial_central_wavelength: Wavelength = Field(default=UNSET, validation_alias="initialCentralWavelength", serialization_alias="initialCentralWavelength")
+    acquisition: GmosNorthMosAcquisition = UNSET
+
+
+class GmosNorthMosAcquisition(Model):
+    typename: Literal["GmosNorthMosAcquisition"] = Field(default="GmosNorthMosAcquisition", validation_alias="__typename", serialization_alias="__typename")
+    filter: GmosNorthFilter = UNSET
+    default_filter: GmosNorthFilter = Field(default=UNSET, validation_alias="defaultFilter", serialization_alias="defaultFilter")
+    explicit_filter: GmosNorthFilter | None = Field(default=UNSET, validation_alias="explicitFilter", serialization_alias="explicitFilter")
+    exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
 class GmosNorthStatic(Model):
@@ -1712,12 +1717,12 @@ class GmosSouthLongSlitAcquisition(Model):
 
 
 class GmosSouthMos(Model):
-    """GMOS South MOS mode"""
     typename: Literal["GmosSouthMos"] = Field(default="GmosSouthMos", validation_alias="__typename", serialization_alias="__typename")
     grating: GmosSouthGrating = UNSET
     filter: GmosSouthFilter | None = UNSET
     custom_mask: GmosCustomMask = Field(default=UNSET, validation_alias="customMask", serialization_alias="customMask")
     central_wavelength: Wavelength = Field(default=UNSET, validation_alias="centralWavelength", serialization_alias="centralWavelength")
+    acquisition_type: GmosMosAcquisitionType = Field(default=UNSET, validation_alias="acquisitionType", serialization_alias="acquisitionType")
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
     x_bin: GmosBinning = Field(default=UNSET, validation_alias="xBin", serialization_alias="xBin")
     default_x_bin: GmosBinning = Field(default=UNSET, validation_alias="defaultXBin", serialization_alias="defaultXBin")
@@ -1744,6 +1749,15 @@ class GmosSouthMos(Model):
     initial_filter: GmosSouthFilter | None = Field(default=UNSET, validation_alias="initialFilter", serialization_alias="initialFilter")
     initial_slit_width: GmosCustomSlitWidth = Field(default=UNSET, validation_alias="initialSlitWidth", serialization_alias="initialSlitWidth")
     initial_central_wavelength: Wavelength = Field(default=UNSET, validation_alias="initialCentralWavelength", serialization_alias="initialCentralWavelength")
+    acquisition: GmosSouthMosAcquisition = UNSET
+
+
+class GmosSouthMosAcquisition(Model):
+    typename: Literal["GmosSouthMosAcquisition"] = Field(default="GmosSouthMosAcquisition", validation_alias="__typename", serialization_alias="__typename")
+    filter: GmosSouthFilter = UNSET
+    default_filter: GmosSouthFilter = Field(default=UNSET, validation_alias="defaultFilter", serialization_alias="defaultFilter")
+    explicit_filter: GmosSouthFilter | None = Field(default=UNSET, validation_alias="explicitFilter", serialization_alias="explicitFilter")
+    exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
 class GmosSouthStatic(Model):
@@ -1785,6 +1799,13 @@ class GnirsAtom(Model):
     description: str | None = UNSET
     observe_class: ObserveClass = Field(default=UNSET, validation_alias="observeClass", serialization_alias="observeClass")
     steps: list[GnirsStep] = UNSET
+
+
+class GnirsCentralWavelengthConfig(Model):
+    typename: Literal["GnirsCentralWavelengthConfig"] = Field(default="GnirsCentralWavelengthConfig", validation_alias="__typename", serialization_alias="__typename")
+    central_wavelength: Wavelength = Field(default=UNSET, validation_alias="centralWavelength", serialization_alias="centralWavelength")
+    exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
+    coadds: PosInt = UNSET
 
 
 class GnirsDynamic(Model):
@@ -1844,11 +1865,6 @@ class GnirsIfu(Model):
 
 
 class GnirsImaging(Model):
-    """
-    GNIRS Imaging mode.  Keyhole imaging fixes the FPU (acquisition keyhole), the
-    decker (acquisition) and the acquisition mirror (in), so none of them appears
-    here.
-    """
     typename: Literal["GnirsImaging"] = Field(default="GnirsImaging", validation_alias="__typename", serialization_alias="__typename")
     variant: ImagingVariant = UNSET
     filters: list[GnirsImagingFilter] = UNSET
@@ -1859,6 +1875,16 @@ class GnirsImaging(Model):
     well_depth: GnirsWellDepth = Field(default=UNSET, validation_alias="wellDepth", serialization_alias="wellDepth")
     explicit_well_depth: GnirsWellDepth | None = Field(default=UNSET, validation_alias="explicitWellDepth", serialization_alias="explicitWellDepth")
     default_well_depth: GnirsWellDepth = Field(default=UNSET, validation_alias="defaultWellDepth", serialization_alias="defaultWellDepth")
+    acquisition: GnirsImagingAcquisition = UNSET
+
+
+class GnirsImagingAcquisition(Model):
+    typename: Literal["GnirsImagingAcquisition"] = Field(default="GnirsImagingAcquisition", validation_alias="__typename", serialization_alias="__typename")
+    exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
+    coadds: PosInt = UNSET
+    explicit_acquisition_type: GnirsAcquisitionType | None = Field(default=UNSET, validation_alias="explicitAcquisitionType", serialization_alias="explicitAcquisitionType")
+    explicit_filter: GnirsFilter | None = Field(default=UNSET, validation_alias="explicitFilter", serialization_alias="explicitFilter")
+    sky_offset: Offset | None = Field(default=UNSET, validation_alias="skyOffset", serialization_alias="skyOffset")
 
 
 class GnirsImagingFilter(Model):
@@ -1884,22 +1910,20 @@ class GnirsSlit(Model):
 class GnirsSpectroscopy(Model):
     """GNIRS Spectroscopy mode (long slit or IFU, distinguished by the FPU)."""
     typename: Literal["GnirsSpectroscopy"] = Field(default="GnirsSpectroscopy", validation_alias="__typename", serialization_alias="__typename")
-    exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
     grating: GnirsGrating = UNSET
     explicit_grating: GnirsGrating | None = Field(default=UNSET, validation_alias="explicitGrating", serialization_alias="explicitGrating")
     initial_grating: GnirsGrating = Field(default=UNSET, validation_alias="initialGrating", serialization_alias="initialGrating")
     prism: GnirsPrism = UNSET
     explicit_prism: GnirsPrism | None = Field(default=UNSET, validation_alias="explicitPrism", serialization_alias="explicitPrism")
     initial_prism: GnirsPrism = Field(default=UNSET, validation_alias="initialPrism", serialization_alias="initialPrism")
-    central_wavelength: Wavelength = Field(default=UNSET, validation_alias="centralWavelength", serialization_alias="centralWavelength")
-    initial_central_wavelength: Wavelength = Field(default=UNSET, validation_alias="initialCentralWavelength", serialization_alias="initialCentralWavelength")
+    central_wavelengths: list[GnirsCentralWavelengthConfig] = Field(default=UNSET, validation_alias="centralWavelengths", serialization_alias="centralWavelengths")
+    initial_central_wavelengths: list[GnirsCentralWavelengthConfig] = Field(default=UNSET, validation_alias="initialCentralWavelengths", serialization_alias="initialCentralWavelengths")
     camera: GnirsCamera = UNSET
     initial_camera: GnirsCamera = Field(default=UNSET, validation_alias="initialCamera", serialization_alias="initialCamera")
     slit: GnirsSlit | None = UNSET
     ifu: GnirsIfu | None = UNSET
     filter: GnirsFilter = UNSET
     initial_filter: GnirsFilter = Field(default=UNSET, validation_alias="initialFilter", serialization_alias="initialFilter")
-    coadds: PosInt = UNSET
     decker: GnirsDecker = UNSET
     explicit_decker: GnirsDecker | None = Field(default=UNSET, validation_alias="explicitDecker", serialization_alias="explicitDecker")
     default_decker: GnirsDecker = Field(default=UNSET, validation_alias="defaultDecker", serialization_alias="defaultDecker")
@@ -1910,6 +1934,10 @@ class GnirsSpectroscopy(Model):
     explicit_focus_motor_steps: int | None = Field(default=UNSET, validation_alias="explicitFocusMotorSteps", serialization_alias="explicitFocusMotorSteps")
     acquisition: GnirsSpectroscopyAcquisition = UNSET
     telluric_type: TelluricType = Field(default=UNSET, validation_alias="telluricType", serialization_alias="telluricType")
+    exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
+    central_wavelength: Wavelength = Field(default=UNSET, validation_alias="centralWavelength", serialization_alias="centralWavelength")
+    initial_central_wavelength: Wavelength = Field(default=UNSET, validation_alias="initialCentralWavelength", serialization_alias="initialCentralWavelength")
+    coadds: PosInt = UNSET
 
 
 class GnirsSpectroscopyAcquisition(Model):
@@ -2139,11 +2167,6 @@ class Igrins2Step(Model):
 
 
 class Igrins2SvcConfig(Model):
-    """
-    IGRINS-2 Slit-Viewing Camera (SVC) acquisition configuration. A non-null value
-    means SVC images are saved using the given exposure duration and telescope dither
-    positions; null means SVC images are not saved.
-    """
     typename: Literal["Igrins2SvcConfig"] = Field(default="Igrins2SvcConfig", validation_alias="__typename", serialization_alias="__typename")
     exposure: TimeSpan = UNSET
     default_exposure: TimeSpan = Field(default=UNSET, validation_alias="defaultExposure", serialization_alias="defaultExposure")
@@ -2289,27 +2312,32 @@ class ItcGmosSouthImagingResultSet(Model):
 
 
 class ItcGnirsImaging(Model):
-    """GNIRS imaging ITC results.  Here each filter is paired with its result set."""
     typename: Literal["ItcGnirsImaging"] = Field(default="ItcGnirsImaging", validation_alias="__typename", serialization_alias="__typename")
     itc_type: ItcType = Field(default=UNSET, validation_alias="itcType", serialization_alias="itcType")
     gnirs_imaging_science: list[ItcGnirsImagingResultSet] = Field(default=UNSET, validation_alias="gnirsImagingScience", serialization_alias="gnirsImagingScience")
 
 
 class ItcGnirsImagingResultSet(Model):
-    """
-    Combines a GNIRS filter with an `ItcResultSet`. In other words, ITC results
-    for all targets but a single filter.
-    """
     typename: Literal["ItcGnirsImagingResultSet"] = Field(default="ItcGnirsImagingResultSet", validation_alias="__typename", serialization_alias="__typename")
     filter: GnirsFilter = UNSET
     results: ItcResultSet = UNSET
 
 
+class ItcGnirsSpectroscopy(Model):
+    typename: Literal["ItcGnirsSpectroscopy"] = Field(default="ItcGnirsSpectroscopy", validation_alias="__typename", serialization_alias="__typename")
+    itc_type: ItcType = Field(default=UNSET, validation_alias="itcType", serialization_alias="itcType")
+    acquisition: ItcResultSet = UNSET
+    gnirs_spectroscopy_science: list[ItcGnirsSpectroscopyResultSet] = Field(default=UNSET, validation_alias="gnirsSpectroscopyScience", serialization_alias="gnirsSpectroscopyScience")
+
+
+class ItcGnirsSpectroscopyResultSet(Model):
+    typename: Literal["ItcGnirsSpectroscopyResultSet"] = Field(default="ItcGnirsSpectroscopyResultSet", validation_alias="__typename", serialization_alias="__typename")
+    central_wavelength: Wavelength = Field(default=UNSET, validation_alias="centralWavelength", serialization_alias="centralWavelength")
+    results: ItcResultSet = UNSET
+
+
 class ItcIgrins2Spectroscopy(Model):
-    """
-    ITC results for IGRINS-2 spectroscopy observations. IGRINS-2 has no acquisition estimate.
-    SVC  acquisition sequence, when present, uses the SVC exposure time configuration.
-    """
+    """ITC results for IGRINS-2 spectroscopy observations (no acquisition)."""
     typename: Literal["ItcIgrins2Spectroscopy"] = Field(default="ItcIgrins2Spectroscopy", validation_alias="__typename", serialization_alias="__typename")
     itc_type: ItcType = Field(default=UNSET, validation_alias="itcType", serialization_alias="itcType")
     spectroscopy_science: ItcResultSet = Field(default=UNSET, validation_alias="spectroscopyScience", serialization_alias="spectroscopyScience")
@@ -2328,13 +2356,11 @@ class ItcResultSet(Model):
     """
     Contains the result of calling the ITC for all targets, but a single instrument
     configuration.  Since the observation may contain multiple targets, there may
-    be multiple results. The "selected" field contains the representative result
-    for all targets.  If a signal-to-noise target has been chosen for the
-    observation (see `TargetEnvironment.explicitSignalToNoiseTarget`), that target's result
-    is used.  Otherwise the brightest target (the one requiring the shortest
-    exposure time) is used.  If there is a mix of failures and successes, the
-    overall "selected" result will be a failure. The "all" field contains results
-    for all targets regardless.
+    be multiple results. The "result" field contains the selected, representative,
+    result for all targets.  If there are multiple successful results, this will
+    be the one that prescribes the longest observation. If there is a mix of
+    failures and successes, the overall "result" will be a failure. The "all" field
+    contains results for all targets regardless.
     """
     typename: Literal["ItcResultSet"] = Field(default="ItcResultSet", validation_alias="__typename", serialization_alias="__typename")
     selected: ItcResult = UNSET
@@ -2361,7 +2387,6 @@ class KeckCallProperties(Model):
 
 
 class KeckProgramReference(Model):
-    """Reference for a Keck time-exchange program."""
     typename: Literal["KeckProgramReference"] = Field(default="KeckProgramReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProgramReferenceLabel = UNSET
     type: ProgramType = UNSET
@@ -2380,12 +2405,15 @@ class LargeProgram(Model):
     """Proposal properties for Large Program CallForProposals."""
     typename: Literal["LargeProgram"] = Field(default="LargeProgram", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
-    to_o_activation: ToOActivation = Field(default=UNSET, validation_alias="toOActivation", serialization_alias="toOActivation")
+    too_activation_ceiling: TooActivation = Field(default=UNSET, validation_alias="tooActivationCeiling", serialization_alias="tooActivationCeiling")
+    default_too_activation_ceiling: TooActivation = Field(default=UNSET, validation_alias="defaultTooActivationCeiling", serialization_alias="defaultTooActivationCeiling")
+    explicit_too_activation_ceiling: TooActivation | None = Field(default=UNSET, validation_alias="explicitTooActivationCeiling", serialization_alias="explicitTooActivationCeiling")
     min_percent_time: IntPercent = Field(default=UNSET, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     min_percent_total_time: IntPercent = Field(default=UNSET, validation_alias="minPercentTotalTime", serialization_alias="minPercentTotalTime")
     total_time: TimeSpan = Field(default=UNSET, validation_alias="totalTime", serialization_alias="totalTime")
     aeon_multi_facility: bool = Field(default=UNSET, validation_alias="aeonMultiFacility", serialization_alias="aeonMultiFacility")
     jwst_synergy: bool = Field(default=UNSET, validation_alias="jwstSynergy", serialization_alias="jwstSynergy")
+    to_o_activation: ToOActivation = Field(default=UNSET, validation_alias="toOActivation", serialization_alias="toOActivation")
 
 
 class LibraryProgramReference(Model):
@@ -2501,13 +2529,6 @@ class ObservationSelectResult(Model):
 
 
 class ObservationTimeEstimate(Model):
-    """
-    Time estimate for executing an observation: the setup time(s) and the science
-    sequence time.  In the execution digest this estimate is continually updated
-    (and reduces) as the observation is executed; in `originalEstimate` it is
-    fixed at the start of execution so that the estimate may be compared with the
-    actual time required after the fact.
-    """
     typename: Literal["ObservationTimeEstimate"] = Field(default="ObservationTimeEstimate", validation_alias="__typename", serialization_alias="__typename")
     setup: SetupTime = UNSET
     setup_count: NonNegInt = Field(default=UNSET, validation_alias="setupCount", serialization_alias="setupCount")
@@ -2638,6 +2659,7 @@ class Program(Model):
     reference: ProgramReference | None = UNSET
     proposal: Proposal | None = UNSET
     active: DateInterval = UNSET
+    is_active: bool = Field(default=UNSET, validation_alias="isActive", serialization_alias="isActive")
     proposal_status: ProposalStatus = Field(default=UNSET, validation_alias="proposalStatus", serialization_alias="proposalStatus")
     pi: ProgramUser | None = UNSET
     users: list[ProgramUser] = UNSET
@@ -2757,7 +2779,9 @@ class Queue(Model):
     """Proposal properties for Regular Semester (Queue) CallForProposals."""
     typename: Literal["Queue"] = Field(default="Queue", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
-    to_o_activation: ToOActivation = Field(default=UNSET, validation_alias="toOActivation", serialization_alias="toOActivation")
+    too_activation_ceiling: TooActivation = Field(default=UNSET, validation_alias="tooActivationCeiling", serialization_alias="tooActivationCeiling")
+    default_too_activation_ceiling: TooActivation = Field(default=UNSET, validation_alias="defaultTooActivationCeiling", serialization_alias="defaultTooActivationCeiling")
+    explicit_too_activation_ceiling: TooActivation | None = Field(default=UNSET, validation_alias="explicitTooActivationCeiling", serialization_alias="explicitTooActivationCeiling")
     min_percent_time: IntPercent = Field(default=UNSET, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     partner_splits: list[PartnerSplit] = Field(default=UNSET, validation_alias="partnerSplits", serialization_alias="partnerSplits")
     exchange_partner: ExchangePartner | None = Field(default=UNSET, validation_alias="exchangePartner", serialization_alias="exchangePartner")
@@ -2765,6 +2789,7 @@ class Queue(Model):
     aeon_multi_facility: bool = Field(default=UNSET, validation_alias="aeonMultiFacility", serialization_alias="aeonMultiFacility")
     jwst_synergy: bool = Field(default=UNSET, validation_alias="jwstSynergy", serialization_alias="jwstSynergy")
     us_long_term: bool = Field(default=UNSET, validation_alias="usLongTerm", serialization_alias="usLongTerm")
+    to_o_activation: ToOActivation = Field(default=UNSET, validation_alias="toOActivation", serialization_alias="toOActivation")
 
 
 class RadialVelocity(Model):
@@ -2823,7 +2848,6 @@ class RedeemUserInvitationResult(Model):
 
 
 class RefreshArchiveDuplicationResult(Model):
-    """The result of re-running the Archive Duplication Search."""
     typename: Literal["RefreshArchiveDuplicationResult"] = Field(default="RefreshArchiveDuplicationResult", validation_alias="__typename", serialization_alias="__typename")
     archive_duplication: ArchiveDuplication = Field(default=UNSET, validation_alias="archiveDuplication", serialization_alias="archiveDuplication")
     observation: Observation = UNSET
@@ -2845,10 +2869,6 @@ class ReplaceFlamingos2SequenceResult(Model):
 
 
 class ReplaceGhostSequenceResult(Model):
-    """
-    The result of a replace sequence mutation, consisting of the newly inserted
-    sequence.
-    """
     typename: Literal["ReplaceGhostSequenceResult"] = Field(default="ReplaceGhostSequenceResult", validation_alias="__typename", serialization_alias="__typename")
     sequence: list[GhostAtom] = UNSET
 
@@ -2922,6 +2942,10 @@ class SchedulingConstraints(Model):
     timing constraints.
     """
     typename: Literal["SchedulingConstraints"] = Field(default="SchedulingConstraints", validation_alias="__typename", serialization_alias="__typename")
+    too_activation: TooActivation = Field(default=UNSET, validation_alias="tooActivation", serialization_alias="tooActivation")
+    execution_requirement: ExecutionRequirement = Field(default=UNSET, validation_alias="executionRequirement", serialization_alias="executionRequirement")
+    default_execution_requirement: ExecutionRequirement = Field(default=UNSET, validation_alias="defaultExecutionRequirement", serialization_alias="defaultExecutionRequirement")
+    explicit_execution_requirement: ExecutionRequirement | None = Field(default=UNSET, validation_alias="explicitExecutionRequirement", serialization_alias="explicitExecutionRequirement")
     is_splittable: bool = Field(default=UNSET, validation_alias="isSplittable", serialization_alias="isSplittable")
     timing_windows: list[TimingWindow] = Field(default=UNSET, validation_alias="timingWindows", serialization_alias="timingWindows")
 
@@ -3263,7 +3287,6 @@ class SubaruCallProperties(Model):
 
 
 class SubaruProgramReference(Model):
-    """Reference for a Subaru time-exchange program."""
     typename: Literal["SubaruProgramReference"] = Field(default="SubaruProgramReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProgramReferenceLabel = UNSET
     type: ProgramType = UNSET
@@ -3290,8 +3313,11 @@ class SystemVerification(Model):
     """Proposal properties for System Verification CallForProposals."""
     typename: Literal["SystemVerification"] = Field(default="SystemVerification", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
-    to_o_activation: ToOActivation = Field(default=UNSET, validation_alias="toOActivation", serialization_alias="toOActivation")
+    too_activation_ceiling: TooActivation = Field(default=UNSET, validation_alias="tooActivationCeiling", serialization_alias="tooActivationCeiling")
+    default_too_activation_ceiling: TooActivation = Field(default=UNSET, validation_alias="defaultTooActivationCeiling", serialization_alias="defaultTooActivationCeiling")
+    explicit_too_activation_ceiling: TooActivation | None = Field(default=UNSET, validation_alias="explicitTooActivationCeiling", serialization_alias="explicitTooActivationCeiling")
     min_percent_time: IntPercent = Field(default=UNSET, validation_alias="minPercentTime", serialization_alias="minPercentTime")
+    to_o_activation: ToOActivation = Field(default=UNSET, validation_alias="toOActivation", serialization_alias="toOActivation")
 
 
 class Target(Model):
@@ -3518,6 +3544,55 @@ class TimingWindowRepeat(Model):
     typename: Literal["TimingWindowRepeat"] = Field(default="TimingWindowRepeat", validation_alias="__typename", serialization_alias="__typename")
     period: TimeSpan = UNSET
     times: PosInt | None = UNSET
+
+
+class TooTrigger(Model):
+    typename: Literal["TooTrigger"] = Field(default="TooTrigger", validation_alias="__typename", serialization_alias="__typename")
+    id: TooTriggerId = UNSET
+    observation: Observation = UNSET
+    status: TooTriggerStatus = UNSET
+    resolution_reason: NonEmptyString | None = Field(default=UNSET, validation_alias="resolutionReason", serialization_alias="resolutionReason")
+    requested_at: Timestamp = Field(default=UNSET, validation_alias="requestedAt", serialization_alias="requestedAt")
+    requested_by: User | None = Field(default=UNSET, validation_alias="requestedBy", serialization_alias="requestedBy")
+    updated_at: Timestamp = Field(default=UNSET, validation_alias="updatedAt", serialization_alias="updatedAt")
+
+
+class TooTriggerChronicleEntry(Model):
+    typename: Literal["TooTriggerChronicleEntry"] = Field(default="TooTriggerChronicleEntry", validation_alias="__typename", serialization_alias="__typename")
+    id: ChronicleId = UNSET
+    transaction_id: TransactionId = Field(default=UNSET, validation_alias="transactionId", serialization_alias="transactionId")
+    user: User | None = UNSET
+    timestamp: Timestamp = UNSET
+    operation: DatabaseOperation = UNSET
+    too_trigger: TooTrigger = Field(default=UNSET, validation_alias="tooTrigger", serialization_alias="tooTrigger")
+    mod_observation_id: bool = Field(default=UNSET, validation_alias="modObservationId", serialization_alias="modObservationId")
+    mod_program_id: bool = Field(default=UNSET, validation_alias="modProgramId", serialization_alias="modProgramId")
+    mod_status: bool = Field(default=UNSET, validation_alias="modStatus", serialization_alias="modStatus")
+    mod_resolution_reason: bool = Field(default=UNSET, validation_alias="modResolutionReason", serialization_alias="modResolutionReason")
+    new_observation_id: ObservationId | None = Field(default=UNSET, validation_alias="newObservationId", serialization_alias="newObservationId")
+    new_program_id: ProgramId | None = Field(default=UNSET, validation_alias="newProgramId", serialization_alias="newProgramId")
+    new_status: TooTriggerStatus | None = Field(default=UNSET, validation_alias="newStatus", serialization_alias="newStatus")
+    new_resolution_reason: NonEmptyString | None = Field(default=UNSET, validation_alias="newResolutionReason", serialization_alias="newResolutionReason")
+
+
+class TooTriggerChronicleEntrySelectResult(Model):
+    typename: Literal["TooTriggerChronicleEntrySelectResult"] = Field(default="TooTriggerChronicleEntrySelectResult", validation_alias="__typename", serialization_alias="__typename")
+    matches: list[TooTriggerChronicleEntry] = UNSET
+    has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
+
+
+class TooTriggerEdit(Model):
+    typename: Literal["TooTriggerEdit"] = Field(default="TooTriggerEdit", validation_alias="__typename", serialization_alias="__typename")
+    edit_type: EditType = Field(default=UNSET, validation_alias="editType", serialization_alias="editType")
+    too_trigger_id: TooTriggerId = Field(default=UNSET, validation_alias="tooTriggerId", serialization_alias="tooTriggerId")
+    value: TooTrigger = UNSET
+    observation: Observation = UNSET
+
+
+class TooTriggerSelectResult(Model):
+    typename: Literal["TooTriggerSelectResult"] = Field(default="TooTriggerSelectResult", validation_alias="__typename", serialization_alias="__typename")
+    matches: list[TooTrigger] = UNSET
+    has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
 class UniformTelescopeConfigGenerator(Model):
@@ -3762,7 +3837,7 @@ GeminiProposalType = Annotated[
 """Proposal properties that depend on the particular call for proposals associated"""
 
 Itc = Annotated[
-    ItcFlamingos2Imaging | ItcGhostIfu | ItcGmosNorthImaging | ItcGmosSouthImaging | ItcGnirsImaging | ItcIgrins2Spectroscopy | ItcSpectroscopy,
+    ItcFlamingos2Imaging | ItcGhostIfu | ItcGmosNorthImaging | ItcGmosSouthImaging | ItcGnirsImaging | ItcGnirsSpectroscopy | ItcIgrins2Spectroscopy | ItcSpectroscopy,
     Field(discriminator="typename"),
 ]
 """ITC results for a particular observation, including relevant instrument"""
@@ -3894,6 +3969,7 @@ _MODEL_TYPES = (
     DateInterval,
     Declination,
     DeclinationArc,
+    DeclineTooTriggerResult,
     DeleteProgramUserResult,
     DeleteProposalResult,
     DeleteSequenceResult,
@@ -3963,6 +4039,7 @@ _MODEL_TYPES = (
     GmosNorthLongSlit,
     GmosNorthLongSlitAcquisition,
     GmosNorthMos,
+    GmosNorthMosAcquisition,
     GmosNorthStatic,
     GmosNorthStep,
     GmosSouthAtom,
@@ -3976,15 +4053,18 @@ _MODEL_TYPES = (
     GmosSouthLongSlit,
     GmosSouthLongSlitAcquisition,
     GmosSouthMos,
+    GmosSouthMosAcquisition,
     GmosSouthStatic,
     GmosSouthStep,
     GnirsAcquisitionMirrorOut,
     GnirsAtom,
+    GnirsCentralWavelengthConfig,
     GnirsDynamic,
     GnirsExecutionConfig,
     GnirsExecutionSequence,
     GnirsIfu,
     GnirsImaging,
+    GnirsImagingAcquisition,
     GnirsImagingFilter,
     GnirsSlit,
     GnirsSpectroscopy,
@@ -4029,6 +4109,8 @@ _MODEL_TYPES = (
     ItcGmosSouthImagingResultSet,
     ItcGnirsImaging,
     ItcGnirsImagingResultSet,
+    ItcGnirsSpectroscopy,
+    ItcGnirsSpectroscopyResultSet,
     ItcIgrins2Spectroscopy,
     ItcResult,
     ItcResultSet,
@@ -4161,6 +4243,11 @@ _MODEL_TYPES = (
     TimingWindowEndAfter,
     TimingWindowEndAt,
     TimingWindowRepeat,
+    TooTrigger,
+    TooTriggerChronicleEntry,
+    TooTriggerChronicleEntrySelectResult,
+    TooTriggerEdit,
+    TooTriggerSelectResult,
     UniformTelescopeConfigGenerator,
     UnlinkUserResult,
     UnnormalizedSed,
@@ -4193,4 +4280,4 @@ try:
 finally:
     sys.setrecursionlimit(_RECURSION_LIMIT)
 
-__all__ = ['AddConditionsEntryResult', 'AddDatasetEventResult', 'AddEventBatchResult', 'AddProgramUserResult', 'AddSequenceEventResult', 'AddSlewEventResult', 'AddStepEventResult', 'AddTimeChargeCorrectionResult', 'AirMassRange', 'AllConfigChangeEstimates', 'AllDetectorEstimates', 'Allocation', 'Angle', 'ArchiveDuplication', 'ArchiveMatch', 'AsterismGroup', 'AsterismGroupSelectResult', 'AtomEvent', 'AtomRecord', 'AtomRecordSelectResult', 'Attachment', 'BandBrightnessIntegrated', 'BandBrightnessSurface', 'BandNormalized', 'BandNormalizedIntegrated', 'BandNormalizedSurface', 'BandedTime', 'BasePosition', 'Bias', 'CalculatedBandedTime', 'CalculatedCategorizedTimeRange', 'CalculatedExecutionDigest', 'CalculatedObservationWorkflow', 'CalibrationProgramReference', 'CallForProposals', 'CallForProposalsExchangePartner', 'CallForProposalsPartner', 'CallsForProposalsSelectResult', 'CatalogInfo', 'CategorizedTime', 'CategorizedTimeRange', 'ChangePrincipalInvestigatorResult', 'ChangeProgramUserRoleResult', 'ChronicleEntry', 'Classical', 'CloneGroupResult', 'CloneObservationResult', 'CloneTargetResult', 'CommissioningProgramReference', 'ConditionsEntry', 'ConditionsExpectation', 'ConditionsIntuition', 'ConditionsMeasurement', 'ConfigChangeEstimate', 'Configuration', 'ConfigurationConditions', 'ConfigurationFlamingos2LongSlit', 'ConfigurationGmosNorthImaging', 'ConfigurationGmosNorthLongSlit', 'ConfigurationGmosNorthMos', 'ConfigurationGmosSouthImaging', 'ConfigurationGmosSouthLongSlit', 'ConfigurationGmosSouthMos', 'ConfigurationGnirsIfu', 'ConfigurationGnirsLongSlit', 'ConfigurationIgrins2LongSlit', 'ConfigurationObservingMode', 'ConfigurationRequest', 'ConfigurationRequestEdit', 'ConfigurationRequestSelectResult', 'ConfigurationTarget', 'ConfigurationVisitor', 'ConstraintSet', 'ConstraintSetGroup', 'ConstraintSetGroupSelectResult', 'CoordinateLimits', 'Coordinates', 'CreateCallForProposalsResult', 'CreateGroupResult', 'CreateObservationResult', 'CreateProgramNoteResult', 'CreateProgramResult', 'CreateProposalResult', 'CreateTargetResult', 'CreateUserInvitationResult', 'Dark', 'Dataset', 'DatasetChronicleEntry', 'DatasetChronicleEntrySelectResult', 'DatasetEdit', 'DatasetEstimate', 'DatasetEvent', 'DatasetReference', 'DatasetSelectResult', 'DateInterval', 'Declination', 'DeclinationArc', 'DeleteProgramUserResult', 'DeleteProposalResult', 'DeleteSequenceResult', 'DemoScience', 'DetectorEstimate', 'DirectorsTime', 'ElevationRange', 'Email', 'EmissionLineIntegrated', 'EmissionLineSurface', 'EmissionLinesIntegrated', 'EmissionLinesSurface', 'EngineeringProgramReference', 'EnumeratedTelescopeConfigGenerator', 'ExampleProgramReference', 'Exchange', 'Execution', 'ExecutionConfig', 'ExecutionDigest', 'ExecutionEvent', 'ExecutionEventAdded', 'ExecutionEventSelectResult', 'ExposureTimeMode', 'FastTurnaround', 'Flamingos2Atom', 'Flamingos2CustomMask', 'Flamingos2Dynamic', 'Flamingos2ExecutionConfig', 'Flamingos2ExecutionSequence', 'Flamingos2FpuMask', 'Flamingos2Imaging', 'Flamingos2ImagingFilter', 'Flamingos2LongSlit', 'Flamingos2LongSlitAcquisition', 'Flamingos2Static', 'Flamingos2Step', 'FluxDensityContinuumIntegrated', 'FluxDensityContinuumSurface', 'FluxDensityEntry', 'GaussianSource', 'Gcal', 'GeminiCallProperties', 'GeminiProposalType', 'GhostAtom', 'GhostDetector', 'GhostDetectorConfig', 'GhostDualTarget', 'GhostDynamic', 'GhostExecutionConfig', 'GhostExecutionSequence', 'GhostIfu', 'GhostIfuMapping', 'GhostSingleTarget', 'GhostSkyPlusTarget', 'GhostStatic', 'GhostStep', 'GhostTargetPlusSky', 'GmosCcdMode', 'GmosCustomMask', 'GmosNodAndShuffle', 'GmosNorthAtom', 'GmosNorthDynamic', 'GmosNorthExecutionConfig', 'GmosNorthExecutionSequence', 'GmosNorthFpu', 'GmosNorthGratingConfig', 'GmosNorthImaging', 'GmosNorthImagingFilter', 'GmosNorthLongSlit', 'GmosNorthLongSlitAcquisition', 'GmosNorthMos', 'GmosNorthStatic', 'GmosNorthStep', 'GmosSouthAtom', 'GmosSouthDynamic', 'GmosSouthExecutionConfig', 'GmosSouthExecutionSequence', 'GmosSouthFpu', 'GmosSouthGratingConfig', 'GmosSouthImaging', 'GmosSouthImagingFilter', 'GmosSouthLongSlit', 'GmosSouthLongSlitAcquisition', 'GmosSouthMos', 'GmosSouthStatic', 'GmosSouthStep', 'GnirsAcquisitionMirrorOut', 'GnirsAtom', 'GnirsDynamic', 'GnirsExecutionConfig', 'GnirsExecutionSequence', 'GnirsIfu', 'GnirsImaging', 'GnirsImagingFilter', 'GnirsSlit', 'GnirsSpectroscopy', 'GnirsSpectroscopyAcquisition', 'GnirsStatic', 'GnirsStep', 'GoaProperties', 'Group', 'GroupEdit', 'GroupElement', 'GroupedImagingVariant', 'GuideAvailabilityPeriod', 'GuideEnvironment', 'GuideTarget', 'HasExchangePartner', 'HasGeminiPartner', 'HasNonPartner', 'HasUnspecifiedPartner', 'HourAngleRange', 'Igrins2Atom', 'Igrins2Dynamic', 'Igrins2ExecutionConfig', 'Igrins2ExecutionSequence', 'Igrins2LongSlit', 'Igrins2Static', 'Igrins2Step', 'Igrins2SvcConfig', 'ImagingConfigOption', 'ImagingConfigOptionFlamingos2', 'ImagingConfigOptionGmosNorth', 'ImagingConfigOptionGmosSouth', 'ImagingConfigOptionGnirs', 'ImagingScienceRequirements', 'ImagingVariant', 'InterleavedImagingVariant', 'Itc', 'ItcFlamingos2Imaging', 'ItcFlamingos2ImagingResultSet', 'ItcGhostIfu', 'ItcGmosNorthImaging', 'ItcGmosNorthImagingResultSet', 'ItcGmosSouthImaging', 'ItcGmosSouthImagingResultSet', 'ItcGnirsImaging', 'ItcGnirsImagingResultSet', 'ItcIgrins2Spectroscopy', 'ItcResult', 'ItcResultSet', 'ItcSpectroscopy', 'KeckCallProperties', 'KeckProgramReference', 'KeckProposalType', 'LargeProgram', 'LibraryProgramReference', 'LineFluxIntegrated', 'LineFluxSurface', 'LinkUserResult', 'MonitoringProgramReference', 'Nonsidereal', 'ObscalcUpdate', 'Observation', 'ObservationEdit', 'ObservationReference', 'ObservationSelectResult', 'ObservationTimeEstimate', 'ObservationValidation', 'ObservationWorkflow', 'ObservingMode', 'ObservingModeGroup', 'ObservingModeGroupSelectResult', 'Offset', 'OffsetP', 'OffsetQ', 'Opportunity', 'Parallax', 'PartnerLink', 'PartnerSplit', 'PoorWeather', 'PosAngleConstraint', 'PreImagingVariant', 'Program', 'ProgramEdit', 'ProgramNote', 'ProgramNoteSelectResult', 'ProgramReference', 'ProgramSelectResult', 'ProgramUser', 'ProgramUserSelectResult', 'ProperMotion', 'ProperMotionDeclination', 'ProperMotionRA', 'Proposal', 'ProposalReference', 'Queue', 'RadialVelocity', 'RandomTelescopeConfigGenerator', 'RecordDatasetResult', 'RecordFlamingos2VisitResult', 'RecordGmosNorthVisitResult', 'RecordGmosSouthVisitResult', 'RecordIgrins2VisitResult', 'RecordVisitResult', 'RedeemUserInvitationResult', 'RefreshArchiveDuplicationResult', 'Region', 'ReplaceFlamingos2SequenceResult', 'ReplaceGhostSequenceResult', 'ReplaceGmosNorthSequenceResult', 'ReplaceGmosSouthSequenceResult', 'ReplaceGnirsSequenceResult', 'ReplaceIgrins2SequenceResult', 'ResetAcquisitionResult', 'RevokeUserInvitationResult', 'RightAscension', 'RightAscensionArc', 'SchedulingConstraints', 'Science', 'ScienceProgramReference', 'ScienceRequirements', 'ScienceRequirementsGroup', 'ScienceRequirementsGroupSelectResult', 'SequenceDigest', 'SequenceEvent', 'SetAllocationsResult', 'SetGuideTargetNameResult', 'SetProgramReferenceResult', 'SetProgramResourceLimitResult', 'SetProposalStatusResult', 'SetupTime', 'Sidereal', 'SignalToNoiseAt', 'SignalToNoiseExposureTimeMode', 'SiteCoordinateLimits', 'SlewEvent', 'SlitTelescopeConfigs', 'SmartGcal', 'SourceProfile', 'SpectralDefinitionIntegrated', 'SpectralDefinitionSurface', 'SpectroscopyConfigOption', 'SpectroscopyConfigOptionFlamingos2', 'SpectroscopyConfigOptionGhost', 'SpectroscopyConfigOptionGmosNorth', 'SpectroscopyConfigOptionGmosSouth', 'SpectroscopyConfigOptionGnirs', 'SpectroscopyScienceRequirements', 'SpiralTelescopeConfigGenerator', 'StepConfig', 'StepEstimate', 'StepEvent', 'StepRecord', 'StepRecordSelectResult', 'SubaruCallProperties', 'SubaruProgramReference', 'SubaruProposalType', 'SystemProgramReference', 'SystemVerification', 'Target', 'TargetEdit', 'TargetEnvironment', 'TargetGroup', 'TargetGroupSelectResult', 'TargetSelectResult', 'TelescopeConfig', 'TelescopeConfigAlongSlit', 'TelescopeConfigGenerator', 'TelluricType', 'TimeAndCountExposureTimeMode', 'TimeChargeCorrection', 'TimeChargeDaylightDiscount', 'TimeChargeDiscount', 'TimeChargeInvoice', 'TimeChargeNoDataDiscount', 'TimeChargeOverlapDiscount', 'TimeChargeQaDiscount', 'TimeSpan', 'TimestampInterval', 'TimingWindow', 'TimingWindowEnd', 'TimingWindowEndAfter', 'TimingWindowEndAt', 'TimingWindowRepeat', 'UniformTelescopeConfigGenerator', 'UnlinkUserResult', 'UnnormalizedSed', 'UpdateAsterismsResult', 'UpdateAttachmentsResult', 'UpdateCallsForProposalsResult', 'UpdateConfigurationRequestsResult', 'UpdateDatasetsResult', 'UpdateGroupsResult', 'UpdateObservationsResult', 'UpdateProgramNotesResult', 'UpdateProgramUsersResult', 'UpdateProgramsResult', 'UpdateProposalResult', 'UpdateTargetsResult', 'User', 'UserInvitation', 'UserProfile', 'Visit', 'VisitSelectResult', 'Visitor', 'Wavelength', 'WavelengthDither']
+__all__ = ['AddConditionsEntryResult', 'AddDatasetEventResult', 'AddEventBatchResult', 'AddProgramUserResult', 'AddSequenceEventResult', 'AddSlewEventResult', 'AddStepEventResult', 'AddTimeChargeCorrectionResult', 'AirMassRange', 'AllConfigChangeEstimates', 'AllDetectorEstimates', 'Allocation', 'Angle', 'ArchiveDuplication', 'ArchiveMatch', 'AsterismGroup', 'AsterismGroupSelectResult', 'AtomEvent', 'AtomRecord', 'AtomRecordSelectResult', 'Attachment', 'BandBrightnessIntegrated', 'BandBrightnessSurface', 'BandNormalized', 'BandNormalizedIntegrated', 'BandNormalizedSurface', 'BandedTime', 'BasePosition', 'Bias', 'CalculatedBandedTime', 'CalculatedCategorizedTimeRange', 'CalculatedExecutionDigest', 'CalculatedObservationWorkflow', 'CalibrationProgramReference', 'CallForProposals', 'CallForProposalsExchangePartner', 'CallForProposalsPartner', 'CallsForProposalsSelectResult', 'CatalogInfo', 'CategorizedTime', 'CategorizedTimeRange', 'ChangePrincipalInvestigatorResult', 'ChangeProgramUserRoleResult', 'ChronicleEntry', 'Classical', 'CloneGroupResult', 'CloneObservationResult', 'CloneTargetResult', 'CommissioningProgramReference', 'ConditionsEntry', 'ConditionsExpectation', 'ConditionsIntuition', 'ConditionsMeasurement', 'ConfigChangeEstimate', 'Configuration', 'ConfigurationConditions', 'ConfigurationFlamingos2LongSlit', 'ConfigurationGmosNorthImaging', 'ConfigurationGmosNorthLongSlit', 'ConfigurationGmosNorthMos', 'ConfigurationGmosSouthImaging', 'ConfigurationGmosSouthLongSlit', 'ConfigurationGmosSouthMos', 'ConfigurationGnirsIfu', 'ConfigurationGnirsLongSlit', 'ConfigurationIgrins2LongSlit', 'ConfigurationObservingMode', 'ConfigurationRequest', 'ConfigurationRequestEdit', 'ConfigurationRequestSelectResult', 'ConfigurationTarget', 'ConfigurationVisitor', 'ConstraintSet', 'ConstraintSetGroup', 'ConstraintSetGroupSelectResult', 'CoordinateLimits', 'Coordinates', 'CreateCallForProposalsResult', 'CreateGroupResult', 'CreateObservationResult', 'CreateProgramNoteResult', 'CreateProgramResult', 'CreateProposalResult', 'CreateTargetResult', 'CreateUserInvitationResult', 'Dark', 'Dataset', 'DatasetChronicleEntry', 'DatasetChronicleEntrySelectResult', 'DatasetEdit', 'DatasetEstimate', 'DatasetEvent', 'DatasetReference', 'DatasetSelectResult', 'DateInterval', 'Declination', 'DeclinationArc', 'DeclineTooTriggerResult', 'DeleteProgramUserResult', 'DeleteProposalResult', 'DeleteSequenceResult', 'DemoScience', 'DetectorEstimate', 'DirectorsTime', 'ElevationRange', 'Email', 'EmissionLineIntegrated', 'EmissionLineSurface', 'EmissionLinesIntegrated', 'EmissionLinesSurface', 'EngineeringProgramReference', 'EnumeratedTelescopeConfigGenerator', 'ExampleProgramReference', 'Exchange', 'Execution', 'ExecutionConfig', 'ExecutionDigest', 'ExecutionEvent', 'ExecutionEventAdded', 'ExecutionEventSelectResult', 'ExposureTimeMode', 'FastTurnaround', 'Flamingos2Atom', 'Flamingos2CustomMask', 'Flamingos2Dynamic', 'Flamingos2ExecutionConfig', 'Flamingos2ExecutionSequence', 'Flamingos2FpuMask', 'Flamingos2Imaging', 'Flamingos2ImagingFilter', 'Flamingos2LongSlit', 'Flamingos2LongSlitAcquisition', 'Flamingos2Static', 'Flamingos2Step', 'FluxDensityContinuumIntegrated', 'FluxDensityContinuumSurface', 'FluxDensityEntry', 'GaussianSource', 'Gcal', 'GeminiCallProperties', 'GeminiProposalType', 'GhostAtom', 'GhostDetector', 'GhostDetectorConfig', 'GhostDualTarget', 'GhostDynamic', 'GhostExecutionConfig', 'GhostExecutionSequence', 'GhostIfu', 'GhostIfuMapping', 'GhostSingleTarget', 'GhostSkyPlusTarget', 'GhostStatic', 'GhostStep', 'GhostTargetPlusSky', 'GmosCcdMode', 'GmosCustomMask', 'GmosNodAndShuffle', 'GmosNorthAtom', 'GmosNorthDynamic', 'GmosNorthExecutionConfig', 'GmosNorthExecutionSequence', 'GmosNorthFpu', 'GmosNorthGratingConfig', 'GmosNorthImaging', 'GmosNorthImagingFilter', 'GmosNorthLongSlit', 'GmosNorthLongSlitAcquisition', 'GmosNorthMos', 'GmosNorthMosAcquisition', 'GmosNorthStatic', 'GmosNorthStep', 'GmosSouthAtom', 'GmosSouthDynamic', 'GmosSouthExecutionConfig', 'GmosSouthExecutionSequence', 'GmosSouthFpu', 'GmosSouthGratingConfig', 'GmosSouthImaging', 'GmosSouthImagingFilter', 'GmosSouthLongSlit', 'GmosSouthLongSlitAcquisition', 'GmosSouthMos', 'GmosSouthMosAcquisition', 'GmosSouthStatic', 'GmosSouthStep', 'GnirsAcquisitionMirrorOut', 'GnirsAtom', 'GnirsCentralWavelengthConfig', 'GnirsDynamic', 'GnirsExecutionConfig', 'GnirsExecutionSequence', 'GnirsIfu', 'GnirsImaging', 'GnirsImagingAcquisition', 'GnirsImagingFilter', 'GnirsSlit', 'GnirsSpectroscopy', 'GnirsSpectroscopyAcquisition', 'GnirsStatic', 'GnirsStep', 'GoaProperties', 'Group', 'GroupEdit', 'GroupElement', 'GroupedImagingVariant', 'GuideAvailabilityPeriod', 'GuideEnvironment', 'GuideTarget', 'HasExchangePartner', 'HasGeminiPartner', 'HasNonPartner', 'HasUnspecifiedPartner', 'HourAngleRange', 'Igrins2Atom', 'Igrins2Dynamic', 'Igrins2ExecutionConfig', 'Igrins2ExecutionSequence', 'Igrins2LongSlit', 'Igrins2Static', 'Igrins2Step', 'Igrins2SvcConfig', 'ImagingConfigOption', 'ImagingConfigOptionFlamingos2', 'ImagingConfigOptionGmosNorth', 'ImagingConfigOptionGmosSouth', 'ImagingConfigOptionGnirs', 'ImagingScienceRequirements', 'ImagingVariant', 'InterleavedImagingVariant', 'Itc', 'ItcFlamingos2Imaging', 'ItcFlamingos2ImagingResultSet', 'ItcGhostIfu', 'ItcGmosNorthImaging', 'ItcGmosNorthImagingResultSet', 'ItcGmosSouthImaging', 'ItcGmosSouthImagingResultSet', 'ItcGnirsImaging', 'ItcGnirsImagingResultSet', 'ItcGnirsSpectroscopy', 'ItcGnirsSpectroscopyResultSet', 'ItcIgrins2Spectroscopy', 'ItcResult', 'ItcResultSet', 'ItcSpectroscopy', 'KeckCallProperties', 'KeckProgramReference', 'KeckProposalType', 'LargeProgram', 'LibraryProgramReference', 'LineFluxIntegrated', 'LineFluxSurface', 'LinkUserResult', 'MonitoringProgramReference', 'Nonsidereal', 'ObscalcUpdate', 'Observation', 'ObservationEdit', 'ObservationReference', 'ObservationSelectResult', 'ObservationTimeEstimate', 'ObservationValidation', 'ObservationWorkflow', 'ObservingMode', 'ObservingModeGroup', 'ObservingModeGroupSelectResult', 'Offset', 'OffsetP', 'OffsetQ', 'Opportunity', 'Parallax', 'PartnerLink', 'PartnerSplit', 'PoorWeather', 'PosAngleConstraint', 'PreImagingVariant', 'Program', 'ProgramEdit', 'ProgramNote', 'ProgramNoteSelectResult', 'ProgramReference', 'ProgramSelectResult', 'ProgramUser', 'ProgramUserSelectResult', 'ProperMotion', 'ProperMotionDeclination', 'ProperMotionRA', 'Proposal', 'ProposalReference', 'Queue', 'RadialVelocity', 'RandomTelescopeConfigGenerator', 'RecordDatasetResult', 'RecordFlamingos2VisitResult', 'RecordGmosNorthVisitResult', 'RecordGmosSouthVisitResult', 'RecordIgrins2VisitResult', 'RecordVisitResult', 'RedeemUserInvitationResult', 'RefreshArchiveDuplicationResult', 'Region', 'ReplaceFlamingos2SequenceResult', 'ReplaceGhostSequenceResult', 'ReplaceGmosNorthSequenceResult', 'ReplaceGmosSouthSequenceResult', 'ReplaceGnirsSequenceResult', 'ReplaceIgrins2SequenceResult', 'ResetAcquisitionResult', 'RevokeUserInvitationResult', 'RightAscension', 'RightAscensionArc', 'SchedulingConstraints', 'Science', 'ScienceProgramReference', 'ScienceRequirements', 'ScienceRequirementsGroup', 'ScienceRequirementsGroupSelectResult', 'SequenceDigest', 'SequenceEvent', 'SetAllocationsResult', 'SetGuideTargetNameResult', 'SetProgramReferenceResult', 'SetProgramResourceLimitResult', 'SetProposalStatusResult', 'SetupTime', 'Sidereal', 'SignalToNoiseAt', 'SignalToNoiseExposureTimeMode', 'SiteCoordinateLimits', 'SlewEvent', 'SlitTelescopeConfigs', 'SmartGcal', 'SourceProfile', 'SpectralDefinitionIntegrated', 'SpectralDefinitionSurface', 'SpectroscopyConfigOption', 'SpectroscopyConfigOptionFlamingos2', 'SpectroscopyConfigOptionGhost', 'SpectroscopyConfigOptionGmosNorth', 'SpectroscopyConfigOptionGmosSouth', 'SpectroscopyConfigOptionGnirs', 'SpectroscopyScienceRequirements', 'SpiralTelescopeConfigGenerator', 'StepConfig', 'StepEstimate', 'StepEvent', 'StepRecord', 'StepRecordSelectResult', 'SubaruCallProperties', 'SubaruProgramReference', 'SubaruProposalType', 'SystemProgramReference', 'SystemVerification', 'Target', 'TargetEdit', 'TargetEnvironment', 'TargetGroup', 'TargetGroupSelectResult', 'TargetSelectResult', 'TelescopeConfig', 'TelescopeConfigAlongSlit', 'TelescopeConfigGenerator', 'TelluricType', 'TimeAndCountExposureTimeMode', 'TimeChargeCorrection', 'TimeChargeDaylightDiscount', 'TimeChargeDiscount', 'TimeChargeInvoice', 'TimeChargeNoDataDiscount', 'TimeChargeOverlapDiscount', 'TimeChargeQaDiscount', 'TimeSpan', 'TimestampInterval', 'TimingWindow', 'TimingWindowEnd', 'TimingWindowEndAfter', 'TimingWindowEndAt', 'TimingWindowRepeat', 'TooTrigger', 'TooTriggerChronicleEntry', 'TooTriggerChronicleEntrySelectResult', 'TooTriggerEdit', 'TooTriggerSelectResult', 'UniformTelescopeConfigGenerator', 'UnlinkUserResult', 'UnnormalizedSed', 'UpdateAsterismsResult', 'UpdateAttachmentsResult', 'UpdateCallsForProposalsResult', 'UpdateConfigurationRequestsResult', 'UpdateDatasetsResult', 'UpdateGroupsResult', 'UpdateObservationsResult', 'UpdateProgramNotesResult', 'UpdateProgramUsersResult', 'UpdateProgramsResult', 'UpdateProposalResult', 'UpdateTargetsResult', 'User', 'UserInvitation', 'UserProfile', 'Visit', 'VisitSelectResult', 'Visitor', 'Wavelength', 'WavelengthDither']

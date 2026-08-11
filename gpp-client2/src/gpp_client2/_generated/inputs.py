@@ -21,12 +21,6 @@ class AddDatasetEventInput(Input):
 
 
 class AddEventBatchEntryInput(Input):
-    """
-    A single event within an 'addEventBatch'.  Exactly one of the fields must be
-    set, identifying the event type.  Unlike the singular mutations, every event in
-    a batch must supply both a 'clientTime' and an 'idempotencyKey' (see
-    'addEventBatch').
-    """
     dataset: AddDatasetEventInput | None = None
     sequence: AddSequenceEventInput | None = None
     slew: AddSlewEventInput | None = None
@@ -34,16 +28,6 @@ class AddEventBatchEntryInput(Input):
 
 
 class AddEventBatchInput(Input):
-    """
-    Input to the 'addEventBatch' mutation, recording a batch of execution events in a
-    single request.
-
-    Because a batch shares one database transaction, its events would otherwise all
-    receive the same recorded time; every event must therefore supply its own
-    'clientTime' (the mutation fails otherwise).  Every event must also supply a
-    distinct 'idempotencyKey' so the batch can be retried safely.  All events must
-    belong to the same observation.
-    """
     events: list[AddEventBatchEntryInput]
 
 
@@ -384,6 +368,11 @@ class DeclinationInput(Input):
     dms: DmsString | None = None
 
 
+class DeclineTooTriggerInput(Input):
+    too_trigger_id: TooTriggerId = Field(validation_alias="tooTriggerId", serialization_alias="tooTriggerId")
+    reason: NonEmptyString | None = None
+
+
 class DeleteProgramUserInput(Input):
     """Input for deleting a program user."""
     program_user_id: ProgramUserId = Field(validation_alias="programUserId", serialization_alias="programUserId")
@@ -404,13 +393,15 @@ class DeleteSequenceInput(Input):
 
 
 class DemoScienceInput(Input):
-    to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
+    explicit_too_activation_ceiling: TooActivation | None = Field(default=None, validation_alias="explicitTooActivationCeiling", serialization_alias="explicitTooActivationCeiling")
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
+    to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
 
 
 class DirectorsTimeInput(Input):
-    to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
+    explicit_too_activation_ceiling: TooActivation | None = Field(default=None, validation_alias="explicitTooActivationCeiling", serialization_alias="explicitTooActivationCeiling")
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
+    to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
 
 
 class EditAsterismsPatchInput(Input):
@@ -475,10 +466,11 @@ class ExposureTimeModeInput(Input):
 
 
 class FastTurnaroundInput(Input):
-    to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
+    explicit_too_activation_ceiling: TooActivation | None = Field(default=None, validation_alias="explicitTooActivationCeiling", serialization_alias="explicitTooActivationCeiling")
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     reviewer_id: ProgramUserId | None = Field(default=None, validation_alias="reviewerId", serialization_alias="reviewerId")
     mentor_id: ProgramUserId | None = Field(default=None, validation_alias="mentorId", serialization_alias="mentorId")
+    to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
 
 
 class Flamingos2AtomInput(Input):
@@ -629,7 +621,6 @@ class GhostDetectorConfigInput(Input):
 
 
 class GhostDetectorInput(Input):
-    """GHOST detector configuration input for a single step."""
     exposure_time: TimeSpanInput = Field(validation_alias="exposureTime", serialization_alias="exposureTime")
     exposure_count: PosInt = Field(validation_alias="exposureCount", serialization_alias="exposureCount")
     binning: GhostBinning
@@ -637,7 +628,6 @@ class GhostDetectorInput(Input):
 
 
 class GhostDynamicInput(Input):
-    """GHOST dynamic step configuration input."""
     red: GhostDetectorInput
     blue: GhostDetectorInput
     ifu1_fiber_agitator: GhostIfu1FiberAgitator = Field(validation_alias="ifu1FiberAgitator", serialization_alias="ifu1FiberAgitator")
@@ -674,13 +664,7 @@ class GmosCcdModeInput(Input):
 
 
 class GmosCustomMaskInput(Input):
-    """
-    GMOS custom mask input parameters.
-
-    Skipping `customMask` leaves the existing mask untouched while supplying it
-    replaces the mask outright, `slitWidth` must be resent even when only the
-    attachment changes.
-    """
+    """GMOS custom mask input parameters"""
     attachment_id: AttachmentId | None = Field(default=None, validation_alias="attachmentId", serialization_alias="attachmentId")
     slit_width: GmosCustomSlitWidth = Field(validation_alias="slitWidth", serialization_alias="slitWidth")
     filename: str
@@ -772,12 +756,17 @@ class GmosNorthLongSlitInput(Input):
     acquisition: GmosNorthLongSlitAcquisitionInput | None = None
 
 
+class GmosNorthMosAcquisitionInput(Input):
+    explicit_filter: GmosNorthFilter | None = Field(default=None, validation_alias="explicitFilter", serialization_alias="explicitFilter")
+    exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
+
+
 class GmosNorthMosInput(Input):
-    """Edit or create GMOS North MOS advanced configuration"""
     grating: GmosNorthGrating | None = None
     filter: GmosNorthFilter | None = None
     custom_mask: GmosCustomMaskInput | None = Field(default=None, validation_alias="customMask", serialization_alias="customMask")
     central_wavelength: WavelengthInput | None = Field(default=None, validation_alias="centralWavelength", serialization_alias="centralWavelength")
+    acquisition_type: GmosMosAcquisitionType | None = Field(default=None, validation_alias="acquisitionType", serialization_alias="acquisitionType")
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
     explicit_x_bin: GmosBinning | None = Field(default=None, validation_alias="explicitXBin", serialization_alias="explicitXBin")
     explicit_y_bin: GmosBinning | None = Field(default=None, validation_alias="explicitYBin", serialization_alias="explicitYBin")
@@ -786,6 +775,7 @@ class GmosNorthMosInput(Input):
     explicit_roi: GmosRoi | None = Field(default=None, validation_alias="explicitRoi", serialization_alias="explicitRoi")
     explicit_wavelength_dithers: list[WavelengthDitherInput] | None = Field(default=None, validation_alias="explicitWavelengthDithers", serialization_alias="explicitWavelengthDithers")
     explicit_offsets: list[OffsetComponentInput] | None = Field(default=None, validation_alias="explicitOffsets", serialization_alias="explicitOffsets")
+    acquisition: GmosNorthMosAcquisitionInput | None = None
 
 
 class GmosNorthStaticInput(Input):
@@ -881,12 +871,17 @@ class GmosSouthLongSlitInput(Input):
     acquisition: GmosSouthLongSlitAcquisitionInput | None = None
 
 
+class GmosSouthMosAcquisitionInput(Input):
+    explicit_filter: GmosSouthFilter | None = Field(default=None, validation_alias="explicitFilter", serialization_alias="explicitFilter")
+    exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
+
+
 class GmosSouthMosInput(Input):
-    """Edit or create GMOS South MOS advanced configuration"""
     grating: GmosSouthGrating | None = None
     filter: GmosSouthFilter | None = None
     custom_mask: GmosCustomMaskInput | None = Field(default=None, validation_alias="customMask", serialization_alias="customMask")
     central_wavelength: WavelengthInput | None = Field(default=None, validation_alias="centralWavelength", serialization_alias="centralWavelength")
+    acquisition_type: GmosMosAcquisitionType | None = Field(default=None, validation_alias="acquisitionType", serialization_alias="acquisitionType")
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
     explicit_x_bin: GmosBinning | None = Field(default=None, validation_alias="explicitXBin", serialization_alias="explicitXBin")
     explicit_y_bin: GmosBinning | None = Field(default=None, validation_alias="explicitYBin", serialization_alias="explicitYBin")
@@ -895,6 +890,7 @@ class GmosSouthMosInput(Input):
     explicit_roi: GmosRoi | None = Field(default=None, validation_alias="explicitRoi", serialization_alias="explicitRoi")
     explicit_wavelength_dithers: list[WavelengthDitherInput] | None = Field(default=None, validation_alias="explicitWavelengthDithers", serialization_alias="explicitWavelengthDithers")
     explicit_offsets: list[OffsetComponentInput] | None = Field(default=None, validation_alias="explicitOffsets", serialization_alias="explicitOffsets")
+    acquisition: GmosSouthMosAcquisitionInput | None = None
 
 
 class GmosSouthStaticInput(Input):
@@ -928,6 +924,12 @@ class GnirsAtomInput(Input):
     steps: list[GnirsStepInput]
 
 
+class GnirsCentralWavelengthConfigInput(Input):
+    central_wavelength: WavelengthInput = Field(validation_alias="centralWavelength", serialization_alias="centralWavelength")
+    exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
+    coadds: PosInt | None = None
+
+
 class GnirsDynamicInput(Input):
     """
     GNIRS dynamic step configuration input.
@@ -959,20 +961,27 @@ class GnirsIfuInput(Input):
     telescope_configs: list[TelescopeConfigInput] | None = Field(default=None, validation_alias="telescopeConfigs", serialization_alias="telescopeConfigs")
 
 
+class GnirsImagingAcquisitionInput(Input):
+    explicit_filter: GnirsFilter | None = Field(default=None, validation_alias="explicitFilter", serialization_alias="explicitFilter")
+    explicit_acquisition_type: GnirsAcquisitionType | None = Field(default=None, validation_alias="explicitAcquisitionType", serialization_alias="explicitAcquisitionType")
+    coadds: PosInt | None = None
+    sky_offset: OffsetInput | None = Field(default=None, validation_alias="skyOffset", serialization_alias="skyOffset")
+    exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
+
+
 class GnirsImagingFilterInput(Input):
-    """Defines a GNIRS imaging filter to use along with its exposure time mode."""
     filter: GnirsFilter
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
 class GnirsImagingInput(Input):
-    """GNIRS Imaging creation and edit input parameters."""
     variant: ImagingVariantInput | None = None
     filters: list[GnirsImagingFilterInput] | None = None
     camera: GnirsCamera | None = None
     coadds: PosInt | None = None
     explicit_read_mode: GnirsReadMode | None = Field(default=None, validation_alias="explicitReadMode", serialization_alias="explicitReadMode")
     explicit_well_depth: GnirsWellDepth | None = Field(default=None, validation_alias="explicitWellDepth", serialization_alias="explicitWellDepth")
+    acquisition: GnirsImagingAcquisitionInput | None = None
 
 
 class GnirsSlitInput(Input):
@@ -991,15 +1000,13 @@ class GnirsSpectroscopyAcquisitionInput(Input):
 
 class GnirsSpectroscopyInput(Input):
     """Edit or create GNIRS Spectroscopy configuration (long slit or IFU)."""
-    exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
-    coadds: PosInt | None = None
+    central_wavelengths: list[GnirsCentralWavelengthConfigInput] | None = Field(default=None, validation_alias="centralWavelengths", serialization_alias="centralWavelengths")
     filter: GnirsFilter | None = None
     slit: GnirsSlitInput | None = None
     ifu: GnirsIfuInput | None = None
     camera: GnirsCamera | None = None
     grating: GnirsGrating | None = None
     prism: GnirsPrism | None = None
-    central_wavelength: WavelengthInput | None = Field(default=None, validation_alias="centralWavelength", serialization_alias="centralWavelength")
     explicit_decker: GnirsDecker | None = Field(default=None, validation_alias="explicitDecker", serialization_alias="explicitDecker")
     explicit_grating: GnirsGrating | None = Field(default=None, validation_alias="explicitGrating", serialization_alias="explicitGrating")
     explicit_prism: GnirsPrism | None = Field(default=None, validation_alias="explicitPrism", serialization_alias="explicitPrism")
@@ -1008,6 +1015,9 @@ class GnirsSpectroscopyInput(Input):
     explicit_well_depth: GnirsWellDepth | None = Field(default=None, validation_alias="explicitWellDepth", serialization_alias="explicitWellDepth")
     acquisition: GnirsSpectroscopyAcquisitionInput | None = None
     telluric_type: TelluricTypeInput | None = Field(default=None, validation_alias="telluricType", serialization_alias="telluricType")
+    exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
+    coadds: PosInt | None = None
+    central_wavelength: WavelengthInput | None = Field(default=None, validation_alias="centralWavelength", serialization_alias="centralWavelength")
 
 
 class GnirsStepInput(Input):
@@ -1101,12 +1111,6 @@ class Igrins2StepInput(Input):
 
 
 class Igrins2SvcInput(Input):
-    """
-    Edit or create IGRINS-2 Slit-Viewing Camera (SVC) configuration. A non-null
-    object enables SVC image saving (turning it on if necessary) and applies the
-    given sub-field overrides; a null value disables SVC image saving. Omitting the
-    field leaves SVC state unchanged.
-    """
     explicit_exposure: TimeSpanInput | None = Field(default=None, validation_alias="explicitExposure", serialization_alias="explicitExposure")
     explicit_telescope_configs: list[TelescopeConfigInput] | None = Field(default=None, validation_alias="explicitTelescopeConfigs", serialization_alias="explicitTelescopeConfigs")
 
@@ -1150,12 +1154,13 @@ class KeckProposalTypeInput(Input):
 
 
 class LargeProgramInput(Input):
-    to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
+    explicit_too_activation_ceiling: TooActivation | None = Field(default=None, validation_alias="explicitTooActivationCeiling", serialization_alias="explicitTooActivationCeiling")
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     min_percent_total_time: IntPercent | None = Field(default=None, validation_alias="minPercentTotalTime", serialization_alias="minPercentTotalTime")
     total_time: TimeSpanInput | None = Field(default=None, validation_alias="totalTime", serialization_alias="totalTime")
     aeon_multi_facility: bool | None = Field(default=None, validation_alias="aeonMultiFacility", serialization_alias="aeonMultiFacility")
     jwst_synergy: bool | None = Field(default=None, validation_alias="jwstSynergy", serialization_alias="jwstSynergy")
+    to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
 
 
 class LineFluxIntegratedInput(Input):
@@ -1384,7 +1389,6 @@ class ProgramReferencePropertiesInput(Input):
 
 
 class ProgramReferencePropertiesKeckInput(Input):
-    """Inputs required when updating or switching to a Keck time-exchange program."""
     semester: Semester
 
 
@@ -1407,7 +1411,6 @@ class ProgramReferencePropertiesScienceInput(Input):
 
 
 class ProgramReferencePropertiesSubaruInput(Input):
-    """Inputs required when updating or switching to a Subaru time-exchange program."""
     semester: Semester
     subaru_type: SubaruCallForProposalsType = Field(validation_alias="subaruType", serialization_alias="subaruType")
 
@@ -1451,7 +1454,7 @@ class ProposalPropertiesInput(Input):
 
 
 class QueueInput(Input):
-    to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
+    explicit_too_activation_ceiling: TooActivation | None = Field(default=None, validation_alias="explicitTooActivationCeiling", serialization_alias="explicitTooActivationCeiling")
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     partner_splits: list[PartnerSplitInput] | None = Field(default=None, validation_alias="partnerSplits", serialization_alias="partnerSplits")
     exchange_partner: ExchangePartner | None = Field(default=None, validation_alias="exchangePartner", serialization_alias="exchangePartner")
@@ -1459,6 +1462,7 @@ class QueueInput(Input):
     aeon_multi_facility: bool | None = Field(default=None, validation_alias="aeonMultiFacility", serialization_alias="aeonMultiFacility")
     jwst_synergy: bool | None = Field(default=None, validation_alias="jwstSynergy", serialization_alias="jwstSynergy")
     us_long_term: bool | None = Field(default=None, validation_alias="usLongTerm", serialization_alias="usLongTerm")
+    to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
 
 
 class RadialVelocityInput(Input):
@@ -1529,10 +1533,6 @@ class RedeemUserInvitationInput(Input):
 
 
 class RefreshArchiveDuplicationInput(Input):
-    """
-    Input parameters for re-running the Archive Duplication Search.  Select one of
-    `observationId` or `observationReference`.
-    """
     observation_id: ObservationId | None = Field(default=None, validation_alias="observationId", serialization_alias="observationId")
     observation_reference: ObservationReferenceLabel | None = Field(default=None, validation_alias="observationReference", serialization_alias="observationReference")
 
@@ -1555,11 +1555,6 @@ class ReplaceFlamingos2SequenceInput(Input):
 
 
 class ReplaceGhostSequenceInput(Input):
-    """
-    Replace GHOST sequence input.  Select the observation using one of the
-    observation ID or the observation reference.  If both are provided, they must
-    refer to the same observation.
-    """
     observation_id: ObservationId | None = Field(default=None, validation_alias="observationId", serialization_alias="observationId")
     observation_reference: ObservationReferenceLabel | None = Field(default=None, validation_alias="observationReference", serialization_alias="observationReference")
     sequence_type: SequenceType = Field(validation_alias="sequenceType", serialization_alias="sequenceType")
@@ -1648,6 +1643,8 @@ class SchedulingConstraintsInput(Input):
     observation, including whether it can be split across multiple visits and any
     timing constraints.
     """
+    too_activation: TooActivation | None = Field(default=None, validation_alias="tooActivation", serialization_alias="tooActivation")
+    explicit_execution_requirement: ExecutionRequirement | None = Field(default=None, validation_alias="explicitExecutionRequirement", serialization_alias="explicitExecutionRequirement")
     is_splittable: bool | None = Field(default=None, validation_alias="isSplittable", serialization_alias="isSplittable")
     timing_windows: list[TimingWindowInput] | None = Field(default=None, validation_alias="timingWindows", serialization_alias="timingWindows")
 
@@ -1828,8 +1825,9 @@ class SubaruProposalTypeInput(Input):
 
 
 class SystemVerificationInput(Input):
-    to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
+    explicit_too_activation_ceiling: TooActivation | None = Field(default=None, validation_alias="explicitTooActivationCeiling", serialization_alias="explicitTooActivationCeiling")
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
+    to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
 
 
 class TargetEditInput(Input):
@@ -1928,6 +1926,12 @@ class TimingWindowRepeatInput(Input):
     """Timing window repetition parameters."""
     period: TimeSpanInput
     times: PosInt | None = None
+
+
+class TooTriggerEditInput(Input):
+    program_id: ProgramId | None = Field(default=None, validation_alias="programId", serialization_alias="programId")
+    observation_id: ObservationId | None = Field(default=None, validation_alias="observationId", serialization_alias="observationId")
+    too_trigger_id: TooTriggerId | None = Field(default=None, validation_alias="tooTriggerId", serialization_alias="tooTriggerId")
 
 
 class UniformTelescopeConfigGeneratorInput(Input):
@@ -2146,6 +2150,7 @@ class WhereAttachment(Input):
     not_: WhereAttachment | None = Field(default=None, validation_alias="NOT", serialization_alias="NOT")
     id: WhereOrderAttachmentId | None = None
     file_name: WhereString | None = Field(default=None, validation_alias="fileName", serialization_alias="fileName")
+    mask_name: WhereOptionString | None = Field(default=None, validation_alias="maskName", serialization_alias="maskName")
     description: WhereOptionString | None = None
     attachment_type: WhereAttachmentType | None = Field(default=None, validation_alias="attachmentType", serialization_alias="attachmentType")
     checked: bool | None = None
@@ -2192,6 +2197,11 @@ class WhereCallForProposals(Input):
     gemini: WhereGeminiCallProperties | None = None
 
 
+class WhereCone(Input):
+    center: CoordinatesInput
+    distance: AngleInput
+
+
 class WhereConfigurationRequest(Input):
     """Configuration request filter options.  All specified items must match."""
     and_: list[WhereConfigurationRequest] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
@@ -2204,6 +2214,8 @@ class WhereConfigurationRequest(Input):
     feedback: WhereOptionString | None = None
     created_at: WhereOrderTimestamp | None = Field(default=None, validation_alias="createdAt", serialization_alias="createdAt")
     updated_at: WhereOrderTimestamp | None = Field(default=None, validation_alias="updatedAt", serialization_alias="updatedAt")
+    observing_mode_type: WhereOptionEqObservingModeType | None = Field(default=None, validation_alias="observingModeType", serialization_alias="observingModeType")
+    target_coordinates: WhereCone | None = Field(default=None, validation_alias="targetCoordinates", serialization_alias="targetCoordinates")
 
 
 class WhereDataset(Input):
@@ -2421,6 +2433,13 @@ class WhereEqToOActivation(Input):
     neq: ToOActivation | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
     in_: list[ToOActivation] | None = Field(default=None, validation_alias="IN", serialization_alias="IN")
     nin: list[ToOActivation] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
+
+
+class WhereEqTooActivation(Input):
+    eq: TooActivation | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
+    neq: TooActivation | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
+    in_: list[TooActivation] | None = Field(default=None, validation_alias="IN", serialization_alias="IN")
+    nin: list[TooActivation] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
 class WhereEqUserType(Input):
@@ -2713,11 +2732,6 @@ class WhereOptionOrderScienceBand(Input):
 
 
 class WhereOptionOrderTimestamp(Input):
-    """
-    Filters on equality or order comparisons of an optional timestamp property.  All
-    supplied criteria must match, but usually only one is selected.  Note that a
-    property which is not defined matches nothing but `IS_NULL: true`.
-    """
     is_null: bool | None = Field(default=None, validation_alias="IS_NULL", serialization_alias="IS_NULL")
     eq: Timestamp | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
     neq: Timestamp | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
@@ -3168,6 +3182,28 @@ class WhereOrderTimestamp(Input):
     lte: Timestamp | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
+class WhereOrderTooTriggerId(Input):
+    eq: TooTriggerId | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
+    neq: TooTriggerId | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
+    in_: list[TooTriggerId] | None = Field(default=None, validation_alias="IN", serialization_alias="IN")
+    nin: list[TooTriggerId] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
+    gt: TooTriggerId | None = Field(default=None, validation_alias="GT", serialization_alias="GT")
+    lt: TooTriggerId | None = Field(default=None, validation_alias="LT", serialization_alias="LT")
+    gte: TooTriggerId | None = Field(default=None, validation_alias="GTE", serialization_alias="GTE")
+    lte: TooTriggerId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
+
+
+class WhereOrderTooTriggerStatus(Input):
+    eq: TooTriggerStatus | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
+    neq: TooTriggerStatus | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
+    in_: list[TooTriggerStatus] | None = Field(default=None, validation_alias="IN", serialization_alias="IN")
+    nin: list[TooTriggerStatus] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
+    gt: TooTriggerStatus | None = Field(default=None, validation_alias="GT", serialization_alias="GT")
+    lt: TooTriggerStatus | None = Field(default=None, validation_alias="LT", serialization_alias="LT")
+    gte: TooTriggerStatus | None = Field(default=None, validation_alias="GTE", serialization_alias="GTE")
+    lte: TooTriggerStatus | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
+
+
 class WhereOrderUserId(Input):
     eq: UserId | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
     neq: UserId | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
@@ -3201,6 +3237,7 @@ class WhereProgram(Input):
     calibration_role: WhereOptionEqCalibrationRole | None = Field(default=None, validation_alias="calibrationRole", serialization_alias="calibrationRole")
     active_start: WhereOrderDate | None = Field(default=None, validation_alias="activeStart", serialization_alias="activeStart")
     active_end: WhereOrderDate | None = Field(default=None, validation_alias="activeEnd", serialization_alias="activeEnd")
+    is_active: bool | None = Field(default=None, validation_alias="isActive", serialization_alias="isActive")
 
 
 class WhereProgramNote(Input):
@@ -3321,6 +3358,34 @@ class WhereTarget(Input):
     calibration_role: WhereOptionEqCalibrationRole | None = Field(default=None, validation_alias="calibrationRole", serialization_alias="calibrationRole")
 
 
+class WhereTooTrigger(Input):
+    and_: list[WhereTooTrigger] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
+    or_: list[WhereTooTrigger] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
+    not_: WhereTooTrigger | None = Field(default=None, validation_alias="NOT", serialization_alias="NOT")
+    id: WhereOrderTooTriggerId | None = None
+    observation_id: WhereOrderObservationId | None = Field(default=None, validation_alias="observationId", serialization_alias="observationId")
+    program_id: WhereOrderProgramId | None = Field(default=None, validation_alias="programId", serialization_alias="programId")
+    status: WhereOrderTooTriggerStatus | None = None
+    requested_at: WhereOrderTimestamp | None = Field(default=None, validation_alias="requestedAt", serialization_alias="requestedAt")
+    requested_by: WhereUser | None = Field(default=None, validation_alias="requestedBy", serialization_alias="requestedBy")
+    updated_at: WhereOrderTimestamp | None = Field(default=None, validation_alias="updatedAt", serialization_alias="updatedAt")
+
+
+class WhereTooTriggerChronicleEntry(Input):
+    and_: list[WhereTooTriggerChronicleEntry] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
+    or_: list[WhereTooTriggerChronicleEntry] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
+    not_: WhereTooTriggerChronicleEntry | None = Field(default=None, validation_alias="NOT", serialization_alias="NOT")
+    id: WhereOrderChronicleId | None = None
+    user: WhereUser | None = None
+    operation: WhereEqDatabaseOperation | None = None
+    timestamp: WhereOrderTimestamp | None = None
+    too_trigger: WhereOrderTooTriggerId | None = Field(default=None, validation_alias="tooTrigger", serialization_alias="tooTrigger")
+    mod_observation_id: WhereBoolean | None = Field(default=None, validation_alias="modObservationId", serialization_alias="modObservationId")
+    mod_program_id: WhereBoolean | None = Field(default=None, validation_alias="modProgramId", serialization_alias="modProgramId")
+    mod_status: WhereBoolean | None = Field(default=None, validation_alias="modStatus", serialization_alias="modStatus")
+    mod_resolution_reason: WhereBoolean | None = Field(default=None, validation_alias="modResolutionReason", serialization_alias="modResolutionReason")
+
+
 class WhereUser(Input):
     """User filter options.  All specified items must match."""
     is_null: bool | None = Field(default=None, validation_alias="IS_NULL", serialization_alias="IS_NULL")
@@ -3350,7 +3415,7 @@ class WhereWavelength(Input):
     micrometers: WhereOrderPosBigDecimal | None = None
 
 
-_INPUT_TYPES = (AddDatasetEventInput, AddEventBatchEntryInput, AddEventBatchInput, AddProgramUserInput, AddSequenceEventInput, AddSlewEventInput, AddStepEventInput, AddTimeChargeCorrectionInput, AirMassRangeInput, AllocationInput, AngleInput, AttachmentPropertiesInput, BandBrightnessIntegratedInput, BandBrightnessSurfaceInput, BandNormalizedIntegratedInput, BandNormalizedSurfaceInput, CallForProposalsExchangePartnerInput, CallForProposalsPartnerInput, CallForProposalsPropertiesInput, CatalogInfoInput, ChangePrincipalInvestigatorInput, ChangeProgramUserRoleInput, ClassicalInput, CloneGroupInput, CloneObservationInput, CloneTargetInput, ConditionsEntryInput, ConditionsExpectationInput, ConditionsIntuitionInput, ConditionsMeasurementInput, ConfigurationRequestEditInput, ConfigurationRequestProperties, ConstraintSetInput, CoordinateLimitsInput, CoordinatesInput, CreateCallForProposalsInput, CreateConfigurationRequestInput, CreateGroupInput, CreateObservationInput, CreateProgramInput, CreateProgramNoteInput, CreateProposalInput, CreateTargetInput, CreateUserInvitationInput, DatasetEditInput, DatasetPropertiesInput, DeclinationArcInput, DeclinationInput, DeleteProgramUserInput, DeleteProposalInput, DeleteSequenceInput, DemoScienceInput, DirectorsTimeInput, EditAsterismsPatchInput, ElevationRangeInput, EmissionLineIntegratedInput, EmissionLineSurfaceInput, EmissionLinesIntegratedInput, EmissionLinesSurfaceInput, EnumeratedTelescopeConfigGeneratorInput, ExchangeInput, ExecutionEventAddedInput, ExposureTimeModeInput, FastTurnaroundInput, Flamingos2AtomInput, Flamingos2CustomMaskInput, Flamingos2DynamicInput, Flamingos2FpuMaskInput, Flamingos2ImagingFilterInput, Flamingos2ImagingInput, Flamingos2LongSlitAcquisitionInput, Flamingos2LongSlitInput, Flamingos2StaticInput, Flamingos2StepInput, FluxDensity, FluxDensityContinuumIntegratedInput, FluxDensityContinuumSurfaceInput, GaussianInput, GeminiCallPropertiesInput, GeminiProposalTypeInput, GhostAtomInput, GhostDetectorConfigInput, GhostDetectorInput, GhostDynamicInput, GhostIfuInput, GhostStepInput, GmosCcdModeInput, GmosCustomMaskInput, GmosNodAndShuffleInput, GmosNorthAtomInput, GmosNorthDynamicInput, GmosNorthFpuInput, GmosNorthGratingConfigInput, GmosNorthImagingFilterInput, GmosNorthImagingInput, GmosNorthLongSlitAcquisitionInput, GmosNorthLongSlitInput, GmosNorthMosInput, GmosNorthStaticInput, GmosNorthStepInput, GmosSouthAtomInput, GmosSouthDynamicInput, GmosSouthFpuInput, GmosSouthGratingConfigInput, GmosSouthImagingFilterInput, GmosSouthImagingInput, GmosSouthLongSlitAcquisitionInput, GmosSouthLongSlitInput, GmosSouthMosInput, GmosSouthStaticInput, GmosSouthStepInput, GnirsAcquisitionMirrorOutInput, GnirsAtomInput, GnirsDynamicInput, GnirsIfuInput, GnirsImagingFilterInput, GnirsImagingInput, GnirsSlitInput, GnirsSpectroscopyAcquisitionInput, GnirsSpectroscopyInput, GnirsStepInput, GoaPropertiesInput, GroupEditInput, GroupElementInput, GroupPropertiesInput, GroupedImagingVariantInput, HourAngleRangeInput, Igrins2AtomInput, Igrins2DynamicInput, Igrins2LongSlitInput, Igrins2StaticInput, Igrins2StepInput, Igrins2SvcInput, ImagingScienceRequirementsInput, ImagingVariantInput, InterleavedImagingVariantInput, KeckCallPropertiesInput, KeckProposalTypeInput, LargeProgramInput, LineFluxIntegratedInput, LineFluxSurfaceInput, LinkUserInput, NonsiderealInput, ObscalcUpdateInput, ObservationEditInput, ObservationPropertiesInput, ObservationTimesInput, ObservingModeInput, OffsetComponentInput, OffsetInput, OpportunityInput, ParallaxInput, PartnerLinkInput, PartnerSplitInput, PoorWeatherInput, PosAngleConstraintInput, PreImagingVariantInput, ProgramEditInput, ProgramNotePropertiesInput, ProgramPropertiesInput, ProgramReferencePropertiesCalibrationInput, ProgramReferencePropertiesCommissioningInput, ProgramReferencePropertiesEngineeringInput, ProgramReferencePropertiesExampleInput, ProgramReferencePropertiesInput, ProgramReferencePropertiesKeckInput, ProgramReferencePropertiesLibraryInput, ProgramReferencePropertiesMonitoringInput, ProgramReferencePropertiesScienceInput, ProgramReferencePropertiesSubaruInput, ProgramReferencePropertiesSystemInput, ProgramUserPropertiesInput, ProperMotionComponentInput, ProperMotionInput, ProposalPropertiesInput, QueueInput, RadialVelocityInput, RandomTelescopeConfigGeneratorInput, RecordDatasetInput, RecordFlamingos2VisitInput, RecordGmosNorthVisitInput, RecordGmosSouthVisitInput, RecordIgrins2VisitInput, RecordVisitInput, RedeemUserInvitationInput, RefreshArchiveDuplicationInput, RegionInput, ReplaceFlamingos2SequenceInput, ReplaceGhostSequenceInput, ReplaceGmosNorthSequenceInput, ReplaceGmosSouthSequenceInput, ReplaceGnirsSequenceInput, ReplaceIgrins2SequenceInput, ResetAcquisitionInput, RevokeUserInvitationInput, RightAscensionArcInput, RightAscensionInput, SchedulingConstraintsInput, ScienceRequirementsInput, SetAllocationsInput, SetGuideTargetNameInput, SetObservationWorkflowStateInput, SetProgramReferenceInput, SetProgramResourceLimitInput, SetProposalStatusInput, SiderealInput, SignalToNoiseExposureTimeModeInput, SiteCoordinateLimitsInput, SlitTelescopeConfigsInput, SourceProfileInput, SpectralDefinitionIntegratedInput, SpectralDefinitionSurfaceInput, SpectroscopyScienceRequirementsInput, SpiralTelescopeConfigGeneratorInput, StepConfigGcalInput, StepConfigInput, StepConfigSmartGcalInput, SubaruCallPropertiesInput, SubaruProposalTypeInput, SystemVerificationInput, TargetEditInput, TargetEnvironmentInput, TargetPropertiesInput, TelescopeConfigAlongSlitInput, TelescopeConfigGeneratorInput, TelescopeConfigInput, TelluricTypeInput, TimeAndCountExposureTimeModeInput, TimeChargeCorrectionInput, TimeSpanInput, TimingWindowEndInput, TimingWindowInput, TimingWindowRepeatInput, UniformTelescopeConfigGeneratorInput, UnlinkUserInput, UnnormalizedSedInput, UpdateAsterismsInput, UpdateAttachmentsInput, UpdateCallsForProposalsInput, UpdateConfigurationRequestsInput, UpdateDatasetsInput, UpdateGroupsInput, UpdateObservationsInput, UpdateObservationsTimesInput, UpdateProgramNotesInput, UpdateProgramUsersInput, UpdateProgramsInput, UpdateProposalInput, UpdateTargetsInput, UserProfileInput, UserSuppliedEphemeris, UserSuppliedEphemerisElement, VisitorInput, WavelengthDitherInput, WavelengthInput, WhereAngle, WhereAttachment, WhereAttachmentType, WhereBoolean, WhereCalculatedObservationWorkflow, WhereCallForProposals, WhereConfigurationRequest, WhereDataset, WhereDatasetChronicleEntry, WhereDatasetReference, WhereEqDatabaseOperation, WhereEqExecutionEventType, WhereEqFocalPlane, WhereEqGeminiCallForProposalsType, WhereEqInstrument, WhereEqPartner, WhereEqPartnerLinkType, WhereEqProgramType, WhereEqProgramUserRole, WhereEqProposalStatus, WhereEqScienceSubtype, WhereEqSite, WhereEqStepId, WhereEqTargetDisposition, WhereEqToOActivation, WhereEqUserType, WhereEqVisitId, WhereExecutionEvent, WhereGeminiCallProperties, WhereGroup, WhereImagingConfigOption, WhereObservation, WhereObservationReference, WhereObservatoryEq, WhereOptionBoolean, WhereOptionEqCalculationState, WhereOptionEqCalibrationRole, WhereOptionEqEducationalStatus, WhereOptionEqExchangePartner, WhereOptionEqGender, WhereOptionEqImagingCapability, WhereOptionEqInstrument, WhereOptionEqObservingModeType, WhereOptionEqPartner, WhereOptionEqQaState, WhereOptionEqSite, WhereOptionEqSpectroscopyCapability, WhereOptionEqTacCategory, WhereOptionOrderScienceBand, WhereOptionOrderTimestamp, WhereOptionString, WhereOrderAttachmentId, WhereOrderBigDecimal, WhereOrderCalculationState, WhereOrderCallForProposalsId, WhereOrderChronicleId, WhereOrderConfigurationRequestId, WhereOrderConfigurationRequestStatus, WhereOrderDatasetId, WhereOrderDatasetStage, WhereOrderDate, WhereOrderExecutionEventId, WhereOrderGroupId, WhereOrderInt, WhereOrderLong, WhereOrderObservationId, WhereOrderObservationWorkflowState, WhereOrderPosBigDecimal, WhereOrderPosInt, WhereOrderProgramId, WhereOrderProgramNoteId, WhereOrderProgramUserId, WhereOrderSemester, WhereOrderSequenceCommand, WhereOrderSequenceType, WhereOrderSlewStage, WhereOrderStepStage, WhereOrderTargetId, WhereOrderTimestamp, WhereOrderUserId, WherePartnerLink, WhereProgram, WhereProgramNote, WhereProgramReference, WhereProgramUser, WhereProposal, WhereProposalPartnerEntry, WhereProposalPartners, WhereProposalReference, WhereSpectroscopyConfigOption, WhereString, WhereTarget, WhereUser, WhereUserProfile, WhereWavelength,)
+_INPUT_TYPES = (AddDatasetEventInput, AddEventBatchEntryInput, AddEventBatchInput, AddProgramUserInput, AddSequenceEventInput, AddSlewEventInput, AddStepEventInput, AddTimeChargeCorrectionInput, AirMassRangeInput, AllocationInput, AngleInput, AttachmentPropertiesInput, BandBrightnessIntegratedInput, BandBrightnessSurfaceInput, BandNormalizedIntegratedInput, BandNormalizedSurfaceInput, CallForProposalsExchangePartnerInput, CallForProposalsPartnerInput, CallForProposalsPropertiesInput, CatalogInfoInput, ChangePrincipalInvestigatorInput, ChangeProgramUserRoleInput, ClassicalInput, CloneGroupInput, CloneObservationInput, CloneTargetInput, ConditionsEntryInput, ConditionsExpectationInput, ConditionsIntuitionInput, ConditionsMeasurementInput, ConfigurationRequestEditInput, ConfigurationRequestProperties, ConstraintSetInput, CoordinateLimitsInput, CoordinatesInput, CreateCallForProposalsInput, CreateConfigurationRequestInput, CreateGroupInput, CreateObservationInput, CreateProgramInput, CreateProgramNoteInput, CreateProposalInput, CreateTargetInput, CreateUserInvitationInput, DatasetEditInput, DatasetPropertiesInput, DeclinationArcInput, DeclinationInput, DeclineTooTriggerInput, DeleteProgramUserInput, DeleteProposalInput, DeleteSequenceInput, DemoScienceInput, DirectorsTimeInput, EditAsterismsPatchInput, ElevationRangeInput, EmissionLineIntegratedInput, EmissionLineSurfaceInput, EmissionLinesIntegratedInput, EmissionLinesSurfaceInput, EnumeratedTelescopeConfigGeneratorInput, ExchangeInput, ExecutionEventAddedInput, ExposureTimeModeInput, FastTurnaroundInput, Flamingos2AtomInput, Flamingos2CustomMaskInput, Flamingos2DynamicInput, Flamingos2FpuMaskInput, Flamingos2ImagingFilterInput, Flamingos2ImagingInput, Flamingos2LongSlitAcquisitionInput, Flamingos2LongSlitInput, Flamingos2StaticInput, Flamingos2StepInput, FluxDensity, FluxDensityContinuumIntegratedInput, FluxDensityContinuumSurfaceInput, GaussianInput, GeminiCallPropertiesInput, GeminiProposalTypeInput, GhostAtomInput, GhostDetectorConfigInput, GhostDetectorInput, GhostDynamicInput, GhostIfuInput, GhostStepInput, GmosCcdModeInput, GmosCustomMaskInput, GmosNodAndShuffleInput, GmosNorthAtomInput, GmosNorthDynamicInput, GmosNorthFpuInput, GmosNorthGratingConfigInput, GmosNorthImagingFilterInput, GmosNorthImagingInput, GmosNorthLongSlitAcquisitionInput, GmosNorthLongSlitInput, GmosNorthMosAcquisitionInput, GmosNorthMosInput, GmosNorthStaticInput, GmosNorthStepInput, GmosSouthAtomInput, GmosSouthDynamicInput, GmosSouthFpuInput, GmosSouthGratingConfigInput, GmosSouthImagingFilterInput, GmosSouthImagingInput, GmosSouthLongSlitAcquisitionInput, GmosSouthLongSlitInput, GmosSouthMosAcquisitionInput, GmosSouthMosInput, GmosSouthStaticInput, GmosSouthStepInput, GnirsAcquisitionMirrorOutInput, GnirsAtomInput, GnirsCentralWavelengthConfigInput, GnirsDynamicInput, GnirsIfuInput, GnirsImagingAcquisitionInput, GnirsImagingFilterInput, GnirsImagingInput, GnirsSlitInput, GnirsSpectroscopyAcquisitionInput, GnirsSpectroscopyInput, GnirsStepInput, GoaPropertiesInput, GroupEditInput, GroupElementInput, GroupPropertiesInput, GroupedImagingVariantInput, HourAngleRangeInput, Igrins2AtomInput, Igrins2DynamicInput, Igrins2LongSlitInput, Igrins2StaticInput, Igrins2StepInput, Igrins2SvcInput, ImagingScienceRequirementsInput, ImagingVariantInput, InterleavedImagingVariantInput, KeckCallPropertiesInput, KeckProposalTypeInput, LargeProgramInput, LineFluxIntegratedInput, LineFluxSurfaceInput, LinkUserInput, NonsiderealInput, ObscalcUpdateInput, ObservationEditInput, ObservationPropertiesInput, ObservationTimesInput, ObservingModeInput, OffsetComponentInput, OffsetInput, OpportunityInput, ParallaxInput, PartnerLinkInput, PartnerSplitInput, PoorWeatherInput, PosAngleConstraintInput, PreImagingVariantInput, ProgramEditInput, ProgramNotePropertiesInput, ProgramPropertiesInput, ProgramReferencePropertiesCalibrationInput, ProgramReferencePropertiesCommissioningInput, ProgramReferencePropertiesEngineeringInput, ProgramReferencePropertiesExampleInput, ProgramReferencePropertiesInput, ProgramReferencePropertiesKeckInput, ProgramReferencePropertiesLibraryInput, ProgramReferencePropertiesMonitoringInput, ProgramReferencePropertiesScienceInput, ProgramReferencePropertiesSubaruInput, ProgramReferencePropertiesSystemInput, ProgramUserPropertiesInput, ProperMotionComponentInput, ProperMotionInput, ProposalPropertiesInput, QueueInput, RadialVelocityInput, RandomTelescopeConfigGeneratorInput, RecordDatasetInput, RecordFlamingos2VisitInput, RecordGmosNorthVisitInput, RecordGmosSouthVisitInput, RecordIgrins2VisitInput, RecordVisitInput, RedeemUserInvitationInput, RefreshArchiveDuplicationInput, RegionInput, ReplaceFlamingos2SequenceInput, ReplaceGhostSequenceInput, ReplaceGmosNorthSequenceInput, ReplaceGmosSouthSequenceInput, ReplaceGnirsSequenceInput, ReplaceIgrins2SequenceInput, ResetAcquisitionInput, RevokeUserInvitationInput, RightAscensionArcInput, RightAscensionInput, SchedulingConstraintsInput, ScienceRequirementsInput, SetAllocationsInput, SetGuideTargetNameInput, SetObservationWorkflowStateInput, SetProgramReferenceInput, SetProgramResourceLimitInput, SetProposalStatusInput, SiderealInput, SignalToNoiseExposureTimeModeInput, SiteCoordinateLimitsInput, SlitTelescopeConfigsInput, SourceProfileInput, SpectralDefinitionIntegratedInput, SpectralDefinitionSurfaceInput, SpectroscopyScienceRequirementsInput, SpiralTelescopeConfigGeneratorInput, StepConfigGcalInput, StepConfigInput, StepConfigSmartGcalInput, SubaruCallPropertiesInput, SubaruProposalTypeInput, SystemVerificationInput, TargetEditInput, TargetEnvironmentInput, TargetPropertiesInput, TelescopeConfigAlongSlitInput, TelescopeConfigGeneratorInput, TelescopeConfigInput, TelluricTypeInput, TimeAndCountExposureTimeModeInput, TimeChargeCorrectionInput, TimeSpanInput, TimingWindowEndInput, TimingWindowInput, TimingWindowRepeatInput, TooTriggerEditInput, UniformTelescopeConfigGeneratorInput, UnlinkUserInput, UnnormalizedSedInput, UpdateAsterismsInput, UpdateAttachmentsInput, UpdateCallsForProposalsInput, UpdateConfigurationRequestsInput, UpdateDatasetsInput, UpdateGroupsInput, UpdateObservationsInput, UpdateObservationsTimesInput, UpdateProgramNotesInput, UpdateProgramUsersInput, UpdateProgramsInput, UpdateProposalInput, UpdateTargetsInput, UserProfileInput, UserSuppliedEphemeris, UserSuppliedEphemerisElement, VisitorInput, WavelengthDitherInput, WavelengthInput, WhereAngle, WhereAttachment, WhereAttachmentType, WhereBoolean, WhereCalculatedObservationWorkflow, WhereCallForProposals, WhereCone, WhereConfigurationRequest, WhereDataset, WhereDatasetChronicleEntry, WhereDatasetReference, WhereEqDatabaseOperation, WhereEqExecutionEventType, WhereEqFocalPlane, WhereEqGeminiCallForProposalsType, WhereEqInstrument, WhereEqPartner, WhereEqPartnerLinkType, WhereEqProgramType, WhereEqProgramUserRole, WhereEqProposalStatus, WhereEqScienceSubtype, WhereEqSite, WhereEqStepId, WhereEqTargetDisposition, WhereEqToOActivation, WhereEqTooActivation, WhereEqUserType, WhereEqVisitId, WhereExecutionEvent, WhereGeminiCallProperties, WhereGroup, WhereImagingConfigOption, WhereObservation, WhereObservationReference, WhereObservatoryEq, WhereOptionBoolean, WhereOptionEqCalculationState, WhereOptionEqCalibrationRole, WhereOptionEqEducationalStatus, WhereOptionEqExchangePartner, WhereOptionEqGender, WhereOptionEqImagingCapability, WhereOptionEqInstrument, WhereOptionEqObservingModeType, WhereOptionEqPartner, WhereOptionEqQaState, WhereOptionEqSite, WhereOptionEqSpectroscopyCapability, WhereOptionEqTacCategory, WhereOptionOrderScienceBand, WhereOptionOrderTimestamp, WhereOptionString, WhereOrderAttachmentId, WhereOrderBigDecimal, WhereOrderCalculationState, WhereOrderCallForProposalsId, WhereOrderChronicleId, WhereOrderConfigurationRequestId, WhereOrderConfigurationRequestStatus, WhereOrderDatasetId, WhereOrderDatasetStage, WhereOrderDate, WhereOrderExecutionEventId, WhereOrderGroupId, WhereOrderInt, WhereOrderLong, WhereOrderObservationId, WhereOrderObservationWorkflowState, WhereOrderPosBigDecimal, WhereOrderPosInt, WhereOrderProgramId, WhereOrderProgramNoteId, WhereOrderProgramUserId, WhereOrderSemester, WhereOrderSequenceCommand, WhereOrderSequenceType, WhereOrderSlewStage, WhereOrderStepStage, WhereOrderTargetId, WhereOrderTimestamp, WhereOrderTooTriggerId, WhereOrderTooTriggerStatus, WhereOrderUserId, WherePartnerLink, WhereProgram, WhereProgramNote, WhereProgramReference, WhereProgramUser, WhereProposal, WhereProposalPartnerEntry, WhereProposalPartners, WhereProposalReference, WhereSpectroscopyConfigOption, WhereString, WhereTarget, WhereTooTrigger, WhereTooTriggerChronicleEntry, WhereUser, WhereUserProfile, WhereWavelength,)
 _RECURSION_LIMIT = sys.getrecursionlimit()
 sys.setrecursionlimit(max(_RECURSION_LIMIT, 3000))
 try:
@@ -3359,4 +3424,4 @@ try:
 finally:
     sys.setrecursionlimit(_RECURSION_LIMIT)
 
-__all__ = ['AddDatasetEventInput', 'AddEventBatchEntryInput', 'AddEventBatchInput', 'AddProgramUserInput', 'AddSequenceEventInput', 'AddSlewEventInput', 'AddStepEventInput', 'AddTimeChargeCorrectionInput', 'AirMassRangeInput', 'AllocationInput', 'AngleInput', 'AttachmentPropertiesInput', 'BandBrightnessIntegratedInput', 'BandBrightnessSurfaceInput', 'BandNormalizedIntegratedInput', 'BandNormalizedSurfaceInput', 'CallForProposalsExchangePartnerInput', 'CallForProposalsPartnerInput', 'CallForProposalsPropertiesInput', 'CatalogInfoInput', 'ChangePrincipalInvestigatorInput', 'ChangeProgramUserRoleInput', 'ClassicalInput', 'CloneGroupInput', 'CloneObservationInput', 'CloneTargetInput', 'ConditionsEntryInput', 'ConditionsExpectationInput', 'ConditionsIntuitionInput', 'ConditionsMeasurementInput', 'ConfigurationRequestEditInput', 'ConfigurationRequestProperties', 'ConstraintSetInput', 'CoordinateLimitsInput', 'CoordinatesInput', 'CreateCallForProposalsInput', 'CreateConfigurationRequestInput', 'CreateGroupInput', 'CreateObservationInput', 'CreateProgramInput', 'CreateProgramNoteInput', 'CreateProposalInput', 'CreateTargetInput', 'CreateUserInvitationInput', 'DatasetEditInput', 'DatasetPropertiesInput', 'DeclinationArcInput', 'DeclinationInput', 'DeleteProgramUserInput', 'DeleteProposalInput', 'DeleteSequenceInput', 'DemoScienceInput', 'DirectorsTimeInput', 'EditAsterismsPatchInput', 'ElevationRangeInput', 'EmissionLineIntegratedInput', 'EmissionLineSurfaceInput', 'EmissionLinesIntegratedInput', 'EmissionLinesSurfaceInput', 'EnumeratedTelescopeConfigGeneratorInput', 'ExchangeInput', 'ExecutionEventAddedInput', 'ExposureTimeModeInput', 'FastTurnaroundInput', 'Flamingos2AtomInput', 'Flamingos2CustomMaskInput', 'Flamingos2DynamicInput', 'Flamingos2FpuMaskInput', 'Flamingos2ImagingFilterInput', 'Flamingos2ImagingInput', 'Flamingos2LongSlitAcquisitionInput', 'Flamingos2LongSlitInput', 'Flamingos2StaticInput', 'Flamingos2StepInput', 'FluxDensity', 'FluxDensityContinuumIntegratedInput', 'FluxDensityContinuumSurfaceInput', 'GaussianInput', 'GeminiCallPropertiesInput', 'GeminiProposalTypeInput', 'GhostAtomInput', 'GhostDetectorConfigInput', 'GhostDetectorInput', 'GhostDynamicInput', 'GhostIfuInput', 'GhostStepInput', 'GmosCcdModeInput', 'GmosCustomMaskInput', 'GmosNodAndShuffleInput', 'GmosNorthAtomInput', 'GmosNorthDynamicInput', 'GmosNorthFpuInput', 'GmosNorthGratingConfigInput', 'GmosNorthImagingFilterInput', 'GmosNorthImagingInput', 'GmosNorthLongSlitAcquisitionInput', 'GmosNorthLongSlitInput', 'GmosNorthMosInput', 'GmosNorthStaticInput', 'GmosNorthStepInput', 'GmosSouthAtomInput', 'GmosSouthDynamicInput', 'GmosSouthFpuInput', 'GmosSouthGratingConfigInput', 'GmosSouthImagingFilterInput', 'GmosSouthImagingInput', 'GmosSouthLongSlitAcquisitionInput', 'GmosSouthLongSlitInput', 'GmosSouthMosInput', 'GmosSouthStaticInput', 'GmosSouthStepInput', 'GnirsAcquisitionMirrorOutInput', 'GnirsAtomInput', 'GnirsDynamicInput', 'GnirsIfuInput', 'GnirsImagingFilterInput', 'GnirsImagingInput', 'GnirsSlitInput', 'GnirsSpectroscopyAcquisitionInput', 'GnirsSpectroscopyInput', 'GnirsStepInput', 'GoaPropertiesInput', 'GroupEditInput', 'GroupElementInput', 'GroupPropertiesInput', 'GroupedImagingVariantInput', 'HourAngleRangeInput', 'Igrins2AtomInput', 'Igrins2DynamicInput', 'Igrins2LongSlitInput', 'Igrins2StaticInput', 'Igrins2StepInput', 'Igrins2SvcInput', 'ImagingScienceRequirementsInput', 'ImagingVariantInput', 'InterleavedImagingVariantInput', 'KeckCallPropertiesInput', 'KeckProposalTypeInput', 'LargeProgramInput', 'LineFluxIntegratedInput', 'LineFluxSurfaceInput', 'LinkUserInput', 'NonsiderealInput', 'ObscalcUpdateInput', 'ObservationEditInput', 'ObservationPropertiesInput', 'ObservationTimesInput', 'ObservingModeInput', 'OffsetComponentInput', 'OffsetInput', 'OpportunityInput', 'ParallaxInput', 'PartnerLinkInput', 'PartnerSplitInput', 'PoorWeatherInput', 'PosAngleConstraintInput', 'PreImagingVariantInput', 'ProgramEditInput', 'ProgramNotePropertiesInput', 'ProgramPropertiesInput', 'ProgramReferencePropertiesCalibrationInput', 'ProgramReferencePropertiesCommissioningInput', 'ProgramReferencePropertiesEngineeringInput', 'ProgramReferencePropertiesExampleInput', 'ProgramReferencePropertiesInput', 'ProgramReferencePropertiesKeckInput', 'ProgramReferencePropertiesLibraryInput', 'ProgramReferencePropertiesMonitoringInput', 'ProgramReferencePropertiesScienceInput', 'ProgramReferencePropertiesSubaruInput', 'ProgramReferencePropertiesSystemInput', 'ProgramUserPropertiesInput', 'ProperMotionComponentInput', 'ProperMotionInput', 'ProposalPropertiesInput', 'QueueInput', 'RadialVelocityInput', 'RandomTelescopeConfigGeneratorInput', 'RecordDatasetInput', 'RecordFlamingos2VisitInput', 'RecordGmosNorthVisitInput', 'RecordGmosSouthVisitInput', 'RecordIgrins2VisitInput', 'RecordVisitInput', 'RedeemUserInvitationInput', 'RefreshArchiveDuplicationInput', 'RegionInput', 'ReplaceFlamingos2SequenceInput', 'ReplaceGhostSequenceInput', 'ReplaceGmosNorthSequenceInput', 'ReplaceGmosSouthSequenceInput', 'ReplaceGnirsSequenceInput', 'ReplaceIgrins2SequenceInput', 'ResetAcquisitionInput', 'RevokeUserInvitationInput', 'RightAscensionArcInput', 'RightAscensionInput', 'SchedulingConstraintsInput', 'ScienceRequirementsInput', 'SetAllocationsInput', 'SetGuideTargetNameInput', 'SetObservationWorkflowStateInput', 'SetProgramReferenceInput', 'SetProgramResourceLimitInput', 'SetProposalStatusInput', 'SiderealInput', 'SignalToNoiseExposureTimeModeInput', 'SiteCoordinateLimitsInput', 'SlitTelescopeConfigsInput', 'SourceProfileInput', 'SpectralDefinitionIntegratedInput', 'SpectralDefinitionSurfaceInput', 'SpectroscopyScienceRequirementsInput', 'SpiralTelescopeConfigGeneratorInput', 'StepConfigGcalInput', 'StepConfigInput', 'StepConfigSmartGcalInput', 'SubaruCallPropertiesInput', 'SubaruProposalTypeInput', 'SystemVerificationInput', 'TargetEditInput', 'TargetEnvironmentInput', 'TargetPropertiesInput', 'TelescopeConfigAlongSlitInput', 'TelescopeConfigGeneratorInput', 'TelescopeConfigInput', 'TelluricTypeInput', 'TimeAndCountExposureTimeModeInput', 'TimeChargeCorrectionInput', 'TimeSpanInput', 'TimingWindowEndInput', 'TimingWindowInput', 'TimingWindowRepeatInput', 'UniformTelescopeConfigGeneratorInput', 'UnlinkUserInput', 'UnnormalizedSedInput', 'UpdateAsterismsInput', 'UpdateAttachmentsInput', 'UpdateCallsForProposalsInput', 'UpdateConfigurationRequestsInput', 'UpdateDatasetsInput', 'UpdateGroupsInput', 'UpdateObservationsInput', 'UpdateObservationsTimesInput', 'UpdateProgramNotesInput', 'UpdateProgramUsersInput', 'UpdateProgramsInput', 'UpdateProposalInput', 'UpdateTargetsInput', 'UserProfileInput', 'UserSuppliedEphemeris', 'UserSuppliedEphemerisElement', 'VisitorInput', 'WavelengthDitherInput', 'WavelengthInput', 'WhereAngle', 'WhereAttachment', 'WhereAttachmentType', 'WhereBoolean', 'WhereCalculatedObservationWorkflow', 'WhereCallForProposals', 'WhereConfigurationRequest', 'WhereDataset', 'WhereDatasetChronicleEntry', 'WhereDatasetReference', 'WhereEqDatabaseOperation', 'WhereEqExecutionEventType', 'WhereEqFocalPlane', 'WhereEqGeminiCallForProposalsType', 'WhereEqInstrument', 'WhereEqPartner', 'WhereEqPartnerLinkType', 'WhereEqProgramType', 'WhereEqProgramUserRole', 'WhereEqProposalStatus', 'WhereEqScienceSubtype', 'WhereEqSite', 'WhereEqStepId', 'WhereEqTargetDisposition', 'WhereEqToOActivation', 'WhereEqUserType', 'WhereEqVisitId', 'WhereExecutionEvent', 'WhereGeminiCallProperties', 'WhereGroup', 'WhereImagingConfigOption', 'WhereObservation', 'WhereObservationReference', 'WhereObservatoryEq', 'WhereOptionBoolean', 'WhereOptionEqCalculationState', 'WhereOptionEqCalibrationRole', 'WhereOptionEqEducationalStatus', 'WhereOptionEqExchangePartner', 'WhereOptionEqGender', 'WhereOptionEqImagingCapability', 'WhereOptionEqInstrument', 'WhereOptionEqObservingModeType', 'WhereOptionEqPartner', 'WhereOptionEqQaState', 'WhereOptionEqSite', 'WhereOptionEqSpectroscopyCapability', 'WhereOptionEqTacCategory', 'WhereOptionOrderScienceBand', 'WhereOptionOrderTimestamp', 'WhereOptionString', 'WhereOrderAttachmentId', 'WhereOrderBigDecimal', 'WhereOrderCalculationState', 'WhereOrderCallForProposalsId', 'WhereOrderChronicleId', 'WhereOrderConfigurationRequestId', 'WhereOrderConfigurationRequestStatus', 'WhereOrderDatasetId', 'WhereOrderDatasetStage', 'WhereOrderDate', 'WhereOrderExecutionEventId', 'WhereOrderGroupId', 'WhereOrderInt', 'WhereOrderLong', 'WhereOrderObservationId', 'WhereOrderObservationWorkflowState', 'WhereOrderPosBigDecimal', 'WhereOrderPosInt', 'WhereOrderProgramId', 'WhereOrderProgramNoteId', 'WhereOrderProgramUserId', 'WhereOrderSemester', 'WhereOrderSequenceCommand', 'WhereOrderSequenceType', 'WhereOrderSlewStage', 'WhereOrderStepStage', 'WhereOrderTargetId', 'WhereOrderTimestamp', 'WhereOrderUserId', 'WherePartnerLink', 'WhereProgram', 'WhereProgramNote', 'WhereProgramReference', 'WhereProgramUser', 'WhereProposal', 'WhereProposalPartnerEntry', 'WhereProposalPartners', 'WhereProposalReference', 'WhereSpectroscopyConfigOption', 'WhereString', 'WhereTarget', 'WhereUser', 'WhereUserProfile', 'WhereWavelength']
+__all__ = ['AddDatasetEventInput', 'AddEventBatchEntryInput', 'AddEventBatchInput', 'AddProgramUserInput', 'AddSequenceEventInput', 'AddSlewEventInput', 'AddStepEventInput', 'AddTimeChargeCorrectionInput', 'AirMassRangeInput', 'AllocationInput', 'AngleInput', 'AttachmentPropertiesInput', 'BandBrightnessIntegratedInput', 'BandBrightnessSurfaceInput', 'BandNormalizedIntegratedInput', 'BandNormalizedSurfaceInput', 'CallForProposalsExchangePartnerInput', 'CallForProposalsPartnerInput', 'CallForProposalsPropertiesInput', 'CatalogInfoInput', 'ChangePrincipalInvestigatorInput', 'ChangeProgramUserRoleInput', 'ClassicalInput', 'CloneGroupInput', 'CloneObservationInput', 'CloneTargetInput', 'ConditionsEntryInput', 'ConditionsExpectationInput', 'ConditionsIntuitionInput', 'ConditionsMeasurementInput', 'ConfigurationRequestEditInput', 'ConfigurationRequestProperties', 'ConstraintSetInput', 'CoordinateLimitsInput', 'CoordinatesInput', 'CreateCallForProposalsInput', 'CreateConfigurationRequestInput', 'CreateGroupInput', 'CreateObservationInput', 'CreateProgramInput', 'CreateProgramNoteInput', 'CreateProposalInput', 'CreateTargetInput', 'CreateUserInvitationInput', 'DatasetEditInput', 'DatasetPropertiesInput', 'DeclinationArcInput', 'DeclinationInput', 'DeclineTooTriggerInput', 'DeleteProgramUserInput', 'DeleteProposalInput', 'DeleteSequenceInput', 'DemoScienceInput', 'DirectorsTimeInput', 'EditAsterismsPatchInput', 'ElevationRangeInput', 'EmissionLineIntegratedInput', 'EmissionLineSurfaceInput', 'EmissionLinesIntegratedInput', 'EmissionLinesSurfaceInput', 'EnumeratedTelescopeConfigGeneratorInput', 'ExchangeInput', 'ExecutionEventAddedInput', 'ExposureTimeModeInput', 'FastTurnaroundInput', 'Flamingos2AtomInput', 'Flamingos2CustomMaskInput', 'Flamingos2DynamicInput', 'Flamingos2FpuMaskInput', 'Flamingos2ImagingFilterInput', 'Flamingos2ImagingInput', 'Flamingos2LongSlitAcquisitionInput', 'Flamingos2LongSlitInput', 'Flamingos2StaticInput', 'Flamingos2StepInput', 'FluxDensity', 'FluxDensityContinuumIntegratedInput', 'FluxDensityContinuumSurfaceInput', 'GaussianInput', 'GeminiCallPropertiesInput', 'GeminiProposalTypeInput', 'GhostAtomInput', 'GhostDetectorConfigInput', 'GhostDetectorInput', 'GhostDynamicInput', 'GhostIfuInput', 'GhostStepInput', 'GmosCcdModeInput', 'GmosCustomMaskInput', 'GmosNodAndShuffleInput', 'GmosNorthAtomInput', 'GmosNorthDynamicInput', 'GmosNorthFpuInput', 'GmosNorthGratingConfigInput', 'GmosNorthImagingFilterInput', 'GmosNorthImagingInput', 'GmosNorthLongSlitAcquisitionInput', 'GmosNorthLongSlitInput', 'GmosNorthMosAcquisitionInput', 'GmosNorthMosInput', 'GmosNorthStaticInput', 'GmosNorthStepInput', 'GmosSouthAtomInput', 'GmosSouthDynamicInput', 'GmosSouthFpuInput', 'GmosSouthGratingConfigInput', 'GmosSouthImagingFilterInput', 'GmosSouthImagingInput', 'GmosSouthLongSlitAcquisitionInput', 'GmosSouthLongSlitInput', 'GmosSouthMosAcquisitionInput', 'GmosSouthMosInput', 'GmosSouthStaticInput', 'GmosSouthStepInput', 'GnirsAcquisitionMirrorOutInput', 'GnirsAtomInput', 'GnirsCentralWavelengthConfigInput', 'GnirsDynamicInput', 'GnirsIfuInput', 'GnirsImagingAcquisitionInput', 'GnirsImagingFilterInput', 'GnirsImagingInput', 'GnirsSlitInput', 'GnirsSpectroscopyAcquisitionInput', 'GnirsSpectroscopyInput', 'GnirsStepInput', 'GoaPropertiesInput', 'GroupEditInput', 'GroupElementInput', 'GroupPropertiesInput', 'GroupedImagingVariantInput', 'HourAngleRangeInput', 'Igrins2AtomInput', 'Igrins2DynamicInput', 'Igrins2LongSlitInput', 'Igrins2StaticInput', 'Igrins2StepInput', 'Igrins2SvcInput', 'ImagingScienceRequirementsInput', 'ImagingVariantInput', 'InterleavedImagingVariantInput', 'KeckCallPropertiesInput', 'KeckProposalTypeInput', 'LargeProgramInput', 'LineFluxIntegratedInput', 'LineFluxSurfaceInput', 'LinkUserInput', 'NonsiderealInput', 'ObscalcUpdateInput', 'ObservationEditInput', 'ObservationPropertiesInput', 'ObservationTimesInput', 'ObservingModeInput', 'OffsetComponentInput', 'OffsetInput', 'OpportunityInput', 'ParallaxInput', 'PartnerLinkInput', 'PartnerSplitInput', 'PoorWeatherInput', 'PosAngleConstraintInput', 'PreImagingVariantInput', 'ProgramEditInput', 'ProgramNotePropertiesInput', 'ProgramPropertiesInput', 'ProgramReferencePropertiesCalibrationInput', 'ProgramReferencePropertiesCommissioningInput', 'ProgramReferencePropertiesEngineeringInput', 'ProgramReferencePropertiesExampleInput', 'ProgramReferencePropertiesInput', 'ProgramReferencePropertiesKeckInput', 'ProgramReferencePropertiesLibraryInput', 'ProgramReferencePropertiesMonitoringInput', 'ProgramReferencePropertiesScienceInput', 'ProgramReferencePropertiesSubaruInput', 'ProgramReferencePropertiesSystemInput', 'ProgramUserPropertiesInput', 'ProperMotionComponentInput', 'ProperMotionInput', 'ProposalPropertiesInput', 'QueueInput', 'RadialVelocityInput', 'RandomTelescopeConfigGeneratorInput', 'RecordDatasetInput', 'RecordFlamingos2VisitInput', 'RecordGmosNorthVisitInput', 'RecordGmosSouthVisitInput', 'RecordIgrins2VisitInput', 'RecordVisitInput', 'RedeemUserInvitationInput', 'RefreshArchiveDuplicationInput', 'RegionInput', 'ReplaceFlamingos2SequenceInput', 'ReplaceGhostSequenceInput', 'ReplaceGmosNorthSequenceInput', 'ReplaceGmosSouthSequenceInput', 'ReplaceGnirsSequenceInput', 'ReplaceIgrins2SequenceInput', 'ResetAcquisitionInput', 'RevokeUserInvitationInput', 'RightAscensionArcInput', 'RightAscensionInput', 'SchedulingConstraintsInput', 'ScienceRequirementsInput', 'SetAllocationsInput', 'SetGuideTargetNameInput', 'SetObservationWorkflowStateInput', 'SetProgramReferenceInput', 'SetProgramResourceLimitInput', 'SetProposalStatusInput', 'SiderealInput', 'SignalToNoiseExposureTimeModeInput', 'SiteCoordinateLimitsInput', 'SlitTelescopeConfigsInput', 'SourceProfileInput', 'SpectralDefinitionIntegratedInput', 'SpectralDefinitionSurfaceInput', 'SpectroscopyScienceRequirementsInput', 'SpiralTelescopeConfigGeneratorInput', 'StepConfigGcalInput', 'StepConfigInput', 'StepConfigSmartGcalInput', 'SubaruCallPropertiesInput', 'SubaruProposalTypeInput', 'SystemVerificationInput', 'TargetEditInput', 'TargetEnvironmentInput', 'TargetPropertiesInput', 'TelescopeConfigAlongSlitInput', 'TelescopeConfigGeneratorInput', 'TelescopeConfigInput', 'TelluricTypeInput', 'TimeAndCountExposureTimeModeInput', 'TimeChargeCorrectionInput', 'TimeSpanInput', 'TimingWindowEndInput', 'TimingWindowInput', 'TimingWindowRepeatInput', 'TooTriggerEditInput', 'UniformTelescopeConfigGeneratorInput', 'UnlinkUserInput', 'UnnormalizedSedInput', 'UpdateAsterismsInput', 'UpdateAttachmentsInput', 'UpdateCallsForProposalsInput', 'UpdateConfigurationRequestsInput', 'UpdateDatasetsInput', 'UpdateGroupsInput', 'UpdateObservationsInput', 'UpdateObservationsTimesInput', 'UpdateProgramNotesInput', 'UpdateProgramUsersInput', 'UpdateProgramsInput', 'UpdateProposalInput', 'UpdateTargetsInput', 'UserProfileInput', 'UserSuppliedEphemeris', 'UserSuppliedEphemerisElement', 'VisitorInput', 'WavelengthDitherInput', 'WavelengthInput', 'WhereAngle', 'WhereAttachment', 'WhereAttachmentType', 'WhereBoolean', 'WhereCalculatedObservationWorkflow', 'WhereCallForProposals', 'WhereCone', 'WhereConfigurationRequest', 'WhereDataset', 'WhereDatasetChronicleEntry', 'WhereDatasetReference', 'WhereEqDatabaseOperation', 'WhereEqExecutionEventType', 'WhereEqFocalPlane', 'WhereEqGeminiCallForProposalsType', 'WhereEqInstrument', 'WhereEqPartner', 'WhereEqPartnerLinkType', 'WhereEqProgramType', 'WhereEqProgramUserRole', 'WhereEqProposalStatus', 'WhereEqScienceSubtype', 'WhereEqSite', 'WhereEqStepId', 'WhereEqTargetDisposition', 'WhereEqToOActivation', 'WhereEqTooActivation', 'WhereEqUserType', 'WhereEqVisitId', 'WhereExecutionEvent', 'WhereGeminiCallProperties', 'WhereGroup', 'WhereImagingConfigOption', 'WhereObservation', 'WhereObservationReference', 'WhereObservatoryEq', 'WhereOptionBoolean', 'WhereOptionEqCalculationState', 'WhereOptionEqCalibrationRole', 'WhereOptionEqEducationalStatus', 'WhereOptionEqExchangePartner', 'WhereOptionEqGender', 'WhereOptionEqImagingCapability', 'WhereOptionEqInstrument', 'WhereOptionEqObservingModeType', 'WhereOptionEqPartner', 'WhereOptionEqQaState', 'WhereOptionEqSite', 'WhereOptionEqSpectroscopyCapability', 'WhereOptionEqTacCategory', 'WhereOptionOrderScienceBand', 'WhereOptionOrderTimestamp', 'WhereOptionString', 'WhereOrderAttachmentId', 'WhereOrderBigDecimal', 'WhereOrderCalculationState', 'WhereOrderCallForProposalsId', 'WhereOrderChronicleId', 'WhereOrderConfigurationRequestId', 'WhereOrderConfigurationRequestStatus', 'WhereOrderDatasetId', 'WhereOrderDatasetStage', 'WhereOrderDate', 'WhereOrderExecutionEventId', 'WhereOrderGroupId', 'WhereOrderInt', 'WhereOrderLong', 'WhereOrderObservationId', 'WhereOrderObservationWorkflowState', 'WhereOrderPosBigDecimal', 'WhereOrderPosInt', 'WhereOrderProgramId', 'WhereOrderProgramNoteId', 'WhereOrderProgramUserId', 'WhereOrderSemester', 'WhereOrderSequenceCommand', 'WhereOrderSequenceType', 'WhereOrderSlewStage', 'WhereOrderStepStage', 'WhereOrderTargetId', 'WhereOrderTimestamp', 'WhereOrderTooTriggerId', 'WhereOrderTooTriggerStatus', 'WhereOrderUserId', 'WherePartnerLink', 'WhereProgram', 'WhereProgramNote', 'WhereProgramReference', 'WhereProgramUser', 'WhereProposal', 'WhereProposalPartnerEntry', 'WhereProposalPartners', 'WhereProposalReference', 'WhereSpectroscopyConfigOption', 'WhereString', 'WhereTarget', 'WhereTooTrigger', 'WhereTooTriggerChronicleEntry', 'WhereUser', 'WhereUserProfile', 'WhereWavelength']

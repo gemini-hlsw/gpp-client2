@@ -312,10 +312,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   camera
-  centralWavelength {
-    nanometers
-  }
-  coadds
   decker
   defaultDecker
   defaultWellDepth
@@ -343,9 +339,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   initialCamera
-  initialCentralWavelength {
-    nanometers
-  }
   initialFilter
   initialGrating
   initialPrism
@@ -1720,10 +1713,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   camera
-  centralWavelength {
-    nanometers
-  }
-  coadds
   decker
   defaultDecker
   defaultWellDepth
@@ -1751,9 +1740,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   initialCamera
-  initialCentralWavelength {
-    nanometers
-  }
   initialFilter
   initialGrating
   initialPrism
@@ -3375,10 +3361,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   camera
-  centralWavelength {
-    nanometers
-  }
-  coadds
   decker
   defaultDecker
   defaultWellDepth
@@ -3406,9 +3388,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   initialCamera
-  initialCentralWavelength {
-    nanometers
-  }
   initialFilter
   initialGrating
   initialPrism
@@ -4669,10 +4648,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   camera
-  centralWavelength {
-    nanometers
-  }
-  coadds
   decker
   defaultDecker
   defaultWellDepth
@@ -4700,9 +4675,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   initialCamera
-  initialCentralWavelength {
-    nanometers
-  }
   initialFilter
   initialGrating
   initialPrism
@@ -7443,10 +7415,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   camera
-  centralWavelength {
-    nanometers
-  }
-  coadds
   decker
   defaultDecker
   defaultWellDepth
@@ -7474,9 +7442,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   initialCamera
-  initialCentralWavelength {
-    nanometers
-  }
   initialFilter
   initialGrating
   initialPrism
@@ -8727,10 +8692,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   camera
-  centralWavelength {
-    nanometers
-  }
-  coadds
   decker
   defaultDecker
   defaultWellDepth
@@ -8758,9 +8719,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   initialCamera
-  initialCentralWavelength {
-    nanometers
-  }
   initialFilter
   initialGrating
   initialPrism
@@ -10019,10 +9977,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   camera
-  centralWavelength {
-    nanometers
-  }
-  coadds
   decker
   defaultDecker
   defaultWellDepth
@@ -10050,9 +10004,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   initialCamera
-  initialCentralWavelength {
-    nanometers
-  }
   initialFilter
   initialGrating
   initialPrism
@@ -12031,10 +11982,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   camera
-  centralWavelength {
-    nanometers
-  }
-  coadds
   decker
   defaultDecker
   defaultWellDepth
@@ -12062,9 +12009,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   initialCamera
-  initialCentralWavelength {
-    nanometers
-  }
   initialFilter
   initialGrating
   initialPrism
@@ -13325,10 +13269,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   camera
-  centralWavelength {
-    nanometers
-  }
-  coadds
   decker
   defaultDecker
   defaultWellDepth
@@ -13356,9 +13296,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   initialCamera
-  initialCentralWavelength {
-    nanometers
-  }
   initialFilter
   initialGrating
   initialPrism
@@ -14881,10 +14818,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   camera
-  centralWavelength {
-    nanometers
-  }
-  coadds
   decker
   defaultDecker
   defaultWellDepth
@@ -14912,9 +14845,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   initialCamera
-  initialCentralWavelength {
-    nanometers
-  }
   initialFilter
   initialGrating
   initialPrism
@@ -16175,10 +16105,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   camera
-  centralWavelength {
-    nanometers
-  }
-  coadds
   decker
   defaultDecker
   defaultWellDepth
@@ -16206,9 +16132,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   initialCamera
-  initialCentralWavelength {
-    nanometers
-  }
   initialFilter
   initialGrating
   initialPrism
@@ -17467,10 +17390,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   camera
-  centralWavelength {
-    nanometers
-  }
-  coadds
   decker
   defaultDecker
   defaultWellDepth
@@ -17498,9 +17417,6 @@ fragment GnirsSpectroscopyDetails on GnirsSpectroscopy {
     }
   }
   initialCamera
-  initialCentralWavelength {
-    nanometers
-  }
   initialFilter
   initialGrating
   initialPrism
@@ -19289,6 +19205,7 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "AtomEvent.clientTime": ('development',),
     "AtomEvent.effectiveTime": ('development',),
     "AtomEvent.recordedTime": ('development',),
+    "Attachment.maskName": ('development',),
     "CallForProposalsExchangePartner.exchangePartner": ('development',),
     "CallForProposalsExchangePartner.submissionDeadline": ('development',),
     "CallForProposalsExchangePartner.submissionDeadlineOverride": ('development',),
@@ -19305,11 +19222,32 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "DatasetEvent.clientTime": ('development',),
     "DatasetEvent.effectiveTime": ('development',),
     "DatasetEvent.recordedTime": ('development',),
+    "DeclineTooTriggerInput.reason": ('development',),
+    "DeclineTooTriggerInput.tooTriggerId": ('development',),
+    "DeclineTooTriggerResult.tooTrigger": ('development',),
+    "DemoScience.defaultTooActivationCeiling": ('development',),
+    "DemoScience.explicitTooActivationCeiling": ('development',),
+    "DemoScience.toOActivation": ('production',),
+    "DemoScience.tooActivationCeiling": ('development',),
+    "DemoScienceInput.explicitTooActivationCeiling": ('development',),
+    "DemoScienceInput.toOActivation": ('production',),
+    "DirectorsTime.defaultTooActivationCeiling": ('development',),
+    "DirectorsTime.explicitTooActivationCeiling": ('development',),
+    "DirectorsTime.toOActivation": ('production',),
+    "DirectorsTime.tooActivationCeiling": ('development',),
+    "DirectorsTimeInput.explicitTooActivationCeiling": ('development',),
+    "DirectorsTimeInput.toOActivation": ('production',),
     "Execution.originalEstimate": ('development',),
     "ExecutionDigest.estimate": ('development',),
     "ExecutionEvent.clientTime": ('development',),
     "ExecutionEvent.effectiveTime": ('development',),
     "ExecutionEvent.recordedTime": ('development',),
+    "FastTurnaround.defaultTooActivationCeiling": ('development',),
+    "FastTurnaround.explicitTooActivationCeiling": ('development',),
+    "FastTurnaround.toOActivation": ('production',),
+    "FastTurnaround.tooActivationCeiling": ('development',),
+    "FastTurnaroundInput.explicitTooActivationCeiling": ('development',),
+    "FastTurnaroundInput.toOActivation": ('production',),
     "Flamingos2CustomMask.attachmentId": ('development',),
     "Flamingos2CustomMask.filename": ('production',),
     "Flamingos2CustomMaskInput.attachmentId": ('development',),
@@ -19341,6 +19279,8 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "GmosCustomMask.filename": ('production',),
     "GmosCustomMaskInput.attachmentId": ('development',),
     "GmosCustomMaskInput.filename": ('production',),
+    "GmosNorthMos.acquisition": ('development',),
+    "GmosNorthMos.acquisitionType": ('development',),
     "GmosNorthMos.ampGain": ('development',),
     "GmosNorthMos.ampReadMode": ('development',),
     "GmosNorthMos.centralWavelength": ('development',),
@@ -19371,6 +19311,14 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "GmosNorthMos.wavelengthDithers": ('development',),
     "GmosNorthMos.xBin": ('development',),
     "GmosNorthMos.yBin": ('development',),
+    "GmosNorthMosAcquisition.defaultFilter": ('development',),
+    "GmosNorthMosAcquisition.explicitFilter": ('development',),
+    "GmosNorthMosAcquisition.exposureTimeMode": ('development',),
+    "GmosNorthMosAcquisition.filter": ('development',),
+    "GmosNorthMosAcquisitionInput.explicitFilter": ('development',),
+    "GmosNorthMosAcquisitionInput.exposureTimeMode": ('development',),
+    "GmosNorthMosInput.acquisition": ('development',),
+    "GmosNorthMosInput.acquisitionType": ('development',),
     "GmosNorthMosInput.centralWavelength": ('development',),
     "GmosNorthMosInput.customMask": ('development',),
     "GmosNorthMosInput.explicitAmpGain": ('development',),
@@ -19383,6 +19331,8 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "GmosNorthMosInput.exposureTimeMode": ('development',),
     "GmosNorthMosInput.filter": ('development',),
     "GmosNorthMosInput.grating": ('development',),
+    "GmosSouthMos.acquisition": ('development',),
+    "GmosSouthMos.acquisitionType": ('development',),
     "GmosSouthMos.ampGain": ('development',),
     "GmosSouthMos.ampReadMode": ('development',),
     "GmosSouthMos.centralWavelength": ('development',),
@@ -19413,6 +19363,14 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "GmosSouthMos.wavelengthDithers": ('development',),
     "GmosSouthMos.xBin": ('development',),
     "GmosSouthMos.yBin": ('development',),
+    "GmosSouthMosAcquisition.defaultFilter": ('development',),
+    "GmosSouthMosAcquisition.explicitFilter": ('development',),
+    "GmosSouthMosAcquisition.exposureTimeMode": ('development',),
+    "GmosSouthMosAcquisition.filter": ('development',),
+    "GmosSouthMosAcquisitionInput.explicitFilter": ('development',),
+    "GmosSouthMosAcquisitionInput.exposureTimeMode": ('development',),
+    "GmosSouthMosInput.acquisition": ('development',),
+    "GmosSouthMosInput.acquisitionType": ('development',),
     "GmosSouthMosInput.centralWavelength": ('development',),
     "GmosSouthMosInput.customMask": ('development',),
     "GmosSouthMosInput.explicitAmpGain": ('development',),
@@ -19425,6 +19383,13 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "GmosSouthMosInput.exposureTimeMode": ('development',),
     "GmosSouthMosInput.filter": ('development',),
     "GmosSouthMosInput.grating": ('development',),
+    "GnirsCentralWavelengthConfig.centralWavelength": ('development',),
+    "GnirsCentralWavelengthConfig.coadds": ('development',),
+    "GnirsCentralWavelengthConfig.exposureTimeMode": ('development',),
+    "GnirsCentralWavelengthConfigInput.centralWavelength": ('development',),
+    "GnirsCentralWavelengthConfigInput.coadds": ('development',),
+    "GnirsCentralWavelengthConfigInput.exposureTimeMode": ('development',),
+    "GnirsImaging.acquisition": ('development',),
     "GnirsImaging.camera": ('development',),
     "GnirsImaging.coadds": ('development',),
     "GnirsImaging.defaultWellDepth": ('development',),
@@ -19434,16 +19399,37 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "GnirsImaging.initialFilters": ('development',),
     "GnirsImaging.variant": ('development',),
     "GnirsImaging.wellDepth": ('development',),
+    "GnirsImagingAcquisition.coadds": ('development',),
+    "GnirsImagingAcquisition.explicitAcquisitionType": ('development',),
+    "GnirsImagingAcquisition.explicitFilter": ('development',),
+    "GnirsImagingAcquisition.exposureTimeMode": ('development',),
+    "GnirsImagingAcquisition.skyOffset": ('development',),
+    "GnirsImagingAcquisitionInput.coadds": ('development',),
+    "GnirsImagingAcquisitionInput.explicitAcquisitionType": ('development',),
+    "GnirsImagingAcquisitionInput.explicitFilter": ('development',),
+    "GnirsImagingAcquisitionInput.exposureTimeMode": ('development',),
+    "GnirsImagingAcquisitionInput.skyOffset": ('development',),
     "GnirsImagingFilter.exposureTimeMode": ('development',),
     "GnirsImagingFilter.filter": ('development',),
     "GnirsImagingFilterInput.exposureTimeMode": ('development',),
     "GnirsImagingFilterInput.filter": ('development',),
+    "GnirsImagingInput.acquisition": ('development',),
     "GnirsImagingInput.camera": ('development',),
     "GnirsImagingInput.coadds": ('development',),
     "GnirsImagingInput.explicitReadMode": ('development',),
     "GnirsImagingInput.explicitWellDepth": ('development',),
     "GnirsImagingInput.filters": ('development',),
     "GnirsImagingInput.variant": ('development',),
+    "GnirsSpectroscopy.centralWavelength": ('production',),
+    "GnirsSpectroscopy.centralWavelengths": ('development',),
+    "GnirsSpectroscopy.coadds": ('production',),
+    "GnirsSpectroscopy.exposureTimeMode": ('production',),
+    "GnirsSpectroscopy.initialCentralWavelength": ('production',),
+    "GnirsSpectroscopy.initialCentralWavelengths": ('development',),
+    "GnirsSpectroscopyInput.centralWavelength": ('production',),
+    "GnirsSpectroscopyInput.centralWavelengths": ('development',),
+    "GnirsSpectroscopyInput.coadds": ('production',),
+    "GnirsSpectroscopyInput.exposureTimeMode": ('production',),
     "Igrins2ExecutionConfig.acquisition": ('development',),
     "Igrins2LongSlit.defaultOffsetMode": ('production',),
     "Igrins2LongSlit.defaultOffsets": ('production',),
@@ -19478,13 +19464,25 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "ItcGnirsImaging.itcType": ('development',),
     "ItcGnirsImagingResultSet.filter": ('development',),
     "ItcGnirsImagingResultSet.results": ('development',),
+    "ItcGnirsSpectroscopy.acquisition": ('development',),
+    "ItcGnirsSpectroscopy.gnirsSpectroscopyScience": ('development',),
+    "ItcGnirsSpectroscopy.itcType": ('development',),
+    "ItcGnirsSpectroscopyResultSet.centralWavelength": ('development',),
+    "ItcGnirsSpectroscopyResultSet.results": ('development',),
     "KeckProgramReference.label": ('development',),
     "KeckProgramReference.semester": ('development',),
     "KeckProgramReference.semesterIndex": ('development',),
     "KeckProgramReference.type": ('development',),
     "KeckProposalType.minPercentTime": ('development',),
     "KeckProposalTypeInput.minPercentTime": ('development',),
+    "LargeProgram.defaultTooActivationCeiling": ('development',),
+    "LargeProgram.explicitTooActivationCeiling": ('development',),
+    "LargeProgram.toOActivation": ('production',),
+    "LargeProgram.tooActivationCeiling": ('development',),
+    "LargeProgramInput.explicitTooActivationCeiling": ('development',),
+    "LargeProgramInput.toOActivation": ('production',),
     "Mutation.addEventBatch": ('development',),
+    "Mutation.declineTooTrigger": ('development',),
     "Mutation.refreshArchiveDuplication": ('development',),
     "Mutation.replaceGhostSequence": ('development',),
     "Observation.archiveDuplication": ('development',),
@@ -19498,11 +19496,21 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "ObservingModeInput.gmosNorthMos": ('development',),
     "ObservingModeInput.gmosSouthMos": ('development',),
     "ObservingModeInput.gnirsImaging": ('development',),
+    "Program.isActive": ('development',),
     "ProgramReferencePropertiesInput.keck": ('development',),
     "ProgramReferencePropertiesInput.subaru": ('development',),
     "ProgramReferencePropertiesKeckInput.semester": ('development',),
     "ProgramReferencePropertiesSubaruInput.semester": ('development',),
     "ProgramReferencePropertiesSubaruInput.subaruType": ('development',),
+    "Query.tooTrigger": ('development',),
+    "Query.tooTriggerChronicleEntries": ('development',),
+    "Query.tooTriggers": ('development',),
+    "Queue.defaultTooActivationCeiling": ('development',),
+    "Queue.explicitTooActivationCeiling": ('development',),
+    "Queue.toOActivation": ('production',),
+    "Queue.tooActivationCeiling": ('development',),
+    "QueueInput.explicitTooActivationCeiling": ('development',),
+    "QueueInput.toOActivation": ('production',),
     "RecordFlamingos2VisitInput.time": ('development',),
     "RecordGmosNorthVisitInput.time": ('development',),
     "RecordGmosSouthVisitInput.time": ('development',),
@@ -19517,6 +19525,12 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "ReplaceGhostSequenceInput.sequence": ('development',),
     "ReplaceGhostSequenceInput.sequenceType": ('development',),
     "ReplaceGhostSequenceResult.sequence": ('development',),
+    "SchedulingConstraints.defaultExecutionRequirement": ('development',),
+    "SchedulingConstraints.executionRequirement": ('development',),
+    "SchedulingConstraints.explicitExecutionRequirement": ('development',),
+    "SchedulingConstraints.tooActivation": ('development',),
+    "SchedulingConstraintsInput.explicitExecutionRequirement": ('development',),
+    "SchedulingConstraintsInput.tooActivation": ('development',),
     "SequenceEvent.clientTime": ('development',),
     "SequenceEvent.effectiveTime": ('development',),
     "SequenceEvent.recordedTime": ('development',),
@@ -19535,21 +19549,73 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "SubaruProposalType.type": ('production',),
     "SubaruProposalTypeInput.minPercentTime": ('development',),
     "SubaruProposalTypeInput.type": ('production',),
+    "Subscription.tooTriggerEdit": ('development',),
+    "SystemVerification.defaultTooActivationCeiling": ('development',),
+    "SystemVerification.explicitTooActivationCeiling": ('development',),
+    "SystemVerification.toOActivation": ('production',),
+    "SystemVerification.tooActivationCeiling": ('development',),
+    "SystemVerificationInput.explicitTooActivationCeiling": ('development',),
+    "SystemVerificationInput.toOActivation": ('production',),
     "TargetEnvironment.explicitSignalToNoiseTarget": ('development',),
     "TargetEnvironmentInput.explicitSignalToNoiseTargetId": ('development',),
+    "TooTrigger.id": ('development',),
+    "TooTrigger.observation": ('development',),
+    "TooTrigger.requestedAt": ('development',),
+    "TooTrigger.requestedBy": ('development',),
+    "TooTrigger.resolutionReason": ('development',),
+    "TooTrigger.status": ('development',),
+    "TooTrigger.updatedAt": ('development',),
+    "TooTriggerChronicleEntry.id": ('development',),
+    "TooTriggerChronicleEntry.modObservationId": ('development',),
+    "TooTriggerChronicleEntry.modProgramId": ('development',),
+    "TooTriggerChronicleEntry.modResolutionReason": ('development',),
+    "TooTriggerChronicleEntry.modStatus": ('development',),
+    "TooTriggerChronicleEntry.newObservationId": ('development',),
+    "TooTriggerChronicleEntry.newProgramId": ('development',),
+    "TooTriggerChronicleEntry.newResolutionReason": ('development',),
+    "TooTriggerChronicleEntry.newStatus": ('development',),
+    "TooTriggerChronicleEntry.operation": ('development',),
+    "TooTriggerChronicleEntry.timestamp": ('development',),
+    "TooTriggerChronicleEntry.tooTrigger": ('development',),
+    "TooTriggerChronicleEntry.transactionId": ('development',),
+    "TooTriggerChronicleEntry.user": ('development',),
+    "TooTriggerChronicleEntrySelectResult.hasMore": ('development',),
+    "TooTriggerChronicleEntrySelectResult.matches": ('development',),
+    "TooTriggerEdit.editType": ('development',),
+    "TooTriggerEdit.observation": ('development',),
+    "TooTriggerEdit.tooTriggerId": ('development',),
+    "TooTriggerEdit.value": ('development',),
+    "TooTriggerEditInput.observationId": ('development',),
+    "TooTriggerEditInput.programId": ('development',),
+    "TooTriggerEditInput.tooTriggerId": ('development',),
+    "TooTriggerSelectResult.hasMore": ('development',),
+    "TooTriggerSelectResult.matches": ('development',),
     "Visit.clientTime": ('development',),
     "Visit.effectiveTime": ('development',),
     "Visit.recordedTime": ('development',),
     "Visitor.scienceFovDiameter": ('development',),
     "VisitorInput.scienceFovDiameter": ('development',),
+    "WhereAttachment.maskName": ('development',),
+    "WhereCone.center": ('development',),
+    "WhereCone.distance": ('development',),
     "WhereConfigurationRequest.createdAt": ('development',),
     "WhereConfigurationRequest.feedback": ('development',),
     "WhereConfigurationRequest.justification": ('development',),
+    "WhereConfigurationRequest.observingModeType": ('development',),
+    "WhereConfigurationRequest.targetCoordinates": ('development',),
     "WhereConfigurationRequest.updatedAt": ('development',),
     "WhereDataset.end": ('development',),
     "WhereDataset.program": ('development',),
     "WhereDataset.start": ('development',),
     "WhereDatasetChronicleEntry.program": ('development',),
+    "WhereEqToOActivation.EQ": ('production',),
+    "WhereEqToOActivation.IN": ('production',),
+    "WhereEqToOActivation.NEQ": ('production',),
+    "WhereEqToOActivation.NIN": ('production',),
+    "WhereEqTooActivation.EQ": ('development',),
+    "WhereEqTooActivation.IN": ('development',),
+    "WhereEqTooActivation.NEQ": ('development',),
+    "WhereEqTooActivation.NIN": ('development',),
     "WhereObservation.calibrationRole": ('development',),
     "WhereOptionOrderTimestamp.EQ": ('development',),
     "WhereOptionOrderTimestamp.GT": ('development',),
@@ -19560,46 +19626,107 @@ FIELD_AVAILABILITY: dict[str, tuple[str, ...]] = {
     "WhereOptionOrderTimestamp.LTE": ('development',),
     "WhereOptionOrderTimestamp.NEQ": ('development',),
     "WhereOptionOrderTimestamp.NIN": ('development',),
+    "WhereOrderTooTriggerId.EQ": ('development',),
+    "WhereOrderTooTriggerId.GT": ('development',),
+    "WhereOrderTooTriggerId.GTE": ('development',),
+    "WhereOrderTooTriggerId.IN": ('development',),
+    "WhereOrderTooTriggerId.LT": ('development',),
+    "WhereOrderTooTriggerId.LTE": ('development',),
+    "WhereOrderTooTriggerId.NEQ": ('development',),
+    "WhereOrderTooTriggerId.NIN": ('development',),
+    "WhereOrderTooTriggerStatus.EQ": ('development',),
+    "WhereOrderTooTriggerStatus.GT": ('development',),
+    "WhereOrderTooTriggerStatus.GTE": ('development',),
+    "WhereOrderTooTriggerStatus.IN": ('development',),
+    "WhereOrderTooTriggerStatus.LT": ('development',),
+    "WhereOrderTooTriggerStatus.LTE": ('development',),
+    "WhereOrderTooTriggerStatus.NEQ": ('development',),
+    "WhereOrderTooTriggerStatus.NIN": ('development',),
+    "WhereProgram.isActive": ('development',),
+    "WhereTooTrigger.AND": ('development',),
+    "WhereTooTrigger.NOT": ('development',),
+    "WhereTooTrigger.OR": ('development',),
+    "WhereTooTrigger.id": ('development',),
+    "WhereTooTrigger.observationId": ('development',),
+    "WhereTooTrigger.programId": ('development',),
+    "WhereTooTrigger.requestedAt": ('development',),
+    "WhereTooTrigger.requestedBy": ('development',),
+    "WhereTooTrigger.status": ('development',),
+    "WhereTooTrigger.updatedAt": ('development',),
+    "WhereTooTriggerChronicleEntry.AND": ('development',),
+    "WhereTooTriggerChronicleEntry.NOT": ('development',),
+    "WhereTooTriggerChronicleEntry.OR": ('development',),
+    "WhereTooTriggerChronicleEntry.id": ('development',),
+    "WhereTooTriggerChronicleEntry.modObservationId": ('development',),
+    "WhereTooTriggerChronicleEntry.modProgramId": ('development',),
+    "WhereTooTriggerChronicleEntry.modResolutionReason": ('development',),
+    "WhereTooTriggerChronicleEntry.modStatus": ('development',),
+    "WhereTooTriggerChronicleEntry.operation": ('development',),
+    "WhereTooTriggerChronicleEntry.timestamp": ('development',),
+    "WhereTooTriggerChronicleEntry.tooTrigger": ('development',),
+    "WhereTooTriggerChronicleEntry.user": ('development',),
 }
 """Type.field pairs not present in every schema source."""
 
 RESTRICTED_FIELD_NAMES: dict[str, tuple[str, ...]] = {
+    "acquisitionType": ('development',),
     "addEventBatch": ('development',),
     "airmass": ('development',),
     "archiveDuplication": ('development',),
     "attachmentId": ('development',),
+    "centralWavelengths": ('development',),
     "clientTime": ('development',),
     "createdAt": ('development',),
     "dataLabel": ('development',),
+    "declineTooTrigger": ('development',),
+    "defaultExecutionRequirement": ('development',),
     "defaultExposure": ('development',),
     "defaultOffsetMode": ('production',),
     "defaultSaveSVCImages": ('production',),
+    "defaultTooActivationCeiling": ('development',),
     "distance": ('development',),
     "effectiveTime": ('development',),
+    "executionRequirement": ('development',),
+    "explicitExecutionRequirement": ('development',),
     "explicitExposure": ('development',),
     "explicitOffsetMode": ('production',),
     "explicitSaveSVCImages": ('production',),
     "explicitSignalToNoiseTarget": ('development',),
     "explicitSignalToNoiseTargetId": ('development',),
+    "explicitTooActivationCeiling": ('development',),
     "feedback": ('development',),
     "gmosNorthMos": ('development',),
     "gmosSouthMos": ('development',),
     "gnirsImaging": ('development',),
     "gnirsImagingScience": ('development',),
+    "gnirsSpectroscopyScience": ('development',),
+    "initialCentralWavelengths": ('development',),
     "initialSlitWidth": ('development',),
     "instrumentString": ('development',),
+    "isActive": ('development',),
     "lastCheckedAt": ('development',),
+    "maskName": ('development',),
     "matchCount": ('development',),
+    "modProgramId": ('development',),
+    "modResolutionReason": ('development',),
+    "modStatus": ('development',),
+    "newProgramId": ('development',),
+    "newResolutionReason": ('development',),
+    "newStatus": ('development',),
     "objectName": ('development',),
     "observationType": ('development',),
     "observeClassString": ('development',),
     "originalEstimate": ('development',),
     "qaStateString": ('development',),
     "queryUrls": ('development',),
+    "reason": ('development',),
     "recordedTime": ('development',),
     "refreshArchiveDuplication": ('development',),
     "releaseDate": ('development',),
     "replaceGhostSequence": ('development',),
+    "requestedAt": ('development',),
+    "requestedBy": ('development',),
+    "resolutionReason": ('development',),
     "saturated": ('development',),
     "scienceFovDiameter": ('development',),
     "searchCoordinates": ('development',),
@@ -19608,6 +19735,15 @@ RESTRICTED_FIELD_NAMES: dict[str, tuple[str, ...]] = {
     "slew": ('development',),
     "subaruType": ('development',),
     "svc": ('development',),
+    "targetCoordinates": ('development',),
+    "toOActivation": ('production',),
+    "tooActivation": ('development',),
+    "tooActivationCeiling": ('development',),
+    "tooTrigger": ('development',),
+    "tooTriggerChronicleEntries": ('development',),
+    "tooTriggerEdit": ('development',),
+    "tooTriggerId": ('development',),
+    "tooTriggers": ('development',),
     "utDateTime": ('development',),
 }
 """Field names with restricted, unambiguous availability, used to

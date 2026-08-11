@@ -11,7 +11,6 @@ class ArcType(StrEnum):
 
 
 class ArchiveDuplicationState(StrEnum):
-    """The outcome of the most recent Archive Duplication Search attempt."""
     NOT_CHECKED = "NOT_CHECKED"
     NOT_APPLICABLE = "NOT_APPLICABLE"
     CHECKED = "CHECKED"
@@ -163,7 +162,6 @@ class CloudExtinctionPreset(StrEnum):
 
 
 class ConditionsExpectationType(StrEnum):
-    """Enumerated type of expected conditions."""
     CLEAR_SKIES = "CLEAR_SKIES"
     FOG = "FOG"
     THICK_CLOUDS = "THICK_CLOUDS"
@@ -171,7 +169,6 @@ class ConditionsExpectationType(StrEnum):
 
 
 class ConditionsMeasurementSource(StrEnum):
-    """Enumerated type of conditions measurement sources."""
     OBSERVER = "OBSERVER"
 
 
@@ -288,6 +285,12 @@ class ExecutionEventType(StrEnum):
     ATOM = "ATOM"
     STEP = "STEP"
     DATASET = "DATASET"
+
+
+class ExecutionRequirement(StrEnum):
+    UNCONSTRAINED = "UNCONSTRAINED"
+    NO_SPLITTING = "NO_SPLITTING"
+    UNINTERRUPTIBLE = "UNINTERRUPTIBLE"
 
 
 class ExecutionState(StrEnum):
@@ -596,6 +599,11 @@ class GmosLongSlitAcquisitionRoi(StrEnum):
     CCD2 = "CCD2"
     STAMP = "STAMP"
     FULL_CCD2 = "FULL_CCD2"
+
+
+class GmosMosAcquisitionType(StrEnum):
+    MASK_IN = "MASK_IN"
+    MASK_OUT = "MASK_OUT"
 
 
 class GmosNorthBuiltinFpu(StrEnum):
@@ -994,6 +1002,7 @@ class ObservationValidationCode(StrEnum):
     CONFIG_REQUEST_NOT_REQUESTED = "CONFIG_REQUEST_NOT_REQUESTED"
     CONFIG_REQUEST_DENIED = "CONFIG_REQUEST_DENIED"
     CONFIG_REQUEST_PENDING = "CONFIG_REQUEST_PENDING"
+    TOO_ACTIVATION_UNAPPROVED = "TOO_ACTIVATION_UNAPPROVED"
 
 
 class ObservationWorkflowState(StrEnum):
@@ -1183,7 +1192,6 @@ class ScienceSubtype(StrEnum):
 
 
 class SeeingTrend(StrEnum):
-    """Enumerated type of seeing trends."""
     GETTING_BETTER = "GETTING_BETTER"
     GETTING_WORSE = "GETTING_WORSE"
     STAYING_THE_SAME = "STAYING_THE_SAME"
@@ -1550,6 +1558,19 @@ class ToOActivation(StrEnum):
     RAPID = "RAPID"
 
 
+class TooActivation(StrEnum):
+    NONE = "NONE"
+    STANDARD = "STANDARD"
+    RAPID = "RAPID"
+    INTERRUPTING = "INTERRUPTING"
+
+
+class TooTriggerStatus(StrEnum):
+    REQUESTED = "REQUESTED"
+    DECLINED = "DECLINED"
+    WITHDRAWN = "WITHDRAWN"
+
+
 class UserInvitationStatus(StrEnum):
     PENDING = "PENDING"
     REDEEMED = "REDEEMED"
@@ -1587,4 +1608,4 @@ class WavelengthOrder(StrEnum):
     DECREASING = "DECREASING"
     INCREASING = "INCREASING"
 
-__all__ = ['ArcType', 'ArchiveDuplicationState', 'AtomExecutionState', 'AtomStage', 'AttachmentType', 'Band', 'BasePositionType', 'BlindOffsetType', 'Breakpoint', 'BrightnessIntegratedUnits', 'BrightnessSurfaceUnits', 'CalculationState', 'CalibrationRole', 'CassRotator', 'CatalogName', 'ChargeClass', 'CloudExtinctionPreset', 'ConditionsExpectationType', 'ConditionsMeasurementSource', 'ConfigurationRequestStatus', 'ConsiderForBand3', 'CoolStarTemperature', 'DatabaseOperation', 'DatasetQaState', 'DatasetStage', 'EditType', 'EducationalStatus', 'EmailStatus', 'EphemerisKeyType', 'ExchangeObservingModeType', 'ExchangePartner', 'ExecutionEventType', 'ExecutionState', 'Existence', 'Flamingos2CustomSlitWidth', 'Flamingos2Decker', 'Flamingos2Disperser', 'Flamingos2Filter', 'Flamingos2Fpu', 'Flamingos2LyotWheel', 'Flamingos2ReadMode', 'Flamingos2ReadoutMode', 'Flamingos2Reads', 'FluxDensityContinuumIntegratedUnits', 'FluxDensityContinuumSurfaceUnits', 'FocalPlane', 'GalaxySpectrum', 'GcalArc', 'GcalContinuum', 'GcalDiffuser', 'GcalFilter', 'GcalShutter', 'GeminiCallForProposalsType', 'Gender', 'GhostBinning', 'GhostIfu1FiberAgitator', 'GhostIfu2FiberAgitator', 'GhostIfuMappingType', 'GhostReadMode', 'GhostResolutionMode', 'GmosAmpCount', 'GmosAmpGain', 'GmosAmpReadMode', 'GmosBinning', 'GmosCustomSlitWidth', 'GmosDtax', 'GmosEOffsetting', 'GmosGratingOrder', 'GmosLongSlitAcquisitionRoi', 'GmosNorthBuiltinFpu', 'GmosNorthDetector', 'GmosNorthFilter', 'GmosNorthGrating', 'GmosNorthStageMode', 'GmosRoi', 'GmosSouthBuiltinFpu', 'GmosSouthDetector', 'GmosSouthFilter', 'GmosSouthGrating', 'GmosSouthStageMode', 'GnirsAcquisitionType', 'GnirsCamera', 'GnirsDecker', 'GnirsFilter', 'GnirsFpuIfu', 'GnirsFpuOther', 'GnirsFpuSlit', 'GnirsGrating', 'GnirsPrism', 'GnirsReadMode', 'GnirsWellDepth', 'GuideProbe', 'GuideState', 'HiiRegionSpectrum', 'Ignore', 'ImageQualityPreset', 'ImagingCapability', 'ImagingVariantType', 'Instrument', 'ItcType', 'KeckInstrument', 'LineFluxIntegratedUnits', 'LineFluxSurfaceUnits', 'MosPreImaging', 'ObsActiveStatus', 'ObsStatus', 'ObservationValidationCode', 'ObservationWorkflowState', 'Observatory', 'ObserveClass', 'ObservingModeType', 'Partner', 'PartnerLinkType', 'PlanetSpectrum', 'PlanetaryNebulaSpectrum', 'PortDisposition', 'PosAngleConstraintMode', 'ProgramType', 'ProgramUserRole', 'ProgramUserSupportRoleType', 'ProposalStatus', 'QuasarSpectrum', 'ScienceBand', 'ScienceMode', 'ScienceSubtype', 'SeeingTrend', 'SequenceCommand', 'SequenceType', 'Site', 'SkyBackground', 'SlewStage', 'SlitOffsetMode', 'SmartGcalType', 'SpectroscopyCapability', 'StellarLibrarySpectrum', 'StepExecutionState', 'StepStage', 'StepType', 'SubaruCallForProposalsType', 'SubaruInstrument', 'TacCategory', 'TargetDisposition', 'TelescopeConfigGeneratorType', 'TelluricTag', 'TimeAccountingCategory', 'TimeChargeCorrectionOp', 'TimingWindowInclusion', 'ToOActivation', 'UserInvitationStatus', 'UserType', 'VisitorObservingModeType', 'WaterVapor', 'WavelengthOrder']
+__all__ = ['ArcType', 'ArchiveDuplicationState', 'AtomExecutionState', 'AtomStage', 'AttachmentType', 'Band', 'BasePositionType', 'BlindOffsetType', 'Breakpoint', 'BrightnessIntegratedUnits', 'BrightnessSurfaceUnits', 'CalculationState', 'CalibrationRole', 'CassRotator', 'CatalogName', 'ChargeClass', 'CloudExtinctionPreset', 'ConditionsExpectationType', 'ConditionsMeasurementSource', 'ConfigurationRequestStatus', 'ConsiderForBand3', 'CoolStarTemperature', 'DatabaseOperation', 'DatasetQaState', 'DatasetStage', 'EditType', 'EducationalStatus', 'EmailStatus', 'EphemerisKeyType', 'ExchangeObservingModeType', 'ExchangePartner', 'ExecutionEventType', 'ExecutionRequirement', 'ExecutionState', 'Existence', 'Flamingos2CustomSlitWidth', 'Flamingos2Decker', 'Flamingos2Disperser', 'Flamingos2Filter', 'Flamingos2Fpu', 'Flamingos2LyotWheel', 'Flamingos2ReadMode', 'Flamingos2ReadoutMode', 'Flamingos2Reads', 'FluxDensityContinuumIntegratedUnits', 'FluxDensityContinuumSurfaceUnits', 'FocalPlane', 'GalaxySpectrum', 'GcalArc', 'GcalContinuum', 'GcalDiffuser', 'GcalFilter', 'GcalShutter', 'GeminiCallForProposalsType', 'Gender', 'GhostBinning', 'GhostIfu1FiberAgitator', 'GhostIfu2FiberAgitator', 'GhostIfuMappingType', 'GhostReadMode', 'GhostResolutionMode', 'GmosAmpCount', 'GmosAmpGain', 'GmosAmpReadMode', 'GmosBinning', 'GmosCustomSlitWidth', 'GmosDtax', 'GmosEOffsetting', 'GmosGratingOrder', 'GmosLongSlitAcquisitionRoi', 'GmosMosAcquisitionType', 'GmosNorthBuiltinFpu', 'GmosNorthDetector', 'GmosNorthFilter', 'GmosNorthGrating', 'GmosNorthStageMode', 'GmosRoi', 'GmosSouthBuiltinFpu', 'GmosSouthDetector', 'GmosSouthFilter', 'GmosSouthGrating', 'GmosSouthStageMode', 'GnirsAcquisitionType', 'GnirsCamera', 'GnirsDecker', 'GnirsFilter', 'GnirsFpuIfu', 'GnirsFpuOther', 'GnirsFpuSlit', 'GnirsGrating', 'GnirsPrism', 'GnirsReadMode', 'GnirsWellDepth', 'GuideProbe', 'GuideState', 'HiiRegionSpectrum', 'Ignore', 'ImageQualityPreset', 'ImagingCapability', 'ImagingVariantType', 'Instrument', 'ItcType', 'KeckInstrument', 'LineFluxIntegratedUnits', 'LineFluxSurfaceUnits', 'MosPreImaging', 'ObsActiveStatus', 'ObsStatus', 'ObservationValidationCode', 'ObservationWorkflowState', 'Observatory', 'ObserveClass', 'ObservingModeType', 'Partner', 'PartnerLinkType', 'PlanetSpectrum', 'PlanetaryNebulaSpectrum', 'PortDisposition', 'PosAngleConstraintMode', 'ProgramType', 'ProgramUserRole', 'ProgramUserSupportRoleType', 'ProposalStatus', 'QuasarSpectrum', 'ScienceBand', 'ScienceMode', 'ScienceSubtype', 'SeeingTrend', 'SequenceCommand', 'SequenceType', 'Site', 'SkyBackground', 'SlewStage', 'SlitOffsetMode', 'SmartGcalType', 'SpectroscopyCapability', 'StellarLibrarySpectrum', 'StepExecutionState', 'StepStage', 'StepType', 'SubaruCallForProposalsType', 'SubaruInstrument', 'TacCategory', 'TargetDisposition', 'TelescopeConfigGeneratorType', 'TelluricTag', 'TimeAccountingCategory', 'TimeChargeCorrectionOp', 'TimingWindowInclusion', 'ToOActivation', 'TooActivation', 'TooTriggerStatus', 'UserInvitationStatus', 'UserType', 'VisitorObservingModeType', 'WaterVapor', 'WavelengthOrder']

@@ -98,12 +98,20 @@ no generated file, cannot drift, and `tests/test_cli.py` pins the rule.
 1. **Verify prod-only field VALUES** (Igrins2/F2 offsets, saveSVCImages) -
    needs a token that can see F2/IGRINS2 observations; Dan's sees only his
    test program. Query text is already validated by production.
-2. **Re-download the dev schema** (committed copy predates known drift:
-   ToO trigger types, TooActivation rename) - the dev token works now and
-   the write round-trips already ran green against development.
-3. **site_status domain** (scrapes a status web page in the old client) -
+2. **GNIRS spectroscopy drift decision**: development restructured
+   `GnirsSpectroscopy` (`centralWavelength`/`initialCentralWavelength` ->
+   plural `[GnirsCentralWavelengthConfig!]!` lists, `coadds` removed), so
+   those selections prune on development (schema refreshed 2026-08-11).
+   Decide whether the operations should also select the new plural shape
+   for dev consumers - a product call on what GOATS/scheduler need.
+3. **Dev deployment stopped serving descriptions** (observed 2026-08-11):
+   introspection against development returns null descriptions, so
+   dev-only types lose their generated docstrings (shared types keep
+   production's via the merge backfill). Upstream issue; re-download once
+   fixed to restore them.
+4. **site_status domain** (scrapes a status web page in the old client) -
    port if still wanted.
-4. **Token hygiene**: Dan's prod token passed through a chat transcript;
+5. **Token hygiene**: Dan's prod token passed through a chat transcript;
    rotate it.
-5. **Release**: the distribution is `gpp-client2` (Dan's decision,
+6. **Release**: the distribution is `gpp-client2` (Dan's decision,
    2026-08-10); tag `vX.Y.Z` for uv-dynamic-versioning before any release.

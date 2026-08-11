@@ -94,6 +94,7 @@ StepId = str
 """StepId id formatted as `s-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}`"""
 TargetId = str
 """TargetId id formatted as `t-[1-9a-f][0-9a-f]*`"""
+TooTriggerId = str
 TransactionId = str
 UserId = str
 UserInvitationId = str
@@ -101,4 +102,4 @@ UserInvitationKey = str
 VisitId = str
 """VisitId id formatted as `v-[1-9a-f][0-9a-f]*`"""
 
-__all__ = ['AtomId', 'AttachmentId', 'BigDecimal', 'CallForProposalsId', 'ChronicleId', 'ConfigurationRequestId', 'DatasetFilename', 'DatasetId', 'DatasetReferenceLabel', 'Date', 'DmsString', 'EmailAddress', 'EpochString', 'ExecutionEventId', 'Extinction', 'GroupId', 'HmsString', 'IdempotencyKey', 'IntPercent', 'Long', 'NonEmptyString', 'NonNegBigDecimal', 'NonNegInt', 'NonNegLong', 'NonNegShort', 'ObservationId', 'ObservationReferenceLabel', 'PosBigDecimal', 'PosInt', 'PosLong', 'PosShort', 'ProgramId', 'ProgramNoteId', 'ProgramReferenceLabel', 'ProgramUserId', 'ProposalReferenceLabel', 'Semester', 'SignalToNoise', 'StepId', 'TargetId', 'Timestamp', 'TransactionId', 'UserId', 'UserInvitationId', 'UserInvitationKey', 'VisitId']
+__all__ = ['AtomId', 'AttachmentId', 'BigDecimal', 'CallForProposalsId', 'ChronicleId', 'ConfigurationRequestId', 'DatasetFilename', 'DatasetId', 'DatasetReferenceLabel', 'Date', 'DmsString', 'EmailAddress', 'EpochString', 'ExecutionEventId', 'Extinction', 'GroupId', 'HmsString', 'IdempotencyKey', 'IntPercent', 'Long', 'NonEmptyString', 'NonNegBigDecimal', 'NonNegInt', 'NonNegLong', 'NonNegShort', 'ObservationId', 'ObservationReferenceLabel', 'PosBigDecimal', 'PosInt', 'PosLong', 'PosShort', 'ProgramId', 'ProgramNoteId', 'ProgramReferenceLabel', 'ProgramUserId', 'ProposalReferenceLabel', 'Semester', 'SignalToNoise', 'StepId', 'TargetId', 'Timestamp', 'TooTriggerId', 'TransactionId', 'UserId', 'UserInvitationId', 'UserInvitationKey', 'VisitId']
