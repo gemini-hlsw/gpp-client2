@@ -14,9 +14,12 @@ profiles that are configured so you can see what the client actually found.
 
 ## The config file
 
-The file lives at `~/.config/gpp-client2/config.toml` (or under
-`$XDG_CONFIG_HOME` if you set it; `$GPP_CONFIG_FILE` overrides the path
-entirely). A profile bundles an environment with its token:
+The file lives in the platform's application config directory (via
+`typer.get_app_dir`): `~/.config/gpp-client2/config.toml` on Linux
+(honoring `$XDG_CONFIG_HOME`), `~/Library/Application Support/gpp-client2/`
+on macOS, `%APPDATA%\gpp-client2\` on Windows. `$GPP_CONFIG_FILE`
+overrides the path entirely. A profile bundles an environment with its
+token:
 
 ```toml
 default_profile = "prod"

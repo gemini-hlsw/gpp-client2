@@ -80,7 +80,8 @@ reflection at startup - no generated file, cannot drift, and
   `.live-test-ledger.json` before anything else, and delete ONLY recorded
   IDs - never name matches. Crashed-run leftovers are healed at next start.
 - Double opt-in: `-m live` AND `GPP_LIVE_WRITE=1`.
-- Config: `~/.config/gpp-client2/config.toml` (profiles); offline tests
+- Config: `config.toml` in the platform app dir per `typer.get_app_dir`
+  (macOS: `~/Library/Application Support/gpp-client2/`); offline tests
   isolate via `GPP_CONFIG_FILE`, live tests use the real environment
   (`GPP_PROFILE=dev uv run pytest -m live` targets development). Working
   dev and prod tokens exist (dev added 2026-08-10); read and write suites

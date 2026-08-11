@@ -2,7 +2,7 @@
 
 import pytest
 
-from gpp_client2.config import find_download_token, resolve_config
+from gpp_client2.config import find_download_token, get_config_path, resolve_config
 from gpp_client2.environments import Environment
 from gpp_client2.errors import GPPAuthError, GPPConfigError
 
@@ -153,3 +153,20 @@ def test_find_download_token_prefers_matching_profile(tmp_path, monkeypatch):
     monkeypatch.setenv("GPP_TOKEN", "fallback")
     assert find_download_token("development") == "dev-tok"
     assert find_download_token("production") == "fallback"
+
+
+class TestConfigPath:
+    """Path resolution: $GPP_CONFIG_FILE override, else the platform app dir."""
+
+    def test_env_override_wins(self, monkeypatch, tmp_path):
+        override = tmp_path / "custom.toml"
+        monkeypatch.setenv("GPP_CONFIG_FILE", str(override))
+        assert get_config_path() == override
+
+    def test_defaults_to_platform_app_dir(self, monkeypatch, tmp_path):
+        monkeypatch.delenv("GPP_CONFIG_FILE", raising=False)
+        directory = tmp_path / "app-dir" / "gpp-client2"
+        monkeypatch.setattr(
+            "gpp_client2.config.typer.get_app_dir", lambda name: str(directory)
+        )
+        assert get_config_path() == directory / "config.toml"

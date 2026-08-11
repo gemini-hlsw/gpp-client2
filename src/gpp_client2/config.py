@@ -22,6 +22,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+import typer
+
 from gpp_client2.environments import Environment, spec_for
 from gpp_client2.errors import GPPAuthError, GPPConfigError
 
@@ -40,16 +42,16 @@ def get_config_path() -> Path:
     """
     Path of the configuration file.
 
-    ``$GPP_CONFIG_FILE`` overrides; otherwise XDG conventions apply on every
-    platform: ``$XDG_CONFIG_HOME/gpp-client2/config.toml``, defaulting to
-    ``~/.config/gpp-client2/config.toml``.
+    ``$GPP_CONFIG_FILE`` overrides. Otherwise the platform's application
+    config directory applies, via :func:`typer.get_app_dir`: on Linux
+    ``$XDG_CONFIG_HOME/gpp-client2`` (default ``~/.config/gpp-client2``),
+    on macOS ``~/Library/Application Support/gpp-client2``, on Windows
+    ``%APPDATA%\\gpp-client2``.
     """
     override = os.environ.get(_CONFIG_ENV_VAR)
     if override:
         return Path(override).expanduser()
-    xdg = os.environ.get("XDG_CONFIG_HOME")
-    base = Path(xdg).expanduser() if xdg else Path.home() / ".config"
-    return base / "gpp-client2" / "config.toml"
+    return Path(typer.get_app_dir("gpp-client2")) / "config.toml"
 
 
 def load_profiles(
