@@ -26,7 +26,6 @@ docs = [
     "furo>=2024.8",
     "myst-parser>=4",
     "sphinx>=8",
-    "sphinx-argparse>=0.5",
     "sphinx-copybutton>=0.5",
 ]
 
