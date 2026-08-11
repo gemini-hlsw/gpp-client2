@@ -89,6 +89,7 @@ KNOWN_STRING_SCALARS = {
     "Semester",
     "StepId",
     "TargetId",
+    "TooTriggerId",
     "TransactionId",
     "UserId",
     "UserInvitationId",
