@@ -25,8 +25,8 @@ Both clients accept the same keyword arguments: `environment`, `profile`,
 analysis notebooks against production), `timeout`, and `transport` (inject
 `httpx.MockTransport` in tests). Configuration resolves explicit args >
 `GPP_*` env vars (`GPP_ENVIRONMENT`, `GPP_URL`, `GPP_TOKEN`, `GPP_PROFILE`)
-> the profile from `config.toml` in the platform config dir
-(`typer.get_app_dir("gpp-client2")`; `GPP_CONFIG_FILE` overrides):
+> the profile from `config.toml` in `~/.gpp-client2/` (same path on every
+Unix; `%APPDATA%\gpp-client2\` on Windows; `GPP_CONFIG_FILE` overrides):
 
 ```toml
 default_profile = "dev"

@@ -1,1 +1,1 @@
-Resolve the config file from the platform's application config directory via typer.get_app_dir; GPP_CONFIG_FILE overrides the path.
+Resolve the config file from `~/.gpp-client2/config.toml` on every Unix (macOS and Linux resolve identically; `%APPDATA%\gpp-client2\` on Windows); `GPP_CONFIG_FILE` overrides the path.

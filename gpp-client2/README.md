@@ -40,9 +40,8 @@ Configuration resolves per field, highest priority first:
 2. Environment variables: `GPP_ENVIRONMENT`, `GPP_URL`, `GPP_TOKEN`,
    `GPP_PROFILE`, `GPP_SCHEMA_SOURCE`
 3. The profile selected by `GPP_PROFILE`, or `default_profile` from
-   `config.toml` in the platform config dir (via `typer.get_app_dir`:
-   `~/.config/gpp-client2/` on Linux, `~/Library/Application
-   Support/gpp-client2/` on macOS, `%APPDATA%\`gpp-client2`\` on Windows)
+   `config.toml` in `~/.gpp-client2/` on macOS and Linux (the same path
+   on every Unix), `%APPDATA%\gpp-client2\` on Windows
 
 There is no silent fallback to production; if nothing resolves, the error
 names the profiles that are configured.

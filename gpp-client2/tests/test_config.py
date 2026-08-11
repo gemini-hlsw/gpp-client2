@@ -163,10 +163,13 @@ class TestConfigPath:
         monkeypatch.setenv("GPP_CONFIG_FILE", str(override))
         assert get_config_path() == override
 
-    def test_defaults_to_platform_app_dir(self, monkeypatch, tmp_path):
+    def test_defaults_to_home_dot_dir(self, monkeypatch, tmp_path):
         monkeypatch.delenv("GPP_CONFIG_FILE", raising=False)
-        directory = tmp_path / "app-dir" / "gpp-client2"
-        monkeypatch.setattr(
-            "gpp_client2.config.typer.get_app_dir", lambda name: str(directory)
-        )
+        directory = tmp_path / ".gpp-client2"
+
+        def fake_app_dir(name, force_posix=False):
+            assert force_posix, "Unix machines must resolve identically"
+            return str(directory)
+
+        monkeypatch.setattr("gpp_client2.config.typer.get_app_dir", fake_app_dir)
         assert get_config_path() == directory / "config.toml"

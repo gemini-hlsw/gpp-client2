@@ -8,7 +8,7 @@ first:
 2. ``GPP_*`` environment variables (``GPP_ENVIRONMENT``, ``GPP_URL``,
    ``GPP_TOKEN``, ``GPP_PROFILE``, ``GPP_SCHEMA_SOURCE``).
 3. The profile named by ``GPP_PROFILE`` or ``default_profile`` in the config
-   file (``~/.config/gpp-client2/config.toml``).
+   file (``~/.gpp-client2/config.toml``).
 
 There is no silent fallback: a client with no resolvable environment or
 token raises an error that names the profiles that are configured.
@@ -42,16 +42,15 @@ def get_config_path() -> Path:
     """
     Path of the configuration file.
 
-    ``$GPP_CONFIG_FILE`` overrides. Otherwise the platform's application
-    config directory applies, via :func:`typer.get_app_dir`: on Linux
-    ``$XDG_CONFIG_HOME/gpp-client2`` (default ``~/.config/gpp-client2``),
-    on macOS ``~/Library/Application Support/gpp-client2``, on Windows
-    ``%APPDATA%\\gpp-client2``.
+    ``$GPP_CONFIG_FILE`` overrides. Otherwise ``~/.gpp-client2`` applies on
+    every Unix (``force_posix``, so macOS and Linux resolve identically)
+    and ``%APPDATA%\\gpp-client2`` on Windows, via
+    :func:`typer.get_app_dir`.
     """
     override = os.environ.get(_CONFIG_ENV_VAR)
     if override:
         return Path(override).expanduser()
-    return Path(typer.get_app_dir("gpp-client2")) / "config.toml"
+    return Path(typer.get_app_dir("gpp-client2", force_posix=True)) / "config.toml"
 
 
 def load_profiles(
