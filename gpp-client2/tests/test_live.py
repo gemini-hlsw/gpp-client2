@@ -9,24 +9,18 @@ Run with: uv run pytest tests/test_live.py -m live
 
 import asyncio
 import os
-from pathlib import Path
 
 import pytest
 
 from gpp_client2 import AsyncGPPClient, GPPClient
 from gpp_client2._generated.models import ProgramEdit
+from gpp_client2.config import get_config_path
 
 pytestmark = pytest.mark.live
 
 
-def _default_config() -> Path:
-    xdg = os.environ.get("XDG_CONFIG_HOME")
-    base = Path(xdg).expanduser() if xdg else Path.home() / ".config"
-    return base / "gpp-client2" / "config.toml"
-
-
 def has_live_configuration() -> bool:
-    return bool(os.environ.get("GPP_TOKEN")) or _default_config().is_file()
+    return bool(os.environ.get("GPP_TOKEN")) or get_config_path().is_file()
 
 
 requires_live = pytest.mark.skipif(
