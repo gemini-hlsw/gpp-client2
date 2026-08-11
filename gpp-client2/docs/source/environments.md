@@ -5,7 +5,7 @@ are almost, but not exactly, alike: development usually runs newer server
 code, so at any moment some fields exist in one deployment and not another,
 in both directions.
 
-gpp-client2 ships one package that knows about all of them. The deployment
+`gpp-client2` ships one package that knows about all of them. The deployment
 is a runtime choice, and the client sends query text generated specifically
 for the schema that deployment serves.
 

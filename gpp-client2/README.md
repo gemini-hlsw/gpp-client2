@@ -42,7 +42,7 @@ Configuration resolves per field, highest priority first:
 3. The profile selected by `GPP_PROFILE`, or `default_profile` from
    `config.toml` in the platform config dir (via `typer.get_app_dir`:
    `~/.config/gpp-client2/` on Linux, `~/Library/Application
-   Support/gpp-client2/` on macOS, `%APPDATA%\gpp-client2\` on Windows)
+   Support/gpp-client2/` on macOS, `%APPDATA%\`gpp-client2`\` on Windows)
 
 There is no silent fallback to production; if nothing resolves, the error
 names the profiles that are configured.
@@ -311,7 +311,7 @@ fields from, say, `goats.get_observations`, edit
 per-environment query texts follow automatically.
 
 You do not have to think about which environments serve a new field -
-gqlforge does:
+`gqlforge` does:
 
 - A field only development serves stays in development's query text and
   is pruned from staging's and production's. On those environments the

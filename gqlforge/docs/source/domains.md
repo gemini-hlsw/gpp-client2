@@ -9,7 +9,7 @@ a domain**, and everything downstream is derived.
    and put `.graphql` files in it. The directory name is the domain
    key. `_`-prefixed directories (`_shared/`) hold fragments and never
    become domains.
-2. **gqlforge maps.** Every operation in the directory is tagged with
+2. **`gqlforge` maps.** Every operation in the directory is tagged with
    that domain. The folder name is pascal-cased and two classes are
    emitted into `<generated_package>.domains`:
 
@@ -48,8 +48,9 @@ a domain**, and everything downstream is derived.
    ```
 
    The registry is the one place a human names things: the folder
-   `program` becomes the attribute `client.programs`. It also pays for
-   itself downstream - gpp-client2 derives its entire CLI and its
+   `program` becomes the attribute `client.programs`. The client class
+   itself is entirely yours - `gqlforge` never generates or names it. It also pays for
+   itself downstream - `gpp-client2` derives its entire CLI and its
    per-domain reference docs by reflecting over the same registry.
 
 `gqlforge scaffold <domain>` automates step 3: it creates the
@@ -65,7 +66,7 @@ Both structures are optional:
   `AsyncOperations` classes, and with no domain to strip, method names
   keep their resource (`getWidgetById` -> `get_widget_by_id`). Your
   whole client can be `Operations(executor)`.
-- **No operations at all**: with no operations tree, gqlforge is a
+- **No operations at all**: with no operations tree, `gqlforge` is a
   models-only generator - it emits the pydantic scalars, enums, inputs,
   and models from the merged schema and skips the operation pipeline.
 - **One schema**: a single entry in `source_order` makes the merge and

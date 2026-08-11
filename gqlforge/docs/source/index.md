@@ -1,8 +1,8 @@
 # gqlforge
 
-gqlforge generates a typed Python client from GraphQL. Its specialty is
+`gqlforge` generates a typed Python client from GraphQL. Its specialty is
 an API deployed in several environments whose schemas differ: you write
-each query once, and gqlforge derives a per-environment version of it -
+each query once, and `gqlforge` derives a per-environment version of it -
 so one installed package talks to development, staging, or production,
 chosen at runtime.
 
@@ -14,7 +14,7 @@ models-only generator for projects that just want pydantic types (see
 
 1. Commit one SDL file per schema source, and write each GraphQL
    operation once - selecting the union of everything you use anywhere.
-2. gqlforge **merges** the schemas into one superset used for
+2. `gqlforge` **merges** the schemas into one superset used for
    validation and models. The merge only ever adds: nothing is removed
    from any source.
 3. Each operation is **pruned** per source: a field a source cannot
@@ -49,8 +49,8 @@ small runtime contract your package provides), then {doc}`domains` (how
 folders become client attributes - or how to skip domains entirely).
 {doc}`docstrings` and {doc}`pipeline` are for authors and maintainers.
 
-gqlforge is developed in the
-[gpp-client2 monorepo](https://github.com/gemini-hlsw/gpp-client2);
+`gqlforge` is developed in the
+[`gpp-client2` monorepo](https://github.com/gemini-hlsw/gpp-client2);
 that client is its reference consumer.
 
 ```{toctree}

@@ -26,5 +26,4 @@ htmlcov/
 # Documentation
 gpp-client2/docs/_build/
 gqlforge/docs/_build/
-gqlforge/docs/source/cli.md
 gpp-client2/docs/source/cli/

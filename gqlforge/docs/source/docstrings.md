@@ -55,4 +55,4 @@ Everything else flows from the schema itself:
 Parameter, return, and yield sections are always derived from the
 operation's variables and return shape - numpydoc-formatted, with the
 GraphQL variable name, type, and server-side default noted for every
-parameter. Authors write the *why*; gqlforge writes the *signature*.
+parameter. Authors write the *why*; `gqlforge` writes the *signature*.

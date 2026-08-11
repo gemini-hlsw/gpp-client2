@@ -7,12 +7,12 @@ schema, and emitted as pydantic models plus sync and async client bases.
 **Documentation:**
 [gqlforge.readthedocs.io](https://gqlforge.readthedocs.io)
 
-Most GraphQL codegen tools assume one schema. gqlforge exists for the case
+Most GraphQL codegen tools assume one schema. `gqlforge` exists for the case
 they don't cover: the same API deployed in several environments that
 genuinely diverge - development ahead on new fields *and* on removals -
 where you want **one** client package whose environment is a runtime
 choice, not an install-time one. It grew inside
-[gpp-client2](https://github.com/gemini-hlsw/gpp-client2), the client
+[`gpp-client2`](https://github.com/gemini-hlsw/gpp-client2), the client
 for the Gemini Program Platform, and is developed in that repository.
 
 ## The model
@@ -35,7 +35,7 @@ for the Gemini Program Platform, and is developed in that repository.
 
 ## Configuration
 
-gqlforge is driven by a `[tool.gqlforge]` table in the consuming project's
+`gqlforge` is driven by a `[tool.gqlforge]` table in the consuming project's
 pyproject.toml; run `gqlforge <command>` from the project root:
 
 ```toml
@@ -59,7 +59,7 @@ token_env = "MY_TOKEN"                   # download token fallback
 The generated code imports a small runtime contract from your package:
 `<runtime_package>._base` provides the model/input base classes and the
 `UNSET` sentinel, `<runtime_package>._executor` the `SyncExecutor` and
-`AsyncExecutor` the emitted domain bases call. gpp-client2's
+`AsyncExecutor` the emitted domain bases call. `gpp-client2`'s
 `_base.py`/`_executor.py` are the reference implementation.
 
 ## Domains: from folder to client attribute
@@ -71,7 +71,7 @@ a domain**, and everything downstream is derived:
    and put `.graphql` files in it. The directory name is the domain key.
    `_`-prefixed directories (`_shared/`) hold fragments and never become
    domains.
-2. **gqlforge maps.** Every operation in the directory is tagged with that
+2. **`gqlforge` maps.** Every operation in the directory is tagged with that
    domain. The folder name is pascal-cased and two classes are emitted
    into `<generated_package>.domains`:
 
@@ -109,7 +109,7 @@ a domain**, and everything downstream is derived:
 
    The registry is the one place a human names things: the folder
    `program` becomes the attribute `client.programs`. It also pays for
-   itself downstream - gpp-client2 derives its entire CLI and its
+   itself downstream - `gpp-client2` derives its entire CLI and its
    per-domain reference docs by reflecting over the same registry.
 
 `gqlforge scaffold <domain>` automates step 3: it creates the operations
@@ -124,7 +124,7 @@ Both structures are optional:
   `AsyncOperations` classes, and with no domain to strip, method names
   keep their resource (`getWidgetById` -> `get_widget_by_id`). Your
   whole client can be `Operations(executor)`.
-- **No operations at all**: with no operations tree, gqlforge is a
+- **No operations at all**: with no operations tree, `gqlforge` is a
   models-only generator - it emits the pydantic scalars, enums, inputs,
   and models from the merged schema and skips the operation pipeline.
 - **One schema**: a single entry in `source_order` makes the merge and
@@ -154,7 +154,7 @@ Documentation flows from two sources, by precedence:
    its summary.
 
 Parameter, return, and yield sections are always derived from the
-operation's variables and return shape - authors write the *why*, gqlforge
+operation's variables and return shape - authors write the *why*, `gqlforge`
 writes the *signature*.
 
 ## Commands
@@ -171,7 +171,7 @@ writes the *signature*.
 
 The heavy lifting is delegated to
 [graphql-core](https://graphql-core-3.readthedocs.io/): parsing,
-validation, schema building, AST printing. gqlforge contributes the
+validation, schema building, AST printing. `gqlforge` contributes the
 multi-schema logic as walks over graphql-core AST nodes.
 
 ### 1. Schema loading and merging - `schema.py`

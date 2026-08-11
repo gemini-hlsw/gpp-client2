@@ -2,7 +2,7 @@
 
 The heavy lifting is delegated to
 [graphql-core](https://graphql-core-3.readthedocs.io/): parsing,
-validation, schema building, AST printing. gqlforge contributes the
+validation, schema building, AST printing. `gqlforge` contributes the
 multi-schema logic as walks over graphql-core AST nodes.
 
 ## Stages, in order
@@ -86,7 +86,7 @@ invented, gate every change.
 
 ## Where the code lives
 
-gqlforge is developed in the
-[gpp-client2 repository](https://github.com/gemini-hlsw/gpp-client2)
-under `gqlforge/`, as a uv workspace member, with gpp-client2 itself as
+`gqlforge` is developed in the
+[`gpp-client2` repository](https://github.com/gemini-hlsw/gpp-client2)
+under `gqlforge/`, as a uv workspace member, with `gpp-client2` itself as
 the reference consumer exercising every feature in production.

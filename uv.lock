@@ -344,6 +344,7 @@ source = { editable = "gqlforge" }
 dependencies = [
     { name = "graphql-core" },
     { name = "httpx" },
+    { name = "typer" },
 ]
 
 [package.optional-dependencies]
@@ -353,6 +354,7 @@ docs = [
     { name = "sphinx", version = "9.0.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "sphinx", version = "9.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "sphinx-copybutton" },
+    { name = "sphinxcontrib-typer" },
 ]
 
 [package.dev-dependencies]
@@ -369,6 +371,8 @@ requires-dist = [
     { name = "myst-parser", marker = "extra == 'docs'", specifier = ">=4" },
     { name = "sphinx", marker = "extra == 'docs'", specifier = ">=8" },
     { name = "sphinx-copybutton", marker = "extra == 'docs'", specifier = ">=0.5" },
+    { name = "sphinxcontrib-typer", marker = "extra == 'docs'", specifier = ">=0.9.1" },
+    { name = "typer", specifier = ">=0.12" },
 ]
 provides-extras = ["docs"]
 

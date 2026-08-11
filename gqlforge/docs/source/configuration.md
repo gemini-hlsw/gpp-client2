@@ -1,6 +1,6 @@
 # Configuration
 
-gqlforge is driven entirely by a `[tool.gqlforge]` table in the
+`gqlforge` is driven entirely by a `[tool.gqlforge]` table in the
 consuming project's pyproject.toml. All paths resolve relative to the
 pyproject's directory, so `gqlforge <command>` works from the project
 root with no arguments.
@@ -45,7 +45,7 @@ token_env = "MY_TOKEN"                   # download token fallback
 ## The runtime contract
 
 Generated code imports a small contract from your package rather than
-from gqlforge, which keeps gqlforge a development-only dependency:
+from `gqlforge`, which keeps `gqlforge` a development-only dependency:
 
 - `<runtime_package>._base` must provide the `UNSET` sentinel, an
   `UnsetType`, and the two base classes named by `model_base` and
@@ -57,9 +57,28 @@ from gqlforge, which keeps gqlforge a development-only dependency:
   `AsyncExecutor` - the objects the emitted domain bases call to run an
   operation. Each domain class constructor takes exactly one executor.
 
-gpp-client2's
-[`_base.py` and `_executor.py`](https://github.com/gemini-hlsw/gpp-client2/tree/main/src/gpp_client2)
+`gpp-client2`'s
+[`_base.py` and `_executor.py`](https://github.com/gemini-hlsw/gpp-client2/tree/main/gpp-client2/src/gpp_client2)
 are the reference implementation of both halves.
+
+## What you name, what gqlforge names
+
+`gqlforge` never names your client. There is no generated client class -
+you write the top-level client yourself, call it anything
+(`GPPClient`, `MyClient`), and wrap the generated pieces in it. The
+full division:
+
+| You choose | Via |
+| --- | --- |
+| Package, client class, and attribute names (`client.programs`) | Ordinary Python code and your registry |
+| Where generated code lives and its import path | `output`, `generated_package` |
+| The base classes generated models inherit | `model_base`, `input_base` |
+
+| `gqlforge` derives | From |
+| --- | --- |
+| Domain class names (`ProgramOperations`, `AsyncProgramOperations`) | Operations folder names |
+| Method names (`get_by_id`) | Operation names |
+| Model, enum, and input class names | Schema type names |
 
 ## Schema downloads
 

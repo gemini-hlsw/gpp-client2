@@ -22,7 +22,7 @@ cd .. && uv run ruff check .               # lint (whole workspace)
 ## How the package is produced
 
 One operations tree, `graphql/operations/<domain>/*.graphql`, holds the
-union of every GraphQL selection the client can make. The gqlforge codegen
+union of every GraphQL selection the client can make. The `gqlforge` codegen
 library (developed in the `gqlforge/` directory of this repository,
 configured by `[tool.gqlforge]` in pyproject.toml) merges the committed
 per-environment
@@ -41,7 +41,7 @@ Nothing under `src/gpp_client2/_generated/` is edited by hand.
 ## Adding an operation
 
 Write the operation in the right domain directory, name it
-`<verb><Resource>[By<Key>]` so its method name derives, and run gqlforge.
+`<verb><Resource>[By<Key>]` so its method name derives, and run `gqlforge`.
 The result is a typed method on both clients and a CLI command, with no
 further wiring.
 
@@ -51,7 +51,7 @@ verbatim (the `watch*` subscriptions are examples). Everything else about
 the pipeline - the folder-to-domain mapping, no-domain and models-only
 layouts, the `[tool.gqlforge]` reference, and the stage-by-stage
 internals - lives in the
-[gqlforge documentation](https://gqlforge.readthedocs.io),
+[`gqlforge` documentation](https://gqlforge.readthedocs.io),
 with `graphql/operations/README.md` as the in-tree quick reference.
 
 ## Changing what an existing query selects
@@ -97,7 +97,7 @@ uv run towncrier build --draft            # preview
 uv run towncrier build --version X.Y.Z    # at release, before tagging
 ```
 
-gqlforge keeps its own changelog the same way, in
+`gqlforge` keeps its own changelog the same way, in
 `gqlforge/changelog.d/` - put the fragment in the project the change
 touches.
 

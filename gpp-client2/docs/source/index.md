@@ -1,6 +1,6 @@
 # gpp-client2
 
-gpp-client2 is a Python client for the Gemini Program Platform (GPP). It
+`gpp-client2` is a Python client for the Gemini Program Platform (GPP). It
 covers the whole API: programs, observations, targets, attachments, calls
 for proposals, scheduler data, and observation workflow states, over
 GraphQL, REST, and WebSocket subscriptions.

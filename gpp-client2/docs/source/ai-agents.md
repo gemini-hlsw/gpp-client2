@@ -2,7 +2,7 @@
 
 This client ships with tools to make AI agents better at using it:
 agent skills - one for the client itself and one for
-[gqlforge](https://gqlforge.readthedocs.io), the
+[`gqlforge`](https://gqlforge.readthedocs.io), the
 codegen it is built with (at `.claude/skills/gqlforge/SKILL.md`).
 
 ## The bundled skill
@@ -10,7 +10,7 @@ codegen it is built with (at `.claude/skills/gqlforge/SKILL.md`).
 The repository contains a skill at `.claude/skills/gpp-client2/SKILL.md`. A
 skill is a compact instruction file that coding agents such as Claude Code
 load when relevant; this one teaches the agent the whole public surface of
-gpp-client2: how to construct clients, every domain and method, the `UNSET`
+`gpp-client2`: how to construct clients, every domain and method, the `UNSET`
 semantics, the environment model, and a list of hard-won gotchas, each of
 which was observed against a real deployment and has a regression test.
 
