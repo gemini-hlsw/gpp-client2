@@ -38,7 +38,7 @@ not a wrapper object. Fresh observations are a special case worth knowing
 about: their background-calculated fields (`workflow`, `execution`) come
 back `None` with a logged warning until the server's calculation catches
 up. That is normal, not a failed create. See {doc}`reading` for the
-partial-response rules and {doc}`domains` for the retry helper.
+partial-response rules and {doc}`domains/index` for the retry helper.
 
 ## Updating
 

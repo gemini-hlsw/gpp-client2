@@ -86,7 +86,7 @@ def _generate_cli_pages() -> None:
 {"=" * len(title)}
 
 {summary} The Python equivalent is ``client.{attribute}``
-(:doc:`../api`).
+(:doc:`../domains/{group}`).
 
 .. typer:: gpp_client2.cli.app:{group}
    :prog: gpp2 {group}

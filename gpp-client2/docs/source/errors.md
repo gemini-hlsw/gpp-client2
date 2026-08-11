@@ -26,7 +26,7 @@ Two situations look like errors but are expected behavior:
   `client.supports(...)` before suspecting a bug ({doc}`environments`).
 - `workflow` and `execution` on a just-created observation are `None`
   while the server's background calculation runs. Use the retry helper in
-  {doc}`domains` when you need to act on the result.
+  {doc}`domains/index` when you need to act on the result.
 
 ## A pattern that works
 

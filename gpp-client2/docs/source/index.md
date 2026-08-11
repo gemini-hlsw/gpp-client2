@@ -54,7 +54,7 @@ cli
 :caption: Understanding the client
 
 environments
-domains
+domains/index
 errors
 raw-graphql
 ai-agents

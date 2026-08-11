@@ -34,37 +34,8 @@ The UNSET sentinel
 Domain APIs
 -----------
 
-.. autoclass:: gpp_client2.domains.ProgramAPI
-   :members:
-   :inherited-members:
-
-.. autoclass:: gpp_client2.domains.ObservationAPI
-   :members:
-   :inherited-members:
-
-.. autoclass:: gpp_client2.domains.TargetAPI
-   :members:
-   :inherited-members:
-
-.. autoclass:: gpp_client2.domains.AttachmentAPI
-   :members:
-   :inherited-members:
-
-.. autoclass:: gpp_client2.domains.CallForProposalsAPI
-   :members:
-   :inherited-members:
-
-.. autoclass:: gpp_client2.domains.GoatsAPI
-   :members:
-   :inherited-members:
-
-.. autoclass:: gpp_client2.domains.SchedulerAPI
-   :members:
-   :inherited-members:
-
-.. autoclass:: gpp_client2.domains.WorkflowStateAPI
-   :members:
-   :inherited-members:
+Documented one page per domain, with curated behavior and the full
+generated method reference together: :doc:`domains/index`.
 
 Environments
 ------------
