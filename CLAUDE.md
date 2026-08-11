@@ -80,9 +80,11 @@ reflection at startup - no generated file, cannot drift, and
   `.live-test-ledger.json` before anything else, and delete ONLY recorded
   IDs - never name matches. Crashed-run leftovers are healed at next start.
 - Double opt-in: `-m live` AND `GPP_LIVE_WRITE=1`.
-- Config: `~/.config/gpp-client2/config.toml` (profiles); tests isolate via
-  `GPP_CONFIG_FILE`. Currently only a production token exists (Dan's dev
-  token is corrupted); all live testing so far ran against production.
+- Config: `~/.config/gpp-client2/config.toml` (profiles); offline tests
+  isolate via `GPP_CONFIG_FILE`, live tests use the real environment
+  (`GPP_PROFILE=dev uv run pytest -m live` targets development). Working
+  dev and prod tokens exist (dev added 2026-08-10); read and write suites
+  are green against both.
 
 ## Roadmap / next steps
 
@@ -93,9 +95,9 @@ reflection at startup - no generated file, cannot drift, and
 2. **Verify prod-only field VALUES** (Igrins2/F2 offsets, saveSVCImages) -
    needs a token that can see F2/IGRINS2 observations; Dan's sees only his
    test program. Query text is already validated by production.
-3. **Dev-token tasks once Dan has a replacement**: run the write round-trips
-   against development, re-download the dev schema (committed copy predates
-   known drift: ToO trigger types, TooActivation rename).
+3. **Re-download the dev schema** (committed copy predates known drift:
+   ToO trigger types, TooActivation rename) - the dev token works now and
+   the write round-trips already ran green against development.
 4. **site_status domain** (scrapes a status web page in the old client) -
    port if still wanted.
 5. **Token hygiene**: Dan's prod token passed through a chat transcript;

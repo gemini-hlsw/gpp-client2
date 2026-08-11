@@ -36,9 +36,7 @@ requires_live = pytest.mark.skipif(
 
 
 @pytest.fixture
-def live_client(monkeypatch):
-    # Undo the test-suite isolation: live tests want the real config.
-    monkeypatch.delenv("GPP_CONFIG_FILE", raising=False)
+def live_client():
     with GPPClient(read_only=True) as client:
         yield client
 
@@ -86,15 +84,14 @@ def test_scheduler_get_program_ids(live_client):
 
 
 @requires_live
-async def test_async_client_ping(monkeypatch):
-    monkeypatch.delenv("GPP_CONFIG_FILE", raising=False)
+async def test_async_client_ping():
     async with AsyncGPPClient(read_only=True) as client:
         ok, reason = await client.ping()
     assert ok, reason
 
 
 @requires_live
-async def test_subscription_handshake(monkeypatch):
+async def test_subscription_handshake():
     """
     The deployment's /ws endpoint accepts our graphql-transport-ws handshake.
 
@@ -103,7 +100,6 @@ async def test_subscription_handshake(monkeypatch):
     the window is the expected outcome; an event only arrives if someone
     happens to edit a visible program, and that is fine too.
     """
-    monkeypatch.delenv("GPP_CONFIG_FILE", raising=False)
     async with AsyncGPPClient(read_only=True, timeout=15.0) as client:
         stream = client.programs.watch_edits()
         try:

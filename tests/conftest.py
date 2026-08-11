@@ -23,8 +23,16 @@ GPP_ENV_VARS = (
 
 
 @pytest.fixture(autouse=True)
-def isolate_configuration(monkeypatch, tmp_path):
-    """Keep tests away from real env vars and the user's config file."""
+def isolate_configuration(request, monkeypatch, tmp_path):
+    """Keep offline tests away from real env vars and the user's config file.
+
+    Live tests are exempt: they exist to talk to a real deployment, so the
+    real environment (``GPP_PROFILE``, ``GPP_ENVIRONMENT``, ``GPP_TOKEN``,
+    ``GPP_CONFIG_FILE``) must reach them - it is how a run or a CI job picks
+    which environment to test.
+    """
+    if request.node.get_closest_marker("live"):
+        return
     for var in GPP_ENV_VARS:
         monkeypatch.delenv(var, raising=False)
     monkeypatch.setenv("GPP_CONFIG_FILE", str(tmp_path / "nonexistent-config.toml"))

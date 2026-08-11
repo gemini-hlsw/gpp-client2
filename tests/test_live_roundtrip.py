@@ -136,23 +136,13 @@ class ArtifactTracker:
 
 
 @pytest.fixture(scope="module")
-def tracker(monkeypatch_module):
-    monkeypatch_module.delenv("GPP_CONFIG_FILE", raising=False)
+def tracker():
     client = GPPClient()
     tracker = ArtifactTracker(client)
     tracker.heal_previous_run()
     yield tracker
     tracker.cleanup()
     client.close()
-
-
-@pytest.fixture(scope="module")
-def monkeypatch_module():
-    from _pytest.monkeypatch import MonkeyPatch
-
-    patch = MonkeyPatch()
-    yield patch
-    patch.undo()
 
 
 @pytest.fixture(scope="module")
@@ -327,10 +317,7 @@ class TestSubscriptionRoundTrip:
         event = received["event"]
         assert event.value.id == live_program.id
 
-    async def test_async_watch_receives_update_event(
-        self, tracker, live_program, monkeypatch
-    ):
-        monkeypatch.delenv("GPP_CONFIG_FILE", raising=False)
+    async def test_async_watch_receives_update_event(self, tracker, live_program):
         async with AsyncGPPClient() as watcher_client:
             stream = watcher_client.programs.watch_edits(program_id=live_program.id)
 
