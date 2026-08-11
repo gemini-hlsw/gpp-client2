@@ -25,3 +25,4 @@ htmlcov/
 
 # Documentation
 docs/_build/
+docs/source/cli/

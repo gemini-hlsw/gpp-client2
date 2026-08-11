@@ -2,21 +2,15 @@
 
 Everything the client raises inherits from `GPPError`, so one `except`
 catches it all when that is what you want. The subclasses tell you whose
-problem it is.
+problem it is. The full taxonomy below is rendered from the code, so it
+always matches the installed version:
 
-| Exception | Raised when |
-| --- | --- |
-| `GPPConfigError` | Configuration cannot be resolved: unknown profile, unknown environment, no URL. |
-| `GPPAuthError` | No token could be resolved, or the server rejected it (HTTP 401/403, WebSocket close 4401/4403). |
-| `GPPConnectionError` | The deployment cannot be reached, or a subscription connection dropped. |
-| `GPPTimeoutError` | A request or WebSocket connect timed out. Subclass of `GPPConnectionError`. |
-| `GPPResponseError` | GPP returned a non-success HTTP status. Carries `status_code` and the response text. |
-| `GPPGraphQLError` | Every root field of a response was null. Carries the raw error list in `.errors`. |
-| `GPPOperationUnavailableError` | The operation does not exist in the active environment. Names the environments where it does. |
-| `GPPFieldUnavailableError` | A raw query selects a field the active environment does not serve. |
-| `GPPReadOnlyError` | A mutation (GraphQL or REST) was attempted on a `read_only=True` client. Raised before any network call. |
-| `GPPRetryableError` | A transient condition worth retrying, such as a workflow update while the background calculation runs. |
-| `GPPValidationError` | Inputs failed client-side validation before any request. |
+```{eval-rst}
+.. automodule:: gpp_client2.errors
+   :members:
+   :show-inheritance:
+   :no-index:
+```
 
 ## When errors are not raised
 

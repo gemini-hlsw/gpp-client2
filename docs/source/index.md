@@ -66,6 +66,9 @@ ai-agents
 :caption: Reference
 
 api
-cli-reference
+enums
+inputs
+models
+cli/index
 contributing
 ```

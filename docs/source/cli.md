@@ -13,7 +13,7 @@ gpp2 observations get-all --limit 10
 
 Results print as JSON, showing the fields the operation actually fetched.
 This page covers the usage patterns; the exhaustive command and option
-listing, generated from the CLI itself, is in {doc}`cli-reference`, and
+listing, generated from the CLI itself, is in {doc}`cli/index`, and
 `gpp2 <group> --help` shows the same thing in the terminal.
 
 ## Choosing the deployment
