@@ -1,11 +1,14 @@
 name: Live tests
 
-# Read-only smoke tests on a schedule; write round-trips only on explicit
-# dispatch. Both need a GPP_LIVE_TOKEN secret for the target environment.
+# Thorough nightly exercise of the real deployments: read-only smoke tests
+# against development AND production, plus write round-trips against
+# development (hard budget: 2 items per domain, 50 total; every created ID
+# is ledger-tracked and only recorded IDs are deleted). Write round-trips
+# against production never run on the schedule - manual dispatch only.
 #
-# The write suite creates at most a handful of items (hard budget: 2 per
-# domain, 50 total), tracks every created ID in a ledger, deletes only those
-# IDs, and heals leftovers from a crashed run on the next start.
+# Each environment has its own token secret (GPP_DEV_TOKEN, GPP_PROD_TOKEN).
+# A leg whose secret is not configured is reported and skipped rather than
+# failed, so a missing development token cannot mask a production regression.
 
 on:
   schedule:
@@ -15,7 +18,7 @@ on:
       environment:
         description: "Target environment"
         type: choice
-        options: [production, development, staging]
+        options: [production, development]
         default: production
       write:
         description: "Also run write round-trips (create/update/delete)"
@@ -24,28 +27,75 @@ on:
 
 jobs:
   live:
+    name: live (${{ matrix.environment }})
     runs-on: ubuntu-latest
-    if: ${{ vars.LIVE_TESTS_ENABLED == 'true' || github.event_name == 'workflow_dispatch' }}
+    # Scheduled runs need the LIVE_TESTS_ENABLED repo variable. The Gate
+    # step below narrows a manual dispatch to the chosen environment's leg
+    # (the matrix context is not available in a job-level if).
+    if: >-
+      ${{ github.event_name == 'workflow_dispatch'
+          || vars.LIVE_TESTS_ENABLED == 'true' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - environment: development
+            token_secret: GPP_DEV_TOKEN
+          - environment: production
+            token_secret: GPP_PROD_TOKEN
     env:
-      GPP_ENVIRONMENT: ${{ inputs.environment || 'production' }}
-      GPP_TOKEN: ${{ secrets.GPP_LIVE_TOKEN }}
+      GPP_ENVIRONMENT: ${{ matrix.environment }}
+      GPP_TOKEN: ${{ secrets[matrix.token_secret] }}
     steps:
+      - name: Gate
+        id: gate
+        run: |
+          run=true
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] \
+             && [ "${{ inputs.environment }}" != "${{ matrix.environment }}" ]; then
+            run=false  # dispatched for the other environment
+          elif [ -z "$GPP_TOKEN" ]; then
+            run=false
+            echo "::warning::No ${{ matrix.token_secret }} secret configured; ${{ matrix.environment }} was NOT tested."
+            echo ":warning: No \`${{ matrix.token_secret }}\` secret - **${{ matrix.environment }} was not tested**." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v4
+        if: ${{ steps.gate.outputs.run == 'true' }}
 
       - name: Install uv
+        if: ${{ steps.gate.outputs.run == 'true' }}
         uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.13"
           enable-cache: true
 
       - name: Install dependencies
+        if: ${{ steps.gate.outputs.run == 'true' }}
         run: uv sync
 
       - name: Read-only smoke tests
+        if: ${{ steps.gate.outputs.run == 'true' }}
         run: uv run pytest tests/test_live.py -m live -v
 
       - name: Write round-trips
-        if: ${{ inputs.write }}
+        # Nightly on development; anywhere else only by explicit dispatch.
+        if: >-
+          ${{ steps.gate.outputs.run == 'true'
+              && ((github.event_name == 'schedule' && matrix.environment == 'development')
+                  || (github.event_name == 'workflow_dispatch' && inputs.write)) }}
         env:
           GPP_LIVE_WRITE: "1"
         run: uv run pytest tests/test_live_roundtrip.py -m live -v
+
+      # CI workspaces are ephemeral, so the suite's crashed-run self-healing
+      # (re-reading the ledger on the next start) cannot happen here. A
+      # non-empty ledger after a failure lists exactly the items that were
+      # created and not deleted - preserve it for manual cleanup.
+      - name: Preserve live-test ledger
+        if: ${{ failure() && hashFiles('.live-test-ledger.json') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-test-ledger-${{ matrix.environment }}-${{ github.run_id }}
+          path: .live-test-ledger.json

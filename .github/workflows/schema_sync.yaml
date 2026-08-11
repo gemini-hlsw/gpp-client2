@@ -1,8 +1,9 @@
 name: Schema sync
 
-# Nightly: download every environment's schema, regenerate, and open a PR if
-# anything moved. That PR IS the promotion workflow - its diff shows the
-# availability manifest changing, and merging it is the whole ceremony.
+# Nightly: download each environment's schema with its own token, regenerate,
+# run the offline suite against the result, and open a PR if anything moved.
+# That PR IS the promotion workflow - its diff shows the availability
+# manifest changing, and merging it is the whole ceremony.
 
 on:
   schedule:
@@ -29,8 +30,22 @@ jobs:
 
       - name: Download schemas
         env:
-          GPP_TOKEN: ${{ secrets.GPP_SCHEMA_TOKEN }}
-        run: uv run python -m codegen download
+          GPP_DEV_TOKEN: ${{ secrets.GPP_DEV_TOKEN }}
+          GPP_PROD_TOKEN: ${{ secrets.GPP_PROD_TOKEN }}
+        run: |
+          status=0
+          download() {
+            local env_name="$1" token="$2" secret="$3"
+            if [ -z "$token" ]; then
+              echo "::warning::No $secret secret configured; the committed $env_name schema was NOT refreshed."
+              echo ":warning: No \`$secret\` secret - the **$env_name** schema was not refreshed." >> "$GITHUB_STEP_SUMMARY"
+              return
+            fi
+            GPP_TOKEN="$token" uv run python -m codegen download "$env_name" || status=1
+          }
+          download development "$GPP_DEV_TOKEN" GPP_DEV_TOKEN
+          download production "$GPP_PROD_TOKEN" GPP_PROD_TOKEN
+          exit "$status"
 
       - name: Regenerate
         run: uv run python -m codegen generate
@@ -46,6 +61,16 @@ jobs:
 
       - name: Tests
         run: uv run pytest
+
+      - name: Changelog fragment
+        # Availability changes are user-visible; give the sync PR its
+        # towncrier entry. The fixed slug keeps nightly re-runs of an
+        # unmerged PR from stacking duplicate fragments.
+        run: |
+          if ! git diff --quiet -- graphql/availability.json; then
+            echo "Update environment availability from the nightly schema sync." \
+              > changelog.d/+schema-sync.misc.md
+          fi
 
       - name: Open or update PR
         uses: peter-evans/create-pull-request@v7

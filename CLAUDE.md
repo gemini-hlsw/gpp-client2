@@ -86,8 +86,10 @@ reflection at startup - no generated file, cannot drift, and
 
 ## Roadmap / next steps
 
-1. **Set up the GitHub remote** and secrets (`GPP_LIVE_TOKEN` for
-   live_tests.yaml, a PR-capable token for schema_sync.yaml).
+1. **Set up the GitHub remote** and secrets: `GPP_DEV_TOKEN` and
+   `GPP_PROD_TOKEN` (shared by live_tests.yaml and schema_sync.yaml),
+   `SCHEMA_SYNC_TOKEN` (PR-capable, for schema_sync.yaml), and the
+   `LIVE_TESTS_ENABLED=true` repo variable to arm the nightly live runs.
 2. **Verify prod-only field VALUES** (Igrins2/F2 offsets, saveSVCImages) -
    needs a token that can see F2/IGRINS2 observations; Dan's sees only his
    test program. Query text is already validated by production.

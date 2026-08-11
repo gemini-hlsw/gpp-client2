@@ -227,8 +227,15 @@ The write suite is built to be safe to repeat:
   item existence=DELETED.
 - Items carry neutral names with a per-run nonce (`Test program <nonce>`).
 
-`.github/workflows/live_tests.yaml` runs the read suite nightly and the
-write suite on manual dispatch, using a `GPP_LIVE_TOKEN` secret.
+`.github/workflows/live_tests.yaml` runs nightly against development and
+production in parallel (per-environment `GPP_DEV_TOKEN` / `GPP_PROD_TOKEN`
+secrets): the read suite on both, the write suite on development.
+Production writes run only on manual dispatch. An environment without a
+configured token is skipped with a visible warning, never failed silently.
+The companion `schema_sync.yaml` downloads every environment's schema
+nightly, regenerates, and opens a PR when anything moved - so drift
+between the committed schemas and reality becomes a reviewable diff, not
+a surprise.
 
 ### Layout
 
