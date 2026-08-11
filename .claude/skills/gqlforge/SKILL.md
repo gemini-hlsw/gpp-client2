@@ -23,7 +23,7 @@ merged_schema = "graphql/schemas/merged.graphql"
 availability = "graphql/availability.json"
 source_order = ["development", "production"]   # newest first
 generated_package = "myclient._generated"
-runtime_package = "myclient"             # provides ._base and ._executor
+runtime_package = "myclient"   # OPTIONAL - omit for a vendored runtime
 model_base = "Model"                     # optional (default "Model")
 input_base = "Input"                     # optional (default "Input")
 domains_dir = "src/myclient/domains"     # optional, for scaffold
@@ -32,10 +32,26 @@ download_token = "myclient.config:find_token"          # optional hook
 token_env = "MY_TOKEN"                   # optional download fallback
 ```
 
-The runtime contract: `<runtime_package>._base` provides `UNSET`,
-`UnsetType`, and the two base classes; `<runtime_package>._executor`
-provides `SyncExecutor`/`AsyncExecutor`. gpp-client2 is the reference
-implementation.
+Omitting `runtime_package` vendors a complete runtime INTO the
+generated package: `_base` (UNSET machinery), `_executor` (sync+async
+httpx), `_ws` (graphql-transport-ws subscriptions), and `client.py`
+with a default `Client`/`AsyncClient` (one attribute per domain; flat
+projects get `.ops`; constructor: url, token=, source=, read_only=,
+timeout=, headers=, transport= for httpx mocks, ws_url=). Generated
+code never depends on gqlforge at runtime - only pydantic, httpx,
+websockets.
+
+Specialize the vendored client by inheritance: subclass `Client`,
+override `_wire_domains()` for curated domain APIs, set
+`executor_core_class` (an `ExecutorCore` subclass) to customize
+payloads/processing. Exceptions are the vendored `ClientError`
+hierarchy; raise your own subclasses of it from overrides.
+
+Setting `runtime_package` brings your own runtime instead:
+`<runtime_package>._base` provides `UNSET`, `UnsetType`, and the two
+base classes; `<runtime_package>._executor` provides
+`SyncExecutor`/`AsyncExecutor`; no client is generated. gpp-client2 is
+the reference implementation.
 
 ## Commands
 

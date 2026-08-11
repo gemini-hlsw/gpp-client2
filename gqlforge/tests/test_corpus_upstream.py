@@ -54,7 +54,7 @@ def _fetch_sdl(name: str) -> str:
 def test_upstream_generates_importable_models(tmp_path, name):
     sdl = _fetch_sdl(name)
     package = f"upstream_{name}"
-    config = make_consumer(tmp_path, package, {"main": sdl}, ["main"])
+    config = make_consumer(tmp_path, package, {"main": sdl}, ["main"], vendored=True)
     run_generate(config)
 
     with importable(tmp_path, package) as import_module:

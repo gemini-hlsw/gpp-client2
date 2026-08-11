@@ -35,7 +35,9 @@ def _fixture(name: str) -> str:
 @pytest.mark.parametrize("name", sorted(CORPUS))
 def test_generates_importable_models(tmp_path, name):
     package = f"corpus_{name}"
-    config = make_consumer(tmp_path, package, {"main": _fixture(name)}, ["main"])
+    config = make_consumer(
+        tmp_path, package, {"main": _fixture(name)}, ["main"], vendored=True
+    )
     run_generate(config)
 
     with importable(tmp_path, package) as import_module:
@@ -75,6 +77,7 @@ query getCountries {
         {"main": _fixture("countries")},
         ["main"],
         operations=operations,
+        vendored=True,
     )
     run_generate(config)
 
@@ -91,6 +94,9 @@ query getCountries {
         # The leading comment block is the docstring.
         assert "ISO 3166-1" in domains.Operations.get_country_by_code.__doc__
         assert "emoji" in operation_map.OPERATION_TEXT["getCountryByCode"]["main"]
+        # Vendored mode also emits a ready-made client over the domains.
+        client_mod = import_module("_generated.client")
+        assert hasattr(client_mod.Client, "graphql")
 
 
 def test_prunes_field_missing_from_one_source(tmp_path):
@@ -122,6 +128,7 @@ query getCharacterById($id: ID!) {
         {"development": newest, "production": oldest},
         ["development", "production"],
         operations=operations,
+        vendored=True,
     )
     run_generate(config)
 

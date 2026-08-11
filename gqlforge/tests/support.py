@@ -22,8 +22,7 @@ merged_schema = "merged.graphql"
 availability = "availability.json"
 source_order = [{sources}]
 generated_package = "{package}._generated"
-runtime_package = "{package}"
-"""
+{runtime_line}"""
 
 _RUNTIME_BASE = """\
 from typing import Any
@@ -73,11 +72,19 @@ def make_consumer(
     schemas: dict[str, str],
     source_order: list[str],
     operations: str | None = None,
+    vendored: bool = False,
 ) -> Config:
-    """Write a complete consumer project under ``root`` and load its config."""
+    """
+    Write a complete consumer project under ``root`` and load its config.
+
+    With ``vendored=True`` no runtime_package is configured and no runtime
+    files are written - gqlforge must supply everything itself.
+    """
     sources = ", ".join(f'"{s}"' for s in source_order)
+    runtime_line = "" if vendored else f'runtime_package = "{package}"\n'
     (root / "pyproject.toml").write_text(
-        _PYPROJECT.format(package=package, sources=sources), encoding="utf-8"
+        _PYPROJECT.format(package=package, sources=sources, runtime_line=runtime_line),
+        encoding="utf-8",
     )
     (root / "schemas").mkdir()
     for source, sdl in schemas.items():
@@ -90,8 +97,9 @@ def make_consumer(
     package_dir = root / package
     package_dir.mkdir()
     (package_dir / "__init__.py").write_text("", encoding="utf-8")
-    (package_dir / "_base.py").write_text(_RUNTIME_BASE, encoding="utf-8")
-    (package_dir / "_executor.py").write_text(_RUNTIME_EXECUTOR, encoding="utf-8")
+    if not vendored:
+        (package_dir / "_base.py").write_text(_RUNTIME_BASE, encoding="utf-8")
+        (package_dir / "_executor.py").write_text(_RUNTIME_EXECUTOR, encoding="utf-8")
     return Config.load(root)
 
 

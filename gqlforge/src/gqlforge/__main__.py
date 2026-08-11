@@ -68,8 +68,7 @@ def download(
     source: Annotated[
         str | None,
         typer.Argument(
-            help="Schema source to download; every configured source "
-            "when omitted."
+            help="Schema source to download; every configured source when omitted."
         ),
     ] = None,
 ) -> None:

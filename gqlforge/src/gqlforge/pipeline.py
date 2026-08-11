@@ -16,6 +16,7 @@ from gqlforge.emit_models import (
 )
 from gqlforge.emit_operations import (
     build_operation_specs,
+    emit_client,
     emit_domains,
     emit_operation_map,
 )
@@ -121,6 +122,20 @@ def run_generate(config: Config) -> None:
             specs, prune_results, schemas, list(sources)
         )
         outputs[generated / "domains.py"] = emit_domains(specs, config)
+
+    if config.vendor_runtime:
+        from gqlforge._runtime import BASE_MODULES, CLIENT_MODULES, RUNTIME_DIR
+
+        vendored = BASE_MODULES + (CLIENT_MODULES if operations_present else ())
+        header = (
+            "# Vendored by `gqlforge generate`. DO NOT EDIT.\n# mypy: ignore-errors\n"
+        )
+        for name in vendored:
+            outputs[generated / name] = header + (RUNTIME_DIR / name).read_text(
+                encoding="utf-8"
+            )
+        if operations_present:
+            outputs[generated / "client.py"] = emit_client(specs, config)
     for warning in scalar_warnings:
         print(f"WARNING {warning}")
 

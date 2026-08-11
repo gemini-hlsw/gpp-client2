@@ -48,8 +48,10 @@ a domain**, and everything downstream is derived.
    ```
 
    The registry is the one place a human names things: the folder
-   `program` becomes the attribute `client.programs`. The client class
-   itself is entirely yours - `gqlforge` never generates or names it. It also pays for
+   `program` becomes the attribute `client.programs`. In vendored-runtime
+   mode a default `Client`/`AsyncClient` is emitted with one attribute
+   per folder name; the registry pattern is for when you want your own
+   names and curated helpers instead. It also pays for
    itself downstream - `gpp-client2` derives its entire CLI and its
    per-domain reference docs by reflecting over the same registry.
 

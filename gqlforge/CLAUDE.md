@@ -37,8 +37,21 @@ running it from `../gpp-client2/`.
   the same change.
 - Generated-code contracts that exist for consumers' sake: aliases use
   `validation_alias`/`serialization_alias` (never `alias=`), emitted
-  imports come from the consumer's `runtime_package`, and gqlforge
-  itself must never become a runtime dependency of generated code.
+  imports come from the consumer's `runtime_package` (or the vendored
+  copy inside the generated package), and gqlforge itself must never
+  become a runtime dependency of generated code - the runtime is
+  VENDORED (copied from `src/gqlforge/_runtime/`), never imported.
+- The vendored runtime templates in `src/gqlforge/_runtime/` are real
+  lintable modules with relative imports; nothing in gqlforge imports
+  them, and `tests/test_runtime.py` exercises the emitted copies end to
+  end over httpx.MockTransport - including the unit contracts for the
+  model bases and executor core (moved here from gpp-client2 when it
+  adopted the vendored runtime; this suite is their only home).
+- gpp-client2 runs ON the vendored runtime: its `_base.py`/
+  `_executor.py`/`_ws.py` are shims re-exporting `_generated.*` and its
+  clients subclass the emitted `client.py` (via `executor_core_class`
+  and `_wire_domains()`). A runtime bug fixed here reaches it by
+  regeneration - there is no second copy to keep in sync anymore.
 - The end-to-end test (`tests/test_endtoend.py`) generates a complete
   minimal consumer; new pipeline features get their coverage there, not
   only in unit tests.
@@ -57,6 +70,7 @@ running it from `../gpp-client2/`.
 `schema.py` (merge), `operations.py` (tree loading, `__typename`
 injection, comment-docstring capture), `prune.py` (per-schema pruning),
 `emit_models.py` / `emit_operations.py` (emitters), `naming.py`
-(operation-name -> method-name convention), `pipeline.py`
+(operation-name -> method-name convention), `_runtime/` (vendored
+runtime templates), `pipeline.py`
 (generate/check/readiness/download), `scaffold.py`, `__main__.py`.
 `docs/` is the Sphinx site (RTD subproject of gpp-client2).

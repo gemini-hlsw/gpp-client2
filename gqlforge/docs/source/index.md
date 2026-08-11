@@ -10,6 +10,38 @@ It is also a perfectly ordinary single-schema codegen, and a
 models-only generator for projects that just want pydantic types (see
 {doc}`domains`).
 
+## Quickstart
+
+Three files and no hand-written runtime:
+
+```toml
+# pyproject.toml
+[tool.gqlforge]
+schemas = "schemas"                  # schemas/main.graphql lives here
+operations = "operations"
+output = "src/myclient/_generated"
+merged_schema = "schemas/merged.graphql"
+availability = "availability.json"
+source_order = ["main"]
+generated_package = "myclient._generated"
+```
+
+Drop your SDL in `schemas/main.graphql`, a query in `operations/`, run
+`gqlforge generate`, and use the client it emitted:
+
+```python
+from myclient._generated.client import Client
+
+with Client("https://api.example.com/graphql", token="...") as api:
+    widget = api.ops.get_widget_by_id(id="w-1")
+    print(widget.name)  # typed pydantic model; unselected -> UNSET
+```
+
+Sync and async clients, typed models, subscriptions over
+graphql-transport-ws, and a raw `api.graphql(...)` escape hatch - all
+generated. ({doc}`configuration` covers bring-your-own-runtime for
+curated clients.)
+
 ## How it works
 
 1. Commit one SDL file per schema source, and write each GraphQL

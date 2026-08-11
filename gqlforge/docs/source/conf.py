@@ -29,4 +29,3 @@ html_theme_options = {
 
 copybutton_prompt_text = r">>> |\.\.\. |\$ "
 copybutton_prompt_is_regexp = True
-

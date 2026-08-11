@@ -34,7 +34,7 @@ token_env = "MY_TOKEN"                   # download token fallback
 | `availability` | yes | Where the availability manifest JSON is written |
 | `source_order` | yes | Schema sources, newest first; a source participates only when its SDL file exists |
 | `generated_package` | yes | Dotted import path of the generated package, used in emitted cross-module imports |
-| `runtime_package` | yes | Package exposing the runtime contract (see below) |
+| `runtime_package` | no | Bring-your-own runtime package (see below); omit it and `gqlforge` vendors a complete runtime and default client into the generated package |
 | `model_base` | no (`Model`) | Class in `<runtime_package>._base` that output models inherit |
 | `input_base` | no (`Input`) | Class in `<runtime_package>._base` that input models inherit |
 | `domains_dir` | no | Where `gqlforge scaffold` writes hand-written domain modules |
@@ -44,8 +44,28 @@ token_env = "MY_TOKEN"                   # download token fallback
 
 ## The runtime contract
 
-Generated code imports a small contract from your package rather than
-from `gqlforge`, which keeps `gqlforge` a development-only dependency:
+By default (`runtime_package` omitted) there is nothing to provide:
+`gqlforge` vendors its own runtime - the `UNSET` machinery, sync and
+async httpx executors, a graphql-transport-ws subscription transport,
+and a ready-made `Client`/`AsyncClient` - directly into the generated
+package. Generated code stays dependency-free of `gqlforge` itself
+(pydantic, httpx, and websockets only), and runtime upgrades arrive
+through regeneration as reviewable diffs.
+
+The vendored client is built to be *specialized by inheritance*
+rather than replaced: subclass the generated `Client`, override
+`_wire_domains()` to attach curated domain subclasses under your own
+attribute names, and set `executor_core_class` to an `ExecutorCore`
+subclass to customize payload construction or response processing. The
+exception hierarchy is the vendored one (`_exceptions.ClientError` and
+friends) - specialized clients raise their own subclasses of it from
+overrides rather than swapping the hierarchy. A barebones vendored core
+doing the heavy lifting, your subclass doing the branding.
+
+Set `runtime_package` to bring your own runtime entirely - for curated
+clients like `gpp-client2` that add their own configuration, transports,
+and guardrails (its planned migration path is exactly the subclassing
+above). Generated code then imports the contract from your package:
 
 - `<runtime_package>._base` must provide the `UNSET` sentinel, an
   `UnsetType`, and the two base classes named by `model_base` and
@@ -63,10 +83,12 @@ are the reference implementation of both halves.
 
 ## What you name, what gqlforge names
 
-`gqlforge` never names your client. There is no generated client class -
-you write the top-level client yourself, call it anything
-(`GPPClient`, `MyClient`), and wrap the generated pieces in it. The
-full division:
+In vendored mode `gqlforge` emits a default `Client`/`AsyncClient`
+(one attribute per domain) so you can start with zero hand-written
+code - but it never *forces* a name or shape on you: with
+`runtime_package` set, no client is generated and you write and name
+the top-level client yourself (`GPPClient`, `MyClient`), wrapping the
+generated pieces. The full division:
 
 | You choose | Via |
 | --- | --- |

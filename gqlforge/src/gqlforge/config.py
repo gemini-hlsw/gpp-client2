@@ -26,7 +26,6 @@ _REQUIRED = (
     "availability",
     "source_order",
     "generated_package",
-    "runtime_package",
 )
 
 
@@ -62,7 +61,12 @@ class Config:
         Package exposing the runtime contract the generated code imports:
         ``<runtime_package>._base`` must provide the model bases and the
         ``UNSET`` sentinel, ``<runtime_package>._executor`` the
-        ``SyncExecutor`` and ``AsyncExecutor`` protocols.
+        ``SyncExecutor`` and ``AsyncExecutor`` protocols. When the key is
+        omitted, gqlforge vendors its own runtime into the generated
+        package and this resolves to ``generated_package``.
+    vendor_runtime : bool
+        True when no ``runtime_package`` was configured: the runtime
+        modules and a default client are emitted alongside the models.
     model_base : str
         Class name in ``<runtime_package>._base`` that output models
         inherit.
@@ -91,6 +95,7 @@ class Config:
     source_order: tuple[str, ...]
     generated_package: str
     runtime_package: str
+    vendor_runtime: bool
     model_base: str
     input_base: str
     domains_dir: Path | None
@@ -114,6 +119,7 @@ class Config:
             raise GqlforgeError(
                 f"[tool.gqlforge] is missing required keys: {', '.join(missing)}."
             )
+        runtime_package = table.get("runtime_package")
         return cls(
             root=root,
             schemas_dir=root / table["schemas"],
@@ -123,7 +129,10 @@ class Config:
             availability_path=root / table["availability"],
             source_order=tuple(table["source_order"]),
             generated_package=table["generated_package"],
-            runtime_package=table["runtime_package"],
+            # Absent runtime_package -> gqlforge vendors the runtime into
+            # the generated package, so the emitted imports point there.
+            runtime_package=runtime_package or table["generated_package"],
+            vendor_runtime=runtime_package is None,
             model_base=table.get("model_base", "Model"),
             input_base=table.get("input_base", "Input"),
             domains_dir=(

@@ -56,11 +56,15 @@ download_token = "myclient.config:find_download_token"   # optional
 token_env = "MY_TOKEN"                   # download token fallback
 ```
 
-The generated code imports a small runtime contract from your package:
-`<runtime_package>._base` provides the model/input base classes and the
-`UNSET` sentinel, `<runtime_package>._executor` the `SyncExecutor` and
-`AsyncExecutor` the emitted domain bases call. `gpp-client2`'s
-`_base.py`/`_executor.py` are the reference implementation.
+By default `gqlforge` vendors a complete runtime into the generated
+package - `UNSET` machinery, sync+async httpx executors, a
+graphql-transport-ws subscription transport, and a ready-made
+`Client`/`AsyncClient` - so a schema plus queries yields a working
+client with zero hand-written code, and generated output never depends
+on `gqlforge` at runtime. Set `runtime_package` to bring your own
+runtime instead (the contract: `._base` provides the bases and `UNSET`,
+`._executor` the executors); `gpp-client2` is the reference
+implementation of that path.
 
 ## Domains: from folder to client attribute
 

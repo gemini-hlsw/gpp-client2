@@ -553,3 +553,154 @@ def emit_domains(specs: list[OperationSpec], config: Config) -> str:
 def spec_kind_word(is_async: bool) -> str:
     """Human word for the sync/async variant in docstrings."""
     return "async" if is_async else "sync"
+
+
+def emit_client(specs: list[OperationSpec], config: Config) -> str:
+    """Emit client.py: default sync and async clients over every domain."""
+    domains = sorted({spec.domain for spec in specs})
+    pairs = []  # (attribute, sync class, async class)
+    for domain in domains:
+        pascal = to_pascal(domain)
+        pairs.append(
+            (domain or "ops", f"{pascal}Operations", f"Async{pascal}Operations")
+        )
+
+    domain_imports = sorted(name for _, s, a in pairs for name in (s, a))
+    lines = [
+        GENERATED_HEADER,
+        "from __future__ import annotations",
+        "",
+        "from typing import Any, Self",
+        "",
+        "import httpx",
+        "",
+        "from ._executor import AsyncExecutor, ExecutorCore, SyncExecutor",
+        "from ._ws import AsyncWsTransport, SyncWsTransport, WsConfig, get_ws_url",
+        "from .domains import (",
+        *[f"    {name}," for name in domain_imports],
+        ")",
+        "from .operations import SCHEMA_SOURCES",
+        "",
+        '__all__ = ["AsyncClient", "Client"]',
+        "",
+    ]
+
+    for is_async in (False, True):
+        class_name = "AsyncClient" if is_async else "Client"
+        http_class = "httpx.AsyncClient" if is_async else "httpx.Client"
+        executor_class = "AsyncExecutor" if is_async else "SyncExecutor"
+        ws_class = "AsyncWsTransport" if is_async else "SyncWsTransport"
+        a = "async " if is_async else ""
+        await_ = "await " if is_async else ""
+        lines += [
+            "",
+            f"class {class_name}:",
+            '    """',
+            f"    {'Asynchronous' if is_async else 'Synchronous'} client: "
+            "one attribute per domain.",
+            "",
+            "    Parameters",
+            "    ----------",
+            "    url : str",
+            "        The GraphQL endpoint.",
+            "    token : str | None",
+            "        Bearer token, sent on HTTP and WebSocket requests.",
+            "    source : str | None",
+            "        Schema source whose query text to send; defaults to the",
+            "        newest (``SCHEMA_SOURCES[0]``).",
+            "    read_only : bool",
+            "        Refuse to execute mutations before any network call.",
+            "    timeout : float",
+            "        Request and WebSocket-handshake timeout in seconds.",
+            "    headers : dict[str, str] | None",
+            "        Extra HTTP headers.",
+            "    transport : httpx.BaseTransport | None",
+            "        Transport injection, e.g. ``httpx.MockTransport`` in tests.",
+            "    ws_url : str | None",
+            "        Subscription endpoint; defaults to ``url`` with the scheme",
+            "        swapped to ``ws(s)``.",
+            '    """',
+            "",
+            "    executor_core_class: type[ExecutorCore] = ExecutorCore",
+            '    """Override to specialize payloads, processing, or error types."""',
+            "",
+            "    def __init__(",
+            "        self,",
+            "        url: str,",
+            "        *,",
+            "        token: str | None = None,",
+            "        source: str | None = None,",
+            "        read_only: bool = False,",
+            "        timeout: float = 30.0,",
+            "        headers: dict[str, str] | None = None,",
+            "        transport: Any = None,",
+            "        ws_url: str | None = None,",
+            "    ) -> None:",
+            "        self.source = source or SCHEMA_SOURCES[0]",
+            "        request_headers = dict(headers or {})",
+            "        if token:",
+            '            request_headers["Authorization"] = f"Bearer {token}"',
+            f"        self._http = {http_class}(",
+            "            base_url=url,",
+            "            headers=request_headers,",
+            "            timeout=timeout,",
+            "            transport=transport,",
+            "        )",
+            "        core = self.executor_core_class(",
+            "            source=self.source, read_only=read_only",
+            "        )",
+            f"        ws = {ws_class}(",
+            "            WsConfig(",
+            "                url=ws_url or get_ws_url(url),",
+            '                token=token or "",',
+            "                connect_timeout=timeout,",
+            "            ),",
+            "            core,",
+            "        )",
+            f"        self._executor = {executor_class}(self._http, core, ws, url=url)",
+            "        self._wire_domains()",
+            "",
+            "    def _wire_domains(self) -> None:",
+            '        """Attach one API object per domain; override to specialize."""',
+        ]
+        for attribute, sync_cls, async_cls in pairs:
+            domain_class = async_cls if is_async else sync_cls
+            lines.append(f"        self.{attribute} = {domain_class}(self._executor)")
+        lines += [
+            "",
+            f"    {a}def graphql(",
+            "        self,",
+            "        query: str,",
+            "        variables: dict[str, Any] | None = None,",
+            "        operation_name: str | None = None,",
+            "    ) -> Any:",
+            '        """Execute a raw operation and return the ``data`` dict."""',
+            f"        return {await_}self._executor.run_raw("
+            "query, variables, operation_name)",
+            "",
+        ]
+        if is_async:
+            lines += [
+                "    async def aclose(self) -> None:",
+                "        await self._http.aclose()",
+                "",
+                "    async def __aenter__(self) -> Self:",
+                "        return self",
+                "",
+                "    async def __aexit__(self, *exc_info: object) -> None:",
+                "        await self.aclose()",
+            ]
+        else:
+            lines += [
+                "    def close(self) -> None:",
+                "        self._http.close()",
+                "",
+                "    def __enter__(self) -> Self:",
+                "        return self",
+                "",
+                "    def __exit__(self, *exc_info: object) -> None:",
+                "        self.close()",
+            ]
+        lines.append("")
+
+    return "\n".join(lines)
