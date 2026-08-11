@@ -1,147 +1,77 @@
 """
 Exceptions raised by the GPP client.
+
+The transport and GraphQL errors are the vendored gqlforge runtime's,
+re-exported from :mod:`gpp_client2._generated._exceptions`: one base,
+``ClientError``, so a single ``except`` catches everything the client
+raises. The ``GPP*`` classes below are GPP-specific and subclass
+``ClientError`` too.
 """
 
 from __future__ import annotations
 
-from typing import Any
+from gpp_client2._generated._exceptions import (
+    AuthError,
+    ClientError,
+    GraphQLResponseError,
+    OperationUnavailableError,
+    ReadOnlyError,
+    RequestTimeoutError,
+    ResponseError,
+    TransportError,
+)
 
 __all__ = [
-    "GPPAuthError",
+    "AuthError",
+    "ClientError",
     "GPPConfigError",
-    "GPPConnectionError",
-    "GPPError",
     "GPPFieldUnavailableError",
-    "GPPGraphQLError",
-    "GPPOperationUnavailableError",
-    "GPPReadOnlyError",
-    "GPPResponseError",
     "GPPRetryableError",
-    "GPPTimeoutError",
     "GPPValidationError",
+    "GraphQLResponseError",
+    "OperationUnavailableError",
+    "ReadOnlyError",
+    "RequestTimeoutError",
+    "ResponseError",
+    "TransportError",
 ]
 
 
-class GPPError(Exception):
-    """Base class for all exceptions raised by the GPP client."""
-
-
-class GPPConfigError(GPPError):
+class GPPConfigError(ClientError):
     """Raised when client configuration cannot be resolved."""
 
 
-class GPPAuthError(GPPError):
-    """Raised when authentication fails or no token can be resolved."""
-
-
-class GPPConnectionError(GPPError):
-    """Raised when the deployment cannot be reached."""
-
-
-class GPPTimeoutError(GPPConnectionError):
-    """Raised when a request times out."""
-
-
-class GPPResponseError(GPPError):
+class GPPFieldUnavailableError(ClientError):
     """
-    Raised when GPP returns a non-successful HTTP response.
-
-    Parameters
-    ----------
-    status_code : int
-        The HTTP status code.
-    message : str
-        The error message or response body excerpt.
-    """
-
-    def __init__(self, status_code: int, message: str):
-        self.status_code = status_code
-        self.message = message
-        super().__init__(f"GPP returned HTTP {status_code}: {message}")
-
-
-class GPPGraphQLError(GPPError):
-    """
-    Raised when a GraphQL response carries errors.
-
-    Parameters
-    ----------
-    errors : list[dict[str, Any]]
-        The raw GraphQL error objects.
-    """
-
-    def __init__(self, errors: list[dict[str, Any]]):
-        self.errors = errors
-        messages = (
-            "; ".join(str(e.get("message", e)) for e in errors[:5])
-            or "unknown GraphQL error"
-        )
-        if len(errors) > 5:
-            messages += f" (+{len(errors) - 5} more)"
-        super().__init__(messages)
-
-
-class GPPOperationUnavailableError(GPPError):
-    """
-    Raised when an operation is not available in the active environment.
-
-    Parameters
-    ----------
-    operation_name : str
-        The GraphQL operation name.
-    environment : str
-        The active environment name.
-    available_in : tuple[str, ...]
-        Environments (schema sources) where the operation is available.
-    """
-
-    def __init__(
-        self, operation_name: str, environment: str, available_in: tuple[str, ...]
-    ):
-        self.operation_name = operation_name
-        self.environment = environment
-        self.available_in = available_in
-        super().__init__(
-            f"'{operation_name}' is not available in '{environment}' "
-            f"(available in: {', '.join(available_in) or 'none'})."
-        )
-
-
-class GPPFieldUnavailableError(GPPError):
-    """
-    Raised when a raw operation selects a field the active environment does
-    not serve.
+    Raised when a raw operation selects a field the active schema source
+    does not serve.
 
     Parameters
     ----------
     field_name : str
         The selected field name.
-    environment : str
-        The active environment name.
-    available_in : tuple[str, ...]
-        Environments (schema sources) where the field is available.
+    source : str
+        The active schema source.
+    available : tuple[str, ...]
+        Schema sources where the field is available.
     """
 
     def __init__(
-        self, field_name: str, environment: str, available_in: tuple[str, ...]
-    ):
-        self.field_name = field_name
-        self.environment = environment
-        self.available_in = available_in
+        self, field_name: str, source: str, available: tuple[str, ...]
+    ) -> None:
         super().__init__(
-            f"Field '{field_name}' is not available in '{environment}' "
-            f"(available in: {', '.join(available_in) or 'none'})."
+            f"Field '{field_name}' is not available in '{source}'; "
+            f"it exists in: {', '.join(available) or 'none'}."
         )
+        self.field_name = field_name
+        self.source = source
+        self.available = available
 
 
-class GPPReadOnlyError(GPPError):
-    """Raised when a mutation is attempted through a read-only client."""
-
-
-class GPPRetryableError(GPPError):
+class GPPRetryableError(ClientError):
     """Raised for transient conditions worth retrying, e.g. a background
     calculation that has not finished yet."""
 
 
-class GPPValidationError(GPPError):
+class GPPValidationError(ClientError):
     """Raised when inputs fail client-side validation before any request."""

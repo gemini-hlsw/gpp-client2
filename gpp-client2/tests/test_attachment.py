@@ -93,30 +93,30 @@ def test_download_refuses_overwrite(make_client, tmp_path):
 
 def test_read_only_blocks_rest_writes(make_client):
     """read_only guards REST content writes exactly like GraphQL mutations."""
-    from gpp_client2.errors import GPPReadOnlyError
+    from gpp_client2.errors import ReadOnlyError
 
     client, handler = make_client(read_only=True)
-    with pytest.raises(GPPReadOnlyError):
+    with pytest.raises(ReadOnlyError):
         client.attachments.upload(
             "p-1", attachment_type="SCIENCE", file_name="x", content=b"y"
         )
-    with pytest.raises(GPPReadOnlyError):
+    with pytest.raises(ReadOnlyError):
         client.attachments.update_by_id("a-1", file_name="x", content=b"y")
-    with pytest.raises(GPPReadOnlyError):
+    with pytest.raises(ReadOnlyError):
         client.attachments.delete_by_id("a-1")
     assert handler.requests == []  # nothing touched the network
 
 
 async def test_read_only_blocks_rest_writes_async(make_async_client):
-    from gpp_client2.errors import GPPReadOnlyError
+    from gpp_client2.errors import ReadOnlyError
 
     client, handler = make_async_client(read_only=True)
     async with client:
-        with pytest.raises(GPPReadOnlyError):
+        with pytest.raises(ReadOnlyError):
             await client.attachments.upload(
                 "p-1", attachment_type="SCIENCE", file_name="x", content=b"y"
             )
-        with pytest.raises(GPPReadOnlyError):
+        with pytest.raises(ReadOnlyError):
             await client.attachments.delete_by_id("a-1")
     assert handler.requests == []
 

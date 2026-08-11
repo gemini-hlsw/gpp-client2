@@ -2,21 +2,24 @@
 The GPP client entry points.
 
 ``GPPClient`` is synchronous; ``AsyncGPPClient`` is its async twin with an
-identical surface. Which deployment either talks to is a runtime choice
-resolved from arguments, ``GPP_*`` environment variables, and configuration
-profiles - see :mod:`gpp_client2.config`.
+identical surface. Both subclass the gqlforge-generated vendored client
+(:mod:`gpp_client2._generated.client`) and specialize it for GPP: runtime
+configuration resolution (see :mod:`gpp_client2.config`), the ``/odb``
+GraphQL path and ``/ws`` WebSocket path conventions, curated domain APIs,
+and a restricted-field preflight for raw queries.
 """
 
 from __future__ import annotations
 
 from pathlib import Path
-from types import TracebackType
-from typing import Any, Self
+from typing import Any
+from urllib.parse import urlsplit, urlunsplit
 
 import httpx
 
-from gpp_client2._executor import AsyncExecutor, ExecutorCore, SyncExecutor
-from gpp_client2._ws import AsyncWsTransport, SyncWsTransport, WsConfig, get_ws_url
+from gpp_client2._executor import ExecutorCore
+from gpp_client2._generated.client import AsyncClient, Client
+from gpp_client2._generated.operations import RESTRICTED_FIELD_NAMES
 from gpp_client2.config import ResolvedConfig, resolve_config
 from gpp_client2.domains import (
     AsyncAttachmentAPI,
@@ -37,15 +40,66 @@ from gpp_client2.domains import (
     WorkflowStateAPI,
 )
 from gpp_client2.environments import Environment
+from gpp_client2.errors import GPPFieldUnavailableError
 
 __all__ = ["AsyncGPPClient", "GPPClient"]
 
 _DEFAULT_TIMEOUT = 30.0
+_GRAPHQL_PATH = "/odb"
+_WS_PATH = "/ws"
 _PING_QUERY = "query Ping { programs(LIMIT: 1) { matches { id } } }"
 
 
+def _ws_url(base_url: str) -> str:
+    """WebSocket endpoint for a deployment base URL, e.g. ``wss://host/ws``."""
+    parsed = urlsplit(base_url)
+    scheme = "wss" if parsed.scheme == "https" else "ws"
+    return urlunsplit((scheme, parsed.netloc, _WS_PATH, "", ""))
+
+
+class GPPExecutorCore(ExecutorCore):
+    """
+    The vendored executor core plus GPP's raw-query field preflight.
+
+    Field names whose availability codegen restricted to some schema
+    sources are rejected before any network call when the active source
+    does not serve them.
+    """
+
+    def raw_payload(
+        self,
+        query: str,
+        variables: dict[str, Any] | None,
+        operation_name: str | None,
+    ) -> dict[str, Any]:
+        payload = super().raw_payload(query, variables, operation_name)
+        try:
+            from graphql.language.visitor import Visitor
+
+            from graphql import FieldNode, parse, visit
+
+            document = parse(query)
+        except Exception:
+            return payload  # let the server report the syntax error
+
+        source = self.source
+        violations: list[tuple[str, tuple[str, ...]]] = []
+
+        class _RestrictedFieldVisitor(Visitor):
+            def enter_field(self, node: FieldNode, *args: Any) -> None:
+                availability = RESTRICTED_FIELD_NAMES.get(node.name.value)
+                if availability is not None and source not in availability:
+                    violations.append((node.name.value, availability))
+
+        visit(document, _RestrictedFieldVisitor())
+        if violations:
+            field_name, availability = violations[0]
+            raise GPPFieldUnavailableError(field_name, source, availability)
+        return payload
+
+
 class _ClientBase:
-    """Configuration and metadata shared by the sync and async clients."""
+    """Configuration resolution and metadata shared by both clients."""
 
     _config: ResolvedConfig
     _read_only: bool
@@ -74,25 +128,12 @@ class _ClientBase:
         )
         self._read_only = read_only
 
-    def _core(self) -> ExecutorCore:
-        return ExecutorCore(
-            environment_name=self._config.environment_name,
-            schema_source=self._config.schema_source,
-            read_only=self._read_only,
-        )
-
-    def _ws_config(self, timeout: float) -> WsConfig:
-        return WsConfig(
-            url=get_ws_url(self._config.base_url),
-            token=self._config.token,
-            connect_timeout=timeout,
-        )
-
-    def _http_kwargs(
+    def _rest_kwargs(
         self,
         timeout: float,
         transport: httpx.BaseTransport | httpx.AsyncBaseTransport | None,
     ) -> dict[str, Any]:
+        """httpx arguments for the REST client rooted at the deployment."""
         kwargs: dict[str, Any] = {
             "base_url": self._config.base_url,
             "headers": {"Authorization": f"Bearer {self._config.token}"},
@@ -161,7 +202,7 @@ class _ClientBase:
         )
 
 
-class GPPClient(_ClientBase):
+class GPPClient(_ClientBase, Client):
     """
     Synchronous client for the Gemini Program Platform.
 
@@ -193,6 +234,8 @@ class GPPClient(_ClientBase):
     >>> with GPPClient(environment="development") as gpp:
     ...     program = gpp.programs.get_by_id("p-123")
     """
+
+    executor_core_class = GPPExecutorCore
 
     programs: ProgramAPI
     """Program operations."""
@@ -240,25 +283,34 @@ class GPPClient(_ClientBase):
             read_only=read_only,
             config_path=config_path,
         )
-        self._http = httpx.Client(**self._http_kwargs(timeout, transport))
-        core = self._core()
-        self._executor = SyncExecutor(
-            self._http, core, ws=SyncWsTransport(self._ws_config(timeout), core)
+        base_url = self._config.base_url.rstrip("/")
+        # REST endpoints (attachments, scheduler files) live at the
+        # deployment root, not under the GraphQL path.
+        self._rest_http = httpx.Client(**self._rest_kwargs(timeout, transport))
+        super().__init__(
+            base_url + _GRAPHQL_PATH,
+            token=self._config.token,
+            source=self._config.schema_source,
+            read_only=read_only,
+            timeout=timeout,
+            transport=transport,
+            ws_url=_ws_url(base_url),
         )
+
+    def _wire_domains(self) -> None:
         self.programs = ProgramAPI(self._executor)
         self.observations = ObservationAPI(self._executor)
         self.targets = TargetAPI(self._executor)
-        self.attachments = AttachmentAPI(self._executor, self._http)
+        self.attachments = AttachmentAPI(self._executor, self._rest_http)
         self.calls_for_proposals = CallForProposalsAPI(self._executor)
         self.goats = GoatsAPI(self._executor)
-        self.scheduler = SchedulerAPI(self._executor, self._http)
+        self.scheduler = SchedulerAPI(self._executor, self._rest_http)
         self.workflow_state = WorkflowStateAPI(self._executor)
 
     def graphql(
         self,
         query: str,
         variables: dict[str, Any] | None = None,
-        *,
         operation_name: str | None = None,
     ) -> Any:
         """
@@ -268,7 +320,7 @@ class GPPClient(_ClientBase):
         validates the text beyond a cheap availability pre-flight; the
         server is the judge.
         """
-        return self._executor.run_raw(query, variables, operation_name)
+        return super().graphql(query, variables, operation_name)
 
     def ping(self) -> tuple[bool, str | None]:
         """
@@ -287,21 +339,11 @@ class GPPClient(_ClientBase):
 
     def close(self) -> None:
         """Close the underlying HTTP connections."""
-        self._http.close()
-
-    def __enter__(self) -> Self:
-        return self
-
-    def __exit__(
-        self,
-        exc_type: type[BaseException] | None,
-        exc: BaseException | None,
-        tb: TracebackType | None,
-    ) -> None:
-        self.close()
+        super().close()
+        self._rest_http.close()
 
 
-class AsyncGPPClient(_ClientBase):
+class AsyncGPPClient(_ClientBase, AsyncClient):
     """
     Asynchronous client for the Gemini Program Platform.
 
@@ -313,6 +355,8 @@ class AsyncGPPClient(_ClientBase):
     >>> async with AsyncGPPClient(environment="development") as gpp:
     ...     program = await gpp.programs.get_by_id("p-123")
     """
+
+    executor_core_class = GPPExecutorCore
 
     programs: AsyncProgramAPI
     """Program operations."""
@@ -360,25 +404,34 @@ class AsyncGPPClient(_ClientBase):
             read_only=read_only,
             config_path=config_path,
         )
-        self._http = httpx.AsyncClient(**self._http_kwargs(timeout, transport))
-        core = self._core()
-        self._executor = AsyncExecutor(
-            self._http, core, ws=AsyncWsTransport(self._ws_config(timeout), core)
+        base_url = self._config.base_url.rstrip("/")
+        # REST endpoints (attachments, scheduler files) live at the
+        # deployment root, not under the GraphQL path.
+        self._rest_http = httpx.AsyncClient(**self._rest_kwargs(timeout, transport))
+        super().__init__(
+            base_url + _GRAPHQL_PATH,
+            token=self._config.token,
+            source=self._config.schema_source,
+            read_only=read_only,
+            timeout=timeout,
+            transport=transport,
+            ws_url=_ws_url(base_url),
         )
+
+    def _wire_domains(self) -> None:
         self.programs = AsyncProgramAPI(self._executor)
         self.observations = AsyncObservationAPI(self._executor)
         self.targets = AsyncTargetAPI(self._executor)
-        self.attachments = AsyncAttachmentAPI(self._executor, self._http)
+        self.attachments = AsyncAttachmentAPI(self._executor, self._rest_http)
         self.calls_for_proposals = AsyncCallForProposalsAPI(self._executor)
         self.goats = AsyncGoatsAPI(self._executor)
-        self.scheduler = AsyncSchedulerAPI(self._executor, self._http)
+        self.scheduler = AsyncSchedulerAPI(self._executor, self._rest_http)
         self.workflow_state = AsyncWorkflowStateAPI(self._executor)
 
     async def graphql(
         self,
         query: str,
         variables: dict[str, Any] | None = None,
-        *,
         operation_name: str | None = None,
     ) -> Any:
         """
@@ -388,7 +441,7 @@ class AsyncGPPClient(_ClientBase):
         validates the text beyond a cheap availability pre-flight; the
         server is the judge.
         """
-        return await self._executor.run_raw(query, variables, operation_name)
+        return await super().graphql(query, variables, operation_name)
 
     async def ping(self) -> tuple[bool, str | None]:
         """
@@ -405,17 +458,12 @@ class AsyncGPPClient(_ClientBase):
             return False, str(exc)
         return True, None
 
-    async def close(self) -> None:
+    async def aclose(self) -> None:
         """Close the underlying HTTP connections."""
-        await self._http.aclose()
+        await super().aclose()
+        await self._rest_http.aclose()
 
-    async def __aenter__(self) -> Self:
-        return self
-
-    async def __aexit__(
-        self,
-        exc_type: type[BaseException] | None,
-        exc: BaseException | None,
-        tb: TracebackType | None,
-    ) -> None:
-        await self.close()
+    async def close(self) -> None:
+        """Alias of :meth:`aclose`, keeping the sync and async surfaces
+        identical."""
+        await self.aclose()

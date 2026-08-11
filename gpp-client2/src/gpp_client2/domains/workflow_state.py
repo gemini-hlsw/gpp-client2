@@ -24,7 +24,7 @@ from gpp_client2._generated.models import (
     Observation,
     ObservationWorkflow,
 )
-from gpp_client2.errors import GPPError, GPPRetryableError, GPPValidationError
+from gpp_client2.errors import ClientError, GPPRetryableError, GPPValidationError
 
 __all__ = ["AsyncWorkflowStateAPI", "WorkflowStateAPI"]
 
@@ -39,7 +39,7 @@ def _workflow_of(
         or not is_set(observation.workflow)
         or observation.workflow is None
     ):
-        raise GPPError(f"Observation '{observation_id}' has no workflow data.")
+        raise ClientError(f"Observation '{observation_id}' has no workflow data.")
     return observation.workflow
 
 
@@ -124,7 +124,7 @@ class WorkflowStateAPI(WorkflowStateOperations):
             return current
         updated = self.set_by_observation_id(observation_id, state=state)
         if updated is None:
-            raise GPPError("setObservationWorkflowState returned no payload.")
+            raise ClientError("setObservationWorkflowState returned no payload.")
         return updated
 
     def update_by_observation_id_with_retry(
@@ -231,7 +231,7 @@ class AsyncWorkflowStateAPI(AsyncWorkflowStateOperations):
             return current
         updated = await self.set_by_observation_id(observation_id, state=state)
         if updated is None:
-            raise GPPError("setObservationWorkflowState returned no payload.")
+            raise ClientError("setObservationWorkflowState returned no payload.")
         return updated
 
     async def update_by_observation_id_with_retry(

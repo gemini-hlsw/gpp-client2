@@ -4,7 +4,7 @@ import pytest
 
 from gpp_client2.config import find_download_token, get_config_path, resolve_config
 from gpp_client2.environments import Environment
-from gpp_client2.errors import GPPAuthError, GPPConfigError
+from gpp_client2.errors import AuthError, GPPConfigError
 
 SOURCES = ("development", "production")
 
@@ -99,7 +99,7 @@ def test_nothing_configured_is_a_clear_error():
 
 
 def test_missing_token_is_auth_error():
-    with pytest.raises(GPPAuthError, match="token"):
+    with pytest.raises(AuthError, match="token"):
         resolve_config(environment="development", available_sources=SOURCES)
 
 

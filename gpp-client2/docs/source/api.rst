@@ -56,4 +56,5 @@ Errors
 
 .. automodule:: gpp_client2.errors
    :members:
+   :imported-members:
    :show-inheritance:

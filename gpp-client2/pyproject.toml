@@ -86,9 +86,8 @@ merged_schema = "graphql/schemas/merged.graphql"
 availability = "graphql/availability.json"
 source_order = ["development", "staging", "production"]
 generated_package = "gpp_client2._generated"
-runtime_package = "gpp_client2"
-model_base = "GPPModel"
-input_base = "GPPInput"
+# No runtime_package: gqlforge vendors its runtime into _generated/ and
+# emits the default client that GPPClient/AsyncGPPClient subclass.
 domains_dir = "src/gpp_client2/domains"
 environments = "gpp_client2.environments:ENVIRONMENTS"
 download_token = "gpp_client2.config:find_download_token"

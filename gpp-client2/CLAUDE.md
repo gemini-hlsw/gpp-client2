@@ -27,21 +27,30 @@ uv run towncrier build --draft           # preview the changelog
 
 `graphql/operations/<domain>/*.graphql` is the single union operations tree
 (the product). gqlforge (configured by `[tool.gqlforge]` in this project's
-pyproject.toml) merges the committed environment schemas in
-`graphql/schemas/`, prunes each operation per environment, and emits
-everything under `src/gpp_client2/_generated/`: pydantic models (one per
-schema type, every field defaulting to `UNSET`), inputs (omit-vs-null via
-`exclude_unset`), the per-environment operation map plus
-`graphql/availability.json`, and sync+async domain base classes. Hand-written
-subclasses in `src/gpp_client2/domains/` add curated logic (workflow-state
-transition guards, scheduler tree assembly, attachment REST transfer) and are
-wired to `GPPClient`/`AsyncGPPClient` via `DOMAIN_REGISTRY`. Queries and
+pyproject.toml, vendored mode - no `runtime_package`) merges the committed
+environment schemas in `graphql/schemas/`, prunes each operation per
+environment, and emits everything under `src/gpp_client2/_generated/`:
+pydantic models (one per schema type, every field defaulting to `UNSET`),
+inputs (omit-vs-null via `exclude_unset`), the per-environment operation map
+plus `graphql/availability.json`, sync+async domain base classes, the
+vendored runtime (`_base.py`, `_executor.py`, `_ws.py`, `_exceptions.py`),
+and a default client. `GPPClient`/`AsyncGPPClient` subclass that generated
+client, adding config resolution, the `/odb` GraphQL and `wss://<host>/ws`
+endpoint conventions, the raw-query restricted-field preflight
+(`GPPExecutorCore`), and a separate root-based httpx client for REST.
+Hand-written subclasses in `src/gpp_client2/domains/` add curated logic
+(workflow-state transition guards, scheduler tree assembly, attachment REST
+transfer) and are attached in the clients' `_wire_domains()` override;
+`DOMAIN_REGISTRY` keeps registry, client, and operations tree in lockstep.
+`gpp_client2/_base.py`, `_executor.py`, and `_ws.py` are one-line shims
+re-exporting the vendored runtime (`GPPModel`/`GPPInput` are the vendored
+`Model`/`Input`); exceptions are the vendored hierarchy re-exported from
+`gpp_client2.errors` plus GPP-specific `ClientError` subclasses. Queries and
 mutations run over httpx; subscriptions (`watch_*`, one graphql-transport-ws
-connection per call, `src/gpp_client2/_ws.py`) run over `websockets`, whose
-sync and asyncio clients keep the two surfaces identical. The `gpp2` CLI
-(`src/gpp_client2/cli.py`) derives every command from the sync domain APIs by
-reflection at startup - no generated file, cannot drift, and
-`tests/test_cli.py` pins the rule.
+connection per call) run over `websockets`, whose sync and asyncio clients
+keep the two surfaces identical. The `gpp2` CLI (`src/gpp_client2/cli.py`)
+derives every command from the sync domain APIs by reflection at startup -
+no generated file, cannot drift, and `tests/test_cli.py` pins the rule.
 
 ## Hard rules
 

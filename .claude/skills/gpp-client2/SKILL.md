@@ -36,7 +36,7 @@ token = "..."
 ```
 
 No silent fallback: unresolvable config raises `GPPConfigError`/
-`GPPAuthError` naming what is configured. `client.ping()` returns
+`AuthError` naming what is configured. `client.ping()` returns
 `(ok, reason)`.
 
 ## Results: typed models with UNSET
@@ -122,7 +122,7 @@ async for event in gpp.observations.watch_calculations(program_id="p-123"):
 
 Each call opens its own WebSocket connection, closed when iteration ends.
 Iteration ends normally only when the server completes the subscription;
-a dropped connection raises `GPPConnectionError` mid-iteration, and there
+a dropped connection raises `TransportError` mid-iteration, and there
 is no automatic reconnect - long-running consumers decide their own retry
 policy by re-calling the method. Subscriptions are reads: they work on
 `read_only=True` clients. Environment availability is checked at the call
@@ -139,7 +139,7 @@ client.supports("ObservingMode.gnirsImaging")  # Type.field pair
 client.supports("getProgramById")  # operation name
 ```
 
-Unavailable operations raise `GPPOperationUnavailableError` naming where
+Unavailable operations raise `OperationUnavailableError` naming where
 they DO work; raw queries pre-flight restricted field names with
 `GPPFieldUnavailableError`.
 
@@ -167,10 +167,12 @@ constructor: `-e/--environment`, `--profile`, `--url`, `--token`,
 
 ## Errors
 
-All inherit `GPPError`: `GPPConfigError`, `GPPAuthError` (401/403 or no
-token), `GPPConnectionError`/`GPPTimeoutError`, `GPPResponseError` (HTTP),
-`GPPGraphQLError` (all root fields null), `GPPOperationUnavailableError`,
-`GPPFieldUnavailableError`, `GPPReadOnlyError`, `GPPRetryableError`,
+All inherit `ClientError` (the vendored gqlforge runtime's base, so one
+`except` catches everything): `AuthError` (401/403 or no token),
+`TransportError`/`RequestTimeoutError`, `ResponseError` (HTTP),
+`GraphQLResponseError` (all root fields null), `OperationUnavailableError`,
+`ReadOnlyError`, plus the GPP-specific `GPPConfigError`,
+`GPPFieldUnavailableError`, `GPPRetryableError`, and
 `GPPValidationError`. Partial responses (data plus field-level errors, e.g.
 a just-created observation whose background calculation has not run) return
 the data and log a warning instead of raising.
@@ -220,9 +222,9 @@ regression test.
   queries simply never contain dev-only fields (they stay `UNSET`), and
   vice versa. Check `client.supports("Type.field")` instead of debugging a
   mysteriously-UNSET field. Unavailable whole operations raise
-  `GPPOperationUnavailableError` at call time, not import time.
+  `OperationUnavailableError` at call time, not import time.
 - **`read_only=True` blocks REST writes too** (attachment upload/update/
-  delete), not just GraphQL mutations - all raise `GPPReadOnlyError` before
+  delete), not just GraphQL mutations - all raise `ReadOnlyError` before
   any network call.
 - **Interface/union-typed responses always carry `__typename`** (codegen
   injects it). When building mock fixtures for tests, include it -
@@ -231,8 +233,8 @@ regression test.
   until the server completes the subscription; `break` when done (that
   closes the connection). Partial-response semantics apply per event: an
   event whose root survived yields with a warning, one with every root
-  null raises `GPPGraphQLError`.
-- **A dropped subscription raises `GPPConnectionError`; events during a
+  null raises `GraphQLResponseError`.
+- **A dropped subscription raises `TransportError`; events during a
   gap are gone.** There is no replay on reconnect - after re-calling
   `watch_*`, re-fetch current state with the corresponding `get_*` before
   trusting the stream again.

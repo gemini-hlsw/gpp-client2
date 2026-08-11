@@ -44,7 +44,7 @@ from pydantic import BaseModel, ValidationError
 from gpp_client2._base import UnsetType
 from gpp_client2.client import GPPClient
 from gpp_client2.domains import DOMAIN_REGISTRY
-from gpp_client2.errors import GPPError
+from gpp_client2.errors import ClientError
 
 __all__ = ["app", "main"]
 
@@ -306,7 +306,7 @@ def _build_command(attribute: str, method_name: str, method: Any) -> Any:
                         typer.echo(_render(event))
                     return
                 result = bound(**call_kwargs)
-        except GPPError as exc:
+        except ClientError as exc:
             typer.echo(f"error: {exc}", err=True)
             raise typer.Exit(code=1) from exc
         typer.echo(_render(result))
@@ -381,7 +381,7 @@ def graphql(
     try:
         with _make_client(ctx.obj) as client:
             data = client.graphql(query, parsed, operation_name=operation_name)
-    except GPPError as exc:
+    except ClientError as exc:
         typer.echo(f"error: {exc}", err=True)
         raise typer.Exit(code=1) from exc
     typer.echo(json.dumps(data, indent=2, default=_json_default))

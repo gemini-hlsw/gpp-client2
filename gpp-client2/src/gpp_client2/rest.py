@@ -16,10 +16,10 @@ from dataclasses import dataclass
 import httpx
 
 from gpp_client2.errors import (
-    GPPAuthError,
-    GPPConnectionError,
-    GPPResponseError,
-    GPPTimeoutError,
+    AuthError,
+    RequestTimeoutError,
+    ResponseError,
+    TransportError,
 )
 
 __all__ = [
@@ -51,12 +51,12 @@ class VisibilityChange:
 def process_text(response: httpx.Response) -> str:
     """Map a REST text response onto its body or a typed exception."""
     if response.status_code in (401, 403):
-        raise GPPAuthError(
+        raise AuthError(
             f"Authentication failed (HTTP {response.status_code}) for "
             f"{response.request.url.path}."
         )
     if response.status_code >= 400:
-        raise GPPResponseError(response.status_code, response.text[:500])
+        raise ResponseError(response.status_code, response.text[:500])
     content = response.content
     # Defensive: a proxy may hand us gzip bytes without a Content-Encoding
     # header, bypassing httpx's automatic decompression.
@@ -68,8 +68,8 @@ def process_text(response: httpx.Response) -> str:
 def map_transport_error(exc: httpx.HTTPError, url: str) -> Exception:
     """Translate httpx transport errors into client exceptions."""
     if isinstance(exc, httpx.TimeoutException):
-        return GPPTimeoutError(f"Request to {url} timed out: {exc}")
-    return GPPConnectionError(f"Could not reach {url}: {exc}")
+        return RequestTimeoutError(f"Request to {url} timed out: {exc}")
+    return TransportError(f"Could not reach {url}: {exc}")
 
 
 def visibility_params(since: _dt.datetime) -> dict[str, str]:

@@ -1,13 +1,17 @@
 # Errors
 
-Everything the client raises inherits from `GPPError`, so one `except`
+Everything the client raises inherits from `ClientError`, so one `except`
 catches it all when that is what you want. The subclasses tell you whose
-problem it is. The full taxonomy below is rendered from the code, so it
-always matches the installed version:
+problem it is: the transport and GraphQL errors come from the vendored
+gqlforge runtime, and the `GPP*` classes are GPP-specific additions. All
+of them import from `gpp_client2.errors` (or `gpp_client2` directly). The
+full taxonomy below is rendered from the code, so it always matches the
+installed version:
 
 ```{eval-rst}
 .. automodule:: gpp_client2.errors
    :members:
+   :imported-members:
    :show-inheritance:
    :no-index:
 ```
@@ -16,7 +20,7 @@ always matches the installed version:
 
 The client deliberately does not raise on partial responses. A response
 with data and errors returns the data and logs a warning; only a response
-whose every root field is null raises `GPPGraphQLError`. The reasoning and
+whose every root field is null raises `GraphQLResponseError`. The reasoning and
 the practical consequences are in {doc}`reading`.
 
 Two situations look like errors but are expected behavior:
@@ -33,18 +37,18 @@ Two situations look like errors but are expected behavior:
 ```python
 from gpp_client2 import GPPClient
 from gpp_client2.errors import (
-    GPPAuthError,
-    GPPConnectionError,
-    GPPGraphQLError,
+    AuthError,
+    TransportError,
+    GraphQLResponseError,
 )
 
 try:
     with GPPClient(profile="prod") as gpp:
         result = gpp.observations.get_all(limit=100)
-except GPPAuthError:
+except AuthError:
     ...  # token missing, expired, or wrong environment
-except GPPConnectionError:
+except TransportError:
     ...  # network problem; retrying later is reasonable
-except GPPGraphQLError as exc:
+except GraphQLResponseError as exc:
     print(exc.errors)  # the server said no; the raw errors say why
 ```

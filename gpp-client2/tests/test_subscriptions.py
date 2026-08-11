@@ -17,13 +17,13 @@ from websockets.typing import Subprotocol
 from gpp_client2 import AsyncGPPClient, GPPClient
 from gpp_client2._generated.models import ObscalcUpdate, ProgramEdit
 from gpp_client2._generated.operations import OPERATION_KIND, OPERATION_TEXT
-from gpp_client2._ws import get_ws_url
+from gpp_client2.client import _ws_url
 from gpp_client2.environments import ENVIRONMENTS
 from gpp_client2.errors import (
-    GPPAuthError,
-    GPPConnectionError,
-    GPPGraphQLError,
-    GPPOperationUnavailableError,
+    AuthError,
+    GraphQLResponseError,
+    OperationUnavailableError,
+    TransportError,
 )
 
 SUBSCRIPTION_OPERATIONS = sorted(
@@ -211,7 +211,10 @@ def test_unset_variables_are_omitted(ws_server):
 
 def test_error_message_raises(ws_server):
     server = ws_server([("error", [{"message": "boom"}])])
-    with _sync_client(server) as client, pytest.raises(GPPGraphQLError, match="boom"):
+    with (
+        _sync_client(server) as client,
+        pytest.raises(GraphQLResponseError, match="boom"),
+    ):
         list(client.programs.watch_edits())
 
 
@@ -230,7 +233,7 @@ def test_partial_event_warns_and_yields(ws_server, caplog):
     }
     server = ws_server([("next", partial), ("complete",)])
     with (
-        caplog.at_level("WARNING", logger="gpp_client2._executor"),
+        caplog.at_level("WARNING", logger="gpp_client2._generated._executor"),
         _sync_client(server) as client,
     ):
         events = list(client.programs.watch_edits())
@@ -241,7 +244,10 @@ def test_partial_event_warns_and_yields(ws_server, caplog):
 def test_event_with_all_roots_null_raises(ws_server):
     dead = {"data": {"programEdit": None}, "errors": [{"message": "gone"}]}
     server = ws_server([("next", dead)])
-    with _sync_client(server) as client, pytest.raises(GPPGraphQLError, match="gone"):
+    with (
+        _sync_client(server) as client,
+        pytest.raises(GraphQLResponseError, match="gone"),
+    ):
         list(client.programs.watch_edits())
 
 
@@ -250,27 +256,27 @@ def test_abrupt_close_raises_connection_error(ws_server):
     with _sync_client(server) as client:
         stream = client.programs.watch_edits()
         assert isinstance(next(stream), ProgramEdit)
-        with pytest.raises(GPPConnectionError, match="closed before the server"):
+        with pytest.raises(TransportError, match="closed before the server"):
             next(stream)
 
 
 async def test_abrupt_close_raises_connection_error_async(ws_server):
     server = ws_server([("close_abrupt",)])
     async with _async_client(server) as client:
-        with pytest.raises(GPPConnectionError, match="closed before the server"):
+        with pytest.raises(TransportError, match="closed before the server"):
             async for _ in client.programs.watch_edits():
                 pass
 
 
 def test_auth_rejected_at_init_raises_auth_error(ws_server):
     server = ws_server(accept_auth=False)
-    with _sync_client(server) as client, pytest.raises(GPPAuthError, match="4403"):
+    with _sync_client(server) as client, pytest.raises(AuthError, match="4403"):
         list(client.programs.watch_edits())
 
 
 def test_http_401_upgrade_raises_auth_error(ws_server):
     server = ws_server(http_status=401)
-    with _sync_client(server) as client, pytest.raises(GPPAuthError, match="401"):
+    with _sync_client(server) as client, pytest.raises(AuthError, match="401"):
         list(client.programs.watch_edits())
 
 
@@ -279,7 +285,7 @@ def test_connection_refused_raises_connection_error():
         GPPClient(
             url="http://127.0.0.1:9", schema="development", token="t", timeout=2.0
         ) as client,
-        pytest.raises(GPPConnectionError),
+        pytest.raises(TransportError),
     ):
         list(client.programs.watch_edits())
 
@@ -300,7 +306,7 @@ def test_unavailable_operation_raises_eagerly(ws_server, monkeypatch):
     )
     with (
         _sync_client(server, schema="production") as client,
-        pytest.raises(GPPOperationUnavailableError, match="watchProgramEdits"),
+        pytest.raises(OperationUnavailableError, match="watchProgramEdits"),
     ):
         client.programs.watch_edits()
     assert server.subscribe_payload is None
@@ -356,14 +362,14 @@ def test_subscriptions_available_in_every_environment(spec):
 def test_ws_url_derives_from_every_deployed_environment(spec):
     if spec.base_url is None:
         pytest.skip(f"{spec.name} has no deployment yet")
-    url = get_ws_url(spec.base_url)
+    url = _ws_url(spec.base_url)
     assert url.startswith("wss://")
     assert url.endswith("/ws")
 
 
 def test_ws_url_scheme_mapping():
-    assert get_ws_url("https://host.example") == "wss://host.example/ws"
-    assert get_ws_url("http://127.0.0.1:8080") == "ws://127.0.0.1:8080/ws"
+    assert _ws_url("https://host.example") == "wss://host.example/ws"
+    assert _ws_url("http://127.0.0.1:8080") == "ws://127.0.0.1:8080/ws"
 
 
 @pytest.mark.parametrize(

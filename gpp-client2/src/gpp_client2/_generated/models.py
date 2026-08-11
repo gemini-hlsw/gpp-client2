@@ -8,53 +8,53 @@ from typing import Annotated, Literal
 
 from pydantic import Field
 
-from gpp_client2._base import UNSET, GPPModel
+from gpp_client2._generated._base import UNSET, Model
 from gpp_client2._generated.enums import *  # noqa: F401,F403
 from gpp_client2._generated.scalars import *  # noqa: F401,F403
 
 
-class AddConditionsEntryResult(GPPModel):
+class AddConditionsEntryResult(Model):
     typename: Literal["AddConditionsEntryResult"] = Field(default="AddConditionsEntryResult", validation_alias="__typename", serialization_alias="__typename")
     conditions_entry: ConditionsEntry = Field(default=UNSET, validation_alias="conditionsEntry", serialization_alias="conditionsEntry")
 
 
-class AddDatasetEventResult(GPPModel):
+class AddDatasetEventResult(Model):
     """The result of adding a dataset event."""
     typename: Literal["AddDatasetEventResult"] = Field(default="AddDatasetEventResult", validation_alias="__typename", serialization_alias="__typename")
     event: DatasetEvent = UNSET
 
 
-class AddEventBatchResult(GPPModel):
+class AddEventBatchResult(Model):
     """The result of adding a batch of events."""
     typename: Literal["AddEventBatchResult"] = Field(default="AddEventBatchResult", validation_alias="__typename", serialization_alias="__typename")
     events: list[ExecutionEvent] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class AddProgramUserResult(GPPModel):
+class AddProgramUserResult(Model):
     typename: Literal["AddProgramUserResult"] = Field(default="AddProgramUserResult", validation_alias="__typename", serialization_alias="__typename")
     program_user: ProgramUser = Field(default=UNSET, validation_alias="programUser", serialization_alias="programUser")
 
 
-class AddSequenceEventResult(GPPModel):
+class AddSequenceEventResult(Model):
     """The result of adding a sequence event."""
     typename: Literal["AddSequenceEventResult"] = Field(default="AddSequenceEventResult", validation_alias="__typename", serialization_alias="__typename")
     event: SequenceEvent = UNSET
 
 
-class AddSlewEventResult(GPPModel):
+class AddSlewEventResult(Model):
     """The result of adding a slew event."""
     typename: Literal["AddSlewEventResult"] = Field(default="AddSlewEventResult", validation_alias="__typename", serialization_alias="__typename")
     event: SlewEvent = UNSET
 
 
-class AddStepEventResult(GPPModel):
+class AddStepEventResult(Model):
     """The result of adding a step event."""
     typename: Literal["AddStepEventResult"] = Field(default="AddStepEventResult", validation_alias="__typename", serialization_alias="__typename")
     event: StepEvent = UNSET
 
 
-class AddTimeChargeCorrectionResult(GPPModel):
+class AddTimeChargeCorrectionResult(Model):
     """
     The result of the 'addTimeChargeCorrection' mutation.  It contains the
     visit's updated TimeChargeInvoice after applying the correction.
@@ -63,13 +63,13 @@ class AddTimeChargeCorrectionResult(GPPModel):
     time_charge_invoice: TimeChargeInvoice = Field(default=UNSET, validation_alias="timeChargeInvoice", serialization_alias="timeChargeInvoice")
 
 
-class AirMassRange(GPPModel):
+class AirMassRange(Model):
     typename: Literal["AirMassRange"] = Field(default="AirMassRange", validation_alias="__typename", serialization_alias="__typename")
     min: PosBigDecimal = UNSET
     max: PosBigDecimal = UNSET
 
 
-class AllConfigChangeEstimates(GPPModel):
+class AllConfigChangeEstimates(Model):
     """Time taken to update the configuration before a step is executed."""
     typename: Literal["AllConfigChangeEstimates"] = Field(default="AllConfigChangeEstimates", validation_alias="__typename", serialization_alias="__typename")
     selected: ConfigChangeEstimate = UNSET
@@ -78,7 +78,7 @@ class AllConfigChangeEstimates(GPPModel):
     estimate: TimeSpan = UNSET
 
 
-class AllDetectorEstimates(GPPModel):
+class AllDetectorEstimates(Model):
     """The collection of detector estimates involved in an individual step."""
     typename: Literal["AllDetectorEstimates"] = Field(default="AllDetectorEstimates", validation_alias="__typename", serialization_alias="__typename")
     selected: DetectorEstimate = UNSET
@@ -87,7 +87,7 @@ class AllDetectorEstimates(GPPModel):
     estimate: TimeSpan = UNSET
 
 
-class Allocation(GPPModel):
+class Allocation(Model):
     """An individual time allocation."""
     typename: Literal["Allocation"] = Field(default="Allocation", validation_alias="__typename", serialization_alias="__typename")
     category: TimeAccountingCategory = UNSET
@@ -95,7 +95,7 @@ class Allocation(GPPModel):
     duration: TimeSpan = UNSET
 
 
-class Angle(GPPModel):
+class Angle(Model):
     typename: Literal["Angle"] = Field(default="Angle", validation_alias="__typename", serialization_alias="__typename")
     microarcseconds: Long = UNSET
     microseconds: BigDecimal = UNSET
@@ -111,7 +111,7 @@ class Angle(GPPModel):
     dms: str = UNSET
 
 
-class ArchiveDuplication(GPPModel):
+class ArchiveDuplication(Model):
     """
     Archive Duplication Search result for an observation, as of the last time the
     search was run.
@@ -134,7 +134,7 @@ class ArchiveDuplication(GPPModel):
     matches: list[ArchiveMatch] = UNSET
 
 
-class ArchiveMatch(GPPModel):
+class ArchiveMatch(Model):
     """
     One archived file matched by an Archive Duplication Search.
 
@@ -170,21 +170,21 @@ class ArchiveMatch(GPPModel):
     distance: Angle | None = UNSET
 
 
-class AsterismGroup(GPPModel):
+class AsterismGroup(Model):
     typename: Literal["AsterismGroup"] = Field(default="AsterismGroup", validation_alias="__typename", serialization_alias="__typename")
     program: Program = UNSET
     observations: ObservationSelectResult = UNSET
     asterism: list[Target] = UNSET
 
 
-class AsterismGroupSelectResult(GPPModel):
+class AsterismGroupSelectResult(Model):
     """The matching asterismGroup results, limited to a maximum of 1000 entries."""
     typename: Literal["AsterismGroupSelectResult"] = Field(default="AsterismGroupSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[AsterismGroup] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class AtomEvent(GPPModel):
+class AtomEvent(Model):
     """Atom-level events.  The execution of a single atom will generate multiple events."""
     typename: Literal["AtomEvent"] = Field(default="AtomEvent", validation_alias="__typename", serialization_alias="__typename")
     id: ExecutionEventId = UNSET
@@ -200,7 +200,7 @@ class AtomEvent(GPPModel):
     idempotency_key: IdempotencyKey | None = Field(default=UNSET, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class AtomRecord(GPPModel):
+class AtomRecord(Model):
     """The portion of an atom that executed in a particular visit."""
     typename: Literal["AtomRecord"] = Field(default="AtomRecord", validation_alias="__typename", serialization_alias="__typename")
     id: AtomId = UNSET
@@ -215,14 +215,14 @@ class AtomRecord(GPPModel):
     steps: StepRecordSelectResult = UNSET
 
 
-class AtomRecordSelectResult(GPPModel):
+class AtomRecordSelectResult(Model):
     """AtomRecord query results, limited to a maximum of 1000 entries."""
     typename: Literal["AtomRecordSelectResult"] = Field(default="AtomRecordSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[AtomRecord] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class Attachment(GPPModel):
+class Attachment(Model):
     """Attachment"""
     typename: Literal["Attachment"] = Field(default="Attachment", validation_alias="__typename", serialization_alias="__typename")
     id: AttachmentId = UNSET
@@ -235,7 +235,7 @@ class Attachment(GPPModel):
     program: Program = UNSET
 
 
-class BandBrightnessIntegrated(GPPModel):
+class BandBrightnessIntegrated(Model):
     typename: Literal["BandBrightnessIntegrated"] = Field(default="BandBrightnessIntegrated", validation_alias="__typename", serialization_alias="__typename")
     band: Band = UNSET
     value: BigDecimal = UNSET
@@ -243,7 +243,7 @@ class BandBrightnessIntegrated(GPPModel):
     error: BigDecimal | None = UNSET
 
 
-class BandBrightnessSurface(GPPModel):
+class BandBrightnessSurface(Model):
     typename: Literal["BandBrightnessSurface"] = Field(default="BandBrightnessSurface", validation_alias="__typename", serialization_alias="__typename")
     band: Band = UNSET
     value: BigDecimal = UNSET
@@ -251,19 +251,19 @@ class BandBrightnessSurface(GPPModel):
     error: BigDecimal | None = UNSET
 
 
-class BandNormalizedIntegrated(GPPModel):
+class BandNormalizedIntegrated(Model):
     typename: Literal["BandNormalizedIntegrated"] = Field(default="BandNormalizedIntegrated", validation_alias="__typename", serialization_alias="__typename")
     brightnesses: list[BandBrightnessIntegrated] = UNSET
     sed: UnnormalizedSed | None = UNSET
 
 
-class BandNormalizedSurface(GPPModel):
+class BandNormalizedSurface(Model):
     typename: Literal["BandNormalizedSurface"] = Field(default="BandNormalizedSurface", validation_alias="__typename", serialization_alias="__typename")
     brightnesses: list[BandBrightnessSurface] = UNSET
     sed: UnnormalizedSed | None = UNSET
 
 
-class BandedTime(GPPModel):
+class BandedTime(Model):
     """
     CategorizedTime grouped with a ScienceBand.  A program may contain multiple
     observations in distinct bands.  Time accounting at the program level must
@@ -274,7 +274,7 @@ class BandedTime(GPPModel):
     time: CategorizedTime = UNSET
 
 
-class BasePosition(GPPModel):
+class BasePosition(Model):
     """
     The base position used by navigate to slew and track the target.
     The display name can be the original name or a composite.
@@ -289,13 +289,13 @@ class BasePosition(GPPModel):
     coordinates: Coordinates | None = UNSET
 
 
-class Bias(GPPModel):
+class Bias(Model):
     """Bias calibration step"""
     typename: Literal["Bias"] = Field(default="Bias", validation_alias="__typename", serialization_alias="__typename")
     step_type: StepType = Field(default=UNSET, validation_alias="stepType", serialization_alias="stepType")
 
 
-class CalculatedBandedTime(GPPModel):
+class CalculatedBandedTime(Model):
     """A BandedTime that is automatically updated by a background process."""
     typename: Literal["CalculatedBandedTime"] = Field(default="CalculatedBandedTime", validation_alias="__typename", serialization_alias="__typename")
     calculation_state: CalculationState = Field(default=UNSET, validation_alias="calculationState", serialization_alias="calculationState")
@@ -303,7 +303,7 @@ class CalculatedBandedTime(GPPModel):
     value: BandedTime | None = UNSET
 
 
-class CalculatedCategorizedTimeRange(GPPModel):
+class CalculatedCategorizedTimeRange(Model):
     """A CategorizedTimeRange that is automatically updated by a background process."""
     typename: Literal["CalculatedCategorizedTimeRange"] = Field(default="CalculatedCategorizedTimeRange", validation_alias="__typename", serialization_alias="__typename")
     calculation_state: CalculationState = Field(default=UNSET, validation_alias="calculationState", serialization_alias="calculationState")
@@ -311,7 +311,7 @@ class CalculatedCategorizedTimeRange(GPPModel):
     value: CategorizedTimeRange | None = UNSET
 
 
-class CalculatedExecutionDigest(GPPModel):
+class CalculatedExecutionDigest(Model):
     """Wraps an ExecutionDigest with the background calculation state."""
     typename: Literal["CalculatedExecutionDigest"] = Field(default="CalculatedExecutionDigest", validation_alias="__typename", serialization_alias="__typename")
     calculation_state: CalculationState = Field(default=UNSET, validation_alias="calculationState", serialization_alias="calculationState")
@@ -319,14 +319,14 @@ class CalculatedExecutionDigest(GPPModel):
     value: ExecutionDigest | None = UNSET
 
 
-class CalculatedObservationWorkflow(GPPModel):
+class CalculatedObservationWorkflow(Model):
     typename: Literal["CalculatedObservationWorkflow"] = Field(default="CalculatedObservationWorkflow", validation_alias="__typename", serialization_alias="__typename")
     calculation_state: CalculationState = Field(default=UNSET, validation_alias="calculationState", serialization_alias="calculationState")
     state: CalculationState = UNSET
     value: ObservationWorkflow = UNSET
 
 
-class CalibrationProgramReference(GPPModel):
+class CalibrationProgramReference(Model):
     typename: Literal["CalibrationProgramReference"] = Field(default="CalibrationProgramReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProgramReferenceLabel = UNSET
     type: ProgramType = UNSET
@@ -335,7 +335,7 @@ class CalibrationProgramReference(GPPModel):
     semester_index: PosInt = Field(default=UNSET, validation_alias="semesterIndex", serialization_alias="semesterIndex")
 
 
-class CallForProposals(GPPModel):
+class CallForProposals(Model):
     """A single Call for Proposals definition."""
     typename: Literal["CallForProposals"] = Field(default="CallForProposals", validation_alias="__typename", serialization_alias="__typename")
     id: CallForProposalsId = UNSET
@@ -351,14 +351,14 @@ class CallForProposals(GPPModel):
     subaru: SubaruCallProperties | None = UNSET
 
 
-class CallForProposalsExchangePartner(GPPModel):
+class CallForProposalsExchangePartner(Model):
     typename: Literal["CallForProposalsExchangePartner"] = Field(default="CallForProposalsExchangePartner", validation_alias="__typename", serialization_alias="__typename")
     exchange_partner: ExchangePartner = Field(default=UNSET, validation_alias="exchangePartner", serialization_alias="exchangePartner")
     submission_deadline_override: Timestamp | None = Field(default=UNSET, validation_alias="submissionDeadlineOverride", serialization_alias="submissionDeadlineOverride")
     submission_deadline: Timestamp | None = Field(default=UNSET, validation_alias="submissionDeadline", serialization_alias="submissionDeadline")
 
 
-class CallForProposalsPartner(GPPModel):
+class CallForProposalsPartner(Model):
     """Groups a partner with its submission deadline."""
     typename: Literal["CallForProposalsPartner"] = Field(default="CallForProposalsPartner", validation_alias="__typename", serialization_alias="__typename")
     gemini_partner: Partner = Field(default=UNSET, validation_alias="geminiPartner", serialization_alias="geminiPartner")
@@ -366,20 +366,20 @@ class CallForProposalsPartner(GPPModel):
     submission_deadline: Timestamp | None = Field(default=UNSET, validation_alias="submissionDeadline", serialization_alias="submissionDeadline")
 
 
-class CallsForProposalsSelectResult(GPPModel):
+class CallsForProposalsSelectResult(Model):
     typename: Literal["CallsForProposalsSelectResult"] = Field(default="CallsForProposalsSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[CallForProposals] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class CatalogInfo(GPPModel):
+class CatalogInfo(Model):
     typename: Literal["CatalogInfo"] = Field(default="CatalogInfo", validation_alias="__typename", serialization_alias="__typename")
     name: CatalogName = UNSET
     id: str = UNSET
     object_type: str | None = Field(default=UNSET, validation_alias="objectType", serialization_alias="objectType")
 
 
-class CategorizedTime(GPPModel):
+class CategorizedTime(Model):
     """A time amount broken into charge class categories."""
     typename: Literal["CategorizedTime"] = Field(default="CategorizedTime", validation_alias="__typename", serialization_alias="__typename")
     program: TimeSpan = UNSET
@@ -387,7 +387,7 @@ class CategorizedTime(GPPModel):
     total: TimeSpan = UNSET
 
 
-class CategorizedTimeRange(GPPModel):
+class CategorizedTimeRange(Model):
     """
     A minimum to maximum categorized time estimate.  The actual execution time
     should vary between the two extremes, depending upon which observations and
@@ -398,19 +398,19 @@ class CategorizedTimeRange(GPPModel):
     maximum: CategorizedTime = UNSET
 
 
-class ChangePrincipalInvestigatorResult(GPPModel):
+class ChangePrincipalInvestigatorResult(Model):
     """Result of changePrincipalInvestigator, which is the program user who is now the PI."""
     typename: Literal["ChangePrincipalInvestigatorResult"] = Field(default="ChangePrincipalInvestigatorResult", validation_alias="__typename", serialization_alias="__typename")
     program_user: ProgramUser = Field(default=UNSET, validation_alias="programUser", serialization_alias="programUser")
 
 
-class ChangeProgramUserRoleResult(GPPModel):
+class ChangeProgramUserRoleResult(Model):
     """Result of the program user role update, which is the updated program user itself."""
     typename: Literal["ChangeProgramUserRoleResult"] = Field(default="ChangeProgramUserRoleResult", validation_alias="__typename", serialization_alias="__typename")
     program_user: ProgramUser = Field(default=UNSET, validation_alias="programUser", serialization_alias="programUser")
 
 
-class ChronicleEntry(GPPModel):
+class ChronicleEntry(Model):
     typename: Literal["ChronicleEntry"] = Field(default="ChronicleEntry", validation_alias="__typename", serialization_alias="__typename")
     id: ChronicleId = UNSET
     transaction_id: TransactionId = Field(default=UNSET, validation_alias="transactionId", serialization_alias="transactionId")
@@ -418,7 +418,7 @@ class ChronicleEntry(GPPModel):
     timestamp: Timestamp = UNSET
 
 
-class Classical(GPPModel):
+class Classical(Model):
     """Proposal properties for Regular Semester (Classical) CallForProposals."""
     typename: Literal["Classical"] = Field(default="Classical", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
@@ -430,24 +430,24 @@ class Classical(GPPModel):
     us_long_term: bool = Field(default=UNSET, validation_alias="usLongTerm", serialization_alias="usLongTerm")
 
 
-class CloneGroupResult(GPPModel):
+class CloneGroupResult(Model):
     typename: Literal["CloneGroupResult"] = Field(default="CloneGroupResult", validation_alias="__typename", serialization_alias="__typename")
     new_group: Group = Field(default=UNSET, validation_alias="newGroup", serialization_alias="newGroup")
 
 
-class CloneObservationResult(GPPModel):
+class CloneObservationResult(Model):
     """The result of cloning an observation, containing the new observation."""
     typename: Literal["CloneObservationResult"] = Field(default="CloneObservationResult", validation_alias="__typename", serialization_alias="__typename")
     new_observation: Observation = Field(default=UNSET, validation_alias="newObservation", serialization_alias="newObservation")
 
 
-class CloneTargetResult(GPPModel):
+class CloneTargetResult(Model):
     """The result of cloning a target, containing the original and new targets."""
     typename: Literal["CloneTargetResult"] = Field(default="CloneTargetResult", validation_alias="__typename", serialization_alias="__typename")
     new_target: Target = Field(default=UNSET, validation_alias="newTarget", serialization_alias="newTarget")
 
 
-class CommissioningProgramReference(GPPModel):
+class CommissioningProgramReference(Model):
     typename: Literal["CommissioningProgramReference"] = Field(default="CommissioningProgramReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProgramReferenceLabel = UNSET
     type: ProgramType = UNSET
@@ -456,7 +456,7 @@ class CommissioningProgramReference(GPPModel):
     semester_index: PosInt = Field(default=UNSET, validation_alias="semesterIndex", serialization_alias="semesterIndex")
 
 
-class ConditionsEntry(GPPModel):
+class ConditionsEntry(Model):
     typename: Literal["ConditionsEntry"] = Field(default="ConditionsEntry", validation_alias="__typename", serialization_alias="__typename")
     id: ChronicleId = UNSET
     transaction_id: TransactionId = Field(default=UNSET, validation_alias="transactionId", serialization_alias="transactionId")
@@ -466,19 +466,19 @@ class ConditionsEntry(GPPModel):
     intuition: ConditionsIntuition | None = UNSET
 
 
-class ConditionsExpectation(GPPModel):
+class ConditionsExpectation(Model):
     typename: Literal["ConditionsExpectation"] = Field(default="ConditionsExpectation", validation_alias="__typename", serialization_alias="__typename")
     type: ConditionsExpectationType = UNSET
     timeframe: TimeSpan = UNSET
 
 
-class ConditionsIntuition(GPPModel):
+class ConditionsIntuition(Model):
     typename: Literal["ConditionsIntuition"] = Field(default="ConditionsIntuition", validation_alias="__typename", serialization_alias="__typename")
     expectation: ConditionsExpectation | None = UNSET
     seeing_trend: SeeingTrend | None = Field(default=UNSET, validation_alias="seeingTrend", serialization_alias="seeingTrend")
 
 
-class ConditionsMeasurement(GPPModel):
+class ConditionsMeasurement(Model):
     typename: Literal["ConditionsMeasurement"] = Field(default="ConditionsMeasurement", validation_alias="__typename", serialization_alias="__typename")
     source: ConditionsMeasurementSource = UNSET
     seeing: Angle | None = UNSET
@@ -488,7 +488,7 @@ class ConditionsMeasurement(GPPModel):
     elevation: Angle | None = UNSET
 
 
-class ConfigChangeEstimate(GPPModel):
+class ConfigChangeEstimate(Model):
     """
     An individual configuration change before a step is executed.  Multiple
     items may change simultaneously (e.g., the science fold may move while the
@@ -501,14 +501,14 @@ class ConfigChangeEstimate(GPPModel):
     estimate: TimeSpan = UNSET
 
 
-class Configuration(GPPModel):
+class Configuration(Model):
     typename: Literal["Configuration"] = Field(default="Configuration", validation_alias="__typename", serialization_alias="__typename")
     conditions: ConfigurationConditions = UNSET
     target: ConfigurationTarget | None = UNSET
     observing_mode: ConfigurationObservingMode | None = Field(default=UNSET, validation_alias="observingMode", serialization_alias="observingMode")
 
 
-class ConfigurationConditions(GPPModel):
+class ConfigurationConditions(Model):
     typename: Literal["ConfigurationConditions"] = Field(default="ConfigurationConditions", validation_alias="__typename", serialization_alias="__typename")
     image_quality: ImageQualityPreset = Field(default=UNSET, validation_alias="imageQuality", serialization_alias="imageQuality")
     cloud_extinction: CloudExtinctionPreset = Field(default=UNSET, validation_alias="cloudExtinction", serialization_alias="cloudExtinction")
@@ -516,60 +516,60 @@ class ConfigurationConditions(GPPModel):
     water_vapor: WaterVapor = Field(default=UNSET, validation_alias="waterVapor", serialization_alias="waterVapor")
 
 
-class ConfigurationFlamingos2LongSlit(GPPModel):
+class ConfigurationFlamingos2LongSlit(Model):
     typename: Literal["ConfigurationFlamingos2LongSlit"] = Field(default="ConfigurationFlamingos2LongSlit", validation_alias="__typename", serialization_alias="__typename")
     disperser: Flamingos2Disperser = UNSET
 
 
-class ConfigurationGmosNorthImaging(GPPModel):
+class ConfigurationGmosNorthImaging(Model):
     typename: Literal["ConfigurationGmosNorthImaging"] = Field(default="ConfigurationGmosNorthImaging", validation_alias="__typename", serialization_alias="__typename")
     filters: list[GmosNorthFilter] = UNSET
 
 
-class ConfigurationGmosNorthLongSlit(GPPModel):
+class ConfigurationGmosNorthLongSlit(Model):
     typename: Literal["ConfigurationGmosNorthLongSlit"] = Field(default="ConfigurationGmosNorthLongSlit", validation_alias="__typename", serialization_alias="__typename")
     grating: GmosNorthGrating = UNSET
 
 
-class ConfigurationGmosNorthMos(GPPModel):
+class ConfigurationGmosNorthMos(Model):
     typename: Literal["ConfigurationGmosNorthMos"] = Field(default="ConfigurationGmosNorthMos", validation_alias="__typename", serialization_alias="__typename")
     grating: GmosNorthGrating = UNSET
 
 
-class ConfigurationGmosSouthImaging(GPPModel):
+class ConfigurationGmosSouthImaging(Model):
     typename: Literal["ConfigurationGmosSouthImaging"] = Field(default="ConfigurationGmosSouthImaging", validation_alias="__typename", serialization_alias="__typename")
     filters: list[GmosSouthFilter] = UNSET
 
 
-class ConfigurationGmosSouthLongSlit(GPPModel):
+class ConfigurationGmosSouthLongSlit(Model):
     typename: Literal["ConfigurationGmosSouthLongSlit"] = Field(default="ConfigurationGmosSouthLongSlit", validation_alias="__typename", serialization_alias="__typename")
     grating: GmosSouthGrating = UNSET
 
 
-class ConfigurationGmosSouthMos(GPPModel):
+class ConfigurationGmosSouthMos(Model):
     typename: Literal["ConfigurationGmosSouthMos"] = Field(default="ConfigurationGmosSouthMos", validation_alias="__typename", serialization_alias="__typename")
     grating: GmosSouthGrating = UNSET
 
 
-class ConfigurationGnirsIfu(GPPModel):
+class ConfigurationGnirsIfu(Model):
     typename: Literal["ConfigurationGnirsIfu"] = Field(default="ConfigurationGnirsIfu", validation_alias="__typename", serialization_alias="__typename")
     grating: GnirsGrating = UNSET
     fpu: GnirsFpuIfu = UNSET
 
 
-class ConfigurationGnirsLongSlit(GPPModel):
+class ConfigurationGnirsLongSlit(Model):
     typename: Literal["ConfigurationGnirsLongSlit"] = Field(default="ConfigurationGnirsLongSlit", validation_alias="__typename", serialization_alias="__typename")
     grating: GnirsGrating = UNSET
     camera: GnirsCamera = UNSET
     prism: GnirsPrism = UNSET
 
 
-class ConfigurationIgrins2LongSlit(GPPModel):
+class ConfigurationIgrins2LongSlit(Model):
     typename: Literal["ConfigurationIgrins2LongSlit"] = Field(default="ConfigurationIgrins2LongSlit", validation_alias="__typename", serialization_alias="__typename")
     ignore: Ignore | None = UNSET
 
 
-class ConfigurationObservingMode(GPPModel):
+class ConfigurationObservingMode(Model):
     typename: Literal["ConfigurationObservingMode"] = Field(default="ConfigurationObservingMode", validation_alias="__typename", serialization_alias="__typename")
     instrument: Instrument | None = UNSET
     mode: ObservingModeType = UNSET
@@ -586,7 +586,7 @@ class ConfigurationObservingMode(GPPModel):
     visitor: ConfigurationVisitor | None = UNSET
 
 
-class ConfigurationRequest(GPPModel):
+class ConfigurationRequest(Model):
     typename: Literal["ConfigurationRequest"] = Field(default="ConfigurationRequest", validation_alias="__typename", serialization_alias="__typename")
     id: ConfigurationRequestId = UNSET
     program: Program = UNSET
@@ -599,7 +599,7 @@ class ConfigurationRequest(GPPModel):
     applicable_observations: list[ObservationId] = Field(default=UNSET, validation_alias="applicableObservations", serialization_alias="applicableObservations")
 
 
-class ConfigurationRequestEdit(GPPModel):
+class ConfigurationRequestEdit(Model):
     """Event sent when a configuration request is created or updated"""
     typename: Literal["ConfigurationRequestEdit"] = Field(default="ConfigurationRequestEdit", validation_alias="__typename", serialization_alias="__typename")
     edit_type: EditType = Field(default=UNSET, validation_alias="editType", serialization_alias="editType")
@@ -607,27 +607,27 @@ class ConfigurationRequestEdit(GPPModel):
     configuration_request: ConfigurationRequest | None = Field(default=UNSET, validation_alias="configurationRequest", serialization_alias="configurationRequest")
 
 
-class ConfigurationRequestSelectResult(GPPModel):
+class ConfigurationRequestSelectResult(Model):
     """The matching configuration requests, limited to a maximum of 1000 entries."""
     typename: Literal["ConfigurationRequestSelectResult"] = Field(default="ConfigurationRequestSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[ConfigurationRequest] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class ConfigurationTarget(GPPModel):
+class ConfigurationTarget(Model):
     """A configuration target will define either coordinates or a region."""
     typename: Literal["ConfigurationTarget"] = Field(default="ConfigurationTarget", validation_alias="__typename", serialization_alias="__typename")
     coordinates: Coordinates | None = UNSET
     region: Region | None = UNSET
 
 
-class ConfigurationVisitor(GPPModel):
+class ConfigurationVisitor(Model):
     typename: Literal["ConfigurationVisitor"] = Field(default="ConfigurationVisitor", validation_alias="__typename", serialization_alias="__typename")
     mode: VisitorObservingModeType = UNSET
     radius: Angle = UNSET
 
 
-class ConstraintSet(GPPModel):
+class ConstraintSet(Model):
     typename: Literal["ConstraintSet"] = Field(default="ConstraintSet", validation_alias="__typename", serialization_alias="__typename")
     image_quality: ImageQualityPreset = Field(default=UNSET, validation_alias="imageQuality", serialization_alias="imageQuality")
     cloud_extinction: CloudExtinctionPreset = Field(default=UNSET, validation_alias="cloudExtinction", serialization_alias="cloudExtinction")
@@ -636,21 +636,21 @@ class ConstraintSet(GPPModel):
     elevation_range: ElevationRange = Field(default=UNSET, validation_alias="elevationRange", serialization_alias="elevationRange")
 
 
-class ConstraintSetGroup(GPPModel):
+class ConstraintSetGroup(Model):
     typename: Literal["ConstraintSetGroup"] = Field(default="ConstraintSetGroup", validation_alias="__typename", serialization_alias="__typename")
     observations: ObservationSelectResult = UNSET
     constraint_set: ConstraintSet = Field(default=UNSET, validation_alias="constraintSet", serialization_alias="constraintSet")
     program: Program = UNSET
 
 
-class ConstraintSetGroupSelectResult(GPPModel):
+class ConstraintSetGroupSelectResult(Model):
     """The matching constraintSetGroup results, limited to a maximum of 1000 entries."""
     typename: Literal["ConstraintSetGroupSelectResult"] = Field(default="ConstraintSetGroupSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[ConstraintSetGroup] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class CoordinateLimits(GPPModel):
+class CoordinateLimits(Model):
     """RA/Dec limits."""
     typename: Literal["CoordinateLimits"] = Field(default="CoordinateLimits", validation_alias="__typename", serialization_alias="__typename")
     ra_start: RightAscension = Field(default=UNSET, validation_alias="raStart", serialization_alias="raStart")
@@ -659,65 +659,65 @@ class CoordinateLimits(GPPModel):
     dec_end: Declination = Field(default=UNSET, validation_alias="decEnd", serialization_alias="decEnd")
 
 
-class Coordinates(GPPModel):
+class Coordinates(Model):
     typename: Literal["Coordinates"] = Field(default="Coordinates", validation_alias="__typename", serialization_alias="__typename")
     ra: RightAscension = UNSET
     dec: Declination = UNSET
 
 
-class CreateCallForProposalsResult(GPPModel):
+class CreateCallForProposalsResult(Model):
     typename: Literal["CreateCallForProposalsResult"] = Field(default="CreateCallForProposalsResult", validation_alias="__typename", serialization_alias="__typename")
     call_for_proposals: CallForProposals = Field(default=UNSET, validation_alias="callForProposals", serialization_alias="callForProposals")
 
 
-class CreateGroupResult(GPPModel):
+class CreateGroupResult(Model):
     """The result of creating a new group."""
     typename: Literal["CreateGroupResult"] = Field(default="CreateGroupResult", validation_alias="__typename", serialization_alias="__typename")
     group: Group = UNSET
 
 
-class CreateObservationResult(GPPModel):
+class CreateObservationResult(Model):
     """The result of creating a new observation."""
     typename: Literal["CreateObservationResult"] = Field(default="CreateObservationResult", validation_alias="__typename", serialization_alias="__typename")
     observation: Observation = UNSET
 
 
-class CreateProgramNoteResult(GPPModel):
+class CreateProgramNoteResult(Model):
     typename: Literal["CreateProgramNoteResult"] = Field(default="CreateProgramNoteResult", validation_alias="__typename", serialization_alias="__typename")
     program_note: ProgramNote = Field(default=UNSET, validation_alias="programNote", serialization_alias="programNote")
 
 
-class CreateProgramResult(GPPModel):
+class CreateProgramResult(Model):
     """The result of creating a new program."""
     typename: Literal["CreateProgramResult"] = Field(default="CreateProgramResult", validation_alias="__typename", serialization_alias="__typename")
     program: Program = UNSET
 
 
-class CreateProposalResult(GPPModel):
+class CreateProposalResult(Model):
     """The result of creating new proposal"""
     typename: Literal["CreateProposalResult"] = Field(default="CreateProposalResult", validation_alias="__typename", serialization_alias="__typename")
     proposal: Proposal = UNSET
 
 
-class CreateTargetResult(GPPModel):
+class CreateTargetResult(Model):
     """The result of creating a new target."""
     typename: Literal["CreateTargetResult"] = Field(default="CreateTargetResult", validation_alias="__typename", serialization_alias="__typename")
     target: Target = UNSET
 
 
-class CreateUserInvitationResult(GPPModel):
+class CreateUserInvitationResult(Model):
     typename: Literal["CreateUserInvitationResult"] = Field(default="CreateUserInvitationResult", validation_alias="__typename", serialization_alias="__typename")
     invitation: UserInvitation = UNSET
     key: UserInvitationKey = UNSET
 
 
-class Dark(GPPModel):
+class Dark(Model):
     """Dark calibration step"""
     typename: Literal["Dark"] = Field(default="Dark", validation_alias="__typename", serialization_alias="__typename")
     step_type: StepType = Field(default=UNSET, validation_alias="stepType", serialization_alias="stepType")
 
 
-class Dataset(GPPModel):
+class Dataset(Model):
     typename: Literal["Dataset"] = Field(default="Dataset", validation_alias="__typename", serialization_alias="__typename")
     id: DatasetId = UNSET
     step: StepRecord = UNSET
@@ -734,7 +734,7 @@ class Dataset(GPPModel):
     is_written: bool = Field(default=UNSET, validation_alias="isWritten", serialization_alias="isWritten")
 
 
-class DatasetChronicleEntry(GPPModel):
+class DatasetChronicleEntry(Model):
     """The Chronicle entry for dataset updates."""
     typename: Literal["DatasetChronicleEntry"] = Field(default="DatasetChronicleEntry", validation_alias="__typename", serialization_alias="__typename")
     id: ChronicleId = UNSET
@@ -763,20 +763,20 @@ class DatasetChronicleEntry(GPPModel):
     new_comment: NonEmptyString | None = Field(default=UNSET, validation_alias="newComment", serialization_alias="newComment")
 
 
-class DatasetChronicleEntrySelectResult(GPPModel):
+class DatasetChronicleEntrySelectResult(Model):
     typename: Literal["DatasetChronicleEntrySelectResult"] = Field(default="DatasetChronicleEntrySelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[DatasetChronicleEntry] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class DatasetEdit(GPPModel):
+class DatasetEdit(Model):
     typename: Literal["DatasetEdit"] = Field(default="DatasetEdit", validation_alias="__typename", serialization_alias="__typename")
     edit_type: EditType = Field(default=UNSET, validation_alias="editType", serialization_alias="editType")
     dataset_id: DatasetId = Field(default=UNSET, validation_alias="datasetId", serialization_alias="datasetId")
     value: Dataset | None = UNSET
 
 
-class DatasetEstimate(GPPModel):
+class DatasetEstimate(Model):
     """Time estimate for taking an individual dataset."""
     typename: Literal["DatasetEstimate"] = Field(default="DatasetEstimate", validation_alias="__typename", serialization_alias="__typename")
     exposure: TimeSpan = UNSET
@@ -785,7 +785,7 @@ class DatasetEstimate(GPPModel):
     estimate: TimeSpan = UNSET
 
 
-class DatasetEvent(GPPModel):
+class DatasetEvent(Model):
     """
     Dataset-level events.  A single dataset will be associated with multiple events
     as it makes its way through observe, readout and write stages.
@@ -806,7 +806,7 @@ class DatasetEvent(GPPModel):
     idempotency_key: IdempotencyKey | None = Field(default=UNSET, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class DatasetReference(GPPModel):
+class DatasetReference(Model):
     """
     Dataset reference type, broken into its constituient parts and including
     a formatted label.
@@ -818,14 +818,14 @@ class DatasetReference(GPPModel):
     exposure_index: PosInt = Field(default=UNSET, validation_alias="exposureIndex", serialization_alias="exposureIndex")
 
 
-class DatasetSelectResult(GPPModel):
+class DatasetSelectResult(Model):
     """The matching dataset results, limited to a maximum of 1000 entries."""
     typename: Literal["DatasetSelectResult"] = Field(default="DatasetSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[Dataset] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class DateInterval(GPPModel):
+class DateInterval(Model):
     """
     Date interval marked by a start 'Date' (inclusive) and an end 'Date' (exclusive).
     Dates are interpreted as local dates.
@@ -835,39 +835,39 @@ class DateInterval(GPPModel):
     end: Date = UNSET
 
 
-class Declination(GPPModel):
+class Declination(Model):
     typename: Literal["Declination"] = Field(default="Declination", validation_alias="__typename", serialization_alias="__typename")
     dms: DmsString = UNSET
     degrees: BigDecimal = UNSET
     microarcseconds: Long = UNSET
 
 
-class DeclinationArc(GPPModel):
+class DeclinationArc(Model):
     typename: Literal["DeclinationArc"] = Field(default="DeclinationArc", validation_alias="__typename", serialization_alias="__typename")
     type: ArcType = UNSET
     start: Declination | None = UNSET
     end: Declination | None = UNSET
 
 
-class DeleteProgramUserResult(GPPModel):
+class DeleteProgramUserResult(Model):
     """The result of deleting a program user."""
     typename: Literal["DeleteProgramUserResult"] = Field(default="DeleteProgramUserResult", validation_alias="__typename", serialization_alias="__typename")
     result: bool = UNSET
 
 
-class DeleteProposalResult(GPPModel):
+class DeleteProposalResult(Model):
     """The result of deleting a proposal."""
     typename: Literal["DeleteProposalResult"] = Field(default="DeleteProposalResult", validation_alias="__typename", serialization_alias="__typename")
     result: bool = UNSET
 
 
-class DeleteSequenceResult(GPPModel):
+class DeleteSequenceResult(Model):
     """The result of deleting a materialized sequence."""
     typename: Literal["DeleteSequenceResult"] = Field(default="DeleteSequenceResult", validation_alias="__typename", serialization_alias="__typename")
     observation: Observation = UNSET
 
 
-class DemoScience(GPPModel):
+class DemoScience(Model):
     """Proposal properties for Demo Science CallForProposals."""
     typename: Literal["DemoScience"] = Field(default="DemoScience", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
@@ -875,7 +875,7 @@ class DemoScience(GPPModel):
     min_percent_time: IntPercent = Field(default=UNSET, validation_alias="minPercentTime", serialization_alias="minPercentTime")
 
 
-class DetectorEstimate(GPPModel):
+class DetectorEstimate(Model):
     """
     Time estimate for a single detector.  Some instruments will employ multiple
     detectors per step.
@@ -888,7 +888,7 @@ class DetectorEstimate(GPPModel):
     estimate: TimeSpan = UNSET
 
 
-class DirectorsTime(GPPModel):
+class DirectorsTime(Model):
     """Proposal properties for Director's Time CallForProposals."""
     typename: Literal["DirectorsTime"] = Field(default="DirectorsTime", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
@@ -896,14 +896,14 @@ class DirectorsTime(GPPModel):
     min_percent_time: IntPercent = Field(default=UNSET, validation_alias="minPercentTime", serialization_alias="minPercentTime")
 
 
-class ElevationRange(GPPModel):
+class ElevationRange(Model):
     """Either air mass range or elevation range"""
     typename: Literal["ElevationRange"] = Field(default="ElevationRange", validation_alias="__typename", serialization_alias="__typename")
     air_mass: AirMassRange | None = Field(default=UNSET, validation_alias="airMass", serialization_alias="airMass")
     hour_angle: HourAngleRange | None = Field(default=UNSET, validation_alias="hourAngle", serialization_alias="hourAngle")
 
 
-class Email(GPPModel):
+class Email(Model):
     typename: Literal["Email"] = Field(default="Email", validation_alias="__typename", serialization_alias="__typename")
     sender_email: EmailAddress = Field(default=UNSET, validation_alias="senderEmail", serialization_alias="senderEmail")
     recipient_email: EmailAddress = Field(default=UNSET, validation_alias="recipientEmail", serialization_alias="recipientEmail")
@@ -915,33 +915,33 @@ class Email(GPPModel):
     status_time: Timestamp = Field(default=UNSET, validation_alias="statusTime", serialization_alias="statusTime")
 
 
-class EmissionLineIntegrated(GPPModel):
+class EmissionLineIntegrated(Model):
     typename: Literal["EmissionLineIntegrated"] = Field(default="EmissionLineIntegrated", validation_alias="__typename", serialization_alias="__typename")
     wavelength: Wavelength = UNSET
     line_width: PosBigDecimal = Field(default=UNSET, validation_alias="lineWidth", serialization_alias="lineWidth")
     line_flux: LineFluxIntegrated = Field(default=UNSET, validation_alias="lineFlux", serialization_alias="lineFlux")
 
 
-class EmissionLineSurface(GPPModel):
+class EmissionLineSurface(Model):
     typename: Literal["EmissionLineSurface"] = Field(default="EmissionLineSurface", validation_alias="__typename", serialization_alias="__typename")
     wavelength: Wavelength = UNSET
     line_width: PosBigDecimal = Field(default=UNSET, validation_alias="lineWidth", serialization_alias="lineWidth")
     line_flux: LineFluxSurface = Field(default=UNSET, validation_alias="lineFlux", serialization_alias="lineFlux")
 
 
-class EmissionLinesIntegrated(GPPModel):
+class EmissionLinesIntegrated(Model):
     typename: Literal["EmissionLinesIntegrated"] = Field(default="EmissionLinesIntegrated", validation_alias="__typename", serialization_alias="__typename")
     lines: list[EmissionLineIntegrated] = UNSET
     flux_density_continuum: FluxDensityContinuumIntegrated = Field(default=UNSET, validation_alias="fluxDensityContinuum", serialization_alias="fluxDensityContinuum")
 
 
-class EmissionLinesSurface(GPPModel):
+class EmissionLinesSurface(Model):
     typename: Literal["EmissionLinesSurface"] = Field(default="EmissionLinesSurface", validation_alias="__typename", serialization_alias="__typename")
     lines: list[EmissionLineSurface] = UNSET
     flux_density_continuum: FluxDensityContinuumSurface = Field(default=UNSET, validation_alias="fluxDensityContinuum", serialization_alias="fluxDensityContinuum")
 
 
-class EngineeringProgramReference(GPPModel):
+class EngineeringProgramReference(Model):
     typename: Literal["EngineeringProgramReference"] = Field(default="EngineeringProgramReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProgramReferenceLabel = UNSET
     type: ProgramType = UNSET
@@ -950,20 +950,20 @@ class EngineeringProgramReference(GPPModel):
     semester_index: PosInt = Field(default=UNSET, validation_alias="semesterIndex", serialization_alias="semesterIndex")
 
 
-class EnumeratedTelescopeConfigGenerator(GPPModel):
+class EnumeratedTelescopeConfigGenerator(Model):
     """In the `ENUMERATED` option offsets are explicitly specified instead of calculated."""
     typename: Literal["EnumeratedTelescopeConfigGenerator"] = Field(default="EnumeratedTelescopeConfigGenerator", validation_alias="__typename", serialization_alias="__typename")
     values: list[TelescopeConfig] = UNSET
 
 
-class ExampleProgramReference(GPPModel):
+class ExampleProgramReference(Model):
     typename: Literal["ExampleProgramReference"] = Field(default="ExampleProgramReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProgramReferenceLabel = UNSET
     type: ProgramType = UNSET
     instrument: Instrument = UNSET
 
 
-class Exchange(GPPModel):
+class Exchange(Model):
     typename: Literal["Exchange"] = Field(default="Exchange", validation_alias="__typename", serialization_alias="__typename")
     mode: ExchangeObservingModeType = UNSET
     keck_instrument: KeckInstrument | None = Field(default=UNSET, validation_alias="keckInstrument", serialization_alias="keckInstrument")
@@ -971,7 +971,7 @@ class Exchange(GPPModel):
     total_request_time: TimeSpan = Field(default=UNSET, validation_alias="totalRequestTime", serialization_alias="totalRequestTime")
 
 
-class Execution(GPPModel):
+class Execution(Model):
     typename: Literal["Execution"] = Field(default="Execution", validation_alias="__typename", serialization_alias="__typename")
     digest: CalculatedExecutionDigest | None = UNSET
     execution_state: ExecutionState = Field(default=UNSET, validation_alias="executionState", serialization_alias="executionState")
@@ -985,7 +985,7 @@ class Execution(GPPModel):
     acquisition_sequence_is_materialized: bool = Field(default=UNSET, validation_alias="acquisitionSequenceIsMaterialized", serialization_alias="acquisitionSequenceIsMaterialized")
 
 
-class ExecutionConfig(GPPModel):
+class ExecutionConfig(Model):
     """Execution configuration.  All but one of the instruments will be `null`."""
     typename: Literal["ExecutionConfig"] = Field(default="ExecutionConfig", validation_alias="__typename", serialization_alias="__typename")
     instrument: Instrument | None = UNSET
@@ -997,7 +997,7 @@ class ExecutionConfig(GPPModel):
     igrins2: Igrins2ExecutionConfig | None = UNSET
 
 
-class ExecutionDigest(GPPModel):
+class ExecutionDigest(Model):
     """Summarizes the execution setup time and sequences."""
     typename: Literal["ExecutionDigest"] = Field(default="ExecutionDigest", validation_alias="__typename", serialization_alias="__typename")
     estimate: ObservationTimeEstimate = UNSET
@@ -1008,26 +1008,26 @@ class ExecutionDigest(GPPModel):
     full_time_estimate: CategorizedTime = Field(default=UNSET, validation_alias="fullTimeEstimate", serialization_alias="fullTimeEstimate")
 
 
-class ExecutionEventAdded(GPPModel):
+class ExecutionEventAdded(Model):
     typename: Literal["ExecutionEventAdded"] = Field(default="ExecutionEventAdded", validation_alias="__typename", serialization_alias="__typename")
     value: ExecutionEvent = UNSET
 
 
-class ExecutionEventSelectResult(GPPModel):
+class ExecutionEventSelectResult(Model):
     """The matching ExecutionEvent results, limited to a maximum of 1000 entries."""
     typename: Literal["ExecutionEventSelectResult"] = Field(default="ExecutionEventSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[ExecutionEvent] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class ExposureTimeMode(GPPModel):
+class ExposureTimeMode(Model):
     """Exposure time mode, either signal to noise or fixed"""
     typename: Literal["ExposureTimeMode"] = Field(default="ExposureTimeMode", validation_alias="__typename", serialization_alias="__typename")
     signal_to_noise: SignalToNoiseExposureTimeMode | None = Field(default=UNSET, validation_alias="signalToNoise", serialization_alias="signalToNoise")
     time_and_count: TimeAndCountExposureTimeMode | None = Field(default=UNSET, validation_alias="timeAndCount", serialization_alias="timeAndCount")
 
 
-class FastTurnaround(GPPModel):
+class FastTurnaround(Model):
     """Proposal properties for Fast Turnaround CallForProposals."""
     typename: Literal["FastTurnaround"] = Field(default="FastTurnaround", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
@@ -1037,7 +1037,7 @@ class FastTurnaround(GPPModel):
     mentor: ProgramUser | None = UNSET
 
 
-class Flamingos2Atom(GPPModel):
+class Flamingos2Atom(Model):
     """Flamingos 2 atom, a collection of steps that should be executed in their entirety"""
     typename: Literal["Flamingos2Atom"] = Field(default="Flamingos2Atom", validation_alias="__typename", serialization_alias="__typename")
     id: AtomId = UNSET
@@ -1046,7 +1046,7 @@ class Flamingos2Atom(GPPModel):
     steps: list[Flamingos2Step] = UNSET
 
 
-class Flamingos2CustomMask(GPPModel):
+class Flamingos2CustomMask(Model):
     """Flamingos 2 Custom Mask"""
     typename: Literal["Flamingos2CustomMask"] = Field(default="Flamingos2CustomMask", validation_alias="__typename", serialization_alias="__typename")
     attachment_id: AttachmentId | None = Field(default=UNSET, validation_alias="attachmentId", serialization_alias="attachmentId")
@@ -1054,7 +1054,7 @@ class Flamingos2CustomMask(GPPModel):
     filename: str = UNSET
 
 
-class Flamingos2Dynamic(GPPModel):
+class Flamingos2Dynamic(Model):
     """Flamingos 2 dynamic step configuration"""
     typename: Literal["Flamingos2Dynamic"] = Field(default="Flamingos2Dynamic", validation_alias="__typename", serialization_alias="__typename")
     exposure: TimeSpan = UNSET
@@ -1069,7 +1069,7 @@ class Flamingos2Dynamic(GPPModel):
     central_wavelength: Wavelength = Field(default=UNSET, validation_alias="centralWavelength", serialization_alias="centralWavelength")
 
 
-class Flamingos2ExecutionConfig(GPPModel):
+class Flamingos2ExecutionConfig(Model):
     """Flamingos 2 Execution Config"""
     typename: Literal["Flamingos2ExecutionConfig"] = Field(default="Flamingos2ExecutionConfig", validation_alias="__typename", serialization_alias="__typename")
     static: Flamingos2Static = UNSET
@@ -1077,7 +1077,7 @@ class Flamingos2ExecutionConfig(GPPModel):
     science: Flamingos2ExecutionSequence | None = UNSET
 
 
-class Flamingos2ExecutionSequence(GPPModel):
+class Flamingos2ExecutionSequence(Model):
     """Next atom to execute and potential future atoms."""
     typename: Literal["Flamingos2ExecutionSequence"] = Field(default="Flamingos2ExecutionSequence", validation_alias="__typename", serialization_alias="__typename")
     next_atom: Flamingos2Atom = Field(default=UNSET, validation_alias="nextAtom", serialization_alias="nextAtom")
@@ -1085,14 +1085,14 @@ class Flamingos2ExecutionSequence(GPPModel):
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class Flamingos2FpuMask(GPPModel):
+class Flamingos2FpuMask(Model):
     """Flamingos 2 mask option, either builtin or custom mask"""
     typename: Literal["Flamingos2FpuMask"] = Field(default="Flamingos2FpuMask", validation_alias="__typename", serialization_alias="__typename")
     custom_mask: Flamingos2CustomMask | None = Field(default=UNSET, validation_alias="customMask", serialization_alias="customMask")
     builtin: Flamingos2Fpu | None = UNSET
 
 
-class Flamingos2Imaging(GPPModel):
+class Flamingos2Imaging(Model):
     """Flamingos2 Imaging mode"""
     typename: Literal["Flamingos2Imaging"] = Field(default="Flamingos2Imaging", validation_alias="__typename", serialization_alias="__typename")
     variant: ImagingVariant = UNSET
@@ -1110,14 +1110,14 @@ class Flamingos2Imaging(GPPModel):
     explicit_readout_mode: Flamingos2ReadoutMode | None = Field(default=UNSET, validation_alias="explicitReadoutMode", serialization_alias="explicitReadoutMode")
 
 
-class Flamingos2ImagingFilter(GPPModel):
+class Flamingos2ImagingFilter(Model):
     """Imaging filters combine an actual filter with an exposure time mode."""
     typename: Literal["Flamingos2ImagingFilter"] = Field(default="Flamingos2ImagingFilter", validation_alias="__typename", serialization_alias="__typename")
     filter: Flamingos2Filter = UNSET
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class Flamingos2LongSlit(GPPModel):
+class Flamingos2LongSlit(Model):
     """Flamingos2 Long Slit mode"""
     typename: Literal["Flamingos2LongSlit"] = Field(default="Flamingos2LongSlit", validation_alias="__typename", serialization_alias="__typename")
     disperser: Flamingos2Disperser = UNSET
@@ -1145,7 +1145,7 @@ class Flamingos2LongSlit(GPPModel):
     explicit_offsets: list[Offset] | None = Field(default=UNSET, validation_alias="explicitOffsets", serialization_alias="explicitOffsets")
 
 
-class Flamingos2LongSlitAcquisition(GPPModel):
+class Flamingos2LongSlitAcquisition(Model):
     """Flamingos2 Long Slit acquisition settings."""
     typename: Literal["Flamingos2LongSlitAcquisition"] = Field(default="Flamingos2LongSlitAcquisition", validation_alias="__typename", serialization_alias="__typename")
     filter: Flamingos2Filter = UNSET
@@ -1154,14 +1154,14 @@ class Flamingos2LongSlitAcquisition(GPPModel):
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class Flamingos2Static(GPPModel):
+class Flamingos2Static(Model):
     """Unchanging (over the course of the sequence) configuration values"""
     typename: Literal["Flamingos2Static"] = Field(default="Flamingos2Static", validation_alias="__typename", serialization_alias="__typename")
     mos_pre_imaging: MosPreImaging = Field(default=UNSET, validation_alias="mosPreImaging", serialization_alias="mosPreImaging")
     use_electronic_offsetting: bool = Field(default=UNSET, validation_alias="useElectronicOffsetting", serialization_alias="useElectronicOffsetting")
 
 
-class Flamingos2Step(GPPModel):
+class Flamingos2Step(Model):
     """Flmaingos 2 step with potential breakpoint"""
     typename: Literal["Flamingos2Step"] = Field(default="Flamingos2Step", validation_alias="__typename", serialization_alias="__typename")
     instrument_config: Flamingos2Dynamic = Field(default=UNSET, validation_alias="instrumentConfig", serialization_alias="instrumentConfig")
@@ -1173,27 +1173,27 @@ class Flamingos2Step(GPPModel):
     observe_class: ObserveClass = Field(default=UNSET, validation_alias="observeClass", serialization_alias="observeClass")
 
 
-class FluxDensityContinuumIntegrated(GPPModel):
+class FluxDensityContinuumIntegrated(Model):
     typename: Literal["FluxDensityContinuumIntegrated"] = Field(default="FluxDensityContinuumIntegrated", validation_alias="__typename", serialization_alias="__typename")
     value: PosBigDecimal = UNSET
     units: FluxDensityContinuumIntegratedUnits = UNSET
     error: PosBigDecimal | None = UNSET
 
 
-class FluxDensityContinuumSurface(GPPModel):
+class FluxDensityContinuumSurface(Model):
     typename: Literal["FluxDensityContinuumSurface"] = Field(default="FluxDensityContinuumSurface", validation_alias="__typename", serialization_alias="__typename")
     value: PosBigDecimal = UNSET
     units: FluxDensityContinuumSurfaceUnits = UNSET
     error: PosBigDecimal | None = UNSET
 
 
-class FluxDensityEntry(GPPModel):
+class FluxDensityEntry(Model):
     typename: Literal["FluxDensityEntry"] = Field(default="FluxDensityEntry", validation_alias="__typename", serialization_alias="__typename")
     wavelength: Wavelength = UNSET
     density: BigDecimal = UNSET
 
 
-class GaussianSource(GPPModel):
+class GaussianSource(Model):
     """Gaussian source, one of bandNormalized and emissionLines will be defined."""
     typename: Literal["GaussianSource"] = Field(default="GaussianSource", validation_alias="__typename", serialization_alias="__typename")
     fwhm: Angle = UNSET
@@ -1201,7 +1201,7 @@ class GaussianSource(GPPModel):
     emission_lines: EmissionLinesIntegrated | None = Field(default=UNSET, validation_alias="emissionLines", serialization_alias="emissionLines")
 
 
-class Gcal(GPPModel):
+class Gcal(Model):
     """GCAL calibration step (flat / arc)"""
     typename: Literal["Gcal"] = Field(default="Gcal", validation_alias="__typename", serialization_alias="__typename")
     continuum: GcalContinuum | None = UNSET
@@ -1212,7 +1212,7 @@ class Gcal(GPPModel):
     step_type: StepType = Field(default=UNSET, validation_alias="stepType", serialization_alias="stepType")
 
 
-class GeminiCallProperties(GPPModel):
+class GeminiCallProperties(Model):
     """
     Gemini-specific CfP properties.  Note, properties shared across all observatories
     are found in the `CallForProposals` type.
@@ -1227,7 +1227,7 @@ class GeminiCallProperties(GPPModel):
     exchange_partners: list[CallForProposalsExchangePartner] = Field(default=UNSET, validation_alias="exchangePartners", serialization_alias="exchangePartners")
 
 
-class GhostAtom(GPPModel):
+class GhostAtom(Model):
     """GHOST atom, a collection of steps that should be executed in their entirety"""
     typename: Literal["GhostAtom"] = Field(default="GhostAtom", validation_alias="__typename", serialization_alias="__typename")
     id: AtomId = UNSET
@@ -1236,7 +1236,7 @@ class GhostAtom(GPPModel):
     steps: list[GhostStep] = UNSET
 
 
-class GhostDetector(GPPModel):
+class GhostDetector(Model):
     """GHOST detector configuration for a single step."""
     typename: Literal["GhostDetector"] = Field(default="GhostDetector", validation_alias="__typename", serialization_alias="__typename")
     exposure_time: TimeSpan = Field(default=UNSET, validation_alias="exposureTime", serialization_alias="exposureTime")
@@ -1245,7 +1245,7 @@ class GhostDetector(GPPModel):
     read_mode: GhostReadMode = Field(default=UNSET, validation_alias="readMode", serialization_alias="readMode")
 
 
-class GhostDetectorConfig(GPPModel):
+class GhostDetectorConfig(Model):
     typename: Literal["GhostDetectorConfig"] = Field(default="GhostDetectorConfig", validation_alias="__typename", serialization_alias="__typename")
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
     binning: GhostBinning = UNSET
@@ -1256,14 +1256,14 @@ class GhostDetectorConfig(GPPModel):
     explicit_read_mode: GhostReadMode | None = Field(default=UNSET, validation_alias="explicitReadMode", serialization_alias="explicitReadMode")
 
 
-class GhostDualTarget(GPPModel):
+class GhostDualTarget(Model):
     """In the GhostDualTarget mapping, IFU1 is assigned target1 and IFU2 target2."""
     typename: Literal["GhostDualTarget"] = Field(default="GhostDualTarget", validation_alias="__typename", serialization_alias="__typename")
     ifu1: TargetId = UNSET
     ifu2: TargetId = UNSET
 
 
-class GhostDynamic(GPPModel):
+class GhostDynamic(Model):
     """GHOST instrument configuration for a single step."""
     typename: Literal["GhostDynamic"] = Field(default="GhostDynamic", validation_alias="__typename", serialization_alias="__typename")
     red: GhostDetector = UNSET
@@ -1273,14 +1273,14 @@ class GhostDynamic(GPPModel):
     central_wavelength: Wavelength | None = Field(default=UNSET, validation_alias="centralWavelength", serialization_alias="centralWavelength")
 
 
-class GhostExecutionConfig(GPPModel):
+class GhostExecutionConfig(Model):
     """GHOST Execution Config"""
     typename: Literal["GhostExecutionConfig"] = Field(default="GhostExecutionConfig", validation_alias="__typename", serialization_alias="__typename")
     static: GhostStatic = UNSET
     science: GhostExecutionSequence | None = UNSET
 
 
-class GhostExecutionSequence(GPPModel):
+class GhostExecutionSequence(Model):
     """Next atom to execute and potential future atoms."""
     typename: Literal["GhostExecutionSequence"] = Field(default="GhostExecutionSequence", validation_alias="__typename", serialization_alias="__typename")
     next_atom: GhostAtom = Field(default=UNSET, validation_alias="nextAtom", serialization_alias="nextAtom")
@@ -1288,7 +1288,7 @@ class GhostExecutionSequence(GPPModel):
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class GhostIfu(GPPModel):
+class GhostIfu(Model):
     """GHOST IFU observing mode."""
     typename: Literal["GhostIfu"] = Field(default="GhostIfu", validation_alias="__typename", serialization_alias="__typename")
     step_count: PosInt = Field(default=UNSET, validation_alias="stepCount", serialization_alias="stepCount")
@@ -1305,7 +1305,7 @@ class GhostIfu(GPPModel):
     explicit_ifu2_agitator: GhostIfu2FiberAgitator | None = Field(default=UNSET, validation_alias="explicitIfu2Agitator", serialization_alias="explicitIfu2Agitator")
 
 
-class GhostIfuMapping(GPPModel):
+class GhostIfuMapping(Model):
     """
     Describes how the target(s) and sky position (if any) are mapped to the GHOST
     IFUs.  If the `mappingType` is `NONSIDEREAL` then all other fields will be
@@ -1320,13 +1320,13 @@ class GhostIfuMapping(GPPModel):
     dual_target: GhostDualTarget | None = Field(default=UNSET, validation_alias="dualTarget", serialization_alias="dualTarget")
 
 
-class GhostSingleTarget(GPPModel):
+class GhostSingleTarget(Model):
     """In the GhostSingleTarget mapping, IFU1 is assigned the target."""
     typename: Literal["GhostSingleTarget"] = Field(default="GhostSingleTarget", validation_alias="__typename", serialization_alias="__typename")
     ifu1: TargetId = UNSET
 
 
-class GhostSkyPlusTarget(GPPModel):
+class GhostSkyPlusTarget(Model):
     """
     In the GhostSkyPlusTarget mapping, IFU1 is assigned the sky position and IFU2
     the target.
@@ -1336,7 +1336,7 @@ class GhostSkyPlusTarget(GPPModel):
     ifu2: TargetId = UNSET
 
 
-class GhostStatic(GPPModel):
+class GhostStatic(Model):
     """GHOST configuration that applies across all steps."""
     typename: Literal["GhostStatic"] = Field(default="GhostStatic", validation_alias="__typename", serialization_alias="__typename")
     resolution_mode: GhostResolutionMode = Field(default=UNSET, validation_alias="resolutionMode", serialization_alias="resolutionMode")
@@ -1344,7 +1344,7 @@ class GhostStatic(GPPModel):
     slit_viewing_camera_exposure_time: TimeSpan | None = Field(default=UNSET, validation_alias="slitViewingCameraExposureTime", serialization_alias="slitViewingCameraExposureTime")
 
 
-class GhostStep(GPPModel):
+class GhostStep(Model):
     """GHOST step with potential breakpoint."""
     typename: Literal["GhostStep"] = Field(default="GhostStep", validation_alias="__typename", serialization_alias="__typename")
     instrument_config: GhostDynamic = Field(default=UNSET, validation_alias="instrumentConfig", serialization_alias="instrumentConfig")
@@ -1356,7 +1356,7 @@ class GhostStep(GPPModel):
     observe_class: ObserveClass = Field(default=UNSET, validation_alias="observeClass", serialization_alias="observeClass")
 
 
-class GhostTargetPlusSky(GPPModel):
+class GhostTargetPlusSky(Model):
     """
     In the GhostTargetPlusSky mapping, IFU1 is assigned the target and IFU2 the sky
     position.
@@ -1366,7 +1366,7 @@ class GhostTargetPlusSky(GPPModel):
     ifu2: Coordinates = UNSET
 
 
-class GmosCcdMode(GPPModel):
+class GmosCcdMode(Model):
     """CCD Readout Configuration"""
     typename: Literal["GmosCcdMode"] = Field(default="GmosCcdMode", validation_alias="__typename", serialization_alias="__typename")
     x_bin: GmosBinning = Field(default=UNSET, validation_alias="xBin", serialization_alias="xBin")
@@ -1376,7 +1376,7 @@ class GmosCcdMode(GPPModel):
     amp_read_mode: GmosAmpReadMode = Field(default=UNSET, validation_alias="ampReadMode", serialization_alias="ampReadMode")
 
 
-class GmosCustomMask(GPPModel):
+class GmosCustomMask(Model):
     """GMOS Custom Mask"""
     typename: Literal["GmosCustomMask"] = Field(default="GmosCustomMask", validation_alias="__typename", serialization_alias="__typename")
     attachment_id: AttachmentId | None = Field(default=UNSET, validation_alias="attachmentId", serialization_alias="attachmentId")
@@ -1384,7 +1384,7 @@ class GmosCustomMask(GPPModel):
     filename: str = UNSET
 
 
-class GmosNodAndShuffle(GPPModel):
+class GmosNodAndShuffle(Model):
     typename: Literal["GmosNodAndShuffle"] = Field(default="GmosNodAndShuffle", validation_alias="__typename", serialization_alias="__typename")
     pos_a: Offset = Field(default=UNSET, validation_alias="posA", serialization_alias="posA")
     pos_b: Offset = Field(default=UNSET, validation_alias="posB", serialization_alias="posB")
@@ -1393,7 +1393,7 @@ class GmosNodAndShuffle(GPPModel):
     shuffle_cycles: int = Field(default=UNSET, validation_alias="shuffleCycles", serialization_alias="shuffleCycles")
 
 
-class GmosNorthAtom(GPPModel):
+class GmosNorthAtom(Model):
     """GmosNorth atom, a collection of steps that should be executed in their entirety"""
     typename: Literal["GmosNorthAtom"] = Field(default="GmosNorthAtom", validation_alias="__typename", serialization_alias="__typename")
     id: AtomId = UNSET
@@ -1402,7 +1402,7 @@ class GmosNorthAtom(GPPModel):
     steps: list[GmosNorthStep] = UNSET
 
 
-class GmosNorthDynamic(GPPModel):
+class GmosNorthDynamic(Model):
     """GMOS North dynamic step configuration"""
     typename: Literal["GmosNorthDynamic"] = Field(default="GmosNorthDynamic", validation_alias="__typename", serialization_alias="__typename")
     exposure: TimeSpan = UNSET
@@ -1415,7 +1415,7 @@ class GmosNorthDynamic(GPPModel):
     central_wavelength: Wavelength | None = Field(default=UNSET, validation_alias="centralWavelength", serialization_alias="centralWavelength")
 
 
-class GmosNorthExecutionConfig(GPPModel):
+class GmosNorthExecutionConfig(Model):
     """GMOS North Execution Config"""
     typename: Literal["GmosNorthExecutionConfig"] = Field(default="GmosNorthExecutionConfig", validation_alias="__typename", serialization_alias="__typename")
     static: GmosNorthStatic = UNSET
@@ -1423,7 +1423,7 @@ class GmosNorthExecutionConfig(GPPModel):
     science: GmosNorthExecutionSequence | None = UNSET
 
 
-class GmosNorthExecutionSequence(GPPModel):
+class GmosNorthExecutionSequence(Model):
     """Next atom to execute and potential future atoms."""
     typename: Literal["GmosNorthExecutionSequence"] = Field(default="GmosNorthExecutionSequence", validation_alias="__typename", serialization_alias="__typename")
     next_atom: GmosNorthAtom = Field(default=UNSET, validation_alias="nextAtom", serialization_alias="nextAtom")
@@ -1431,14 +1431,14 @@ class GmosNorthExecutionSequence(GPPModel):
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class GmosNorthFpu(GPPModel):
+class GmosNorthFpu(Model):
     """GMOS North FPU option, either builtin or custom mask"""
     typename: Literal["GmosNorthFpu"] = Field(default="GmosNorthFpu", validation_alias="__typename", serialization_alias="__typename")
     custom_mask: GmosCustomMask | None = Field(default=UNSET, validation_alias="customMask", serialization_alias="customMask")
     builtin: GmosNorthBuiltinFpu | None = UNSET
 
 
-class GmosNorthGratingConfig(GPPModel):
+class GmosNorthGratingConfig(Model):
     """GMOS North Grating Configuration"""
     typename: Literal["GmosNorthGratingConfig"] = Field(default="GmosNorthGratingConfig", validation_alias="__typename", serialization_alias="__typename")
     grating: GmosNorthGrating = UNSET
@@ -1446,7 +1446,7 @@ class GmosNorthGratingConfig(GPPModel):
     wavelength: Wavelength = UNSET
 
 
-class GmosNorthImaging(GPPModel):
+class GmosNorthImaging(Model):
     """GMOS North Imaging mode"""
     typename: Literal["GmosNorthImaging"] = Field(default="GmosNorthImaging", validation_alias="__typename", serialization_alias="__typename")
     variant: ImagingVariant = UNSET
@@ -1466,14 +1466,14 @@ class GmosNorthImaging(GPPModel):
     explicit_roi: GmosRoi | None = Field(default=UNSET, validation_alias="explicitRoi", serialization_alias="explicitRoi")
 
 
-class GmosNorthImagingFilter(GPPModel):
+class GmosNorthImagingFilter(Model):
     """Imaging filters combine an actual filter with an exposure time mode."""
     typename: Literal["GmosNorthImagingFilter"] = Field(default="GmosNorthImagingFilter", validation_alias="__typename", serialization_alias="__typename")
     filter: GmosNorthFilter = UNSET
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class GmosNorthLongSlit(GPPModel):
+class GmosNorthLongSlit(Model):
     """GMOS North Long Slit mode"""
     typename: Literal["GmosNorthLongSlit"] = Field(default="GmosNorthLongSlit", validation_alias="__typename", serialization_alias="__typename")
     grating: GmosNorthGrating = UNSET
@@ -1512,7 +1512,7 @@ class GmosNorthLongSlit(GPPModel):
     initial_central_wavelength: Wavelength = Field(default=UNSET, validation_alias="initialCentralWavelength", serialization_alias="initialCentralWavelength")
 
 
-class GmosNorthLongSlitAcquisition(GPPModel):
+class GmosNorthLongSlitAcquisition(Model):
     """Acquisition settings for GMOS North long slit acquisition."""
     typename: Literal["GmosNorthLongSlitAcquisition"] = Field(default="GmosNorthLongSlitAcquisition", validation_alias="__typename", serialization_alias="__typename")
     filter: GmosNorthFilter = UNSET
@@ -1524,7 +1524,7 @@ class GmosNorthLongSlitAcquisition(GPPModel):
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class GmosNorthMos(GPPModel):
+class GmosNorthMos(Model):
     """GMOS North MOS mode"""
     typename: Literal["GmosNorthMos"] = Field(default="GmosNorthMos", validation_alias="__typename", serialization_alias="__typename")
     grating: GmosNorthGrating = UNSET
@@ -1559,7 +1559,7 @@ class GmosNorthMos(GPPModel):
     initial_central_wavelength: Wavelength = Field(default=UNSET, validation_alias="initialCentralWavelength", serialization_alias="initialCentralWavelength")
 
 
-class GmosNorthStatic(GPPModel):
+class GmosNorthStatic(Model):
     """Unchanging (over the course of the sequence) configuration values"""
     typename: Literal["GmosNorthStatic"] = Field(default="GmosNorthStatic", validation_alias="__typename", serialization_alias="__typename")
     stage_mode: GmosNorthStageMode = Field(default=UNSET, validation_alias="stageMode", serialization_alias="stageMode")
@@ -1568,7 +1568,7 @@ class GmosNorthStatic(GPPModel):
     nod_and_shuffle: GmosNodAndShuffle | None = Field(default=UNSET, validation_alias="nodAndShuffle", serialization_alias="nodAndShuffle")
 
 
-class GmosNorthStep(GPPModel):
+class GmosNorthStep(Model):
     """GmosNorth step with potential breakpoint"""
     typename: Literal["GmosNorthStep"] = Field(default="GmosNorthStep", validation_alias="__typename", serialization_alias="__typename")
     instrument_config: GmosNorthDynamic = Field(default=UNSET, validation_alias="instrumentConfig", serialization_alias="instrumentConfig")
@@ -1580,7 +1580,7 @@ class GmosNorthStep(GPPModel):
     observe_class: ObserveClass = Field(default=UNSET, validation_alias="observeClass", serialization_alias="observeClass")
 
 
-class GmosSouthAtom(GPPModel):
+class GmosSouthAtom(Model):
     """GmosSouth atom, a collection of steps that should be executed in their entirety"""
     typename: Literal["GmosSouthAtom"] = Field(default="GmosSouthAtom", validation_alias="__typename", serialization_alias="__typename")
     id: AtomId = UNSET
@@ -1589,7 +1589,7 @@ class GmosSouthAtom(GPPModel):
     steps: list[GmosSouthStep] = UNSET
 
 
-class GmosSouthDynamic(GPPModel):
+class GmosSouthDynamic(Model):
     """GMOS South dynamic step configuration"""
     typename: Literal["GmosSouthDynamic"] = Field(default="GmosSouthDynamic", validation_alias="__typename", serialization_alias="__typename")
     exposure: TimeSpan = UNSET
@@ -1602,7 +1602,7 @@ class GmosSouthDynamic(GPPModel):
     central_wavelength: Wavelength | None = Field(default=UNSET, validation_alias="centralWavelength", serialization_alias="centralWavelength")
 
 
-class GmosSouthExecutionConfig(GPPModel):
+class GmosSouthExecutionConfig(Model):
     """GMOS South Execution Config"""
     typename: Literal["GmosSouthExecutionConfig"] = Field(default="GmosSouthExecutionConfig", validation_alias="__typename", serialization_alias="__typename")
     static: GmosSouthStatic = UNSET
@@ -1610,7 +1610,7 @@ class GmosSouthExecutionConfig(GPPModel):
     science: GmosSouthExecutionSequence | None = UNSET
 
 
-class GmosSouthExecutionSequence(GPPModel):
+class GmosSouthExecutionSequence(Model):
     """Next atom to execute and potential future atoms."""
     typename: Literal["GmosSouthExecutionSequence"] = Field(default="GmosSouthExecutionSequence", validation_alias="__typename", serialization_alias="__typename")
     next_atom: GmosSouthAtom = Field(default=UNSET, validation_alias="nextAtom", serialization_alias="nextAtom")
@@ -1618,14 +1618,14 @@ class GmosSouthExecutionSequence(GPPModel):
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class GmosSouthFpu(GPPModel):
+class GmosSouthFpu(Model):
     """GMOS South FPU option, either builtin or custom mask"""
     typename: Literal["GmosSouthFpu"] = Field(default="GmosSouthFpu", validation_alias="__typename", serialization_alias="__typename")
     custom_mask: GmosCustomMask | None = Field(default=UNSET, validation_alias="customMask", serialization_alias="customMask")
     builtin: GmosSouthBuiltinFpu | None = UNSET
 
 
-class GmosSouthGratingConfig(GPPModel):
+class GmosSouthGratingConfig(Model):
     """GMOS South Grating Configuration"""
     typename: Literal["GmosSouthGratingConfig"] = Field(default="GmosSouthGratingConfig", validation_alias="__typename", serialization_alias="__typename")
     grating: GmosSouthGrating = UNSET
@@ -1633,7 +1633,7 @@ class GmosSouthGratingConfig(GPPModel):
     wavelength: Wavelength = UNSET
 
 
-class GmosSouthImaging(GPPModel):
+class GmosSouthImaging(Model):
     """GMOS South Imaging mode"""
     typename: Literal["GmosSouthImaging"] = Field(default="GmosSouthImaging", validation_alias="__typename", serialization_alias="__typename")
     variant: ImagingVariant = UNSET
@@ -1653,14 +1653,14 @@ class GmosSouthImaging(GPPModel):
     explicit_roi: GmosRoi | None = Field(default=UNSET, validation_alias="explicitRoi", serialization_alias="explicitRoi")
 
 
-class GmosSouthImagingFilter(GPPModel):
+class GmosSouthImagingFilter(Model):
     """Imaging filters combine an actual filter with an exposure time mode."""
     typename: Literal["GmosSouthImagingFilter"] = Field(default="GmosSouthImagingFilter", validation_alias="__typename", serialization_alias="__typename")
     filter: GmosSouthFilter = UNSET
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class GmosSouthLongSlit(GPPModel):
+class GmosSouthLongSlit(Model):
     """GMOS South Long Slit mode"""
     typename: Literal["GmosSouthLongSlit"] = Field(default="GmosSouthLongSlit", validation_alias="__typename", serialization_alias="__typename")
     grating: GmosSouthGrating = UNSET
@@ -1699,7 +1699,7 @@ class GmosSouthLongSlit(GPPModel):
     initial_central_wavelength: Wavelength = Field(default=UNSET, validation_alias="initialCentralWavelength", serialization_alias="initialCentralWavelength")
 
 
-class GmosSouthLongSlitAcquisition(GPPModel):
+class GmosSouthLongSlitAcquisition(Model):
     """Acquisition settings for GMOS South long slit acquisition."""
     typename: Literal["GmosSouthLongSlitAcquisition"] = Field(default="GmosSouthLongSlitAcquisition", validation_alias="__typename", serialization_alias="__typename")
     filter: GmosSouthFilter = UNSET
@@ -1711,7 +1711,7 @@ class GmosSouthLongSlitAcquisition(GPPModel):
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class GmosSouthMos(GPPModel):
+class GmosSouthMos(Model):
     """GMOS South MOS mode"""
     typename: Literal["GmosSouthMos"] = Field(default="GmosSouthMos", validation_alias="__typename", serialization_alias="__typename")
     grating: GmosSouthGrating = UNSET
@@ -1746,7 +1746,7 @@ class GmosSouthMos(GPPModel):
     initial_central_wavelength: Wavelength = Field(default=UNSET, validation_alias="initialCentralWavelength", serialization_alias="initialCentralWavelength")
 
 
-class GmosSouthStatic(GPPModel):
+class GmosSouthStatic(Model):
     """Unchanging (over the course of the sequence) configuration values"""
     typename: Literal["GmosSouthStatic"] = Field(default="GmosSouthStatic", validation_alias="__typename", serialization_alias="__typename")
     stage_mode: GmosSouthStageMode = Field(default=UNSET, validation_alias="stageMode", serialization_alias="stageMode")
@@ -1755,7 +1755,7 @@ class GmosSouthStatic(GPPModel):
     nod_and_shuffle: GmosNodAndShuffle | None = Field(default=UNSET, validation_alias="nodAndShuffle", serialization_alias="nodAndShuffle")
 
 
-class GmosSouthStep(GPPModel):
+class GmosSouthStep(Model):
     """GmosSouth step with potential breakpoint"""
     typename: Literal["GmosSouthStep"] = Field(default="GmosSouthStep", validation_alias="__typename", serialization_alias="__typename")
     instrument_config: GmosSouthDynamic = Field(default=UNSET, validation_alias="instrumentConfig", serialization_alias="instrumentConfig")
@@ -1767,7 +1767,7 @@ class GmosSouthStep(GPPModel):
     observe_class: ObserveClass = Field(default=UNSET, validation_alias="observeClass", serialization_alias="observeClass")
 
 
-class GnirsAcquisitionMirrorOut(GPPModel):
+class GnirsAcquisitionMirrorOut(Model):
     """
     Spectroscopy configuration that travels with a GNIRS step when the acquisition
     mirror is out of the beam.
@@ -1778,7 +1778,7 @@ class GnirsAcquisitionMirrorOut(GPPModel):
     wavelength: Wavelength = UNSET
 
 
-class GnirsAtom(GPPModel):
+class GnirsAtom(Model):
     """GNIRS atom, a collection of steps that should be executed in their entirety."""
     typename: Literal["GnirsAtom"] = Field(default="GnirsAtom", validation_alias="__typename", serialization_alias="__typename")
     id: AtomId = UNSET
@@ -1787,7 +1787,7 @@ class GnirsAtom(GPPModel):
     steps: list[GnirsStep] = UNSET
 
 
-class GnirsDynamic(GPPModel):
+class GnirsDynamic(Model):
     """
     GNIRS dynamic step configuration.
 
@@ -1815,7 +1815,7 @@ class GnirsDynamic(GPPModel):
     read_mode: GnirsReadMode = Field(default=UNSET, validation_alias="readMode", serialization_alias="readMode")
 
 
-class GnirsExecutionConfig(GPPModel):
+class GnirsExecutionConfig(Model):
     """GNIRS Execution Config"""
     typename: Literal["GnirsExecutionConfig"] = Field(default="GnirsExecutionConfig", validation_alias="__typename", serialization_alias="__typename")
     static: GnirsStatic = UNSET
@@ -1823,7 +1823,7 @@ class GnirsExecutionConfig(GPPModel):
     science: GnirsExecutionSequence | None = UNSET
 
 
-class GnirsExecutionSequence(GPPModel):
+class GnirsExecutionSequence(Model):
     """GNIRS execution sequence: next atom and (a prefix of) future atoms."""
     typename: Literal["GnirsExecutionSequence"] = Field(default="GnirsExecutionSequence", validation_alias="__typename", serialization_alias="__typename")
     next_atom: GnirsAtom = Field(default=UNSET, validation_alias="nextAtom", serialization_alias="nextAtom")
@@ -1831,7 +1831,7 @@ class GnirsExecutionSequence(GPPModel):
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class GnirsIfu(GPPModel):
+class GnirsIfu(Model):
     """
     GNIRS IFU-specific configuration: the IFU FPU plus the telescope configs as full
     p/q offsets. Present on `GnirsSpectroscopy.ifu` iff the observation is an IFU; null
@@ -1843,7 +1843,7 @@ class GnirsIfu(GPPModel):
     telescope_configs: list[TelescopeConfig] = Field(default=UNSET, validation_alias="telescopeConfigs", serialization_alias="telescopeConfigs")
 
 
-class GnirsImaging(GPPModel):
+class GnirsImaging(Model):
     """
     GNIRS Imaging mode.  Keyhole imaging fixes the FPU (acquisition keyhole), the
     decker (acquisition) and the acquisition mirror (in), so none of them appears
@@ -1861,13 +1861,13 @@ class GnirsImaging(GPPModel):
     default_well_depth: GnirsWellDepth = Field(default=UNSET, validation_alias="defaultWellDepth", serialization_alias="defaultWellDepth")
 
 
-class GnirsImagingFilter(GPPModel):
+class GnirsImagingFilter(Model):
     typename: Literal["GnirsImagingFilter"] = Field(default="GnirsImagingFilter", validation_alias="__typename", serialization_alias="__typename")
     filter: GnirsFilter = UNSET
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class GnirsSlit(GPPModel):
+class GnirsSlit(Model):
     """
     GNIRS long-slit-specific configuration: the slit FPU plus the telescope configs
     taken along the slit. Present on `GnirsSpectroscopy.slit` iff the observation is a
@@ -1881,7 +1881,7 @@ class GnirsSlit(GPPModel):
     explicit_telescope_configs: SlitTelescopeConfigs | None = Field(default=UNSET, validation_alias="explicitTelescopeConfigs", serialization_alias="explicitTelescopeConfigs")
 
 
-class GnirsSpectroscopy(GPPModel):
+class GnirsSpectroscopy(Model):
     """GNIRS Spectroscopy mode (long slit or IFU, distinguished by the FPU)."""
     typename: Literal["GnirsSpectroscopy"] = Field(default="GnirsSpectroscopy", validation_alias="__typename", serialization_alias="__typename")
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
@@ -1912,7 +1912,7 @@ class GnirsSpectroscopy(GPPModel):
     telluric_type: TelluricType = Field(default=UNSET, validation_alias="telluricType", serialization_alias="telluricType")
 
 
-class GnirsSpectroscopyAcquisition(GPPModel):
+class GnirsSpectroscopyAcquisition(Model):
     typename: Literal["GnirsSpectroscopyAcquisition"] = Field(default="GnirsSpectroscopyAcquisition", validation_alias="__typename", serialization_alias="__typename")
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
     coadds: PosInt = UNSET
@@ -1921,7 +1921,7 @@ class GnirsSpectroscopyAcquisition(GPPModel):
     sky_offset: Offset | None = Field(default=UNSET, validation_alias="skyOffset", serialization_alias="skyOffset")
 
 
-class GnirsStatic(GPPModel):
+class GnirsStatic(Model):
     """
     GNIRS static configuration: per-observation values that do not change
     between steps.
@@ -1930,7 +1930,7 @@ class GnirsStatic(GPPModel):
     well_depth: GnirsWellDepth = Field(default=UNSET, validation_alias="wellDepth", serialization_alias="wellDepth")
 
 
-class GnirsStep(GPPModel):
+class GnirsStep(Model):
     """GNIRS step with potential breakpoint."""
     typename: Literal["GnirsStep"] = Field(default="GnirsStep", validation_alias="__typename", serialization_alias="__typename")
     instrument_config: GnirsDynamic = Field(default=UNSET, validation_alias="instrumentConfig", serialization_alias="instrumentConfig")
@@ -1942,7 +1942,7 @@ class GnirsStep(GPPModel):
     observe_class: ObserveClass = Field(default=UNSET, validation_alias="observeClass", serialization_alias="observeClass")
 
 
-class GoaProperties(GPPModel):
+class GoaProperties(Model):
     """Gemini Observatory Archive properties for a particular program."""
     typename: Literal["GoaProperties"] = Field(default="GoaProperties", validation_alias="__typename", serialization_alias="__typename")
     proprietary_months: NonNegInt = Field(default=UNSET, validation_alias="proprietaryMonths", serialization_alias="proprietaryMonths")
@@ -1950,7 +1950,7 @@ class GoaProperties(GPPModel):
     private_header: bool = Field(default=UNSET, validation_alias="privateHeader", serialization_alias="privateHeader")
 
 
-class Group(GPPModel):
+class Group(Model):
     """A group of observations and other groups."""
     typename: Literal["Group"] = Field(default="Group", validation_alias="__typename", serialization_alias="__typename")
     id: GroupId = UNSET
@@ -1972,7 +1972,7 @@ class Group(GPPModel):
     calibration_roles: list[CalibrationRole] = Field(default=UNSET, validation_alias="calibrationRoles", serialization_alias="calibrationRoles")
 
 
-class GroupEdit(GPPModel):
+class GroupEdit(Model):
     """Event sent when a group is created or updated"""
     typename: Literal["GroupEdit"] = Field(default="GroupEdit", validation_alias="__typename", serialization_alias="__typename")
     edit_type: EditType = Field(default=UNSET, validation_alias="editType", serialization_alias="editType")
@@ -1981,7 +1981,7 @@ class GroupEdit(GPPModel):
     value: Group | None = UNSET
 
 
-class GroupElement(GPPModel):
+class GroupElement(Model):
     """Groups contain observations and other groups. Exactly one will be defined."""
     typename: Literal["GroupElement"] = Field(default="GroupElement", validation_alias="__typename", serialization_alias="__typename")
     parent_group_id: GroupId | None = Field(default=UNSET, validation_alias="parentGroupId", serialization_alias="parentGroupId")
@@ -1991,7 +1991,7 @@ class GroupElement(GPPModel):
     existence: Existence = UNSET
 
 
-class GroupedImagingVariant(GPPModel):
+class GroupedImagingVariant(Model):
     """
     When doing "grouped" filter imaging, datasets associated with a particular
     filter are collected consecutively before moving on to other filters (if any).
@@ -2004,7 +2004,7 @@ class GroupedImagingVariant(GPPModel):
     sky_offsets: TelescopeConfigGenerator = Field(default=UNSET, validation_alias="skyOffsets", serialization_alias="skyOffsets")
 
 
-class GuideAvailabilityPeriod(GPPModel):
+class GuideAvailabilityPeriod(Model):
     """
     A period of time showing which position angles have guide stars available during the period.
     The position angles are tested every 10 degrees.
@@ -2015,14 +2015,14 @@ class GuideAvailabilityPeriod(GPPModel):
     pos_angles: list[Angle] = Field(default=UNSET, validation_alias="posAngles", serialization_alias="posAngles")
 
 
-class GuideEnvironment(GPPModel):
+class GuideEnvironment(Model):
     """The guide star(s) and related information"""
     typename: Literal["GuideEnvironment"] = Field(default="GuideEnvironment", validation_alias="__typename", serialization_alias="__typename")
     pos_angle: Angle = Field(default=UNSET, validation_alias="posAngle", serialization_alias="posAngle")
     guide_targets: list[GuideTarget] = Field(default=UNSET, validation_alias="guideTargets", serialization_alias="guideTargets")
 
 
-class GuideTarget(GPPModel):
+class GuideTarget(Model):
     """Type that contains a guide probe and guide target information for use in the GuideEnvironment"""
     typename: Literal["GuideTarget"] = Field(default="GuideTarget", validation_alias="__typename", serialization_alias="__typename")
     probe: GuideProbe = UNSET
@@ -2032,7 +2032,7 @@ class GuideTarget(GPPModel):
     nonsidereal: Nonsidereal | None = UNSET
 
 
-class HasExchangePartner(GPPModel):
+class HasExchangePartner(Model):
     """
     A `PartnerLink` employed when a user is associated with a specific
     `ExchangePartner`.
@@ -2042,32 +2042,32 @@ class HasExchangePartner(GPPModel):
     exchange_partner: ExchangePartner = Field(default=UNSET, validation_alias="exchangePartner", serialization_alias="exchangePartner")
 
 
-class HasGeminiPartner(GPPModel):
+class HasGeminiPartner(Model):
     """A `PartnerLink` employed when a user is associated with a specific `Partner`."""
     typename: Literal["HasGeminiPartner"] = Field(default="HasGeminiPartner", validation_alias="__typename", serialization_alias="__typename")
     link_type: PartnerLinkType = Field(default=UNSET, validation_alias="linkType", serialization_alias="linkType")
     gemini_partner: Partner = Field(default=UNSET, validation_alias="geminiPartner", serialization_alias="geminiPartner")
 
 
-class HasNonPartner(GPPModel):
+class HasNonPartner(Model):
     """A `PartnerLink` employed when a user is explicitly associated with no `Partner`."""
     typename: Literal["HasNonPartner"] = Field(default="HasNonPartner", validation_alias="__typename", serialization_alias="__typename")
     link_type: PartnerLinkType = Field(default=UNSET, validation_alias="linkType", serialization_alias="linkType")
 
 
-class HasUnspecifiedPartner(GPPModel):
+class HasUnspecifiedPartner(Model):
     """A `PartnerLink` employed when a user's `PartnerLink` has not (yet) been made."""
     typename: Literal["HasUnspecifiedPartner"] = Field(default="HasUnspecifiedPartner", validation_alias="__typename", serialization_alias="__typename")
     link_type: PartnerLinkType = Field(default=UNSET, validation_alias="linkType", serialization_alias="linkType")
 
 
-class HourAngleRange(GPPModel):
+class HourAngleRange(Model):
     typename: Literal["HourAngleRange"] = Field(default="HourAngleRange", validation_alias="__typename", serialization_alias="__typename")
     min_hours: BigDecimal = Field(default=UNSET, validation_alias="minHours", serialization_alias="minHours")
     max_hours: BigDecimal = Field(default=UNSET, validation_alias="maxHours", serialization_alias="maxHours")
 
 
-class Igrins2Atom(GPPModel):
+class Igrins2Atom(Model):
     """IGRINS-2 atom, a collection of steps that should be executed in their entirety"""
     typename: Literal["Igrins2Atom"] = Field(default="Igrins2Atom", validation_alias="__typename", serialization_alias="__typename")
     id: AtomId = UNSET
@@ -2076,14 +2076,14 @@ class Igrins2Atom(GPPModel):
     steps: list[Igrins2Step] = UNSET
 
 
-class Igrins2Dynamic(GPPModel):
+class Igrins2Dynamic(Model):
     """IGRINS-2 dynamic step configuration"""
     typename: Literal["Igrins2Dynamic"] = Field(default="Igrins2Dynamic", validation_alias="__typename", serialization_alias="__typename")
     exposure: TimeSpan = UNSET
     central_wavelength: Wavelength | None = Field(default=UNSET, validation_alias="centralWavelength", serialization_alias="centralWavelength")
 
 
-class Igrins2ExecutionConfig(GPPModel):
+class Igrins2ExecutionConfig(Model):
     """IGRINS-2 Execution Config"""
     typename: Literal["Igrins2ExecutionConfig"] = Field(default="Igrins2ExecutionConfig", validation_alias="__typename", serialization_alias="__typename")
     static: Igrins2Static = UNSET
@@ -2091,7 +2091,7 @@ class Igrins2ExecutionConfig(GPPModel):
     science: Igrins2ExecutionSequence | None = UNSET
 
 
-class Igrins2ExecutionSequence(GPPModel):
+class Igrins2ExecutionSequence(Model):
     """Next atom to execute and potential future atoms."""
     typename: Literal["Igrins2ExecutionSequence"] = Field(default="Igrins2ExecutionSequence", validation_alias="__typename", serialization_alias="__typename")
     next_atom: Igrins2Atom = Field(default=UNSET, validation_alias="nextAtom", serialization_alias="nextAtom")
@@ -2099,7 +2099,7 @@ class Igrins2ExecutionSequence(GPPModel):
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class Igrins2LongSlit(GPPModel):
+class Igrins2LongSlit(Model):
     """IGRINS-2 Long Slit mode"""
     typename: Literal["Igrins2LongSlit"] = Field(default="Igrins2LongSlit", validation_alias="__typename", serialization_alias="__typename")
     exposure_time_mode: ExposureTimeMode = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
@@ -2119,14 +2119,14 @@ class Igrins2LongSlit(GPPModel):
     explicit_offsets: list[Offset] | None = Field(default=UNSET, validation_alias="explicitOffsets", serialization_alias="explicitOffsets")
 
 
-class Igrins2Static(GPPModel):
+class Igrins2Static(Model):
     """IGRINS-2 static configuration"""
     typename: Literal["Igrins2Static"] = Field(default="Igrins2Static", validation_alias="__typename", serialization_alias="__typename")
     save_svc_images: bool = Field(default=UNSET, validation_alias="saveSVCImages", serialization_alias="saveSVCImages")
     offset_mode: SlitOffsetMode = Field(default=UNSET, validation_alias="offsetMode", serialization_alias="offsetMode")
 
 
-class Igrins2Step(GPPModel):
+class Igrins2Step(Model):
     """IGRINS-2 step with potential breakpoint"""
     typename: Literal["Igrins2Step"] = Field(default="Igrins2Step", validation_alias="__typename", serialization_alias="__typename")
     instrument_config: Igrins2Dynamic = Field(default=UNSET, validation_alias="instrumentConfig", serialization_alias="instrumentConfig")
@@ -2138,7 +2138,7 @@ class Igrins2Step(GPPModel):
     observe_class: ObserveClass = Field(default=UNSET, validation_alias="observeClass", serialization_alias="observeClass")
 
 
-class Igrins2SvcConfig(GPPModel):
+class Igrins2SvcConfig(Model):
     """
     IGRINS-2 Slit-Viewing Camera (SVC) acquisition configuration. A non-null value
     means SVC images are saved using the given exposure duration and telescope dither
@@ -2153,7 +2153,7 @@ class Igrins2SvcConfig(GPPModel):
     explicit_telescope_configs: list[TelescopeConfig] | None = Field(default=UNSET, validation_alias="explicitTelescopeConfigs", serialization_alias="explicitTelescopeConfigs")
 
 
-class ImagingConfigOption(GPPModel):
+class ImagingConfigOption(Model):
     """Describes an instrument configuration option for imaging."""
     typename: Literal["ImagingConfigOption"] = Field(default="ImagingConfigOption", validation_alias="__typename", serialization_alias="__typename")
     instrument: Instrument = UNSET
@@ -2168,28 +2168,28 @@ class ImagingConfigOption(GPPModel):
     gnirs: ImagingConfigOptionGnirs | None = UNSET
 
 
-class ImagingConfigOptionFlamingos2(GPPModel):
+class ImagingConfigOptionFlamingos2(Model):
     typename: Literal["ImagingConfigOptionFlamingos2"] = Field(default="ImagingConfigOptionFlamingos2", validation_alias="__typename", serialization_alias="__typename")
     filter: Flamingos2Filter = UNSET
 
 
-class ImagingConfigOptionGmosNorth(GPPModel):
+class ImagingConfigOptionGmosNorth(Model):
     typename: Literal["ImagingConfigOptionGmosNorth"] = Field(default="ImagingConfigOptionGmosNorth", validation_alias="__typename", serialization_alias="__typename")
     filter: GmosNorthFilter = UNSET
 
 
-class ImagingConfigOptionGmosSouth(GPPModel):
+class ImagingConfigOptionGmosSouth(Model):
     typename: Literal["ImagingConfigOptionGmosSouth"] = Field(default="ImagingConfigOptionGmosSouth", validation_alias="__typename", serialization_alias="__typename")
     filter: GmosSouthFilter = UNSET
 
 
-class ImagingConfigOptionGnirs(GPPModel):
+class ImagingConfigOptionGnirs(Model):
     typename: Literal["ImagingConfigOptionGnirs"] = Field(default="ImagingConfigOptionGnirs", validation_alias="__typename", serialization_alias="__typename")
     filter: GnirsFilter = UNSET
     camera: GnirsCamera = UNSET
 
 
-class ImagingScienceRequirements(GPPModel):
+class ImagingScienceRequirements(Model):
     typename: Literal["ImagingScienceRequirements"] = Field(default="ImagingScienceRequirements", validation_alias="__typename", serialization_alias="__typename")
     minimum_fov: Angle | None = Field(default=UNSET, validation_alias="minimumFov", serialization_alias="minimumFov")
     narrow_filters: bool | None = Field(default=UNSET, validation_alias="narrowFilters", serialization_alias="narrowFilters")
@@ -2197,7 +2197,7 @@ class ImagingScienceRequirements(GPPModel):
     combined_filters: bool | None = Field(default=UNSET, validation_alias="combinedFilters", serialization_alias="combinedFilters")
 
 
-class ImagingVariant(GPPModel):
+class ImagingVariant(Model):
     """
     The specific imaging sub-type, one of which will be defined and the remaining
     options null.
@@ -2209,7 +2209,7 @@ class ImagingVariant(GPPModel):
     pre_imaging: PreImagingVariant | None = Field(default=UNSET, validation_alias="preImaging", serialization_alias="preImaging")
 
 
-class InterleavedImagingVariant(GPPModel):
+class InterleavedImagingVariant(Model):
     """
     When doing "interleaved" filter imaging, the sequence repeatedly alternates
     through the set of filters in use.
@@ -2220,7 +2220,7 @@ class InterleavedImagingVariant(GPPModel):
     sky_offsets: TelescopeConfigGenerator = Field(default=UNSET, validation_alias="skyOffsets", serialization_alias="skyOffsets")
 
 
-class ItcFlamingos2Imaging(GPPModel):
+class ItcFlamingos2Imaging(Model):
     """
     Flamingos 2 imaging ITC results.  Here each filter is paired with its result
     set.
@@ -2230,7 +2230,7 @@ class ItcFlamingos2Imaging(GPPModel):
     flamingos2_imaging_science: list[ItcFlamingos2ImagingResultSet] = Field(default=UNSET, validation_alias="flamingos2ImagingScience", serialization_alias="flamingos2ImagingScience")
 
 
-class ItcFlamingos2ImagingResultSet(GPPModel):
+class ItcFlamingos2ImagingResultSet(Model):
     """
     Combines a Flamingos 2 filter with an `ItcResultSet`. In other words, ITC
     results for all targets but a single filter.
@@ -2240,7 +2240,7 @@ class ItcFlamingos2ImagingResultSet(GPPModel):
     results: ItcResultSet = UNSET
 
 
-class ItcGhostIfu(GPPModel):
+class ItcGhostIfu(Model):
     """GHOST IFU ITC results.  Each channel is paired with its result set."""
     typename: Literal["ItcGhostIfu"] = Field(default="ItcGhostIfu", validation_alias="__typename", serialization_alias="__typename")
     itc_type: ItcType = Field(default=UNSET, validation_alias="itcType", serialization_alias="itcType")
@@ -2248,7 +2248,7 @@ class ItcGhostIfu(GPPModel):
     blue: ItcResultSet = UNSET
 
 
-class ItcGmosNorthImaging(GPPModel):
+class ItcGmosNorthImaging(Model):
     """
     GMOS North imaging ITC results.  Here each filter is paired with its result
     set.
@@ -2258,7 +2258,7 @@ class ItcGmosNorthImaging(GPPModel):
     gmos_north_imaging_science: list[ItcGmosNorthImagingResultSet] = Field(default=UNSET, validation_alias="gmosNorthImagingScience", serialization_alias="gmosNorthImagingScience")
 
 
-class ItcGmosNorthImagingResultSet(GPPModel):
+class ItcGmosNorthImagingResultSet(Model):
     """
     Combines a GMOS North filter with an `ItcResultSet`. In other words, ITC
     results for all targets but a single filter.
@@ -2268,7 +2268,7 @@ class ItcGmosNorthImagingResultSet(GPPModel):
     results: ItcResultSet = UNSET
 
 
-class ItcGmosSouthImaging(GPPModel):
+class ItcGmosSouthImaging(Model):
     """
     GMOS South imaging ITC results.  Here each filter is paired with its result
     set.
@@ -2278,7 +2278,7 @@ class ItcGmosSouthImaging(GPPModel):
     gmos_south_imaging_science: list[ItcGmosSouthImagingResultSet] = Field(default=UNSET, validation_alias="gmosSouthImagingScience", serialization_alias="gmosSouthImagingScience")
 
 
-class ItcGmosSouthImagingResultSet(GPPModel):
+class ItcGmosSouthImagingResultSet(Model):
     """
     Combines a GMOS South filter with an `ItcResultSet`. In other words, ITC
     results for all targets but a single filter.
@@ -2288,14 +2288,14 @@ class ItcGmosSouthImagingResultSet(GPPModel):
     results: ItcResultSet = UNSET
 
 
-class ItcGnirsImaging(GPPModel):
+class ItcGnirsImaging(Model):
     """GNIRS imaging ITC results.  Here each filter is paired with its result set."""
     typename: Literal["ItcGnirsImaging"] = Field(default="ItcGnirsImaging", validation_alias="__typename", serialization_alias="__typename")
     itc_type: ItcType = Field(default=UNSET, validation_alias="itcType", serialization_alias="itcType")
     gnirs_imaging_science: list[ItcGnirsImagingResultSet] = Field(default=UNSET, validation_alias="gnirsImagingScience", serialization_alias="gnirsImagingScience")
 
 
-class ItcGnirsImagingResultSet(GPPModel):
+class ItcGnirsImagingResultSet(Model):
     """
     Combines a GNIRS filter with an `ItcResultSet`. In other words, ITC results
     for all targets but a single filter.
@@ -2305,7 +2305,7 @@ class ItcGnirsImagingResultSet(GPPModel):
     results: ItcResultSet = UNSET
 
 
-class ItcIgrins2Spectroscopy(GPPModel):
+class ItcIgrins2Spectroscopy(Model):
     """
     ITC results for IGRINS-2 spectroscopy observations. IGRINS-2 has no acquisition estimate.
     SVC  acquisition sequence, when present, uses the SVC exposure time configuration.
@@ -2315,7 +2315,7 @@ class ItcIgrins2Spectroscopy(GPPModel):
     spectroscopy_science: ItcResultSet = Field(default=UNSET, validation_alias="spectroscopyScience", serialization_alias="spectroscopyScience")
 
 
-class ItcResult(GPPModel):
+class ItcResult(Model):
     """An ITC result for a single target."""
     typename: Literal["ItcResult"] = Field(default="ItcResult", validation_alias="__typename", serialization_alias="__typename")
     target_id: TargetId = Field(default=UNSET, validation_alias="targetId", serialization_alias="targetId")
@@ -2324,7 +2324,7 @@ class ItcResult(GPPModel):
     signal_to_noise_at: SignalToNoiseAt | None = Field(default=UNSET, validation_alias="signalToNoiseAt", serialization_alias="signalToNoiseAt")
 
 
-class ItcResultSet(GPPModel):
+class ItcResultSet(Model):
     """
     Contains the result of calling the ITC for all targets, but a single instrument
     configuration.  Since the observation may contain multiple targets, there may
@@ -2342,7 +2342,7 @@ class ItcResultSet(GPPModel):
     index: NonNegInt = UNSET
 
 
-class ItcSpectroscopy(GPPModel):
+class ItcSpectroscopy(Model):
     """ITC results for spectroscopy observations."""
     typename: Literal["ItcSpectroscopy"] = Field(default="ItcSpectroscopy", validation_alias="__typename", serialization_alias="__typename")
     itc_type: ItcType = Field(default=UNSET, validation_alias="itcType", serialization_alias="itcType")
@@ -2350,7 +2350,7 @@ class ItcSpectroscopy(GPPModel):
     spectroscopy_science: ItcResultSet = Field(default=UNSET, validation_alias="spectroscopyScience", serialization_alias="spectroscopyScience")
 
 
-class KeckCallProperties(GPPModel):
+class KeckCallProperties(Model):
     """
     Keck-specific call for proposals properties.  Note, properties shared across all
     observatories are found in the `CallForProposals` type.
@@ -2360,7 +2360,7 @@ class KeckCallProperties(GPPModel):
     coordinate_limits: CoordinateLimits = Field(default=UNSET, validation_alias="coordinateLimits", serialization_alias="coordinateLimits")
 
 
-class KeckProgramReference(GPPModel):
+class KeckProgramReference(Model):
     """Reference for a Keck time-exchange program."""
     typename: Literal["KeckProgramReference"] = Field(default="KeckProgramReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProgramReferenceLabel = UNSET
@@ -2369,14 +2369,14 @@ class KeckProgramReference(GPPModel):
     semester_index: PosInt = Field(default=UNSET, validation_alias="semesterIndex", serialization_alias="semesterIndex")
 
 
-class KeckProposalType(GPPModel):
+class KeckProposalType(Model):
     """Proposal properties for an exchange proposal requesting time at Keck."""
     typename: Literal["KeckProposalType"] = Field(default="KeckProposalType", validation_alias="__typename", serialization_alias="__typename")
     min_percent_time: IntPercent = Field(default=UNSET, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     partner_splits: list[PartnerSplit] = Field(default=UNSET, validation_alias="partnerSplits", serialization_alias="partnerSplits")
 
 
-class LargeProgram(GPPModel):
+class LargeProgram(Model):
     """Proposal properties for Large Program CallForProposals."""
     typename: Literal["LargeProgram"] = Field(default="LargeProgram", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
@@ -2388,7 +2388,7 @@ class LargeProgram(GPPModel):
     jwst_synergy: bool = Field(default=UNSET, validation_alias="jwstSynergy", serialization_alias="jwstSynergy")
 
 
-class LibraryProgramReference(GPPModel):
+class LibraryProgramReference(Model):
     typename: Literal["LibraryProgramReference"] = Field(default="LibraryProgramReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProgramReferenceLabel = UNSET
     type: ProgramType = UNSET
@@ -2396,24 +2396,24 @@ class LibraryProgramReference(GPPModel):
     instrument: Instrument = UNSET
 
 
-class LineFluxIntegrated(GPPModel):
+class LineFluxIntegrated(Model):
     typename: Literal["LineFluxIntegrated"] = Field(default="LineFluxIntegrated", validation_alias="__typename", serialization_alias="__typename")
     value: PosBigDecimal = UNSET
     units: LineFluxIntegratedUnits = UNSET
 
 
-class LineFluxSurface(GPPModel):
+class LineFluxSurface(Model):
     typename: Literal["LineFluxSurface"] = Field(default="LineFluxSurface", validation_alias="__typename", serialization_alias="__typename")
     value: PosBigDecimal = UNSET
     units: LineFluxSurfaceUnits = UNSET
 
 
-class LinkUserResult(GPPModel):
+class LinkUserResult(Model):
     typename: Literal["LinkUserResult"] = Field(default="LinkUserResult", validation_alias="__typename", serialization_alias="__typename")
     user: ProgramUser = UNSET
 
 
-class MonitoringProgramReference(GPPModel):
+class MonitoringProgramReference(Model):
     typename: Literal["MonitoringProgramReference"] = Field(default="MonitoringProgramReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProgramReferenceLabel = UNSET
     type: ProgramType = UNSET
@@ -2422,14 +2422,14 @@ class MonitoringProgramReference(GPPModel):
     semester_index: PosInt = Field(default=UNSET, validation_alias="semesterIndex", serialization_alias="semesterIndex")
 
 
-class Nonsidereal(GPPModel):
+class Nonsidereal(Model):
     typename: Literal["Nonsidereal"] = Field(default="Nonsidereal", validation_alias="__typename", serialization_alias="__typename")
     des: str = UNSET
     key_type: EphemerisKeyType = Field(default=UNSET, validation_alias="keyType", serialization_alias="keyType")
     key: str = UNSET
 
 
-class ObscalcUpdate(GPPModel):
+class ObscalcUpdate(Model):
     """Result type of the obscalcUpdate subscription."""
     typename: Literal["ObscalcUpdate"] = Field(default="ObscalcUpdate", validation_alias="__typename", serialization_alias="__typename")
     edit_type: EditType = Field(default=UNSET, validation_alias="editType", serialization_alias="editType")
@@ -2441,7 +2441,7 @@ class ObscalcUpdate(GPPModel):
     value: Observation | None = UNSET
 
 
-class Observation(GPPModel):
+class Observation(Model):
     typename: Literal["Observation"] = Field(default="Observation", validation_alias="__typename", serialization_alias="__typename")
     id: ObservationId = UNSET
     existence: Existence = UNSET
@@ -2474,7 +2474,7 @@ class Observation(GPPModel):
     archive_duplication: ArchiveDuplication = Field(default=UNSET, validation_alias="archiveDuplication", serialization_alias="archiveDuplication")
 
 
-class ObservationEdit(GPPModel):
+class ObservationEdit(Model):
     """Event sent when a new object is created or updated"""
     typename: Literal["ObservationEdit"] = Field(default="ObservationEdit", validation_alias="__typename", serialization_alias="__typename")
     edit_type: EditType = Field(default=UNSET, validation_alias="editType", serialization_alias="editType")
@@ -2482,7 +2482,7 @@ class ObservationEdit(GPPModel):
     value: Observation | None = UNSET
 
 
-class ObservationReference(GPPModel):
+class ObservationReference(Model):
     """
     Observation reference type, broken into its constituient parts and including
     a formatted label.
@@ -2493,14 +2493,14 @@ class ObservationReference(GPPModel):
     index: PosInt = UNSET
 
 
-class ObservationSelectResult(GPPModel):
+class ObservationSelectResult(Model):
     """The matching observation results, limited to a maximum of 1000 entries."""
     typename: Literal["ObservationSelectResult"] = Field(default="ObservationSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[Observation] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class ObservationTimeEstimate(GPPModel):
+class ObservationTimeEstimate(Model):
     """
     Time estimate for executing an observation: the setup time(s) and the science
     sequence time.  In the execution digest this estimate is continually updated
@@ -2515,21 +2515,21 @@ class ObservationTimeEstimate(GPPModel):
     total: CategorizedTime = UNSET
 
 
-class ObservationValidation(GPPModel):
+class ObservationValidation(Model):
     """An observation validation problem"""
     typename: Literal["ObservationValidation"] = Field(default="ObservationValidation", validation_alias="__typename", serialization_alias="__typename")
     code: ObservationValidationCode = UNSET
     messages: list[str] = UNSET
 
 
-class ObservationWorkflow(GPPModel):
+class ObservationWorkflow(Model):
     typename: Literal["ObservationWorkflow"] = Field(default="ObservationWorkflow", validation_alias="__typename", serialization_alias="__typename")
     state: ObservationWorkflowState = UNSET
     valid_transitions: list[ObservationWorkflowState] = Field(default=UNSET, validation_alias="validTransitions", serialization_alias="validTransitions")
     validation_errors: list[ObservationValidation] = Field(default=UNSET, validation_alias="validationErrors", serialization_alias="validationErrors")
 
 
-class ObservingMode(GPPModel):
+class ObservingMode(Model):
     """Base science mode"""
     typename: Literal["ObservingMode"] = Field(default="ObservingMode", validation_alias="__typename", serialization_alias="__typename")
     instrument: Instrument | None = UNSET
@@ -2550,52 +2550,52 @@ class ObservingMode(GPPModel):
     visitor: Visitor | None = UNSET
 
 
-class ObservingModeGroup(GPPModel):
+class ObservingModeGroup(Model):
     typename: Literal["ObservingModeGroup"] = Field(default="ObservingModeGroup", validation_alias="__typename", serialization_alias="__typename")
     observations: ObservationSelectResult = UNSET
     observing_mode: ObservingMode = Field(default=UNSET, validation_alias="observingMode", serialization_alias="observingMode")
     program: Program = UNSET
 
 
-class ObservingModeGroupSelectResult(GPPModel):
+class ObservingModeGroupSelectResult(Model):
     """The matching ObservingModeGroup results, limited to a maximum of 1000 entries."""
     typename: Literal["ObservingModeGroupSelectResult"] = Field(default="ObservingModeGroupSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[ObservingModeGroup] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class Offset(GPPModel):
+class Offset(Model):
     typename: Literal["Offset"] = Field(default="Offset", validation_alias="__typename", serialization_alias="__typename")
     p: OffsetP = UNSET
     q: OffsetQ = UNSET
 
 
-class OffsetP(GPPModel):
+class OffsetP(Model):
     typename: Literal["OffsetP"] = Field(default="OffsetP", validation_alias="__typename", serialization_alias="__typename")
     microarcseconds: Long = UNSET
     milliarcseconds: BigDecimal = UNSET
     arcseconds: BigDecimal = UNSET
 
 
-class OffsetQ(GPPModel):
+class OffsetQ(Model):
     typename: Literal["OffsetQ"] = Field(default="OffsetQ", validation_alias="__typename", serialization_alias="__typename")
     microarcseconds: Long = UNSET
     milliarcseconds: BigDecimal = UNSET
     arcseconds: BigDecimal = UNSET
 
 
-class Opportunity(GPPModel):
+class Opportunity(Model):
     typename: Literal["Opportunity"] = Field(default="Opportunity", validation_alias="__typename", serialization_alias="__typename")
     region: Region = UNSET
 
 
-class Parallax(GPPModel):
+class Parallax(Model):
     typename: Literal["Parallax"] = Field(default="Parallax", validation_alias="__typename", serialization_alias="__typename")
     microarcseconds: Long = UNSET
     milliarcseconds: BigDecimal = UNSET
 
 
-class PartnerSplit(GPPModel):
+class PartnerSplit(Model):
     """
     Partner splits detail how requested time for a Queue or Classical proposal
     should be distributed amongst Gemini partners.
@@ -2605,20 +2605,20 @@ class PartnerSplit(GPPModel):
     percent: IntPercent = UNSET
 
 
-class PoorWeather(GPPModel):
+class PoorWeather(Model):
     """Proposal properties for Regular Semester (Poor Weather) CallForProposals."""
     typename: Literal["PoorWeather"] = Field(default="PoorWeather", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
 
 
-class PosAngleConstraint(GPPModel):
+class PosAngleConstraint(Model):
     """Constraints (if any) on the observation's position angle."""
     typename: Literal["PosAngleConstraint"] = Field(default="PosAngleConstraint", validation_alias="__typename", serialization_alias="__typename")
     mode: PosAngleConstraintMode = UNSET
     angle: Angle = UNSET
 
 
-class PreImagingVariant(GPPModel):
+class PreImagingVariant(Model):
     """A special imaging case, MOS pre-imaging is defined by an offset region."""
     typename: Literal["PreImagingVariant"] = Field(default="PreImagingVariant", validation_alias="__typename", serialization_alias="__typename")
     offset1: Offset = UNSET
@@ -2627,7 +2627,7 @@ class PreImagingVariant(GPPModel):
     offset4: Offset = UNSET
 
 
-class Program(GPPModel):
+class Program(Model):
     typename: Literal["Program"] = Field(default="Program", validation_alias="__typename", serialization_alias="__typename")
     id: ProgramId = UNSET
     existence: Existence = UNSET
@@ -2657,14 +2657,14 @@ class Program(GPPModel):
     resource_count: NonNegInt = Field(default=UNSET, validation_alias="resourceCount", serialization_alias="resourceCount")
 
 
-class ProgramEdit(GPPModel):
+class ProgramEdit(Model):
     """Event sent when a new object is created or updated"""
     typename: Literal["ProgramEdit"] = Field(default="ProgramEdit", validation_alias="__typename", serialization_alias="__typename")
     edit_type: EditType = Field(default=UNSET, validation_alias="editType", serialization_alias="editType")
     value: Program = UNSET
 
 
-class ProgramNote(GPPModel):
+class ProgramNote(Model):
     """
     Program notes are arbitrary titled text messages associated with a particular
     program.  Notes may be private, in which case they are only visible to staff.
@@ -2678,20 +2678,20 @@ class ProgramNote(GPPModel):
     existence: Existence = UNSET
 
 
-class ProgramNoteSelectResult(GPPModel):
+class ProgramNoteSelectResult(Model):
     typename: Literal["ProgramNoteSelectResult"] = Field(default="ProgramNoteSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[ProgramNote] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class ProgramSelectResult(GPPModel):
+class ProgramSelectResult(Model):
     """The matching program results, limited to a maximum of 1000 entries."""
     typename: Literal["ProgramSelectResult"] = Field(default="ProgramSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[Program] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class ProgramUser(GPPModel):
+class ProgramUser(Model):
     """An assignment of a user to a program."""
     typename: Literal["ProgramUser"] = Field(default="ProgramUser", validation_alias="__typename", serialization_alias="__typename")
     id: ProgramUserId = UNSET
@@ -2711,32 +2711,32 @@ class ProgramUser(GPPModel):
     email: str | None = UNSET
 
 
-class ProgramUserSelectResult(GPPModel):
+class ProgramUserSelectResult(Model):
     """The matching program user results, limited to a maximum of 1000 entries."""
     typename: Literal["ProgramUserSelectResult"] = Field(default="ProgramUserSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[ProgramUser] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class ProperMotion(GPPModel):
+class ProperMotion(Model):
     typename: Literal["ProperMotion"] = Field(default="ProperMotion", validation_alias="__typename", serialization_alias="__typename")
     ra: ProperMotionRA = UNSET
     dec: ProperMotionDeclination = UNSET
 
 
-class ProperMotionDeclination(GPPModel):
+class ProperMotionDeclination(Model):
     typename: Literal["ProperMotionDeclination"] = Field(default="ProperMotionDeclination", validation_alias="__typename", serialization_alias="__typename")
     microarcseconds_per_year: Long = Field(default=UNSET, validation_alias="microarcsecondsPerYear", serialization_alias="microarcsecondsPerYear")
     milliarcseconds_per_year: BigDecimal = Field(default=UNSET, validation_alias="milliarcsecondsPerYear", serialization_alias="milliarcsecondsPerYear")
 
 
-class ProperMotionRA(GPPModel):
+class ProperMotionRA(Model):
     typename: Literal["ProperMotionRA"] = Field(default="ProperMotionRA", validation_alias="__typename", serialization_alias="__typename")
     microarcseconds_per_year: Long = Field(default=UNSET, validation_alias="microarcsecondsPerYear", serialization_alias="microarcsecondsPerYear")
     milliarcseconds_per_year: BigDecimal = Field(default=UNSET, validation_alias="milliarcsecondsPerYear", serialization_alias="milliarcsecondsPerYear")
 
 
-class Proposal(GPPModel):
+class Proposal(Model):
     typename: Literal["Proposal"] = Field(default="Proposal", validation_alias="__typename", serialization_alias="__typename")
     reference: ProposalReference | None = UNSET
     call: CallForProposals | None = UNSET
@@ -2746,14 +2746,14 @@ class Proposal(GPPModel):
     subaru: SubaruProposalType | None = UNSET
 
 
-class ProposalReference(GPPModel):
+class ProposalReference(Model):
     typename: Literal["ProposalReference"] = Field(default="ProposalReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProposalReferenceLabel = UNSET
     semester: Semester = UNSET
     semester_index: PosInt = Field(default=UNSET, validation_alias="semesterIndex", serialization_alias="semesterIndex")
 
 
-class Queue(GPPModel):
+class Queue(Model):
     """Proposal properties for Regular Semester (Queue) CallForProposals."""
     typename: Literal["Queue"] = Field(default="Queue", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
@@ -2767,75 +2767,75 @@ class Queue(GPPModel):
     us_long_term: bool = Field(default=UNSET, validation_alias="usLongTerm", serialization_alias="usLongTerm")
 
 
-class RadialVelocity(GPPModel):
+class RadialVelocity(Model):
     typename: Literal["RadialVelocity"] = Field(default="RadialVelocity", validation_alias="__typename", serialization_alias="__typename")
     centimeters_per_second: Long = Field(default=UNSET, validation_alias="centimetersPerSecond", serialization_alias="centimetersPerSecond")
     meters_per_second: BigDecimal = Field(default=UNSET, validation_alias="metersPerSecond", serialization_alias="metersPerSecond")
     kilometers_per_second: BigDecimal = Field(default=UNSET, validation_alias="kilometersPerSecond", serialization_alias="kilometersPerSecond")
 
 
-class RandomTelescopeConfigGenerator(GPPModel):
+class RandomTelescopeConfigGenerator(Model):
     typename: Literal["RandomTelescopeConfigGenerator"] = Field(default="RandomTelescopeConfigGenerator", validation_alias="__typename", serialization_alias="__typename")
     size: Angle = UNSET
     center: Offset = UNSET
     seed: Long = UNSET
 
 
-class RecordDatasetResult(GPPModel):
+class RecordDatasetResult(Model):
     """The result of recording a new dataset."""
     typename: Literal["RecordDatasetResult"] = Field(default="RecordDatasetResult", validation_alias="__typename", serialization_alias="__typename")
     dataset: Dataset = UNSET
 
 
-class RecordFlamingos2VisitResult(GPPModel):
+class RecordFlamingos2VisitResult(Model):
     """Result for recordFlamingos2Visit mutation."""
     typename: Literal["RecordFlamingos2VisitResult"] = Field(default="RecordFlamingos2VisitResult", validation_alias="__typename", serialization_alias="__typename")
     visit: Visit = UNSET
 
 
-class RecordGmosNorthVisitResult(GPPModel):
+class RecordGmosNorthVisitResult(Model):
     """The result of recording a GmosNorth visit."""
     typename: Literal["RecordGmosNorthVisitResult"] = Field(default="RecordGmosNorthVisitResult", validation_alias="__typename", serialization_alias="__typename")
     visit: Visit = UNSET
 
 
-class RecordGmosSouthVisitResult(GPPModel):
+class RecordGmosSouthVisitResult(Model):
     """The result of recording a GmosSouth visit."""
     typename: Literal["RecordGmosSouthVisitResult"] = Field(default="RecordGmosSouthVisitResult", validation_alias="__typename", serialization_alias="__typename")
     visit: Visit = UNSET
 
 
-class RecordIgrins2VisitResult(GPPModel):
+class RecordIgrins2VisitResult(Model):
     """Result for recordIgrins2Visit mutation."""
     typename: Literal["RecordIgrins2VisitResult"] = Field(default="RecordIgrins2VisitResult", validation_alias="__typename", serialization_alias="__typename")
     visit: Visit = UNSET
 
 
-class RecordVisitResult(GPPModel):
+class RecordVisitResult(Model):
     """The result of recording a new Visit."""
     typename: Literal["RecordVisitResult"] = Field(default="RecordVisitResult", validation_alias="__typename", serialization_alias="__typename")
     visit: Visit = UNSET
 
 
-class RedeemUserInvitationResult(GPPModel):
+class RedeemUserInvitationResult(Model):
     typename: Literal["RedeemUserInvitationResult"] = Field(default="RedeemUserInvitationResult", validation_alias="__typename", serialization_alias="__typename")
     invitation: UserInvitation = UNSET
 
 
-class RefreshArchiveDuplicationResult(GPPModel):
+class RefreshArchiveDuplicationResult(Model):
     """The result of re-running the Archive Duplication Search."""
     typename: Literal["RefreshArchiveDuplicationResult"] = Field(default="RefreshArchiveDuplicationResult", validation_alias="__typename", serialization_alias="__typename")
     archive_duplication: ArchiveDuplication = Field(default=UNSET, validation_alias="archiveDuplication", serialization_alias="archiveDuplication")
     observation: Observation = UNSET
 
 
-class Region(GPPModel):
+class Region(Model):
     typename: Literal["Region"] = Field(default="Region", validation_alias="__typename", serialization_alias="__typename")
     right_ascension_arc: RightAscensionArc = Field(default=UNSET, validation_alias="rightAscensionArc", serialization_alias="rightAscensionArc")
     declination_arc: DeclinationArc = Field(default=UNSET, validation_alias="declinationArc", serialization_alias="declinationArc")
 
 
-class ReplaceFlamingos2SequenceResult(GPPModel):
+class ReplaceFlamingos2SequenceResult(Model):
     """
     The result of a replace sequence mutation, consisting of the newly inserted
     sequence.
@@ -2844,7 +2844,7 @@ class ReplaceFlamingos2SequenceResult(GPPModel):
     sequence: list[Flamingos2Atom] = UNSET
 
 
-class ReplaceGhostSequenceResult(GPPModel):
+class ReplaceGhostSequenceResult(Model):
     """
     The result of a replace sequence mutation, consisting of the newly inserted
     sequence.
@@ -2853,7 +2853,7 @@ class ReplaceGhostSequenceResult(GPPModel):
     sequence: list[GhostAtom] = UNSET
 
 
-class ReplaceGmosNorthSequenceResult(GPPModel):
+class ReplaceGmosNorthSequenceResult(Model):
     """
     The result of a replace sequence mutation, consisting of the newly inserted
     sequence.
@@ -2862,7 +2862,7 @@ class ReplaceGmosNorthSequenceResult(GPPModel):
     sequence: list[GmosNorthAtom] = UNSET
 
 
-class ReplaceGmosSouthSequenceResult(GPPModel):
+class ReplaceGmosSouthSequenceResult(Model):
     """
     The result of a replace sequence mutation, consisting of the newly inserted
     sequence.
@@ -2871,7 +2871,7 @@ class ReplaceGmosSouthSequenceResult(GPPModel):
     sequence: list[GmosSouthAtom] = UNSET
 
 
-class ReplaceGnirsSequenceResult(GPPModel):
+class ReplaceGnirsSequenceResult(Model):
     """
     The result of a replace sequence mutation, consisting of the newly inserted
     sequence.
@@ -2880,7 +2880,7 @@ class ReplaceGnirsSequenceResult(GPPModel):
     sequence: list[GnirsAtom] = UNSET
 
 
-class ReplaceIgrins2SequenceResult(GPPModel):
+class ReplaceIgrins2SequenceResult(Model):
     """
     The result of a replace sequence mutation, consisting of the newly inserted
     sequence.
@@ -2889,18 +2889,18 @@ class ReplaceIgrins2SequenceResult(GPPModel):
     sequence: list[Igrins2Atom] = UNSET
 
 
-class ResetAcquisitionResult(GPPModel):
+class ResetAcquisitionResult(Model):
     """The result of resetting the acquisition sequence."""
     typename: Literal["ResetAcquisitionResult"] = Field(default="ResetAcquisitionResult", validation_alias="__typename", serialization_alias="__typename")
     observation: Observation = UNSET
 
 
-class RevokeUserInvitationResult(GPPModel):
+class RevokeUserInvitationResult(Model):
     typename: Literal["RevokeUserInvitationResult"] = Field(default="RevokeUserInvitationResult", validation_alias="__typename", serialization_alias="__typename")
     invitation: UserInvitation = UNSET
 
 
-class RightAscension(GPPModel):
+class RightAscension(Model):
     typename: Literal["RightAscension"] = Field(default="RightAscension", validation_alias="__typename", serialization_alias="__typename")
     hms: HmsString = UNSET
     hours: BigDecimal = UNSET
@@ -2908,14 +2908,14 @@ class RightAscension(GPPModel):
     microseconds: Long = UNSET
 
 
-class RightAscensionArc(GPPModel):
+class RightAscensionArc(Model):
     typename: Literal["RightAscensionArc"] = Field(default="RightAscensionArc", validation_alias="__typename", serialization_alias="__typename")
     type: ArcType = UNSET
     start: RightAscension | None = UNSET
     end: RightAscension | None = UNSET
 
 
-class SchedulingConstraints(GPPModel):
+class SchedulingConstraints(Model):
     """
     Configuration that controls how and when the Scheduler may plan execution of an
     observation, including whether it can be split across multiple visits and any
@@ -2926,13 +2926,13 @@ class SchedulingConstraints(GPPModel):
     timing_windows: list[TimingWindow] = Field(default=UNSET, validation_alias="timingWindows", serialization_alias="timingWindows")
 
 
-class Science(GPPModel):
+class Science(Model):
     """Science step"""
     typename: Literal["Science"] = Field(default="Science", validation_alias="__typename", serialization_alias="__typename")
     step_type: StepType = Field(default=UNSET, validation_alias="stepType", serialization_alias="stepType")
 
 
-class ScienceProgramReference(GPPModel):
+class ScienceProgramReference(Model):
     typename: Literal["ScienceProgramReference"] = Field(default="ScienceProgramReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProgramReferenceLabel = UNSET
     type: ProgramType = UNSET
@@ -2941,7 +2941,7 @@ class ScienceProgramReference(GPPModel):
     semester_index: PosInt = Field(default=UNSET, validation_alias="semesterIndex", serialization_alias="semesterIndex")
 
 
-class ScienceRequirements(GPPModel):
+class ScienceRequirements(Model):
     typename: Literal["ScienceRequirements"] = Field(default="ScienceRequirements", validation_alias="__typename", serialization_alias="__typename")
     mode: ScienceMode | None = UNSET
     exposure_time_mode: ExposureTimeMode | None = Field(default=UNSET, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
@@ -2949,21 +2949,21 @@ class ScienceRequirements(GPPModel):
     imaging: ImagingScienceRequirements | None = UNSET
 
 
-class ScienceRequirementsGroup(GPPModel):
+class ScienceRequirementsGroup(Model):
     typename: Literal["ScienceRequirementsGroup"] = Field(default="ScienceRequirementsGroup", validation_alias="__typename", serialization_alias="__typename")
     observation_ids: list[ObservationId] = Field(default=UNSET, validation_alias="observationIds", serialization_alias="observationIds")
     observations: ObservationSelectResult = UNSET
     science_requirements: ScienceRequirements = Field(default=UNSET, validation_alias="scienceRequirements", serialization_alias="scienceRequirements")
 
 
-class ScienceRequirementsGroupSelectResult(GPPModel):
+class ScienceRequirementsGroupSelectResult(Model):
     """The matching scienceRequirementsGroup results, limited to a maximum of 1000 entries."""
     typename: Literal["ScienceRequirementsGroupSelectResult"] = Field(default="ScienceRequirementsGroupSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[ScienceRequirementsGroup] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class SequenceDigest(GPPModel):
+class SequenceDigest(Model):
     typename: Literal["SequenceDigest"] = Field(default="SequenceDigest", validation_alias="__typename", serialization_alias="__typename")
     observe_class: ObserveClass = Field(default=UNSET, validation_alias="observeClass", serialization_alias="observeClass")
     time_estimate: CategorizedTime = Field(default=UNSET, validation_alias="timeEstimate", serialization_alias="timeEstimate")
@@ -2972,7 +2972,7 @@ class SequenceDigest(GPPModel):
     execution_state: ExecutionState = Field(default=UNSET, validation_alias="executionState", serialization_alias="executionState")
 
 
-class SequenceEvent(GPPModel):
+class SequenceEvent(Model):
     """Sequence-level events.  As commands are issued to execute a sequence, corresponding events are generated."""
     typename: Literal["SequenceEvent"] = Field(default="SequenceEvent", validation_alias="__typename", serialization_alias="__typename")
     id: ExecutionEventId = UNSET
@@ -2987,41 +2987,41 @@ class SequenceEvent(GPPModel):
     idempotency_key: IdempotencyKey | None = Field(default=UNSET, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class SetAllocationsResult(GPPModel):
+class SetAllocationsResult(Model):
     typename: Literal["SetAllocationsResult"] = Field(default="SetAllocationsResult", validation_alias="__typename", serialization_alias="__typename")
     allocations: list[Allocation] = UNSET
 
 
-class SetGuideTargetNameResult(GPPModel):
+class SetGuideTargetNameResult(Model):
     """The result of setting the guide target name for an observation."""
     typename: Literal["SetGuideTargetNameResult"] = Field(default="SetGuideTargetNameResult", validation_alias="__typename", serialization_alias="__typename")
     observation: Observation | None = UNSET
 
 
-class SetProgramReferenceResult(GPPModel):
+class SetProgramReferenceResult(Model):
     typename: Literal["SetProgramReferenceResult"] = Field(default="SetProgramReferenceResult", validation_alias="__typename", serialization_alias="__typename")
     reference: ProgramReference | None = UNSET
 
 
-class SetProgramResourceLimitResult(GPPModel):
+class SetProgramResourceLimitResult(Model):
     """The result of `setProgramResourceLimit`."""
     typename: Literal["SetProgramResourceLimitResult"] = Field(default="SetProgramResourceLimitResult", validation_alias="__typename", serialization_alias="__typename")
     program: Program = UNSET
 
 
-class SetProposalStatusResult(GPPModel):
+class SetProposalStatusResult(Model):
     """The result of setting the proposal status."""
     typename: Literal["SetProposalStatusResult"] = Field(default="SetProposalStatusResult", validation_alias="__typename", serialization_alias="__typename")
     program: Program = UNSET
 
 
-class SetupTime(GPPModel):
+class SetupTime(Model):
     typename: Literal["SetupTime"] = Field(default="SetupTime", validation_alias="__typename", serialization_alias="__typename")
     full: TimeSpan = UNSET
     reacquisition: TimeSpan = UNSET
 
 
-class Sidereal(GPPModel):
+class Sidereal(Model):
     typename: Literal["Sidereal"] = Field(default="Sidereal", validation_alias="__typename", serialization_alias="__typename")
     ra: RightAscension = UNSET
     dec: Declination = UNSET
@@ -3032,7 +3032,7 @@ class Sidereal(GPPModel):
     catalog_info: CatalogInfo | None = Field(default=UNSET, validation_alias="catalogInfo", serialization_alias="catalogInfo")
 
 
-class SignalToNoiseAt(GPPModel):
+class SignalToNoiseAt(Model):
     """Calculated signal to noise at a specific wavelength"""
     typename: Literal["SignalToNoiseAt"] = Field(default="SignalToNoiseAt", validation_alias="__typename", serialization_alias="__typename")
     single: SignalToNoise = UNSET
@@ -3040,21 +3040,21 @@ class SignalToNoiseAt(GPPModel):
     wavelength: Wavelength = UNSET
 
 
-class SignalToNoiseExposureTimeMode(GPPModel):
+class SignalToNoiseExposureTimeMode(Model):
     """Signal to noise exposure time mode"""
     typename: Literal["SignalToNoiseExposureTimeMode"] = Field(default="SignalToNoiseExposureTimeMode", validation_alias="__typename", serialization_alias="__typename")
     value: SignalToNoise = UNSET
     at: Wavelength = UNSET
 
 
-class SiteCoordinateLimits(GPPModel):
+class SiteCoordinateLimits(Model):
     """Coordinate limits per site."""
     typename: Literal["SiteCoordinateLimits"] = Field(default="SiteCoordinateLimits", validation_alias="__typename", serialization_alias="__typename")
     north: CoordinateLimits = UNSET
     south: CoordinateLimits = UNSET
 
 
-class SlewEvent(GPPModel):
+class SlewEvent(Model):
     """Slew events."""
     typename: Literal["SlewEvent"] = Field(default="SlewEvent", validation_alias="__typename", serialization_alias="__typename")
     id: ExecutionEventId = UNSET
@@ -3069,7 +3069,7 @@ class SlewEvent(GPPModel):
     idempotency_key: IdempotencyKey | None = Field(default=UNSET, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class SlitTelescopeConfigs(GPPModel):
+class SlitTelescopeConfigs(Model):
     """
     A list of telescope configurations associated with a slit. The discriminant
     `offsetMode` selects which of `alongSlit` or `toSky` is populated.
@@ -3080,14 +3080,14 @@ class SlitTelescopeConfigs(GPPModel):
     to_sky: list[TelescopeConfig] | None = Field(default=UNSET, validation_alias="toSky", serialization_alias="toSky")
 
 
-class SmartGcal(GPPModel):
+class SmartGcal(Model):
     """SmartGcal step configuration."""
     typename: Literal["SmartGcal"] = Field(default="SmartGcal", validation_alias="__typename", serialization_alias="__typename")
     smart_gcal_type: SmartGcalType = Field(default=UNSET, validation_alias="smartGcalType", serialization_alias="smartGcalType")
     step_type: StepType = Field(default=UNSET, validation_alias="stepType", serialization_alias="stepType")
 
 
-class SourceProfile(GPPModel):
+class SourceProfile(Model):
     """Source profile, exactly one of the fields will be defined"""
     typename: Literal["SourceProfile"] = Field(default="SourceProfile", validation_alias="__typename", serialization_alias="__typename")
     point: SpectralDefinitionIntegrated | None = UNSET
@@ -3095,21 +3095,21 @@ class SourceProfile(GPPModel):
     gaussian: GaussianSource | None = UNSET
 
 
-class SpectralDefinitionIntegrated(GPPModel):
+class SpectralDefinitionIntegrated(Model):
     """Spectral definition integrated.  Exactly one of the fields will be defined."""
     typename: Literal["SpectralDefinitionIntegrated"] = Field(default="SpectralDefinitionIntegrated", validation_alias="__typename", serialization_alias="__typename")
     band_normalized: BandNormalizedIntegrated | None = Field(default=UNSET, validation_alias="bandNormalized", serialization_alias="bandNormalized")
     emission_lines: EmissionLinesIntegrated | None = Field(default=UNSET, validation_alias="emissionLines", serialization_alias="emissionLines")
 
 
-class SpectralDefinitionSurface(GPPModel):
+class SpectralDefinitionSurface(Model):
     """Spectral definition surface.  Exactly one of the fields will be defined."""
     typename: Literal["SpectralDefinitionSurface"] = Field(default="SpectralDefinitionSurface", validation_alias="__typename", serialization_alias="__typename")
     band_normalized: BandNormalizedSurface | None = Field(default=UNSET, validation_alias="bandNormalized", serialization_alias="bandNormalized")
     emission_lines: EmissionLinesSurface | None = Field(default=UNSET, validation_alias="emissionLines", serialization_alias="emissionLines")
 
 
-class SpectroscopyConfigOption(GPPModel):
+class SpectroscopyConfigOption(Model):
     """Describes an instrument configuration option for spectroscopy."""
     typename: Literal["SpectroscopyConfigOption"] = Field(default="SpectroscopyConfigOption", validation_alias="__typename", serialization_alias="__typename")
     name: NonEmptyString = UNSET
@@ -3135,34 +3135,34 @@ class SpectroscopyConfigOption(GPPModel):
     gnirs: SpectroscopyConfigOptionGnirs | None = UNSET
 
 
-class SpectroscopyConfigOptionFlamingos2(GPPModel):
+class SpectroscopyConfigOptionFlamingos2(Model):
     typename: Literal["SpectroscopyConfigOptionFlamingos2"] = Field(default="SpectroscopyConfigOptionFlamingos2", validation_alias="__typename", serialization_alias="__typename")
     fpu: Flamingos2Fpu = UNSET
     disperser: Flamingos2Disperser = UNSET
     filter: Flamingos2Filter = UNSET
 
 
-class SpectroscopyConfigOptionGhost(GPPModel):
+class SpectroscopyConfigOptionGhost(Model):
     typename: Literal["SpectroscopyConfigOptionGhost"] = Field(default="SpectroscopyConfigOptionGhost", validation_alias="__typename", serialization_alias="__typename")
     resolution_mode: GhostResolutionMode = Field(default=UNSET, validation_alias="resolutionMode", serialization_alias="resolutionMode")
     binning: GhostBinning = UNSET
 
 
-class SpectroscopyConfigOptionGmosNorth(GPPModel):
+class SpectroscopyConfigOptionGmosNorth(Model):
     typename: Literal["SpectroscopyConfigOptionGmosNorth"] = Field(default="SpectroscopyConfigOptionGmosNorth", validation_alias="__typename", serialization_alias="__typename")
     fpu: GmosNorthBuiltinFpu | None = UNSET
     grating: GmosNorthGrating = UNSET
     filter: GmosNorthFilter | None = UNSET
 
 
-class SpectroscopyConfigOptionGmosSouth(GPPModel):
+class SpectroscopyConfigOptionGmosSouth(Model):
     typename: Literal["SpectroscopyConfigOptionGmosSouth"] = Field(default="SpectroscopyConfigOptionGmosSouth", validation_alias="__typename", serialization_alias="__typename")
     fpu: GmosSouthBuiltinFpu | None = UNSET
     grating: GmosSouthGrating = UNSET
     filter: GmosSouthFilter | None = UNSET
 
 
-class SpectroscopyConfigOptionGnirs(GPPModel):
+class SpectroscopyConfigOptionGnirs(Model):
     typename: Literal["SpectroscopyConfigOptionGnirs"] = Field(default="SpectroscopyConfigOptionGnirs", validation_alias="__typename", serialization_alias="__typename")
     grating: GnirsGrating = UNSET
     filter: GnirsFilter = UNSET
@@ -3172,7 +3172,7 @@ class SpectroscopyConfigOptionGnirs(GPPModel):
     camera: GnirsCamera = UNSET
 
 
-class SpectroscopyScienceRequirements(GPPModel):
+class SpectroscopyScienceRequirements(Model):
     typename: Literal["SpectroscopyScienceRequirements"] = Field(default="SpectroscopyScienceRequirements", validation_alias="__typename", serialization_alias="__typename")
     wavelength: Wavelength | None = UNSET
     resolution: PosInt | None = UNSET
@@ -3182,14 +3182,14 @@ class SpectroscopyScienceRequirements(GPPModel):
     capability: SpectroscopyCapability | None = UNSET
 
 
-class SpiralTelescopeConfigGenerator(GPPModel):
+class SpiralTelescopeConfigGenerator(Model):
     typename: Literal["SpiralTelescopeConfigGenerator"] = Field(default="SpiralTelescopeConfigGenerator", validation_alias="__typename", serialization_alias="__typename")
     size: Angle = UNSET
     center: Offset = UNSET
     seed: Long = UNSET
 
 
-class StepEstimate(GPPModel):
+class StepEstimate(Model):
     """
     Time estimate for an individual step, including configuration changes and
     dataset production.
@@ -3200,7 +3200,7 @@ class StepEstimate(GPPModel):
     total: TimeSpan = UNSET
 
 
-class StepEvent(GPPModel):
+class StepEvent(Model):
     """Step-level events.  The execution of a single step will generate multiple events."""
     typename: Literal["StepEvent"] = Field(default="StepEvent", validation_alias="__typename", serialization_alias="__typename")
     id: ExecutionEventId = UNSET
@@ -3217,7 +3217,7 @@ class StepEvent(GPPModel):
     idempotency_key: IdempotencyKey | None = Field(default=UNSET, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class StepRecord(GPPModel):
+class StepRecord(Model):
     """
     A step as recorded by Observe.  There will be one instrument configuration per
     instrument, all but one of which will be null.
@@ -3244,14 +3244,14 @@ class StepRecord(GPPModel):
     gnirs: GnirsDynamic | None = UNSET
 
 
-class StepRecordSelectResult(GPPModel):
+class StepRecordSelectResult(Model):
     """StepRecord query results, limited to a maximum of 1000 entries."""
     typename: Literal["StepRecordSelectResult"] = Field(default="StepRecordSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[StepRecord] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class SubaruCallProperties(GPPModel):
+class SubaruCallProperties(Model):
     """
     Subaru-specific CfP properties.  Note, properties shared across all observatories
     are found in the `CallForProposals` type.
@@ -3262,7 +3262,7 @@ class SubaruCallProperties(GPPModel):
     coordinate_limits: CoordinateLimits = Field(default=UNSET, validation_alias="coordinateLimits", serialization_alias="coordinateLimits")
 
 
-class SubaruProgramReference(GPPModel):
+class SubaruProgramReference(Model):
     """Reference for a Subaru time-exchange program."""
     typename: Literal["SubaruProgramReference"] = Field(default="SubaruProgramReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProgramReferenceLabel = UNSET
@@ -3272,7 +3272,7 @@ class SubaruProgramReference(GPPModel):
     subaru_type: SubaruCallForProposalsType = Field(default=UNSET, validation_alias="subaruType", serialization_alias="subaruType")
 
 
-class SubaruProposalType(GPPModel):
+class SubaruProposalType(Model):
     """Proposal properties for an exchange proposal requesting time at Subaru."""
     typename: Literal["SubaruProposalType"] = Field(default="SubaruProposalType", validation_alias="__typename", serialization_alias="__typename")
     min_percent_time: IntPercent = Field(default=UNSET, validation_alias="minPercentTime", serialization_alias="minPercentTime")
@@ -3280,13 +3280,13 @@ class SubaruProposalType(GPPModel):
     type: SubaruCallForProposalsType = UNSET
 
 
-class SystemProgramReference(GPPModel):
+class SystemProgramReference(Model):
     typename: Literal["SystemProgramReference"] = Field(default="SystemProgramReference", validation_alias="__typename", serialization_alias="__typename")
     label: ProgramReferenceLabel = UNSET
     type: ProgramType = UNSET
 
 
-class SystemVerification(GPPModel):
+class SystemVerification(Model):
     """Proposal properties for System Verification CallForProposals."""
     typename: Literal["SystemVerification"] = Field(default="SystemVerification", validation_alias="__typename", serialization_alias="__typename")
     science_subtype: ScienceSubtype = Field(default=UNSET, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
@@ -3294,7 +3294,7 @@ class SystemVerification(GPPModel):
     min_percent_time: IntPercent = Field(default=UNSET, validation_alias="minPercentTime", serialization_alias="minPercentTime")
 
 
-class Target(GPPModel):
+class Target(Model):
     """Target description"""
     typename: Literal["Target"] = Field(default="Target", validation_alias="__typename", serialization_alias="__typename")
     id: TargetId = UNSET
@@ -3309,7 +3309,7 @@ class Target(GPPModel):
     opportunity: Opportunity | None = UNSET
 
 
-class TargetEdit(GPPModel):
+class TargetEdit(Model):
     """Event sent when a new object is created or updated"""
     typename: Literal["TargetEdit"] = Field(default="TargetEdit", validation_alias="__typename", serialization_alias="__typename")
     edit_type: EditType = Field(default=UNSET, validation_alias="editType", serialization_alias="editType")
@@ -3317,7 +3317,7 @@ class TargetEdit(GPPModel):
     value: Target | None = UNSET
 
 
-class TargetEnvironment(GPPModel):
+class TargetEnvironment(Model):
     typename: Literal["TargetEnvironment"] = Field(default="TargetEnvironment", validation_alias="__typename", serialization_alias="__typename")
     asterism: list[Target] = UNSET
     first_science_target: Target | None = Field(default=UNSET, validation_alias="firstScienceTarget", serialization_alias="firstScienceTarget")
@@ -3333,41 +3333,41 @@ class TargetEnvironment(GPPModel):
     cass_rotator: CassRotator = Field(default=UNSET, validation_alias="cassRotator", serialization_alias="cassRotator")
 
 
-class TargetGroup(GPPModel):
+class TargetGroup(Model):
     typename: Literal["TargetGroup"] = Field(default="TargetGroup", validation_alias="__typename", serialization_alias="__typename")
     observations: ObservationSelectResult = UNSET
     target: Target = UNSET
     program: Program = UNSET
 
 
-class TargetGroupSelectResult(GPPModel):
+class TargetGroupSelectResult(Model):
     """The matching targetGroup results, limited to a maximum of 1000 entries."""
     typename: Literal["TargetGroupSelectResult"] = Field(default="TargetGroupSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[TargetGroup] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class TargetSelectResult(GPPModel):
+class TargetSelectResult(Model):
     """The matching target results, limited to a maximum of 1000 entries."""
     typename: Literal["TargetSelectResult"] = Field(default="TargetSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[Target] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class TelescopeConfig(GPPModel):
+class TelescopeConfig(Model):
     typename: Literal["TelescopeConfig"] = Field(default="TelescopeConfig", validation_alias="__typename", serialization_alias="__typename")
     offset: Offset = UNSET
     guiding: GuideState = UNSET
 
 
-class TelescopeConfigAlongSlit(GPPModel):
+class TelescopeConfigAlongSlit(Model):
     """Telescope configuration along the slit: a single `q` offset plus guide state."""
     typename: Literal["TelescopeConfigAlongSlit"] = Field(default="TelescopeConfigAlongSlit", validation_alias="__typename", serialization_alias="__typename")
     q: OffsetQ = UNSET
     guiding: GuideState = UNSET
 
 
-class TelescopeConfigGenerator(GPPModel):
+class TelescopeConfigGenerator(Model):
     """
     An offset generator produces a series of offsets according to generator-specific
     parameters.  Only (at most) one of `enumerated`, `random`, `spiral` or `uniform`
@@ -3383,14 +3383,14 @@ class TelescopeConfigGenerator(GPPModel):
     uniform: UniformTelescopeConfigGenerator | None = UNSET
 
 
-class TelluricType(GPPModel):
+class TelluricType(Model):
     """Telluric calibration type"""
     typename: Literal["TelluricType"] = Field(default="TelluricType", validation_alias="__typename", serialization_alias="__typename")
     tag: TelluricTag = UNSET
     star_types: list[str] | None = Field(default=UNSET, validation_alias="starTypes", serialization_alias="starTypes")
 
 
-class TimeAndCountExposureTimeMode(GPPModel):
+class TimeAndCountExposureTimeMode(Model):
     """Time and Count exposure time mode."""
     typename: Literal["TimeAndCountExposureTimeMode"] = Field(default="TimeAndCountExposureTimeMode", validation_alias="__typename", serialization_alias="__typename")
     time: TimeSpan = UNSET
@@ -3398,7 +3398,7 @@ class TimeAndCountExposureTimeMode(GPPModel):
     at: Wavelength = UNSET
 
 
-class TimeChargeCorrection(GPPModel):
+class TimeChargeCorrection(Model):
     """
     A manual correction to time accounting calculations.  Note that the
     application of a correction is bounded by a zero time span and the
@@ -3413,7 +3413,7 @@ class TimeChargeCorrection(GPPModel):
     comment: NonEmptyString | None = UNSET
 
 
-class TimeChargeDaylightDiscount(GPPModel):
+class TimeChargeDaylightDiscount(Model):
     """
     A time charge discount that is applied when part of the observation is executed
     outside of nautical twilight boundaries.  The portion that occurs during day
@@ -3426,7 +3426,7 @@ class TimeChargeDaylightDiscount(GPPModel):
     site: Site = UNSET
 
 
-class TimeChargeInvoice(GPPModel):
+class TimeChargeInvoice(Model):
     """
     Detailed time accounting information for a visit, showing the raw execution
     time along with any automatically applied discounts (e.g., for bad weather)
@@ -3439,7 +3439,7 @@ class TimeChargeInvoice(GPPModel):
     final_charge: CategorizedTime = Field(default=UNSET, validation_alias="finalCharge", serialization_alias="finalCharge")
 
 
-class TimeChargeNoDataDiscount(GPPModel):
+class TimeChargeNoDataDiscount(Model):
     """
     A time charge discount that is applied when no data is collected during the
     entirety of the visit.
@@ -3450,7 +3450,7 @@ class TimeChargeNoDataDiscount(GPPModel):
     comment: str = UNSET
 
 
-class TimeChargeOverlapDiscount(GPPModel):
+class TimeChargeOverlapDiscount(Model):
     """
     A time charge discount that is applied when part of the observation is executed
     after an overlapping chargeable observation is started.  For example, when
@@ -3463,7 +3463,7 @@ class TimeChargeOverlapDiscount(GPPModel):
     observation: Observation = UNSET
 
 
-class TimeChargeQaDiscount(GPPModel):
+class TimeChargeQaDiscount(Model):
     typename: Literal["TimeChargeQaDiscount"] = Field(default="TimeChargeQaDiscount", validation_alias="__typename", serialization_alias="__typename")
     interval: TimestampInterval = UNSET
     amount: TimeSpan = UNSET
@@ -3471,7 +3471,7 @@ class TimeChargeQaDiscount(GPPModel):
     datasets: list[Dataset] = UNSET
 
 
-class TimeSpan(GPPModel):
+class TimeSpan(Model):
     """Equivalent time amount in several unit options (e.g., 120 seconds or 2 minutes)"""
     typename: Literal["TimeSpan"] = Field(default="TimeSpan", validation_alias="__typename", serialization_alias="__typename")
     microseconds: Long = UNSET
@@ -3482,7 +3482,7 @@ class TimeSpan(GPPModel):
     iso: str = UNSET
 
 
-class TimestampInterval(GPPModel):
+class TimestampInterval(Model):
     """
     Time interval marked by a start 'Timestamp' (inclusive) and an end 'Timestamp'
     (exclusive).
@@ -3493,34 +3493,34 @@ class TimestampInterval(GPPModel):
     duration: TimeSpan = UNSET
 
 
-class TimingWindow(GPPModel):
+class TimingWindow(Model):
     typename: Literal["TimingWindow"] = Field(default="TimingWindow", validation_alias="__typename", serialization_alias="__typename")
     inclusion: TimingWindowInclusion = UNSET
     start_utc: Timestamp = Field(default=UNSET, validation_alias="startUtc", serialization_alias="startUtc")
     end: TimingWindowEnd | None = UNSET
 
 
-class TimingWindowEndAfter(GPPModel):
+class TimingWindowEndAfter(Model):
     """Timing window end after a period of time."""
     typename: Literal["TimingWindowEndAfter"] = Field(default="TimingWindowEndAfter", validation_alias="__typename", serialization_alias="__typename")
     after: TimeSpan = UNSET
     repeat: TimingWindowRepeat | None = UNSET
 
 
-class TimingWindowEndAt(GPPModel):
+class TimingWindowEndAt(Model):
     """Timing window end at a specified date and time."""
     typename: Literal["TimingWindowEndAt"] = Field(default="TimingWindowEndAt", validation_alias="__typename", serialization_alias="__typename")
     at_utc: Timestamp = Field(default=UNSET, validation_alias="atUtc", serialization_alias="atUtc")
 
 
-class TimingWindowRepeat(GPPModel):
+class TimingWindowRepeat(Model):
     """Timing window repetition"""
     typename: Literal["TimingWindowRepeat"] = Field(default="TimingWindowRepeat", validation_alias="__typename", serialization_alias="__typename")
     period: TimeSpan = UNSET
     times: PosInt | None = UNSET
 
 
-class UniformTelescopeConfigGenerator(GPPModel):
+class UniformTelescopeConfigGenerator(Model):
     """
     Defines a region of the sky using two corners.  Exposures are
     then distributed across this region as evenly as possible.
@@ -3530,12 +3530,12 @@ class UniformTelescopeConfigGenerator(GPPModel):
     corner_b: Offset = Field(default=UNSET, validation_alias="cornerB", serialization_alias="cornerB")
 
 
-class UnlinkUserResult(GPPModel):
+class UnlinkUserResult(Model):
     typename: Literal["UnlinkUserResult"] = Field(default="UnlinkUserResult", validation_alias="__typename", serialization_alias="__typename")
     result: bool = UNSET
 
 
-class UnnormalizedSed(GPPModel):
+class UnnormalizedSed(Model):
     """Un-normalized spectral energy distribution.  Exactly one of the definitions will be non-null."""
     typename: Literal["UnnormalizedSed"] = Field(default="UnnormalizedSed", validation_alias="__typename", serialization_alias="__typename")
     stellar_library: StellarLibrarySpectrum | None = Field(default=UNSET, validation_alias="stellarLibrary", serialization_alias="stellarLibrary")
@@ -3551,7 +3551,7 @@ class UnnormalizedSed(GPPModel):
     flux_densities_attachment: AttachmentId | None = Field(default=UNSET, validation_alias="fluxDensitiesAttachment", serialization_alias="fluxDensitiesAttachment")
 
 
-class UpdateAsterismsResult(GPPModel):
+class UpdateAsterismsResult(Model):
     """
     The result of updating the selected observations, up to `LIMIT` or the maximum
     of (1000).  If `hasMore` is true, additional observations were modified and not
@@ -3562,14 +3562,14 @@ class UpdateAsterismsResult(GPPModel):
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class UpdateAttachmentsResult(GPPModel):
+class UpdateAttachmentsResult(Model):
     """The result of updating the selected attachments, up to `LIMIT` or the maximum of (1000).  If `hasMore` is true, additional attachments were modified and not included here."""
     typename: Literal["UpdateAttachmentsResult"] = Field(default="UpdateAttachmentsResult", validation_alias="__typename", serialization_alias="__typename")
     attachments: list[Attachment] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class UpdateCallsForProposalsResult(GPPModel):
+class UpdateCallsForProposalsResult(Model):
     """
     The result of updating the selected calls for proposals, up to `LIMIT` or the
     maximum of 1000.  If `hasMore` is true, additional calls were modified and not
@@ -3580,34 +3580,34 @@ class UpdateCallsForProposalsResult(GPPModel):
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class UpdateConfigurationRequestsResult(GPPModel):
+class UpdateConfigurationRequestsResult(Model):
     """The result of updating the selected observations, up to `LIMIT` or the maximum of (1000).  If `hasMore` is true, additional observations were modified and not included here."""
     typename: Literal["UpdateConfigurationRequestsResult"] = Field(default="UpdateConfigurationRequestsResult", validation_alias="__typename", serialization_alias="__typename")
     requests: list[ConfigurationRequest] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class UpdateDatasetsResult(GPPModel):
+class UpdateDatasetsResult(Model):
     """The result of updating the selected datasets, up to `LIMIT` or the maximum of (1000).  If `hasMore` is true, additional datasets were modified and not included here."""
     typename: Literal["UpdateDatasetsResult"] = Field(default="UpdateDatasetsResult", validation_alias="__typename", serialization_alias="__typename")
     datasets: list[Dataset] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class UpdateGroupsResult(GPPModel):
+class UpdateGroupsResult(Model):
     typename: Literal["UpdateGroupsResult"] = Field(default="UpdateGroupsResult", validation_alias="__typename", serialization_alias="__typename")
     groups: list[Group] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class UpdateObservationsResult(GPPModel):
+class UpdateObservationsResult(Model):
     """The result of updating the selected observations, up to `LIMIT` or the maximum of (1000).  If `hasMore` is true, additional observations were modified and not included here."""
     typename: Literal["UpdateObservationsResult"] = Field(default="UpdateObservationsResult", validation_alias="__typename", serialization_alias="__typename")
     observations: list[Observation] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class UpdateProgramNotesResult(GPPModel):
+class UpdateProgramNotesResult(Model):
     """
     The result of updating the selected notes, up to `LIMIT` or the maximum of
     (1000).  If `hasMore` is true, additional notes were modified and not included
@@ -3618,7 +3618,7 @@ class UpdateProgramNotesResult(GPPModel):
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class UpdateProgramUsersResult(GPPModel):
+class UpdateProgramUsersResult(Model):
     """
     The result of calling 'updateProgramUsers', up to 'LIMIT' or the maximum of
     1000.  If 'hasMore' is true, additional program users were modified but not
@@ -3629,27 +3629,27 @@ class UpdateProgramUsersResult(GPPModel):
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class UpdateProgramsResult(GPPModel):
+class UpdateProgramsResult(Model):
     """The result of updating the selected programs, up to `LIMIT` or the maximum of (1000).  If `hasMore` is true, additional programs were modified and not included here."""
     typename: Literal["UpdateProgramsResult"] = Field(default="UpdateProgramsResult", validation_alias="__typename", serialization_alias="__typename")
     programs: list[Program] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class UpdateProposalResult(GPPModel):
+class UpdateProposalResult(Model):
     """The result of updating a proposal"""
     typename: Literal["UpdateProposalResult"] = Field(default="UpdateProposalResult", validation_alias="__typename", serialization_alias="__typename")
     proposal: Proposal = UNSET
 
 
-class UpdateTargetsResult(GPPModel):
+class UpdateTargetsResult(Model):
     """The result of updating the selected targets, up to `LIMIT` or the maximum of (1000).  If `hasMore` is true, additional targets were modified and not included here."""
     typename: Literal["UpdateTargetsResult"] = Field(default="UpdateTargetsResult", validation_alias="__typename", serialization_alias="__typename")
     targets: list[Target] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class User(GPPModel):
+class User(Model):
     typename: Literal["User"] = Field(default="User", validation_alias="__typename", serialization_alias="__typename")
     id: UserId = UNSET
     type: UserType = UNSET
@@ -3658,7 +3658,7 @@ class User(GPPModel):
     profile: UserProfile = UNSET
 
 
-class UserInvitation(GPPModel):
+class UserInvitation(Model):
     """Invitation"""
     typename: Literal["UserInvitation"] = Field(default="UserInvitation", validation_alias="__typename", serialization_alias="__typename")
     id: UserInvitationId = UNSET
@@ -3669,7 +3669,7 @@ class UserInvitation(GPPModel):
     email: Email | None = UNSET
 
 
-class UserProfile(GPPModel):
+class UserProfile(Model):
     typename: Literal["UserProfile"] = Field(default="UserProfile", validation_alias="__typename", serialization_alias="__typename")
     given_name: str | None = Field(default=UNSET, validation_alias="givenName", serialization_alias="givenName")
     family_name: str | None = Field(default=UNSET, validation_alias="familyName", serialization_alias="familyName")
@@ -3677,7 +3677,7 @@ class UserProfile(GPPModel):
     email: str | None = UNSET
 
 
-class Visit(GPPModel):
+class Visit(Model):
     """
     A visit is recorded whenever any part of an observation is attempted.  There
     is a specific static configuration for each instrument, only one of which is
@@ -3705,14 +3705,14 @@ class Visit(GPPModel):
     gnirs: GnirsStatic | None = UNSET
 
 
-class VisitSelectResult(GPPModel):
+class VisitSelectResult(Model):
     """Matching visit results, limited to a maximum of 1000 entries."""
     typename: Literal["VisitSelectResult"] = Field(default="VisitSelectResult", validation_alias="__typename", serialization_alias="__typename")
     matches: list[Visit] = UNSET
     has_more: bool = Field(default=UNSET, validation_alias="hasMore", serialization_alias="hasMore")
 
 
-class Visitor(GPPModel):
+class Visitor(Model):
     typename: Literal["Visitor"] = Field(default="Visitor", validation_alias="__typename", serialization_alias="__typename")
     mode: VisitorObservingModeType = UNSET
     central_wavelength: Wavelength = Field(default=UNSET, validation_alias="centralWavelength", serialization_alias="centralWavelength")
@@ -3722,7 +3722,7 @@ class Visitor(GPPModel):
     total_request_time: TimeSpan | None = Field(default=UNSET, validation_alias="totalRequestTime", serialization_alias="totalRequestTime")
 
 
-class Wavelength(GPPModel):
+class Wavelength(Model):
     typename: Literal["Wavelength"] = Field(default="Wavelength", validation_alias="__typename", serialization_alias="__typename")
     picometers: PosInt = UNSET
     angstroms: PosBigDecimal = UNSET
@@ -3730,7 +3730,7 @@ class Wavelength(GPPModel):
     micrometers: PosBigDecimal = UNSET
 
 
-class WavelengthDither(GPPModel):
+class WavelengthDither(Model):
     """
     A WavelengthDither is expressed in the same units as Wavelength but
     constrained to positive values.  It expresses an "offset" to a given

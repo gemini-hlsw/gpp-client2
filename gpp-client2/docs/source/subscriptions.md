@@ -48,7 +48,7 @@ things happens:
 - you stop iterating (`break`, or close the generator), which closes the
   connection;
 - the server completes the subscription, which ends iteration normally;
-- the connection drops, which raises `GPPConnectionError` from inside the
+- the connection drops, which raises `TransportError` from inside the
   loop.
 
 There is no automatic reconnect, deliberately: events that occurred while
@@ -62,7 +62,7 @@ while True:
         for event in gpp.programs.watch_edits(program_id="p-123"):
             handle(event)
         break  # server completed the subscription
-    except GPPConnectionError:
+    except TransportError:
         refresh_from(gpp.programs.get_by_id("p-123"))
 ```
 
@@ -70,9 +70,9 @@ while True:
 
 Availability is checked when you call the method, not when you start
 iterating, so an operation your environment cannot serve raises
-`GPPOperationUnavailableError` immediately. Events follow the same
+`OperationUnavailableError` immediately. Events follow the same
 partial-response rule as queries: an event whose root survived is yielded
 (with a warning logged), one whose every root field is null raises
-`GPPGraphQLError`. Subscriptions count as reads, so they work on
+`GraphQLResponseError`. Subscriptions count as reads, so they work on
 `read_only=True` clients. And the iterators block while waiting, which is
 the point; run them in a task or thread if you have other work to do.

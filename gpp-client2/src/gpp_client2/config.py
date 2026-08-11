@@ -25,7 +25,7 @@ from typing import Any
 import typer
 
 from gpp_client2.environments import Environment, spec_for
-from gpp_client2.errors import GPPAuthError, GPPConfigError
+from gpp_client2.errors import AuthError, GPPConfigError
 
 __all__ = [
     "ResolvedConfig",
@@ -132,7 +132,7 @@ def resolve_config(
     GPPConfigError
         If no environment or URL can be resolved, or a profile or schema
         source is unknown.
-    GPPAuthError
+    AuthError
         If no token can be resolved.
     """
     environment = environment or os.environ.get("GPP_ENVIRONMENT") or None
@@ -201,7 +201,7 @@ def resolve_config(
     token = token or profile_data.get("token")
     if not token:
         target = environment.value if environment else "the configured URL"
-        raise GPPAuthError(
+        raise AuthError(
             f"A token is required for {target}. Set 'GPP_TOKEN', pass "
             "'token', or add one to your profile."
         )

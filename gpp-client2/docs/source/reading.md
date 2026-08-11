@@ -65,7 +65,7 @@ quickest way to see what a given operation actually returns.
 
 GraphQL can return data and errors at the same time. The client follows the
 protocol's semantics: an operation has failed only when every root field is
-null, and that raises `GPPGraphQLError`. Anything less than total failure
+null, and that raises `GraphQLResponseError`. Anything less than total failure
 returns the data and logs a warning.
 
 This matters in practice. One broken observation in a 200-row listing nulls

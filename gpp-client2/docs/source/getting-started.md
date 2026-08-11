@@ -68,7 +68,7 @@ If a script or notebook only reads, say so:
 gpp = GPPClient(environment="production", token="...", read_only=True)
 ```
 
-A read-only client raises `GPPReadOnlyError` before any network call when
+A read-only client raises `ReadOnlyError` before any network call when
 something attempts a mutation, including attachment uploads and deletes
 over REST. Subscriptions still work; they are reads.
 

@@ -50,7 +50,7 @@ def test_every_public_method_documented(skill_text):
 
 def test_every_error_documented(skill_text):
     for name in gpp_client2.__all__:
-        if name.startswith("GPP") and name.endswith("Error"):
+        if name.endswith("Error"):
             assert name in skill_text, (
                 f"SKILL.md does not mention {name}; update the skill "
                 "alongside the API change."

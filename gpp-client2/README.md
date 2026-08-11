@@ -168,7 +168,7 @@ Also available: `observations.watch_edits`, `targets.watch_edits`, and
 `scheduler.watch_observation_updates(executable_only=True)` - the
 calculation-state stream the Scheduler service consumes. Iteration ends
 when the server completes the subscription; a dropped connection raises
-`GPPConnectionError`, and reconnecting is the caller's decision (events
+`TransportError`, and reconnecting is the caller's decision (events
 during a gap are not replayed).
 
 ### The CLI

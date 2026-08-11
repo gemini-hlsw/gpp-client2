@@ -22,10 +22,10 @@ from gpp_client2._generated.domains import (
 )
 from gpp_client2._generated.enums import AttachmentType
 from gpp_client2.errors import (
-    GPPError,
-    GPPReadOnlyError,
-    GPPResponseError,
+    ClientError,
     GPPValidationError,
+    ReadOnlyError,
+    ResponseError,
 )
 from gpp_client2.rest import map_transport_error, process_text
 
@@ -76,7 +76,7 @@ def _update_params(*, file_name: str, description: str | None) -> dict[str, str]
 def _filename_from_presigned_url(download_url: str) -> str:
     name = Path(urlparse(download_url).path).name
     if not name:
-        raise GPPError("Could not determine filename from presigned URL.")
+        raise ClientError("Could not determine filename from presigned URL.")
     return name
 
 
@@ -89,14 +89,14 @@ def _resolve_destination(
     directory.mkdir(parents=True, exist_ok=True)
     path = directory / filename
     if path.exists() and not overwrite:
-        raise GPPError(f"File {path} already exists and overwrite is False.")
+        raise ClientError(f"File {path} already exists and overwrite is False.")
     return path
 
 
 def _check_writable(executor: SyncExecutor | AsyncExecutor, action: str) -> None:
     """REST writes honor read_only exactly like GraphQL mutations."""
     if executor.core.read_only:
-        raise GPPReadOnlyError(f"Cannot {action}: this client is read-only.")
+        raise ReadOnlyError(f"Cannot {action}: this client is read-only.")
 
 
 class AttachmentAPI(AttachmentOperations):
@@ -150,7 +150,7 @@ class AttachmentAPI(AttachmentOperations):
             raise map_transport_error(exc, str(self._http.base_url)) from exc
         attachment_id = process_text(response).strip()
         if not attachment_id:
-            raise GPPResponseError(
+            raise ResponseError(
                 response.status_code, "Upload returned an empty attachment id."
             )
         return attachment_id
@@ -255,7 +255,7 @@ class AttachmentAPI(AttachmentOperations):
                 bare.stream("GET", download_url) as response,
             ):
                 if response.status_code >= 400:
-                    raise GPPResponseError(
+                    raise ResponseError(
                         response.status_code, "Presigned download failed."
                     )
                 with path.open("wb") as handle:
@@ -321,7 +321,7 @@ class AsyncAttachmentAPI(AsyncAttachmentOperations):
             raise map_transport_error(exc, str(self._http.base_url)) from exc
         attachment_id = process_text(response).strip()
         if not attachment_id:
-            raise GPPResponseError(
+            raise ResponseError(
                 response.status_code, "Upload returned an empty attachment id."
             )
         return attachment_id
@@ -426,7 +426,7 @@ class AsyncAttachmentAPI(AsyncAttachmentOperations):
                 bare.stream("GET", download_url) as response,
             ):
                 if response.status_code >= 400:
-                    raise GPPResponseError(
+                    raise ResponseError(
                         response.status_code, "Presigned download failed."
                     )
                 with path.open("wb") as handle:

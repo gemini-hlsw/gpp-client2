@@ -1,72 +1,39 @@
-"""UNSET sentinel and model base behavior."""
+"""
+The model-base shim: GPP names for the vendored runtime bases.
 
-import copy
-import pickle
-
-from pydantic import Field
+The behavior of the bases themselves (UNSET semantics, unset-vs-null,
+input serialization) is pinned in gqlforge's ``tests/test_runtime.py``;
+here we pin only that gpp-client2 re-exports the very same objects under
+its established names, so isinstance checks and user subclasses keep
+working across the package boundary.
+"""
 
 from gpp_client2 import UNSET, UnsetType, is_set
 from gpp_client2._base import GPPInput, GPPModel
+from gpp_client2._generated import _base as vendored
 
 
-def test_unset_is_a_falsy_singleton():
-    assert UnsetType() is UNSET
-    assert not UNSET
-    assert repr(UNSET) == "UNSET"
+def test_shim_reexports_the_vendored_objects():
+    assert GPPModel is vendored.Model
+    assert GPPInput is vendored.Input
+    assert UNSET is vendored.UNSET
+    assert UnsetType is vendored.UnsetType
+    assert is_set is vendored.is_set
 
 
-def test_unset_survives_copy_and_pickle():
-    assert copy.copy(UNSET) is UNSET
-    assert copy.deepcopy({"k": UNSET})["k"] is UNSET
-    assert pickle.loads(pickle.dumps(UNSET)) is UNSET
+def test_generated_models_inherit_the_shimmed_bases():
+    from gpp_client2._generated.inputs import ProgramPropertiesInput
+    from gpp_client2._generated.models import Program
+
+    assert issubclass(Program, GPPModel)
+    assert issubclass(ProgramPropertiesInput, GPPInput)
 
 
-def test_is_set():
-    assert is_set(None)
-    assert is_set(0)
-    assert not is_set(UNSET)
+def test_unset_round_trip_through_a_generated_model():
+    from gpp_client2._generated.models import Program
 
-
-class Sample(GPPModel):
-    name: str = UNSET  # type: ignore[assignment]
-    nick: str | None = UNSET  # type: ignore[assignment]
-    camel_thing: int = Field(default=UNSET, alias="camelThing")  # type: ignore[assignment]
-
-
-def test_model_distinguishes_unset_from_null():
-    parsed = Sample.model_validate({"name": "x", "nick": None})
-    assert parsed.name == "x"
-    assert parsed.nick is None
-    assert parsed.camel_thing is UNSET
-
-
-def test_model_repr_shows_only_set_fields():
-    parsed = Sample.model_validate({"name": "x"})
-    assert repr(parsed) == "Sample(name='x')"
-    assert str(parsed) == "Sample(name='x')"
-
-
-def test_model_accepts_alias_and_python_name():
-    assert Sample.model_validate({"camelThing": 3}).camel_thing == 3
-    assert Sample(camel_thing=4).camel_thing == 4
-
-
-class SampleInput(GPPInput):
-    name: str | None = None
-    other: int | None = Field(default=None, alias="otherThing")
-
-
-def test_input_dump_omits_unset_keeps_null():
-    assert SampleInput(name="x").graphql_dump() == {"name": "x"}
-    assert SampleInput(name=None).graphql_dump() == {"name": None}
-    assert SampleInput().graphql_dump() == {}
-
-
-def test_input_dump_uses_aliases():
-    assert SampleInput(other=1).graphql_dump() == {"otherThing": 1}
-
-
-def test_input_assignment_counts_as_set():
-    value = SampleInput()
-    value.name = "later"
-    assert value.graphql_dump() == {"name": "later"}
+    program = Program.model_validate({"id": "p-1", "name": None})
+    assert program.id == "p-1"
+    assert program.name is None
+    assert program.description is UNSET
+    assert not is_set(program.description)

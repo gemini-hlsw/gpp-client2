@@ -8,9 +8,9 @@ from gpp_client2._generated.enums import Existence
 from gpp_client2._generated.inputs import ProgramPropertiesInput
 from gpp_client2._generated.models import Program, ProgramSelectResult
 from gpp_client2.errors import (
-    GPPConnectionError,
-    GPPGraphQLError,
-    GPPReadOnlyError,
+    GraphQLResponseError,
+    ReadOnlyError,
+    TransportError,
 )
 from tests.conftest import graphql_response
 
@@ -76,14 +76,14 @@ def test_update_by_id_serializes_input(make_client):
 
 def test_read_only_client_blocks_mutations(make_client):
     client, handler = make_client(read_only=True)
-    with pytest.raises(GPPReadOnlyError):
+    with pytest.raises(ReadOnlyError):
         client.programs.delete_by_id("p-1")
     assert handler.requests == []  # nothing hit the network
 
 
 def test_graphql_errors_surface(make_client):
     client, _ = make_client(httpx.Response(200, json={"errors": [{"message": "nope"}]}))
-    with pytest.raises(GPPGraphQLError, match="nope"):
+    with pytest.raises(GraphQLResponseError, match="nope"):
         client.programs.get_by_id("p-1")
 
 
@@ -122,7 +122,7 @@ def test_connection_error_mapping(make_client):
         token="t",
         transport=httpx.MockTransport(refuse),
     )
-    with pytest.raises(GPPConnectionError):
+    with pytest.raises(TransportError):
         client.programs.get_by_id("p-1")
     client.close()
 

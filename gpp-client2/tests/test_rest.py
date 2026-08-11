@@ -7,7 +7,7 @@ import httpx
 import pytest
 
 from gpp_client2 import GPPClient
-from gpp_client2.errors import GPPAuthError, GPPResponseError
+from gpp_client2.errors import AuthError, ResponseError
 from gpp_client2.rest import VisibilityChange
 from tests.conftest import RecordingHandler
 
@@ -62,13 +62,13 @@ def test_visibility_changes_parses_rows():
 
 def test_rest_auth_error():
     client, _ = rest_client(httpx.Response(403, text="no"))
-    with client, pytest.raises(GPPAuthError):
+    with client, pytest.raises(AuthError):
         client.scheduler.atom_digests(["o-1"])
 
 
 def test_rest_http_error():
     client, _ = rest_client(httpx.Response(400, text="bad ids"))
-    with client, pytest.raises(GPPResponseError, match="bad ids"):
+    with client, pytest.raises(ResponseError, match="bad ids"):
         client.scheduler.atom_digests(["o-1"])
 
 

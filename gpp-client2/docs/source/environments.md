@@ -27,7 +27,7 @@ client.supports("programs.get_all")  # a domain method
 ```
 
 Whole operations can also be environment-specific. Calling one where it
-does not exist raises `GPPOperationUnavailableError`, and the error names
+does not exist raises `OperationUnavailableError`, and the error names
 the environments where the operation does work.
 
 Raw queries (see {doc}`raw-graphql`) get a lighter check: field names whose

@@ -7,12 +7,12 @@ import sys
 
 from pydantic import Field
 
-from gpp_client2._base import GPPInput
+from gpp_client2._generated._base import Input
 from gpp_client2._generated.enums import *  # noqa: F401,F403
 from gpp_client2._generated.scalars import *  # noqa: F401,F403
 
 
-class AddDatasetEventInput(GPPInput):
+class AddDatasetEventInput(Input):
     """DatasetEvent creation parameters."""
     dataset_id: DatasetId = Field(validation_alias="datasetId", serialization_alias="datasetId")
     dataset_stage: DatasetStage = Field(validation_alias="datasetStage", serialization_alias="datasetStage")
@@ -20,7 +20,7 @@ class AddDatasetEventInput(GPPInput):
     idempotency_key: IdempotencyKey | None = Field(default=None, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class AddEventBatchEntryInput(GPPInput):
+class AddEventBatchEntryInput(Input):
     """
     A single event within an 'addEventBatch'.  Exactly one of the fields must be
     set, identifying the event type.  Unlike the singular mutations, every event in
@@ -33,7 +33,7 @@ class AddEventBatchEntryInput(GPPInput):
     step: AddStepEventInput | None = None
 
 
-class AddEventBatchInput(GPPInput):
+class AddEventBatchInput(Input):
     """
     Input to the 'addEventBatch' mutation, recording a batch of execution events in a
     single request.
@@ -47,13 +47,13 @@ class AddEventBatchInput(GPPInput):
     events: list[AddEventBatchEntryInput]
 
 
-class AddProgramUserInput(GPPInput):
+class AddProgramUserInput(Input):
     program_id: ProgramId = Field(validation_alias="programId", serialization_alias="programId")
     role: ProgramUserRole
     set: ProgramUserPropertiesInput | None = Field(default=None, validation_alias="SET", serialization_alias="SET")
 
 
-class AddSequenceEventInput(GPPInput):
+class AddSequenceEventInput(Input):
     """SequenceEvent creation parameters."""
     visit_id: VisitId = Field(validation_alias="visitId", serialization_alias="visitId")
     command: SequenceCommand
@@ -61,7 +61,7 @@ class AddSequenceEventInput(GPPInput):
     idempotency_key: IdempotencyKey | None = Field(default=None, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class AddSlewEventInput(GPPInput):
+class AddSlewEventInput(Input):
     """SlewEvent creation parameters."""
     observation_id: ObservationId = Field(validation_alias="observationId", serialization_alias="observationId")
     slew_stage: SlewStage = Field(validation_alias="slewStage", serialization_alias="slewStage")
@@ -69,7 +69,7 @@ class AddSlewEventInput(GPPInput):
     idempotency_key: IdempotencyKey | None = Field(default=None, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class AddStepEventInput(GPPInput):
+class AddStepEventInput(Input):
     """StepEvent creation parameters."""
     step_id: StepId = Field(validation_alias="stepId", serialization_alias="stepId")
     visit_id: VisitId = Field(validation_alias="visitId", serialization_alias="visitId")
@@ -78,7 +78,7 @@ class AddStepEventInput(GPPInput):
     idempotency_key: IdempotencyKey | None = Field(default=None, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class AddTimeChargeCorrectionInput(GPPInput):
+class AddTimeChargeCorrectionInput(Input):
     """
     Input to the 'addTimeChargeCorrection' mutation. Identifies the visit
     that will be corrected and describes the correction itself.
@@ -87,20 +87,20 @@ class AddTimeChargeCorrectionInput(GPPInput):
     correction: TimeChargeCorrectionInput
 
 
-class AirMassRangeInput(GPPInput):
+class AirMassRangeInput(Input):
     """Air mass range creation and edit parameters"""
     min: PosBigDecimal | None = None
     max: PosBigDecimal | None = None
 
 
-class AllocationInput(GPPInput):
+class AllocationInput(Input):
     """An individual time allocation input."""
     category: TimeAccountingCategory
     science_band: ScienceBand = Field(validation_alias="scienceBand", serialization_alias="scienceBand")
     duration: TimeSpanInput
 
 
-class AngleInput(GPPInput):
+class AngleInput(Input):
     """Create an angle from a signed value.  Choose exactly one of the available units."""
     microarcseconds: Long | None = None
     microseconds: BigDecimal | None = None
@@ -116,12 +116,12 @@ class AngleInput(GPPInput):
     hms: str | None = None
 
 
-class AttachmentPropertiesInput(GPPInput):
+class AttachmentPropertiesInput(Input):
     description: NonEmptyString | None = None
     checked: bool | None = None
 
 
-class BandBrightnessIntegratedInput(GPPInput):
+class BandBrightnessIntegratedInput(Input):
     """Create or edit a band brightness value with integrated magnitude units.  When creating a new value, all fields except "error" are required."""
     band: Band
     value: BigDecimal | None = None
@@ -129,7 +129,7 @@ class BandBrightnessIntegratedInput(GPPInput):
     error: BigDecimal | None = None
 
 
-class BandBrightnessSurfaceInput(GPPInput):
+class BandBrightnessSurfaceInput(Input):
     """Create or edit a band brightness value with surface magnitude units.  When creating a new value, all fields except "error" are required."""
     band: Band
     value: BigDecimal | None = None
@@ -137,29 +137,29 @@ class BandBrightnessSurfaceInput(GPPInput):
     error: BigDecimal | None = None
 
 
-class BandNormalizedIntegratedInput(GPPInput):
+class BandNormalizedIntegratedInput(Input):
     """Create or edit a band normalized value with integrated magnitude units.  Specify at least "brightnesses" when creating a new BandNormalizedIntegrated."""
     sed: UnnormalizedSedInput | None = None
     brightnesses: list[BandBrightnessIntegratedInput] | None = None
 
 
-class BandNormalizedSurfaceInput(GPPInput):
+class BandNormalizedSurfaceInput(Input):
     """Create or edit a band normalized value with surface magnitude units.  Specify at least "brightnesses" when creating a new BandNormalizedSurface."""
     sed: UnnormalizedSedInput | None = None
     brightnesses: list[BandBrightnessSurfaceInput] | None = None
 
 
-class CallForProposalsExchangePartnerInput(GPPInput):
+class CallForProposalsExchangePartnerInput(Input):
     exchange_partner: ExchangePartner = Field(validation_alias="exchangePartner", serialization_alias="exchangePartner")
     submission_deadline_override: Timestamp | None = Field(default=None, validation_alias="submissionDeadlineOverride", serialization_alias="submissionDeadlineOverride")
 
 
-class CallForProposalsPartnerInput(GPPInput):
+class CallForProposalsPartnerInput(Input):
     gemini_partner: Partner = Field(validation_alias="geminiPartner", serialization_alias="geminiPartner")
     submission_deadline_override: Timestamp | None = Field(default=None, validation_alias="submissionDeadlineOverride", serialization_alias="submissionDeadlineOverride")
 
 
-class CallForProposalsPropertiesInput(GPPInput):
+class CallForProposalsPropertiesInput(Input):
     """The properties of a Call for Proposal in an input for creation and editing."""
     semester: Semester | None = None
     title: NonEmptyString | None = None
@@ -173,25 +173,25 @@ class CallForProposalsPropertiesInput(GPPInput):
     subaru: SubaruCallPropertiesInput | None = None
 
 
-class CatalogInfoInput(GPPInput):
+class CatalogInfoInput(Input):
     """Catalog id consisting of catalog name, string identifier and an optional object type"""
     name: CatalogName | None = None
     id: NonEmptyString | None = None
     object_type: NonEmptyString | None = Field(default=None, validation_alias="objectType", serialization_alias="objectType")
 
 
-class ChangePrincipalInvestigatorInput(GPPInput):
+class ChangePrincipalInvestigatorInput(Input):
     """Input to changePrincipalInvestigator: the coinvestigator to promote to PI."""
     program_user_id: ProgramUserId = Field(validation_alias="programUserId", serialization_alias="programUserId")
 
 
-class ChangeProgramUserRoleInput(GPPInput):
+class ChangeProgramUserRoleInput(Input):
     """Input used to change the role of a program user."""
     program_user_id: ProgramUserId = Field(validation_alias="programUserId", serialization_alias="programUserId")
     new_role: ProgramUserRole = Field(validation_alias="newRole", serialization_alias="newRole")
 
 
-class ClassicalInput(GPPInput):
+class ClassicalInput(Input):
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     partner_splits: list[PartnerSplitInput] | None = Field(default=None, validation_alias="partnerSplits", serialization_alias="partnerSplits")
     exchange_partner: ExchangePartner | None = Field(default=None, validation_alias="exchangePartner", serialization_alias="exchangePartner")
@@ -200,12 +200,12 @@ class ClassicalInput(GPPInput):
     us_long_term: bool | None = Field(default=None, validation_alias="usLongTerm", serialization_alias="usLongTerm")
 
 
-class CloneGroupInput(GPPInput):
+class CloneGroupInput(Input):
     group_id: GroupId = Field(validation_alias="groupId", serialization_alias="groupId")
     set: GroupPropertiesInput | None = Field(default=None, validation_alias="SET", serialization_alias="SET")
 
 
-class CloneObservationInput(GPPInput):
+class CloneObservationInput(Input):
     """
     Describes an observation clone operation, making any edits in the `SET`
     parameter.  The observation status in the cloned observation defaults to NEW.
@@ -218,29 +218,29 @@ class CloneObservationInput(GPPInput):
     set: ObservationPropertiesInput | None = Field(default=None, validation_alias="SET", serialization_alias="SET")
 
 
-class CloneTargetInput(GPPInput):
+class CloneTargetInput(Input):
     """Describes a target clone operation, making any edits in the `SET` parameter and replacing the target in the selected `REPLACE_IN` observations"""
     target_id: TargetId = Field(validation_alias="targetId", serialization_alias="targetId")
     set: TargetPropertiesInput | None = Field(default=None, validation_alias="SET", serialization_alias="SET")
     replace_in: list[ObservationId] | None = Field(default=None, validation_alias="REPLACE_IN", serialization_alias="REPLACE_IN")
 
 
-class ConditionsEntryInput(GPPInput):
+class ConditionsEntryInput(Input):
     measurement: ConditionsMeasurementInput | None = None
     intuition: ConditionsIntuitionInput | None = None
 
 
-class ConditionsExpectationInput(GPPInput):
+class ConditionsExpectationInput(Input):
     type: ConditionsExpectationType
     timeframe: TimeSpanInput
 
 
-class ConditionsIntuitionInput(GPPInput):
+class ConditionsIntuitionInput(Input):
     expectation: ConditionsExpectationInput | None = None
     seeing_trend: SeeingTrend | None = Field(default=None, validation_alias="seeingTrend", serialization_alias="seeingTrend")
 
 
-class ConditionsMeasurementInput(GPPInput):
+class ConditionsMeasurementInput(Input):
     source: ConditionsMeasurementSource
     seeing: AngleInput | None = None
     extinction: Extinction | None = None
@@ -249,18 +249,18 @@ class ConditionsMeasurementInput(GPPInput):
     elevation: AngleInput | None = None
 
 
-class ConfigurationRequestEditInput(GPPInput):
+class ConfigurationRequestEditInput(Input):
     program_id: ProgramId | None = Field(default=None, validation_alias="programId", serialization_alias="programId")
 
 
-class ConfigurationRequestProperties(GPPInput):
+class ConfigurationRequestProperties(Input):
     """Configuration request properties."""
     status: ConfigurationRequestStatus | None = None
     justification: NonEmptyString | None = None
     feedback: NonEmptyString | None = None
 
 
-class ConstraintSetInput(GPPInput):
+class ConstraintSetInput(Input):
     """Constraint set creation and editing parameters"""
     image_quality: ImageQualityPreset | None = Field(default=None, validation_alias="imageQuality", serialization_alias="imageQuality")
     cloud_extinction: CloudExtinctionPreset | None = Field(default=None, validation_alias="cloudExtinction", serialization_alias="cloudExtinction")
@@ -269,29 +269,29 @@ class ConstraintSetInput(GPPInput):
     elevation_range: ElevationRangeInput | None = Field(default=None, validation_alias="elevationRange", serialization_alias="elevationRange")
 
 
-class CoordinateLimitsInput(GPPInput):
+class CoordinateLimitsInput(Input):
     ra_start: RightAscensionInput | None = Field(default=None, validation_alias="raStart", serialization_alias="raStart")
     ra_end: RightAscensionInput | None = Field(default=None, validation_alias="raEnd", serialization_alias="raEnd")
     dec_start: DeclinationInput | None = Field(default=None, validation_alias="decStart", serialization_alias="decStart")
     dec_end: DeclinationInput | None = Field(default=None, validation_alias="decEnd", serialization_alias="decEnd")
 
 
-class CoordinatesInput(GPPInput):
+class CoordinatesInput(Input):
     """Absolute coordinates relative base epoch"""
     ra: RightAscensionInput | None = None
     dec: DeclinationInput | None = None
 
 
-class CreateCallForProposalsInput(GPPInput):
+class CreateCallForProposalsInput(Input):
     set: CallForProposalsPropertiesInput | None = Field(default=None, validation_alias="SET", serialization_alias="SET")
 
 
-class CreateConfigurationRequestInput(GPPInput):
+class CreateConfigurationRequestInput(Input):
     observation_id: ObservationId | None = Field(default=None, validation_alias="observationId", serialization_alias="observationId")
     set: ConfigurationRequestProperties | None = Field(default=None, validation_alias="SET", serialization_alias="SET")
 
 
-class CreateGroupInput(GPPInput):
+class CreateGroupInput(Input):
     """
     Group creation parameters.  One of programId, programReference or
     proposalReference is required. (If two or more are provided, they must refer to
@@ -304,7 +304,7 @@ class CreateGroupInput(GPPInput):
     initial_contents: list[GroupElementInput | None] | None = Field(default=None, validation_alias="initialContents", serialization_alias="initialContents")
 
 
-class CreateObservationInput(GPPInput):
+class CreateObservationInput(Input):
     """
     Observation creation parameters.  One of programId or programReference is
     required.  If both are provided, they must refer to the same program.
@@ -315,25 +315,25 @@ class CreateObservationInput(GPPInput):
     set: ObservationPropertiesInput | None = Field(default=None, validation_alias="SET", serialization_alias="SET")
 
 
-class CreateProgramInput(GPPInput):
+class CreateProgramInput(Input):
     """Program creation parameters"""
     set: ProgramPropertiesInput | None = Field(default=None, validation_alias="SET", serialization_alias="SET")
 
 
-class CreateProgramNoteInput(GPPInput):
+class CreateProgramNoteInput(Input):
     program_id: ProgramId | None = Field(default=None, validation_alias="programId", serialization_alias="programId")
     proposal_reference: ProposalReferenceLabel | None = Field(default=None, validation_alias="proposalReference", serialization_alias="proposalReference")
     program_reference: ProgramReferenceLabel | None = Field(default=None, validation_alias="programReference", serialization_alias="programReference")
     set: ProgramNotePropertiesInput = Field(validation_alias="SET", serialization_alias="SET")
 
 
-class CreateProposalInput(GPPInput):
+class CreateProposalInput(Input):
     """Input for creating a proposal."""
     program_id: ProgramId = Field(validation_alias="programId", serialization_alias="programId")
     set: ProposalPropertiesInput = Field(validation_alias="SET", serialization_alias="SET")
 
 
-class CreateTargetInput(GPPInput):
+class CreateTargetInput(Input):
     """
     Target creation parameters.  One of programId or programReference is required.
     If both are provided, they must refer to the same program.
@@ -344,7 +344,7 @@ class CreateTargetInput(GPPInput):
     set: TargetPropertiesInput = Field(validation_alias="SET", serialization_alias="SET")
 
 
-class CreateUserInvitationInput(GPPInput):
+class CreateUserInvitationInput(Input):
     """
     Creates an invitation, if none exists for the indicated 'ProgramUser', and sets
     it to 'PENDING' status. If there is an outstanding invitation, it must be
@@ -354,7 +354,7 @@ class CreateUserInvitationInput(GPPInput):
     recipient_email: EmailAddress = Field(validation_alias="recipientEmail", serialization_alias="recipientEmail")
 
 
-class DatasetEditInput(GPPInput):
+class DatasetEditInput(Input):
     """
     Specifies filtering options for dataset edit events from the `datasetEdit`
     subscription.
@@ -365,36 +365,36 @@ class DatasetEditInput(GPPInput):
     is_written: bool | None = Field(default=None, validation_alias="isWritten", serialization_alias="isWritten")
 
 
-class DatasetPropertiesInput(GPPInput):
+class DatasetPropertiesInput(Input):
     """Editable dataset properties"""
     qa_state: DatasetQaState | None = Field(default=None, validation_alias="qaState", serialization_alias="qaState")
     comment: NonEmptyString | None = None
 
 
-class DeclinationArcInput(GPPInput):
+class DeclinationArcInput(Input):
     type: ArcType
     start: DeclinationInput | None = None
     end: DeclinationInput | None = None
 
 
-class DeclinationInput(GPPInput):
+class DeclinationInput(Input):
     """Declination, choose one of the available units"""
     microarcseconds: Long | None = None
     degrees: BigDecimal | None = None
     dms: DmsString | None = None
 
 
-class DeleteProgramUserInput(GPPInput):
+class DeleteProgramUserInput(Input):
     """Input for deleting a program user."""
     program_user_id: ProgramUserId = Field(validation_alias="programUserId", serialization_alias="programUserId")
 
 
-class DeleteProposalInput(GPPInput):
+class DeleteProposalInput(Input):
     """Input for deleting a proposal."""
     program_id: ProgramId = Field(validation_alias="programId", serialization_alias="programId")
 
 
-class DeleteSequenceInput(GPPInput):
+class DeleteSequenceInput(Input):
     """
     Input parameters for deleting a materialized sequence.
     Select one of `observationId` or `observationReference`.
@@ -403,97 +403,97 @@ class DeleteSequenceInput(GPPInput):
     observation_reference: ObservationReferenceLabel | None = Field(default=None, validation_alias="observationReference", serialization_alias="observationReference")
 
 
-class DemoScienceInput(GPPInput):
+class DemoScienceInput(Input):
     to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
 
 
-class DirectorsTimeInput(GPPInput):
+class DirectorsTimeInput(Input):
     to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
 
 
-class EditAsterismsPatchInput(GPPInput):
+class EditAsterismsPatchInput(Input):
     """Add or delete targets in an asterism"""
     add: list[TargetId] | None = Field(default=None, validation_alias="ADD", serialization_alias="ADD")
     delete: list[TargetId] | None = Field(default=None, validation_alias="DELETE", serialization_alias="DELETE")
 
 
-class ElevationRangeInput(GPPInput):
+class ElevationRangeInput(Input):
     """Elevation range creation and edit parameters.  Choose one of airMass or hourAngle constraints."""
     air_mass: AirMassRangeInput | None = Field(default=None, validation_alias="airMass", serialization_alias="airMass")
     hour_angle: HourAngleRangeInput | None = Field(default=None, validation_alias="hourAngle", serialization_alias="hourAngle")
 
 
-class EmissionLineIntegratedInput(GPPInput):
+class EmissionLineIntegratedInput(Input):
     """Create or edit an emission line with integrated line flux units.  When creating a new value, all fields are required."""
     wavelength: WavelengthInput
     line_width: PosBigDecimal | None = Field(default=None, validation_alias="lineWidth", serialization_alias="lineWidth")
     line_flux: LineFluxIntegratedInput | None = Field(default=None, validation_alias="lineFlux", serialization_alias="lineFlux")
 
 
-class EmissionLineSurfaceInput(GPPInput):
+class EmissionLineSurfaceInput(Input):
     """Create or edit an emission line with surface line flux units.  When creating a new value, all fields are required."""
     wavelength: WavelengthInput
     line_width: PosBigDecimal | None = Field(default=None, validation_alias="lineWidth", serialization_alias="lineWidth")
     line_flux: LineFluxSurfaceInput | None = Field(default=None, validation_alias="lineFlux", serialization_alias="lineFlux")
 
 
-class EmissionLinesIntegratedInput(GPPInput):
+class EmissionLinesIntegratedInput(Input):
     """Create or edit emission lines with integrated line flux and flux density continuum units. Both "lines" and "fluxDensityContinuum" are required when creating a new EmissionLinesIntegrated."""
     lines: list[EmissionLineIntegratedInput] | None = None
     flux_density_continuum: FluxDensityContinuumIntegratedInput | None = Field(default=None, validation_alias="fluxDensityContinuum", serialization_alias="fluxDensityContinuum")
 
 
-class EmissionLinesSurfaceInput(GPPInput):
+class EmissionLinesSurfaceInput(Input):
     """Create or edit emission lines with surface line flux and flux density continuum units. Both "lines" and "fluxDensityContinuum" are required when creating a new EmissionLinesSurface."""
     lines: list[EmissionLineSurfaceInput] | None = None
     flux_density_continuum: FluxDensityContinuumSurfaceInput | None = Field(default=None, validation_alias="fluxDensityContinuum", serialization_alias="fluxDensityContinuum")
 
 
-class EnumeratedTelescopeConfigGeneratorInput(GPPInput):
+class EnumeratedTelescopeConfigGeneratorInput(Input):
     values: list[TelescopeConfigInput]
 
 
-class ExchangeInput(GPPInput):
+class ExchangeInput(Input):
     keck_instrument: KeckInstrument | None = Field(default=None, validation_alias="keckInstrument", serialization_alias="keckInstrument")
     subaru_instrument: SubaruInstrument | None = Field(default=None, validation_alias="subaruInstrument", serialization_alias="subaruInstrument")
     total_request_time: TimeSpanInput | None = Field(default=None, validation_alias="totalRequestTime", serialization_alias="totalRequestTime")
 
 
-class ExecutionEventAddedInput(GPPInput):
+class ExecutionEventAddedInput(Input):
     program_id: ProgramId | None = Field(default=None, validation_alias="programId", serialization_alias="programId")
     observation_id: ObservationId | None = Field(default=None, validation_alias="observationId", serialization_alias="observationId")
     visit_id: VisitId | None = Field(default=None, validation_alias="visitId", serialization_alias="visitId")
     event_type: WhereEqExecutionEventType | None = Field(default=None, validation_alias="eventType", serialization_alias="eventType")
 
 
-class ExposureTimeModeInput(GPPInput):
+class ExposureTimeModeInput(Input):
     """Exposure time mode input.  Specify fixed or signal to noise, but not both"""
     signal_to_noise: SignalToNoiseExposureTimeModeInput | None = Field(default=None, validation_alias="signalToNoise", serialization_alias="signalToNoise")
     time_and_count: TimeAndCountExposureTimeModeInput | None = Field(default=None, validation_alias="timeAndCount", serialization_alias="timeAndCount")
 
 
-class FastTurnaroundInput(GPPInput):
+class FastTurnaroundInput(Input):
     to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     reviewer_id: ProgramUserId | None = Field(default=None, validation_alias="reviewerId", serialization_alias="reviewerId")
     mentor_id: ProgramUserId | None = Field(default=None, validation_alias="mentorId", serialization_alias="mentorId")
 
 
-class Flamingos2AtomInput(GPPInput):
+class Flamingos2AtomInput(Input):
     description: NonEmptyString | None = None
     steps: list[Flamingos2StepInput]
 
 
-class Flamingos2CustomMaskInput(GPPInput):
+class Flamingos2CustomMaskInput(Input):
     """Flamingos 2 custom mask input parameters"""
     attachment_id: AttachmentId | None = Field(default=None, validation_alias="attachmentId", serialization_alias="attachmentId")
     slit_width: Flamingos2CustomSlitWidth = Field(validation_alias="slitWidth", serialization_alias="slitWidth")
     filename: str
 
 
-class Flamingos2DynamicInput(GPPInput):
+class Flamingos2DynamicInput(Input):
     """Flamingos 2 instrument configuration input."""
     exposure: TimeSpanInput
     disperser: Flamingos2Disperser | None = None
@@ -506,19 +506,19 @@ class Flamingos2DynamicInput(GPPInput):
     reads: Flamingos2Reads
 
 
-class Flamingos2FpuMaskInput(GPPInput):
+class Flamingos2FpuMaskInput(Input):
     """Flamingos 2 mask input parameters (choose custom or builtin)."""
     custom_mask: Flamingos2CustomMaskInput | None = Field(default=None, validation_alias="customMask", serialization_alias="customMask")
     builtin: Flamingos2Fpu | None = None
 
 
-class Flamingos2ImagingFilterInput(GPPInput):
+class Flamingos2ImagingFilterInput(Input):
     """Defines a Flamingos2 imaging filter to use along with its exposure time mode."""
     filter: Flamingos2Filter
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class Flamingos2ImagingInput(GPPInput):
+class Flamingos2ImagingInput(Input):
     """Flamingos2 Imaging creation and edit input parameters."""
     variant: ImagingVariantInput | None = None
     filters: list[Flamingos2ImagingFilterInput] | None = None
@@ -528,7 +528,7 @@ class Flamingos2ImagingInput(GPPInput):
     explicit_readout_mode: Flamingos2ReadoutMode | None = Field(default=None, validation_alias="explicitReadoutMode", serialization_alias="explicitReadoutMode")
 
 
-class Flamingos2LongSlitAcquisitionInput(GPPInput):
+class Flamingos2LongSlitAcquisitionInput(Input):
     """
     Flamingos2 Long Slit acquisition input parameters.  When specified, these override
     default values.
@@ -537,7 +537,7 @@ class Flamingos2LongSlitAcquisitionInput(GPPInput):
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class Flamingos2LongSlitInput(GPPInput):
+class Flamingos2LongSlitInput(Input):
     """Edit or create Flamingos2 Long Slit advanced configuration"""
     disperser: Flamingos2Disperser | None = None
     filter: Flamingos2Filter | None = None
@@ -553,13 +553,13 @@ class Flamingos2LongSlitInput(GPPInput):
     explicit_offsets: list[OffsetInput] | None = Field(default=None, validation_alias="explicitOffsets", serialization_alias="explicitOffsets")
 
 
-class Flamingos2StaticInput(GPPInput):
+class Flamingos2StaticInput(Input):
     """Flamingos 2 static configuration input parameters"""
     mos_pre_imaging: MosPreImaging | None = Field(default=None, validation_alias="mosPreImaging", serialization_alias="mosPreImaging")
     use_electronic_offsetting: bool | None = Field(default=None, validation_alias="useElectronicOffsetting", serialization_alias="useElectronicOffsetting")
 
 
-class Flamingos2StepInput(GPPInput):
+class Flamingos2StepInput(Input):
     instrument_config: Flamingos2DynamicInput = Field(validation_alias="instrumentConfig", serialization_alias="instrumentConfig")
     breakpoint: Breakpoint | None = None
     step_config: StepConfigInput = Field(validation_alias="stepConfig", serialization_alias="stepConfig")
@@ -567,33 +567,33 @@ class Flamingos2StepInput(GPPInput):
     observe_class: ObserveClass = Field(validation_alias="observeClass", serialization_alias="observeClass")
 
 
-class FluxDensity(GPPInput):
+class FluxDensity(Input):
     """Flux density entry"""
     wavelength: WavelengthInput
     density: BigDecimal
 
 
-class FluxDensityContinuumIntegratedInput(GPPInput):
+class FluxDensityContinuumIntegratedInput(Input):
     """A flux density continuum value with integrated units"""
     value: BigDecimal
     units: FluxDensityContinuumIntegratedUnits
     error: BigDecimal | None = None
 
 
-class FluxDensityContinuumSurfaceInput(GPPInput):
+class FluxDensityContinuumSurfaceInput(Input):
     """A flux density continuum value with surface units"""
     value: BigDecimal
     units: FluxDensityContinuumSurfaceUnits
     error: BigDecimal | None = None
 
 
-class GaussianInput(GPPInput):
+class GaussianInput(Input):
     """Create or edit a gaussian source.  Specify both "fwhm" and "spectralDefinition" when creating a new Gaussian."""
     fwhm: AngleInput | None = None
     spectral_definition: SpectralDefinitionIntegratedInput | None = Field(default=None, validation_alias="spectralDefinition", serialization_alias="spectralDefinition")
 
 
-class GeminiCallPropertiesInput(GPPInput):
+class GeminiCallPropertiesInput(Input):
     """Gemini-specific CfP properties input."""
     type: GeminiCallForProposalsType | None = None
     coordinate_limits: SiteCoordinateLimitsInput | None = Field(default=None, validation_alias="coordinateLimits", serialization_alias="coordinateLimits")
@@ -602,7 +602,7 @@ class GeminiCallPropertiesInput(GPPInput):
     exchange_partners: list[CallForProposalsExchangePartnerInput] | None = Field(default=None, validation_alias="exchangePartners", serialization_alias="exchangePartners")
 
 
-class GeminiProposalTypeInput(GPPInput):
+class GeminiProposalTypeInput(Input):
     """
     Properties associated with particular proposal types.  Exactly one of
     these should be set upon creation or editing.
@@ -617,18 +617,18 @@ class GeminiProposalTypeInput(GPPInput):
     system_verification: SystemVerificationInput | None = Field(default=None, validation_alias="systemVerification", serialization_alias="systemVerification")
 
 
-class GhostAtomInput(GPPInput):
+class GhostAtomInput(Input):
     description: NonEmptyString | None = None
     steps: list[GhostStepInput]
 
 
-class GhostDetectorConfigInput(GPPInput):
+class GhostDetectorConfigInput(Input):
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
     explicit_binning: GhostBinning | None = Field(default=None, validation_alias="explicitBinning", serialization_alias="explicitBinning")
     explicit_read_mode: GhostReadMode | None = Field(default=None, validation_alias="explicitReadMode", serialization_alias="explicitReadMode")
 
 
-class GhostDetectorInput(GPPInput):
+class GhostDetectorInput(Input):
     """GHOST detector configuration input for a single step."""
     exposure_time: TimeSpanInput = Field(validation_alias="exposureTime", serialization_alias="exposureTime")
     exposure_count: PosInt = Field(validation_alias="exposureCount", serialization_alias="exposureCount")
@@ -636,7 +636,7 @@ class GhostDetectorInput(GPPInput):
     read_mode: GhostReadMode = Field(validation_alias="readMode", serialization_alias="readMode")
 
 
-class GhostDynamicInput(GPPInput):
+class GhostDynamicInput(Input):
     """GHOST dynamic step configuration input."""
     red: GhostDetectorInput
     blue: GhostDetectorInput
@@ -644,7 +644,7 @@ class GhostDynamicInput(GPPInput):
     ifu2_fiber_agitator: GhostIfu2FiberAgitator = Field(validation_alias="ifu2FiberAgitator", serialization_alias="ifu2FiberAgitator")
 
 
-class GhostIfuInput(GPPInput):
+class GhostIfuInput(Input):
     """Edit or create GHOST IFU Mode"""
     step_count: PosInt | None = Field(default=None, validation_alias="stepCount", serialization_alias="stepCount")
     resolution_mode: GhostResolutionMode | None = Field(default=None, validation_alias="resolutionMode", serialization_alias="resolutionMode")
@@ -656,7 +656,7 @@ class GhostIfuInput(GPPInput):
     explicit_ifu2_agitator: GhostIfu2FiberAgitator | None = Field(default=None, validation_alias="explicitIfu2Agitator", serialization_alias="explicitIfu2Agitator")
 
 
-class GhostStepInput(GPPInput):
+class GhostStepInput(Input):
     instrument_config: GhostDynamicInput = Field(validation_alias="instrumentConfig", serialization_alias="instrumentConfig")
     breakpoint: Breakpoint | None = None
     step_config: StepConfigInput = Field(validation_alias="stepConfig", serialization_alias="stepConfig")
@@ -664,7 +664,7 @@ class GhostStepInput(GPPInput):
     observe_class: ObserveClass = Field(validation_alias="observeClass", serialization_alias="observeClass")
 
 
-class GmosCcdModeInput(GPPInput):
+class GmosCcdModeInput(Input):
     """GMOS CCD readout input parameters"""
     x_bin: GmosBinning | None = Field(default=None, validation_alias="xBin", serialization_alias="xBin")
     y_bin: GmosBinning | None = Field(default=None, validation_alias="yBin", serialization_alias="yBin")
@@ -673,7 +673,7 @@ class GmosCcdModeInput(GPPInput):
     amp_read_mode: GmosAmpReadMode | None = Field(default=None, validation_alias="ampReadMode", serialization_alias="ampReadMode")
 
 
-class GmosCustomMaskInput(GPPInput):
+class GmosCustomMaskInput(Input):
     """
     GMOS custom mask input parameters.
 
@@ -686,7 +686,7 @@ class GmosCustomMaskInput(GPPInput):
     filename: str
 
 
-class GmosNodAndShuffleInput(GPPInput):
+class GmosNodAndShuffleInput(Input):
     """Creation input parameters for GMOS nod and shuffle"""
     pos_a: OffsetInput = Field(validation_alias="posA", serialization_alias="posA")
     pos_b: OffsetInput = Field(validation_alias="posB", serialization_alias="posB")
@@ -695,12 +695,12 @@ class GmosNodAndShuffleInput(GPPInput):
     shuffle_cycles: PosInt = Field(validation_alias="shuffleCycles", serialization_alias="shuffleCycles")
 
 
-class GmosNorthAtomInput(GPPInput):
+class GmosNorthAtomInput(Input):
     description: NonEmptyString | None = None
     steps: list[GmosNorthStepInput]
 
 
-class GmosNorthDynamicInput(GPPInput):
+class GmosNorthDynamicInput(Input):
     """GMOS North instrument configuration input"""
     exposure: TimeSpanInput
     readout: GmosCcdModeInput
@@ -711,20 +711,20 @@ class GmosNorthDynamicInput(GPPInput):
     fpu: GmosNorthFpuInput | None = None
 
 
-class GmosNorthFpuInput(GPPInput):
+class GmosNorthFpuInput(Input):
     """GMOS North FPU input parameters (choose custom or builtin)."""
     custom_mask: GmosCustomMaskInput | None = Field(default=None, validation_alias="customMask", serialization_alias="customMask")
     builtin: GmosNorthBuiltinFpu | None = None
 
 
-class GmosNorthGratingConfigInput(GPPInput):
+class GmosNorthGratingConfigInput(Input):
     """GMOS North grating input parameters"""
     grating: GmosNorthGrating
     order: GmosGratingOrder
     wavelength: WavelengthInput
 
 
-class GmosNorthImagingFilterInput(GPPInput):
+class GmosNorthImagingFilterInput(Input):
     """
     Defines the GMOS North filter to use along with its exposure time mode.  If the
     exposure time mode is not specified, it is taken from the observation's
@@ -734,7 +734,7 @@ class GmosNorthImagingFilterInput(GPPInput):
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class GmosNorthImagingInput(GPPInput):
+class GmosNorthImagingInput(Input):
     """Edit or create GMOS North Imaging advanced configuration"""
     variant: ImagingVariantInput | None = None
     filters: list[GmosNorthImagingFilterInput] | None = None
@@ -744,7 +744,7 @@ class GmosNorthImagingInput(GPPInput):
     explicit_roi: GmosRoi | None = Field(default=None, validation_alias="explicitRoi", serialization_alias="explicitRoi")
 
 
-class GmosNorthLongSlitAcquisitionInput(GPPInput):
+class GmosNorthLongSlitAcquisitionInput(Input):
     """
     Parameters that override acquisition defaults.  These are optional and may be specified to change
     the default behavior of the acquisition sequence.
@@ -754,7 +754,7 @@ class GmosNorthLongSlitAcquisitionInput(GPPInput):
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class GmosNorthLongSlitInput(GPPInput):
+class GmosNorthLongSlitInput(Input):
     """Edit or create GMOS North Long Slit advanced configuration"""
     grating: GmosNorthGrating | None = None
     filter: GmosNorthFilter | None = None
@@ -772,7 +772,7 @@ class GmosNorthLongSlitInput(GPPInput):
     acquisition: GmosNorthLongSlitAcquisitionInput | None = None
 
 
-class GmosNorthMosInput(GPPInput):
+class GmosNorthMosInput(Input):
     """Edit or create GMOS North MOS advanced configuration"""
     grating: GmosNorthGrating | None = None
     filter: GmosNorthFilter | None = None
@@ -788,7 +788,7 @@ class GmosNorthMosInput(GPPInput):
     explicit_offsets: list[OffsetComponentInput] | None = Field(default=None, validation_alias="explicitOffsets", serialization_alias="explicitOffsets")
 
 
-class GmosNorthStaticInput(GPPInput):
+class GmosNorthStaticInput(Input):
     """GMOS North static configuration input parameters"""
     stage_mode: GmosNorthStageMode | None = Field(default=None, validation_alias="stageMode", serialization_alias="stageMode")
     detector: GmosNorthDetector | None = None
@@ -796,7 +796,7 @@ class GmosNorthStaticInput(GPPInput):
     nod_and_shuffle: GmosNodAndShuffleInput | None = Field(default=None, validation_alias="nodAndShuffle", serialization_alias="nodAndShuffle")
 
 
-class GmosNorthStepInput(GPPInput):
+class GmosNorthStepInput(Input):
     instrument_config: GmosNorthDynamicInput = Field(validation_alias="instrumentConfig", serialization_alias="instrumentConfig")
     breakpoint: Breakpoint | None = None
     step_config: StepConfigInput = Field(validation_alias="stepConfig", serialization_alias="stepConfig")
@@ -804,12 +804,12 @@ class GmosNorthStepInput(GPPInput):
     observe_class: ObserveClass = Field(validation_alias="observeClass", serialization_alias="observeClass")
 
 
-class GmosSouthAtomInput(GPPInput):
+class GmosSouthAtomInput(Input):
     description: NonEmptyString | None = None
     steps: list[GmosSouthStepInput]
 
 
-class GmosSouthDynamicInput(GPPInput):
+class GmosSouthDynamicInput(Input):
     """GMOS South instrument configuration input"""
     exposure: TimeSpanInput
     readout: GmosCcdModeInput
@@ -820,20 +820,20 @@ class GmosSouthDynamicInput(GPPInput):
     fpu: GmosSouthFpuInput | None = None
 
 
-class GmosSouthFpuInput(GPPInput):
+class GmosSouthFpuInput(Input):
     """GMOS South FPU input parameters (choose custom or builtin)."""
     custom_mask: GmosCustomMaskInput | None = Field(default=None, validation_alias="customMask", serialization_alias="customMask")
     builtin: GmosSouthBuiltinFpu | None = None
 
 
-class GmosSouthGratingConfigInput(GPPInput):
+class GmosSouthGratingConfigInput(Input):
     """GMOS South grating input parameters"""
     grating: GmosSouthGrating
     order: GmosGratingOrder
     wavelength: WavelengthInput
 
 
-class GmosSouthImagingFilterInput(GPPInput):
+class GmosSouthImagingFilterInput(Input):
     """
     Defines the GMOS South filter to use along with its exposure time mode.  If the
     exposure time mode is not specified, it is taken from the observation's
@@ -843,7 +843,7 @@ class GmosSouthImagingFilterInput(GPPInput):
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class GmosSouthImagingInput(GPPInput):
+class GmosSouthImagingInput(Input):
     """Edit or create GMOS South Imaging advanced configuration"""
     variant: ImagingVariantInput | None = None
     filters: list[GmosSouthImagingFilterInput] | None = None
@@ -853,7 +853,7 @@ class GmosSouthImagingInput(GPPInput):
     explicit_roi: GmosRoi | None = Field(default=None, validation_alias="explicitRoi", serialization_alias="explicitRoi")
 
 
-class GmosSouthLongSlitAcquisitionInput(GPPInput):
+class GmosSouthLongSlitAcquisitionInput(Input):
     """
     Parameters that override acquisition defaults.  These are optional and may be specified to change
     the default behavior of the acquisition sequence.
@@ -863,7 +863,7 @@ class GmosSouthLongSlitAcquisitionInput(GPPInput):
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class GmosSouthLongSlitInput(GPPInput):
+class GmosSouthLongSlitInput(Input):
     """Edit or create GMOS South Long Slit advanced configuration"""
     grating: GmosSouthGrating | None = None
     filter: GmosSouthFilter | None = None
@@ -881,7 +881,7 @@ class GmosSouthLongSlitInput(GPPInput):
     acquisition: GmosSouthLongSlitAcquisitionInput | None = None
 
 
-class GmosSouthMosInput(GPPInput):
+class GmosSouthMosInput(Input):
     """Edit or create GMOS South MOS advanced configuration"""
     grating: GmosSouthGrating | None = None
     filter: GmosSouthFilter | None = None
@@ -897,7 +897,7 @@ class GmosSouthMosInput(GPPInput):
     explicit_offsets: list[OffsetComponentInput] | None = Field(default=None, validation_alias="explicitOffsets", serialization_alias="explicitOffsets")
 
 
-class GmosSouthStaticInput(GPPInput):
+class GmosSouthStaticInput(Input):
     """GMOS South static configuration input parameters"""
     stage_mode: GmosSouthStageMode | None = Field(default=None, validation_alias="stageMode", serialization_alias="stageMode")
     detector: GmosSouthDetector | None = None
@@ -905,7 +905,7 @@ class GmosSouthStaticInput(GPPInput):
     nod_and_shuffle: GmosNodAndShuffleInput | None = Field(default=None, validation_alias="nodAndShuffle", serialization_alias="nodAndShuffle")
 
 
-class GmosSouthStepInput(GPPInput):
+class GmosSouthStepInput(Input):
     instrument_config: GmosSouthDynamicInput = Field(validation_alias="instrumentConfig", serialization_alias="instrumentConfig")
     breakpoint: Breakpoint | None = None
     step_config: StepConfigInput = Field(validation_alias="stepConfig", serialization_alias="stepConfig")
@@ -913,7 +913,7 @@ class GmosSouthStepInput(GPPInput):
     observe_class: ObserveClass = Field(validation_alias="observeClass", serialization_alias="observeClass")
 
 
-class GnirsAcquisitionMirrorOutInput(GPPInput):
+class GnirsAcquisitionMirrorOutInput(Input):
     """
     Spectroscopy configuration that travels with a GNIRS step when the acquisition
     mirror is out of the beam.
@@ -923,12 +923,12 @@ class GnirsAcquisitionMirrorOutInput(GPPInput):
     wavelength: WavelengthInput
 
 
-class GnirsAtomInput(GPPInput):
+class GnirsAtomInput(Input):
     description: NonEmptyString | None = None
     steps: list[GnirsStepInput]
 
 
-class GnirsDynamicInput(GPPInput):
+class GnirsDynamicInput(Input):
     """
     GNIRS dynamic step configuration input.
 
@@ -950,7 +950,7 @@ class GnirsDynamicInput(GPPInput):
     read_mode: GnirsReadMode = Field(validation_alias="readMode", serialization_alias="readMode")
 
 
-class GnirsIfuInput(GPPInput):
+class GnirsIfuInput(Input):
     """
     GNIRS IFU-specific configuration input. `fpu` is required on create. A missing
     `telescopeConfigs` is left unedited (and on create is seeded from the FPU).
@@ -959,13 +959,13 @@ class GnirsIfuInput(GPPInput):
     telescope_configs: list[TelescopeConfigInput] | None = Field(default=None, validation_alias="telescopeConfigs", serialization_alias="telescopeConfigs")
 
 
-class GnirsImagingFilterInput(GPPInput):
+class GnirsImagingFilterInput(Input):
     """Defines a GNIRS imaging filter to use along with its exposure time mode."""
     filter: GnirsFilter
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class GnirsImagingInput(GPPInput):
+class GnirsImagingInput(Input):
     """GNIRS Imaging creation and edit input parameters."""
     variant: ImagingVariantInput | None = None
     filters: list[GnirsImagingFilterInput] | None = None
@@ -975,13 +975,13 @@ class GnirsImagingInput(GPPInput):
     explicit_well_depth: GnirsWellDepth | None = Field(default=None, validation_alias="explicitWellDepth", serialization_alias="explicitWellDepth")
 
 
-class GnirsSlitInput(GPPInput):
+class GnirsSlitInput(Input):
     """GNIRS long-slit-specific configuration input. `fpu` is required on create."""
     fpu: GnirsFpuSlit | None = None
     explicit_telescope_configs: SlitTelescopeConfigsInput | None = Field(default=None, validation_alias="explicitTelescopeConfigs", serialization_alias="explicitTelescopeConfigs")
 
 
-class GnirsSpectroscopyAcquisitionInput(GPPInput):
+class GnirsSpectroscopyAcquisitionInput(Input):
     explicit_filter: GnirsFilter | None = Field(default=None, validation_alias="explicitFilter", serialization_alias="explicitFilter")
     explicit_acquisition_type: GnirsAcquisitionType | None = Field(default=None, validation_alias="explicitAcquisitionType", serialization_alias="explicitAcquisitionType")
     coadds: PosInt | None = None
@@ -989,7 +989,7 @@ class GnirsSpectroscopyAcquisitionInput(GPPInput):
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
 
 
-class GnirsSpectroscopyInput(GPPInput):
+class GnirsSpectroscopyInput(Input):
     """Edit or create GNIRS Spectroscopy configuration (long slit or IFU)."""
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
     coadds: PosInt | None = None
@@ -1010,7 +1010,7 @@ class GnirsSpectroscopyInput(GPPInput):
     telluric_type: TelluricTypeInput | None = Field(default=None, validation_alias="telluricType", serialization_alias="telluricType")
 
 
-class GnirsStepInput(GPPInput):
+class GnirsStepInput(Input):
     instrument_config: GnirsDynamicInput = Field(validation_alias="instrumentConfig", serialization_alias="instrumentConfig")
     breakpoint: Breakpoint | None = None
     step_config: StepConfigInput = Field(validation_alias="stepConfig", serialization_alias="stepConfig")
@@ -1018,7 +1018,7 @@ class GnirsStepInput(GPPInput):
     observe_class: ObserveClass = Field(validation_alias="observeClass", serialization_alias="observeClass")
 
 
-class GoaPropertiesInput(GPPInput):
+class GoaPropertiesInput(Input):
     """
     Gemini Observatory Archive properties creation and editing input for a
     particular program.
@@ -1028,18 +1028,18 @@ class GoaPropertiesInput(GPPInput):
     private_header: bool | None = Field(default=None, validation_alias="privateHeader", serialization_alias="privateHeader")
 
 
-class GroupEditInput(GPPInput):
+class GroupEditInput(Input):
     group_id: GroupId | None = Field(default=None, validation_alias="groupId", serialization_alias="groupId")
     program_id: ProgramId | None = Field(default=None, validation_alias="programId", serialization_alias="programId")
 
 
-class GroupElementInput(GPPInput):
+class GroupElementInput(Input):
     """A group element identifier. Exactly one of groupId and observationId must be provided."""
     group_id: GroupId | None = Field(default=None, validation_alias="groupId", serialization_alias="groupId")
     observation_id: ObservationId | None = Field(default=None, validation_alias="observationId", serialization_alias="observationId")
 
 
-class GroupPropertiesInput(GPPInput):
+class GroupPropertiesInput(Input):
     name: NonEmptyString | None = None
     description: NonEmptyString | None = None
     minimum_required: NonNegShort | None = Field(default=None, validation_alias="minimumRequired", serialization_alias="minimumRequired")
@@ -1052,7 +1052,7 @@ class GroupPropertiesInput(GPPInput):
     existence: Existence | None = None
 
 
-class GroupedImagingVariantInput(GPPInput):
+class GroupedImagingVariantInput(Input):
     """Input used for specifying GMOS grouped filter imaging."""
     order: WavelengthOrder | None = None
     offsets: TelescopeConfigGeneratorInput | None = None
@@ -1060,22 +1060,22 @@ class GroupedImagingVariantInput(GPPInput):
     sky_offsets: TelescopeConfigGeneratorInput | None = Field(default=None, validation_alias="skyOffsets", serialization_alias="skyOffsets")
 
 
-class HourAngleRangeInput(GPPInput):
+class HourAngleRangeInput(Input):
     """Hour angle range creation parameters"""
     min_hours: BigDecimal | None = Field(default=None, validation_alias="minHours", serialization_alias="minHours")
     max_hours: BigDecimal | None = Field(default=None, validation_alias="maxHours", serialization_alias="maxHours")
 
 
-class Igrins2AtomInput(GPPInput):
+class Igrins2AtomInput(Input):
     description: NonEmptyString | None = None
     steps: list[Igrins2StepInput]
 
 
-class Igrins2DynamicInput(GPPInput):
+class Igrins2DynamicInput(Input):
     exposure: TimeSpanInput
 
 
-class Igrins2LongSlitInput(GPPInput):
+class Igrins2LongSlitInput(Input):
     """Edit or create IGRINS-2 Long Slit configuration"""
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
     svc: Igrins2SvcInput | None = None
@@ -1086,13 +1086,13 @@ class Igrins2LongSlitInput(GPPInput):
     explicit_offsets: list[OffsetInput] | None = Field(default=None, validation_alias="explicitOffsets", serialization_alias="explicitOffsets")
 
 
-class Igrins2StaticInput(GPPInput):
+class Igrins2StaticInput(Input):
     """IGRINS-2 static configuration input parameters"""
     save_svc_images: bool | None = Field(default=None, validation_alias="saveSVCImages", serialization_alias="saveSVCImages")
     offset_mode: SlitOffsetMode | None = Field(default=None, validation_alias="offsetMode", serialization_alias="offsetMode")
 
 
-class Igrins2StepInput(GPPInput):
+class Igrins2StepInput(Input):
     instrument_config: Igrins2DynamicInput = Field(validation_alias="instrumentConfig", serialization_alias="instrumentConfig")
     breakpoint: Breakpoint | None = None
     step_config: StepConfigInput = Field(validation_alias="stepConfig", serialization_alias="stepConfig")
@@ -1100,7 +1100,7 @@ class Igrins2StepInput(GPPInput):
     observe_class: ObserveClass = Field(validation_alias="observeClass", serialization_alias="observeClass")
 
 
-class Igrins2SvcInput(GPPInput):
+class Igrins2SvcInput(Input):
     """
     Edit or create IGRINS-2 Slit-Viewing Camera (SVC) configuration. A non-null
     object enables SVC image saving (turning it on if necessary) and applies the
@@ -1111,7 +1111,7 @@ class Igrins2SvcInput(GPPInput):
     explicit_telescope_configs: list[TelescopeConfigInput] | None = Field(default=None, validation_alias="explicitTelescopeConfigs", serialization_alias="explicitTelescopeConfigs")
 
 
-class ImagingScienceRequirementsInput(GPPInput):
+class ImagingScienceRequirementsInput(Input):
     """Edit or create imaging science requirements"""
     minimum_fov: AngleInput | None = Field(default=None, validation_alias="minimumFov", serialization_alias="minimumFov")
     narrow_filters: bool | None = Field(default=None, validation_alias="narrowFilters", serialization_alias="narrowFilters")
@@ -1119,7 +1119,7 @@ class ImagingScienceRequirementsInput(GPPInput):
     combined_filters: bool | None = Field(default=None, validation_alias="combinedFilters", serialization_alias="combinedFilters")
 
 
-class ImagingVariantInput(GPPInput):
+class ImagingVariantInput(Input):
     """
     Input that specifies which imaging sub-type is desired along with its configuration
     details.  Exactly one of the options should be defined and the other two left
@@ -1130,26 +1130,26 @@ class ImagingVariantInput(GPPInput):
     pre_imaging: PreImagingVariantInput | None = Field(default=None, validation_alias="preImaging", serialization_alias="preImaging")
 
 
-class InterleavedImagingVariantInput(GPPInput):
+class InterleavedImagingVariantInput(Input):
     """Input used for specifying GMOS interleaved filter imaging."""
     offsets: TelescopeConfigGeneratorInput | None = None
     sky_count: NonNegInt | None = Field(default=None, validation_alias="skyCount", serialization_alias="skyCount")
     sky_offsets: TelescopeConfigGeneratorInput | None = Field(default=None, validation_alias="skyOffsets", serialization_alias="skyOffsets")
 
 
-class KeckCallPropertiesInput(GPPInput):
+class KeckCallPropertiesInput(Input):
     """Keck-specific CfP properties input."""
     instruments: list[KeckInstrument] | None = None
     coordinate_limits: CoordinateLimitsInput | None = Field(default=None, validation_alias="coordinateLimits", serialization_alias="coordinateLimits")
 
 
-class KeckProposalTypeInput(GPPInput):
+class KeckProposalTypeInput(Input):
     """Properties for an exchange proposal requesting time at Keck."""
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     partner_splits: list[PartnerSplitInput] | None = Field(default=None, validation_alias="partnerSplits", serialization_alias="partnerSplits")
 
 
-class LargeProgramInput(GPPInput):
+class LargeProgramInput(Input):
     to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     min_percent_total_time: IntPercent | None = Field(default=None, validation_alias="minPercentTotalTime", serialization_alias="minPercentTotalTime")
@@ -1158,19 +1158,19 @@ class LargeProgramInput(GPPInput):
     jwst_synergy: bool | None = Field(default=None, validation_alias="jwstSynergy", serialization_alias="jwstSynergy")
 
 
-class LineFluxIntegratedInput(GPPInput):
+class LineFluxIntegratedInput(Input):
     """A line flux value with integrated units"""
     value: PosBigDecimal
     units: LineFluxIntegratedUnits
 
 
-class LineFluxSurfaceInput(GPPInput):
+class LineFluxSurfaceInput(Input):
     """A line flux value with surface units"""
     value: PosBigDecimal
     units: LineFluxSurfaceUnits
 
 
-class LinkUserInput(GPPInput):
+class LinkUserInput(Input):
     """
     Links a 'User' with a 'Program', filling in the 'user' field of the
     corresponding 'ProgramUser'.
@@ -1179,7 +1179,7 @@ class LinkUserInput(GPPInput):
     user_id: UserId = Field(validation_alias="userId", serialization_alias="userId")
 
 
-class NonsiderealInput(GPPInput):
+class NonsiderealInput(Input):
     """
     Nonsidereal target parameters.
     For the key, if specified, provide either (`keyType` and `des`) or `key`.
@@ -1190,7 +1190,7 @@ class NonsiderealInput(GPPInput):
     ephemeris: UserSuppliedEphemeris | None = None
 
 
-class ObscalcUpdateInput(GPPInput):
+class ObscalcUpdateInput(Input):
     """
     Input to the obscalcUpdate subscription.  Specify programId and/or observation
     id to filter events to that program and/or observation.  Specify the old and
@@ -1205,12 +1205,12 @@ class ObscalcUpdateInput(GPPInput):
     executable_only: bool | None = Field(default=None, validation_alias="executableOnly", serialization_alias="executableOnly")
 
 
-class ObservationEditInput(GPPInput):
+class ObservationEditInput(Input):
     observation_id: ObservationId | None = Field(default=None, validation_alias="observationId", serialization_alias="observationId")
     program_id: ProgramId | None = Field(default=None, validation_alias="programId", serialization_alias="programId")
 
 
-class ObservationPropertiesInput(GPPInput):
+class ObservationPropertiesInput(Input):
     """Observation properties"""
     subtitle: NonEmptyString | None = None
     science_band: ScienceBand | None = Field(default=None, validation_alias="scienceBand", serialization_alias="scienceBand")
@@ -1228,13 +1228,13 @@ class ObservationPropertiesInput(GPPInput):
     observer_notes: NonEmptyString | None = Field(default=None, validation_alias="observerNotes", serialization_alias="observerNotes")
 
 
-class ObservationTimesInput(GPPInput):
+class ObservationTimesInput(Input):
     """Observation times properties"""
     observation_time: Timestamp | None = Field(default=None, validation_alias="observationTime", serialization_alias="observationTime")
     observation_duration: TimeSpanInput | None = Field(default=None, validation_alias="observationDuration", serialization_alias="observationDuration")
 
 
-class ObservingModeInput(GPPInput):
+class ObservingModeInput(Input):
     """Edit or create an observation's observing mode"""
     exchange: ExchangeInput | None = None
     flamingos2_imaging: Flamingos2ImagingInput | None = Field(default=None, validation_alias="flamingos2Imaging", serialization_alias="flamingos2Imaging")
@@ -1252,30 +1252,30 @@ class ObservingModeInput(GPPInput):
     visitor: VisitorInput | None = None
 
 
-class OffsetComponentInput(GPPInput):
+class OffsetComponentInput(Input):
     """Offset component (p or q) input parameters. Choose one angle units definition."""
     microarcseconds: Long | None = None
     milliarcseconds: BigDecimal | None = None
     arcseconds: BigDecimal | None = None
 
 
-class OffsetInput(GPPInput):
+class OffsetInput(Input):
     """Offset input.  Define offset in p and q."""
     p: OffsetComponentInput
     q: OffsetComponentInput
 
 
-class OpportunityInput(GPPInput):
+class OpportunityInput(Input):
     region: RegionInput
 
 
-class ParallaxInput(GPPInput):
+class ParallaxInput(Input):
     """Parallax, choose one of the available units"""
     microarcseconds: Long | None = None
     milliarcseconds: BigDecimal | None = None
 
 
-class PartnerLinkInput(GPPInput):
+class PartnerLinkInput(Input):
     """
     Describes the user / partner association.  Only one of `linkType`,
     `geminiPartner`, or `exchangePartner` should be specified, but as long as they
@@ -1286,7 +1286,7 @@ class PartnerLinkInput(GPPInput):
     exchange_partner: ExchangePartner | None = Field(default=None, validation_alias="exchangePartner", serialization_alias="exchangePartner")
 
 
-class PartnerSplitInput(GPPInput):
+class PartnerSplitInput(Input):
     """
     Time request percentage that should be associated with a particular partner for
     Queue and Classical proposals.
@@ -1295,7 +1295,7 @@ class PartnerSplitInput(GPPInput):
     percent: IntPercent
 
 
-class PoorWeatherInput(GPPInput):
+class PoorWeatherInput(Input):
     """
     Input for a poor weather proposal.  There are no fields to further specify a
     poor weather proposal but GraphQL requires at least one field.  Therefore this
@@ -1304,7 +1304,7 @@ class PoorWeatherInput(GPPInput):
     ignore: Ignore | None = None
 
 
-class PosAngleConstraintInput(GPPInput):
+class PosAngleConstraintInput(Input):
     """
     Create or edit position angle constraint.  If not specified, then the
     position angle required to reach the best guide star option will be used.
@@ -1313,7 +1313,7 @@ class PosAngleConstraintInput(GPPInput):
     angle: AngleInput | None = None
 
 
-class PreImagingVariantInput(GPPInput):
+class PreImagingVariantInput(Input):
     """MOS pre-imaging offsets, each of which default to (0, 0)."""
     offset1: OffsetInput | None = None
     offset2: OffsetInput | None = None
@@ -1321,11 +1321,11 @@ class PreImagingVariantInput(GPPInput):
     offset4: OffsetInput | None = None
 
 
-class ProgramEditInput(GPPInput):
+class ProgramEditInput(Input):
     program_id: ProgramId | None = Field(default=None, validation_alias="programId", serialization_alias="programId")
 
 
-class ProgramNotePropertiesInput(GPPInput):
+class ProgramNotePropertiesInput(Input):
     """ProgramNote creation and edit properties."""
     title: NonEmptyString | None = None
     text: NonEmptyString | None = None
@@ -1333,7 +1333,7 @@ class ProgramNotePropertiesInput(GPPInput):
     existence: Existence | None = None
 
 
-class ProgramPropertiesInput(GPPInput):
+class ProgramPropertiesInput(Input):
     """Program properties"""
     name: NonEmptyString | None = None
     description: NonEmptyString | None = None
@@ -1343,30 +1343,30 @@ class ProgramPropertiesInput(GPPInput):
     active_end: Date | None = Field(default=None, validation_alias="activeEnd", serialization_alias="activeEnd")
 
 
-class ProgramReferencePropertiesCalibrationInput(GPPInput):
+class ProgramReferencePropertiesCalibrationInput(Input):
     """Inputs required when updating or switching to a calibration program."""
     semester: Semester
     instrument: Instrument
 
 
-class ProgramReferencePropertiesCommissioningInput(GPPInput):
+class ProgramReferencePropertiesCommissioningInput(Input):
     """Inputs required when updating or switching to a commissioning program."""
     semester: Semester
     instrument: Instrument
 
 
-class ProgramReferencePropertiesEngineeringInput(GPPInput):
+class ProgramReferencePropertiesEngineeringInput(Input):
     """Inputs required when updating or switching to an engineering program."""
     semester: Semester
     instrument: Instrument
 
 
-class ProgramReferencePropertiesExampleInput(GPPInput):
+class ProgramReferencePropertiesExampleInput(Input):
     """Inputs required when updating or switching to an example program."""
     instrument: Instrument
 
 
-class ProgramReferencePropertiesInput(GPPInput):
+class ProgramReferencePropertiesInput(Input):
     """
     Properties for the chosen program reference type.  Supply the value for exactly
     one of the inputs.
@@ -1383,41 +1383,41 @@ class ProgramReferencePropertiesInput(GPPInput):
     system: ProgramReferencePropertiesSystemInput | None = None
 
 
-class ProgramReferencePropertiesKeckInput(GPPInput):
+class ProgramReferencePropertiesKeckInput(Input):
     """Inputs required when updating or switching to a Keck time-exchange program."""
     semester: Semester
 
 
-class ProgramReferencePropertiesLibraryInput(GPPInput):
+class ProgramReferencePropertiesLibraryInput(Input):
     """Inputs required when updating or switching to a library program."""
     instrument: Instrument
     description: NonEmptyString
 
 
-class ProgramReferencePropertiesMonitoringInput(GPPInput):
+class ProgramReferencePropertiesMonitoringInput(Input):
     """Inputs required when updating or switching to a monitoring program."""
     semester: Semester
     instrument: Instrument
 
 
-class ProgramReferencePropertiesScienceInput(GPPInput):
+class ProgramReferencePropertiesScienceInput(Input):
     """Inputs required when updating or switching to a science program."""
     semester: Semester
     science_subtype: ScienceSubtype = Field(validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
 
 
-class ProgramReferencePropertiesSubaruInput(GPPInput):
+class ProgramReferencePropertiesSubaruInput(Input):
     """Inputs required when updating or switching to a Subaru time-exchange program."""
     semester: Semester
     subaru_type: SubaruCallForProposalsType = Field(validation_alias="subaruType", serialization_alias="subaruType")
 
 
-class ProgramReferencePropertiesSystemInput(GPPInput):
+class ProgramReferencePropertiesSystemInput(Input):
     """Inputs required when updating or switching to a system program."""
     description: NonEmptyString
 
 
-class ProgramUserPropertiesInput(GPPInput):
+class ProgramUserPropertiesInput(Input):
     """Editable properties that define a program / user connection."""
     partner_link: PartnerLinkInput | None = Field(default=None, validation_alias="partnerLink", serialization_alias="partnerLink")
     preferred_profile: UserProfileInput | None = Field(default=None, validation_alias="preferredProfile", serialization_alias="preferredProfile")
@@ -1429,19 +1429,19 @@ class ProgramUserPropertiesInput(GPPInput):
     classical_visitor: bool | None = Field(default=None, validation_alias="classicalVisitor", serialization_alias="classicalVisitor")
 
 
-class ProperMotionComponentInput(GPPInput):
+class ProperMotionComponentInput(Input):
     """Proper motion component, choose one of the available units"""
     microarcseconds_per_year: Long | None = Field(default=None, validation_alias="microarcsecondsPerYear", serialization_alias="microarcsecondsPerYear")
     milliarcseconds_per_year: BigDecimal | None = Field(default=None, validation_alias="milliarcsecondsPerYear", serialization_alias="milliarcsecondsPerYear")
 
 
-class ProperMotionInput(GPPInput):
+class ProperMotionInput(Input):
     """Proper motion, choose one of the available units"""
     ra: ProperMotionComponentInput
     dec: ProperMotionComponentInput
 
 
-class ProposalPropertiesInput(GPPInput):
+class ProposalPropertiesInput(Input):
     """Program proposal"""
     category: TacCategory | None = None
     call_id: CallForProposalsId | None = Field(default=None, validation_alias="callId", serialization_alias="callId")
@@ -1450,7 +1450,7 @@ class ProposalPropertiesInput(GPPInput):
     subaru: SubaruProposalTypeInput | None = None
 
 
-class QueueInput(GPPInput):
+class QueueInput(Input):
     to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     partner_splits: list[PartnerSplitInput] | None = Field(default=None, validation_alias="partnerSplits", serialization_alias="partnerSplits")
@@ -1461,20 +1461,20 @@ class QueueInput(GPPInput):
     us_long_term: bool | None = Field(default=None, validation_alias="usLongTerm", serialization_alias="usLongTerm")
 
 
-class RadialVelocityInput(GPPInput):
+class RadialVelocityInput(Input):
     """Radial velocity, choose one of the available units"""
     centimeters_per_second: Long | None = Field(default=None, validation_alias="centimetersPerSecond", serialization_alias="centimetersPerSecond")
     meters_per_second: BigDecimal | None = Field(default=None, validation_alias="metersPerSecond", serialization_alias="metersPerSecond")
     kilometers_per_second: BigDecimal | None = Field(default=None, validation_alias="kilometersPerSecond", serialization_alias="kilometersPerSecond")
 
 
-class RandomTelescopeConfigGeneratorInput(GPPInput):
+class RandomTelescopeConfigGeneratorInput(Input):
     size: AngleInput
     center: OffsetInput | None = None
     seed: Long | None = None
 
 
-class RecordDatasetInput(GPPInput):
+class RecordDatasetInput(Input):
     """Dataset creation parameters."""
     step_id: StepId = Field(validation_alias="stepId", serialization_alias="stepId")
     visit_id: VisitId = Field(validation_alias="visitId", serialization_alias="visitId")
@@ -1484,7 +1484,7 @@ class RecordDatasetInput(GPPInput):
     idempotency_key: IdempotencyKey | None = Field(default=None, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class RecordFlamingos2VisitInput(GPPInput):
+class RecordFlamingos2VisitInput(Input):
     """Input parameters for creating a new Flamingos 2 Visit"""
     observation_id: ObservationId = Field(validation_alias="observationId", serialization_alias="observationId")
     flamingos2: Flamingos2StaticInput
@@ -1492,7 +1492,7 @@ class RecordFlamingos2VisitInput(GPPInput):
     idempotency_key: IdempotencyKey | None = Field(default=None, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class RecordGmosNorthVisitInput(GPPInput):
+class RecordGmosNorthVisitInput(Input):
     """Input parameters for creating a new GmosNorthVisit"""
     observation_id: ObservationId = Field(validation_alias="observationId", serialization_alias="observationId")
     gmos_north: GmosNorthStaticInput = Field(validation_alias="gmosNorth", serialization_alias="gmosNorth")
@@ -1500,7 +1500,7 @@ class RecordGmosNorthVisitInput(GPPInput):
     idempotency_key: IdempotencyKey | None = Field(default=None, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class RecordGmosSouthVisitInput(GPPInput):
+class RecordGmosSouthVisitInput(Input):
     """Input parameters for creating a new GmosSouthVisit"""
     observation_id: ObservationId = Field(validation_alias="observationId", serialization_alias="observationId")
     gmos_south: GmosSouthStaticInput = Field(validation_alias="gmosSouth", serialization_alias="gmosSouth")
@@ -1508,7 +1508,7 @@ class RecordGmosSouthVisitInput(GPPInput):
     idempotency_key: IdempotencyKey | None = Field(default=None, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class RecordIgrins2VisitInput(GPPInput):
+class RecordIgrins2VisitInput(Input):
     """Input parameters for creating a new IGRINS-2 Visit"""
     observation_id: ObservationId = Field(validation_alias="observationId", serialization_alias="observationId")
     igrins2: Igrins2StaticInput
@@ -1516,19 +1516,19 @@ class RecordIgrins2VisitInput(GPPInput):
     idempotency_key: IdempotencyKey | None = Field(default=None, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class RecordVisitInput(GPPInput):
+class RecordVisitInput(Input):
     """Input parameters for creating a new visit."""
     observation_id: ObservationId = Field(validation_alias="observationId", serialization_alias="observationId")
     client_time: Timestamp | None = Field(default=None, validation_alias="clientTime", serialization_alias="clientTime")
     idempotency_key: IdempotencyKey | None = Field(default=None, validation_alias="idempotencyKey", serialization_alias="idempotencyKey")
 
 
-class RedeemUserInvitationInput(GPPInput):
+class RedeemUserInvitationInput(Input):
     key: UserInvitationKey
     accept: bool | None = None
 
 
-class RefreshArchiveDuplicationInput(GPPInput):
+class RefreshArchiveDuplicationInput(Input):
     """
     Input parameters for re-running the Archive Duplication Search.  Select one of
     `observationId` or `observationReference`.
@@ -1537,12 +1537,12 @@ class RefreshArchiveDuplicationInput(GPPInput):
     observation_reference: ObservationReferenceLabel | None = Field(default=None, validation_alias="observationReference", serialization_alias="observationReference")
 
 
-class RegionInput(GPPInput):
+class RegionInput(Input):
     right_ascension_arc: RightAscensionArcInput = Field(validation_alias="rightAscensionArc", serialization_alias="rightAscensionArc")
     declination_arc: DeclinationArcInput = Field(validation_alias="declinationArc", serialization_alias="declinationArc")
 
 
-class ReplaceFlamingos2SequenceInput(GPPInput):
+class ReplaceFlamingos2SequenceInput(Input):
     """
     Replace Flamingos 2 sequence input.  Select the observation using one of the
     observation ID or the observation reference.  If both are provided, they must
@@ -1554,7 +1554,7 @@ class ReplaceFlamingos2SequenceInput(GPPInput):
     sequence: list[Flamingos2AtomInput] | None = None
 
 
-class ReplaceGhostSequenceInput(GPPInput):
+class ReplaceGhostSequenceInput(Input):
     """
     Replace GHOST sequence input.  Select the observation using one of the
     observation ID or the observation reference.  If both are provided, they must
@@ -1566,7 +1566,7 @@ class ReplaceGhostSequenceInput(GPPInput):
     sequence: list[GhostAtomInput] | None = None
 
 
-class ReplaceGmosNorthSequenceInput(GPPInput):
+class ReplaceGmosNorthSequenceInput(Input):
     """
     Replace GMOS North sequence input.  Select the observation using one of the
     observation ID or the observation reference.  If both are provided, they must
@@ -1578,7 +1578,7 @@ class ReplaceGmosNorthSequenceInput(GPPInput):
     sequence: list[GmosNorthAtomInput] | None = None
 
 
-class ReplaceGmosSouthSequenceInput(GPPInput):
+class ReplaceGmosSouthSequenceInput(Input):
     """
     Replace GMOS South sequence input.  Select the observation using one of the
     observation ID or the observation reference.  If both are provided, they must
@@ -1590,7 +1590,7 @@ class ReplaceGmosSouthSequenceInput(GPPInput):
     sequence: list[GmosSouthAtomInput] | None = None
 
 
-class ReplaceGnirsSequenceInput(GPPInput):
+class ReplaceGnirsSequenceInput(Input):
     """
     Replace GNIRS sequence input.  Select the observation using one of the
     observation ID or the observation reference.  If both are provided, they must
@@ -1602,7 +1602,7 @@ class ReplaceGnirsSequenceInput(GPPInput):
     sequence: list[GnirsAtomInput] | None = None
 
 
-class ReplaceIgrins2SequenceInput(GPPInput):
+class ReplaceIgrins2SequenceInput(Input):
     """
     Replace IGRINS-2 sequence input.  Select the observation using one of the
     observation ID or the observation reference.  If both are provided, they must
@@ -1614,7 +1614,7 @@ class ReplaceIgrins2SequenceInput(GPPInput):
     sequence: list[Igrins2AtomInput] | None = None
 
 
-class ResetAcquisitionInput(GPPInput):
+class ResetAcquisitionInput(Input):
     """
     Input parameters for resetting the acquisition sequence so that it executes
     from the initial step, regardless of which steps may have previously been
@@ -1624,17 +1624,17 @@ class ResetAcquisitionInput(GPPInput):
     observation_reference: ObservationReferenceLabel | None = Field(default=None, validation_alias="observationReference", serialization_alias="observationReference")
 
 
-class RevokeUserInvitationInput(GPPInput):
+class RevokeUserInvitationInput(Input):
     id: UserInvitationId
 
 
-class RightAscensionArcInput(GPPInput):
+class RightAscensionArcInput(Input):
     type: ArcType
     start: RightAscensionInput | None = None
     end: RightAscensionInput | None = None
 
 
-class RightAscensionInput(GPPInput):
+class RightAscensionInput(Input):
     """Right Ascension, choose one of the available units"""
     microseconds: Long | None = None
     degrees: BigDecimal | None = None
@@ -1642,7 +1642,7 @@ class RightAscensionInput(GPPInput):
     hms: HmsString | None = None
 
 
-class SchedulingConstraintsInput(GPPInput):
+class SchedulingConstraintsInput(Input):
     """
     Configuration that controls how and when the Scheduler may plan execution of an
     observation, including whether it can be split across multiple visits and any
@@ -1652,14 +1652,14 @@ class SchedulingConstraintsInput(GPPInput):
     timing_windows: list[TimingWindowInput] | None = Field(default=None, validation_alias="timingWindows", serialization_alias="timingWindows")
 
 
-class ScienceRequirementsInput(GPPInput):
+class ScienceRequirementsInput(Input):
     """Edit science requirements"""
     exposure_time_mode: ExposureTimeModeInput | None = Field(default=None, validation_alias="exposureTimeMode", serialization_alias="exposureTimeMode")
     spectroscopy: SpectroscopyScienceRequirementsInput | None = None
     imaging: ImagingScienceRequirementsInput | None = None
 
 
-class SetAllocationsInput(GPPInput):
+class SetAllocationsInput(Input):
     """
     Describes the program allocations.  Each partner and band combination should
     appear at most once in the 'allocations' array. One of programId,
@@ -1672,7 +1672,7 @@ class SetAllocationsInput(GPPInput):
     allocations: list[AllocationInput]
 
 
-class SetGuideTargetNameInput(GPPInput):
+class SetGuideTargetNameInput(Input):
     """
     Input parameters for setting the guide star name for an observation.
     Identify the observation to clone by specifying either its id or reference.  If
@@ -1684,12 +1684,12 @@ class SetGuideTargetNameInput(GPPInput):
     target_name: NonEmptyString | None = Field(default=None, validation_alias="targetName", serialization_alias="targetName")
 
 
-class SetObservationWorkflowStateInput(GPPInput):
+class SetObservationWorkflowStateInput(Input):
     observation_id: ObservationId = Field(validation_alias="observationId", serialization_alias="observationId")
     state: ObservationWorkflowState
 
 
-class SetProgramReferenceInput(GPPInput):
+class SetProgramReferenceInput(Input):
     """
     Input for setting the program reference.  Identify the program to update with one
     of `programId`, `proposalReference` or `programReference`.  If more than one of
@@ -1702,13 +1702,13 @@ class SetProgramReferenceInput(GPPInput):
     set: ProgramReferencePropertiesInput = Field(validation_alias="SET", serialization_alias="SET")
 
 
-class SetProgramResourceLimitInput(GPPInput):
+class SetProgramResourceLimitInput(Input):
     """Input to `setProgramResourceLimit`."""
     program_id: ProgramId = Field(validation_alias="programId", serialization_alias="programId")
     limit: NonNegInt
 
 
-class SetProposalStatusInput(GPPInput):
+class SetProposalStatusInput(Input):
     """
     Input for setting the proposal status.  Identify the program to update with one
     of `programId`, `proposalReference` or `programReference`.  If more than one of
@@ -1720,7 +1720,7 @@ class SetProposalStatusInput(GPPInput):
     status: ProposalStatus
 
 
-class SiderealInput(GPPInput):
+class SiderealInput(Input):
     """Sidereal target edit parameters"""
     ra: RightAscensionInput | None = None
     dec: DeclinationInput | None = None
@@ -1731,31 +1731,31 @@ class SiderealInput(GPPInput):
     catalog_info: CatalogInfoInput | None = Field(default=None, validation_alias="catalogInfo", serialization_alias="catalogInfo")
 
 
-class SignalToNoiseExposureTimeModeInput(GPPInput):
+class SignalToNoiseExposureTimeModeInput(Input):
     """Signal-to-noise mode parameters"""
     value: SignalToNoise
     at: WavelengthInput
 
 
-class SiteCoordinateLimitsInput(GPPInput):
+class SiteCoordinateLimitsInput(Input):
     """Coordinate limits input per site."""
     north: CoordinateLimitsInput | None = None
     south: CoordinateLimitsInput | None = None
 
 
-class SlitTelescopeConfigsInput(GPPInput):
+class SlitTelescopeConfigsInput(Input):
     along_slit: list[TelescopeConfigAlongSlitInput] | None = Field(default=None, validation_alias="alongSlit", serialization_alias="alongSlit")
     to_sky: list[TelescopeConfigInput] | None = Field(default=None, validation_alias="toSky", serialization_alias="toSky")
 
 
-class SourceProfileInput(GPPInput):
+class SourceProfileInput(Input):
     """Create or edit a source profile.  Exactly one of "point", "uniform" or "gaussian" is required."""
     point: SpectralDefinitionIntegratedInput | None = None
     uniform: SpectralDefinitionSurfaceInput | None = None
     gaussian: GaussianInput | None = None
 
 
-class SpectralDefinitionIntegratedInput(GPPInput):
+class SpectralDefinitionIntegratedInput(Input):
     """
     Spectral definition input with integrated units.  Specify exactly one of "bandNormalized" or "emissionLines"
     """
@@ -1763,7 +1763,7 @@ class SpectralDefinitionIntegratedInput(GPPInput):
     emission_lines: EmissionLinesIntegratedInput | None = Field(default=None, validation_alias="emissionLines", serialization_alias="emissionLines")
 
 
-class SpectralDefinitionSurfaceInput(GPPInput):
+class SpectralDefinitionSurfaceInput(Input):
     """
     Spectral definition input with surface units.  Specify exactly one of "bandNormalized" or "emissionLines"
     """
@@ -1771,7 +1771,7 @@ class SpectralDefinitionSurfaceInput(GPPInput):
     emission_lines: EmissionLinesSurfaceInput | None = Field(default=None, validation_alias="emissionLines", serialization_alias="emissionLines")
 
 
-class SpectroscopyScienceRequirementsInput(GPPInput):
+class SpectroscopyScienceRequirementsInput(Input):
     """Edit or create spectroscopy science requirements"""
     wavelength: WavelengthInput | None = None
     resolution: PosInt | None = None
@@ -1781,13 +1781,13 @@ class SpectroscopyScienceRequirementsInput(GPPInput):
     capability: SpectroscopyCapability | None = None
 
 
-class SpiralTelescopeConfigGeneratorInput(GPPInput):
+class SpiralTelescopeConfigGeneratorInput(Input):
     size: AngleInput
     center: OffsetInput | None = None
     seed: Long | None = None
 
 
-class StepConfigGcalInput(GPPInput):
+class StepConfigGcalInput(Input):
     """
     GCAL configuration creation input.  Specify either one or more arcs or else
     one continuum.
@@ -1799,7 +1799,7 @@ class StepConfigGcalInput(GPPInput):
     shutter: GcalShutter
 
 
-class StepConfigInput(GPPInput):
+class StepConfigInput(Input):
     """Step configuration.  Choose exactly one step type."""
     bias: bool | None = None
     dark: bool | None = None
@@ -1808,36 +1808,36 @@ class StepConfigInput(GPPInput):
     smart_gcal: StepConfigSmartGcalInput | None = Field(default=None, validation_alias="smartGcal", serialization_alias="smartGcal")
 
 
-class StepConfigSmartGcalInput(GPPInput):
+class StepConfigSmartGcalInput(Input):
     """SmartGcal step creation input"""
     smart_gcal_type: SmartGcalType = Field(validation_alias="smartGcalType", serialization_alias="smartGcalType")
 
 
-class SubaruCallPropertiesInput(GPPInput):
+class SubaruCallPropertiesInput(Input):
     """Subaru-specific call for proposals properties input."""
     type: SubaruCallForProposalsType | None = None
     instruments: list[SubaruInstrument] | None = None
     coordinate_limits: CoordinateLimitsInput | None = Field(default=None, validation_alias="coordinateLimits", serialization_alias="coordinateLimits")
 
 
-class SubaruProposalTypeInput(GPPInput):
+class SubaruProposalTypeInput(Input):
     """Properties for an exchange proposal requesting time at Subaru."""
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
     partner_splits: list[PartnerSplitInput] | None = Field(default=None, validation_alias="partnerSplits", serialization_alias="partnerSplits")
     type: SubaruCallForProposalsType | None = None
 
 
-class SystemVerificationInput(GPPInput):
+class SystemVerificationInput(Input):
     to_o_activation: ToOActivation | None = Field(default=None, validation_alias="toOActivation", serialization_alias="toOActivation")
     min_percent_time: IntPercent | None = Field(default=None, validation_alias="minPercentTime", serialization_alias="minPercentTime")
 
 
-class TargetEditInput(GPPInput):
+class TargetEditInput(Input):
     target_id: TargetId | None = Field(default=None, validation_alias="targetId", serialization_alias="targetId")
     program_id: ProgramId | None = Field(default=None, validation_alias="programId", serialization_alias="programId")
 
 
-class TargetEnvironmentInput(GPPInput):
+class TargetEnvironmentInput(Input):
     """Target environment editing and creation parameters"""
     explicit_base: CoordinatesInput | None = Field(default=None, validation_alias="explicitBase", serialization_alias="explicitBase")
     asterism: list[TargetId] | None = None
@@ -1847,7 +1847,7 @@ class TargetEnvironmentInput(GPPInput):
     blind_offset_type: BlindOffsetType | None = Field(default=None, validation_alias="blindOffsetType", serialization_alias="blindOffsetType")
 
 
-class TargetPropertiesInput(GPPInput):
+class TargetPropertiesInput(Input):
     """Target properties"""
     name: NonEmptyString | None = None
     sidereal: SiderealInput | None = None
@@ -1857,12 +1857,12 @@ class TargetPropertiesInput(GPPInput):
     existence: Existence | None = None
 
 
-class TelescopeConfigAlongSlitInput(GPPInput):
+class TelescopeConfigAlongSlitInput(Input):
     q: OffsetComponentInput
     guiding: GuideState
 
 
-class TelescopeConfigGeneratorInput(GPPInput):
+class TelescopeConfigGeneratorInput(Input):
     """
     An offset generator is specified by defining one of the `enumerated`, `random`,
     `spiral` or `uniform` options.  If none are defined, the generator type will be
@@ -1874,25 +1874,25 @@ class TelescopeConfigGeneratorInput(GPPInput):
     uniform: UniformTelescopeConfigGeneratorInput | None = None
 
 
-class TelescopeConfigInput(GPPInput):
+class TelescopeConfigInput(Input):
     """Science step creation input"""
     offset: OffsetInput | None = None
     guiding: GuideState | None = None
 
 
-class TelluricTypeInput(GPPInput):
+class TelluricTypeInput(Input):
     tag: TelluricTag
     star_types: list[str] | None = Field(default=None, validation_alias="starTypes", serialization_alias="starTypes")
 
 
-class TimeAndCountExposureTimeModeInput(GPPInput):
+class TimeAndCountExposureTimeModeInput(Input):
     """Time And Count exposure time mode parameters"""
     time: TimeSpanInput
     count: PosInt
     at: WavelengthInput
 
 
-class TimeChargeCorrectionInput(GPPInput):
+class TimeChargeCorrectionInput(Input):
     """Describes a manual correction to time accounting calculations."""
     charge_class: ChargeClass = Field(validation_alias="chargeClass", serialization_alias="chargeClass")
     op: TimeChargeCorrectionOp
@@ -1900,7 +1900,7 @@ class TimeChargeCorrectionInput(GPPInput):
     comment: str | None = None
 
 
-class TimeSpanInput(GPPInput):
+class TimeSpanInput(Input):
     """Equivalent time amount in several unit options (exactly one must be specified)"""
     microseconds: Long | None = None
     milliseconds: BigDecimal | None = None
@@ -1910,27 +1910,27 @@ class TimeSpanInput(GPPInput):
     iso: str | None = None
 
 
-class TimingWindowEndInput(GPPInput):
+class TimingWindowEndInput(Input):
     """Timing window end parameters."""
     at_utc: Timestamp | None = Field(default=None, validation_alias="atUtc", serialization_alias="atUtc")
     after: TimeSpanInput | None = None
     repeat: TimingWindowRepeatInput | None = None
 
 
-class TimingWindowInput(GPPInput):
+class TimingWindowInput(Input):
     """Timing window creation parameters."""
     inclusion: TimingWindowInclusion
     start_utc: Timestamp = Field(validation_alias="startUtc", serialization_alias="startUtc")
     end: TimingWindowEndInput | None = None
 
 
-class TimingWindowRepeatInput(GPPInput):
+class TimingWindowRepeatInput(Input):
     """Timing window repetition parameters."""
     period: TimeSpanInput
     times: PosInt | None = None
 
 
-class UniformTelescopeConfigGeneratorInput(GPPInput):
+class UniformTelescopeConfigGeneratorInput(Input):
     """
     Defines the region over which the pattern of offsets will be distributed.
     The number of points is determined by integration time calculator results.
@@ -1939,11 +1939,11 @@ class UniformTelescopeConfigGeneratorInput(GPPInput):
     corner_b: OffsetInput = Field(validation_alias="cornerB", serialization_alias="cornerB")
 
 
-class UnlinkUserInput(GPPInput):
+class UnlinkUserInput(Input):
     program_user_id: ProgramUserId = Field(validation_alias="programUserId", serialization_alias="programUserId")
 
 
-class UnnormalizedSedInput(GPPInput):
+class UnnormalizedSedInput(Input):
     """Un-normalized SED input parameters.  Define one value only."""
     stellar_library: StellarLibrarySpectrum | None = Field(default=None, validation_alias="stellarLibrary", serialization_alias="stellarLibrary")
     cool_star: CoolStarTemperature | None = Field(default=None, validation_alias="coolStar", serialization_alias="coolStar")
@@ -1958,7 +1958,7 @@ class UnnormalizedSedInput(GPPInput):
     flux_densities_attachment: AttachmentId | None = Field(default=None, validation_alias="fluxDensitiesAttachment", serialization_alias="fluxDensitiesAttachment")
 
 
-class UpdateAsterismsInput(GPPInput):
+class UpdateAsterismsInput(Input):
     """
     Input for bulk updating multiple observations.  Select observations
     with the 'WHERE' input and specify the changes in 'SET'.  All the selected
@@ -1970,14 +1970,14 @@ class UpdateAsterismsInput(GPPInput):
     include_deleted: bool | None = Field(default=None, validation_alias="includeDeleted", serialization_alias="includeDeleted")
 
 
-class UpdateAttachmentsInput(GPPInput):
+class UpdateAttachmentsInput(Input):
     """Attachment selection and update description.  Use `SET` to specify the changes, `WHERE` to select the attachments to update, and `LIMIT` to control the size of the return value."""
     set: AttachmentPropertiesInput = Field(validation_alias="SET", serialization_alias="SET")
     where: WhereAttachment | None = Field(default=None, validation_alias="WHERE", serialization_alias="WHERE")
     limit: NonNegInt | None = Field(default=None, validation_alias="LIMIT", serialization_alias="LIMIT")
 
 
-class UpdateCallsForProposalsInput(GPPInput):
+class UpdateCallsForProposalsInput(Input):
     """
     Call for proposals selection and update description.  Use `SET` to specify the
     changes, `WHERE` to select the calls to update, and `LIMIT` to control the
@@ -1989,28 +1989,28 @@ class UpdateCallsForProposalsInput(GPPInput):
     include_deleted: bool | None = Field(default=None, validation_alias="includeDeleted", serialization_alias="includeDeleted")
 
 
-class UpdateConfigurationRequestsInput(GPPInput):
+class UpdateConfigurationRequestsInput(Input):
     """ConfigurationRequest selection and update description.  Use `SET` to specify the changes, `WHERE` to select the requests to update, and `LIMIT` to control the size of the return value."""
     set: ConfigurationRequestProperties = Field(validation_alias="SET", serialization_alias="SET")
     where: WhereConfigurationRequest | None = Field(default=None, validation_alias="WHERE", serialization_alias="WHERE")
     limit: NonNegInt | None = Field(default=None, validation_alias="LIMIT", serialization_alias="LIMIT")
 
 
-class UpdateDatasetsInput(GPPInput):
+class UpdateDatasetsInput(Input):
     """Dataset selection and update description. Use `SET` to specify the changes, `WHERE` to select the datasets to update, and `LIMIT` to control the size of the return value."""
     set: DatasetPropertiesInput = Field(validation_alias="SET", serialization_alias="SET")
     where: WhereDataset | None = Field(default=None, validation_alias="WHERE", serialization_alias="WHERE")
     limit: NonNegInt | None = Field(default=None, validation_alias="LIMIT", serialization_alias="LIMIT")
 
 
-class UpdateGroupsInput(GPPInput):
+class UpdateGroupsInput(Input):
     """Dataset selection and update description. Use `SET` to specify the changes, `WHERE` to select the groups to update, and `LIMIT` to control the size of the return value."""
     set: GroupPropertiesInput = Field(validation_alias="SET", serialization_alias="SET")
     where: WhereGroup | None = Field(default=None, validation_alias="WHERE", serialization_alias="WHERE")
     limit: NonNegInt | None = Field(default=None, validation_alias="LIMIT", serialization_alias="LIMIT")
 
 
-class UpdateObservationsInput(GPPInput):
+class UpdateObservationsInput(Input):
     """Observation selection and update description.  Use `SET` to specify the changes, `WHERE` to select the observations to update, and `LIMIT` to control the size of the return value."""
     set: ObservationPropertiesInput = Field(validation_alias="SET", serialization_alias="SET")
     where: WhereObservation | None = Field(default=None, validation_alias="WHERE", serialization_alias="WHERE")
@@ -2018,7 +2018,7 @@ class UpdateObservationsInput(GPPInput):
     include_deleted: bool | None = Field(default=None, validation_alias="includeDeleted", serialization_alias="includeDeleted")
 
 
-class UpdateObservationsTimesInput(GPPInput):
+class UpdateObservationsTimesInput(Input):
     """Observation selection and times update description.  Use `SET` to specify the changes, `WHERE` to select the observations to update, and `LIMIT` to control the size of the return value."""
     set: ObservationTimesInput = Field(validation_alias="SET", serialization_alias="SET")
     where: WhereObservation | None = Field(default=None, validation_alias="WHERE", serialization_alias="WHERE")
@@ -2026,7 +2026,7 @@ class UpdateObservationsTimesInput(GPPInput):
     include_deleted: bool | None = Field(default=None, validation_alias="includeDeleted", serialization_alias="includeDeleted")
 
 
-class UpdateProgramNotesInput(GPPInput):
+class UpdateProgramNotesInput(Input):
     """
     Program note selection and update description.  Use `SET" to specify the changes,
     `WHERE` to select the programs to update, and `LIMIT` to control the size of the
@@ -2038,7 +2038,7 @@ class UpdateProgramNotesInput(GPPInput):
     include_deleted: bool | None = Field(default=None, validation_alias="includeDeleted", serialization_alias="includeDeleted")
 
 
-class UpdateProgramUsersInput(GPPInput):
+class UpdateProgramUsersInput(Input):
     """
     Parameters for the 'updateProgramUsers' mutation.  Use 'SET' to specify the
     changes, 'WHERE' to select the program users to update, and 'LIMIT' to control
@@ -2049,7 +2049,7 @@ class UpdateProgramUsersInput(GPPInput):
     limit: NonNegInt | None = Field(default=None, validation_alias="LIMIT", serialization_alias="LIMIT")
 
 
-class UpdateProgramsInput(GPPInput):
+class UpdateProgramsInput(Input):
     """Program selection and update description.  Use `SET` to specify the changes, `WHERE` to select the programs to update, and `LIMIT` to control the size of the return value."""
     set: ProgramPropertiesInput = Field(validation_alias="SET", serialization_alias="SET")
     where: WhereProgram | None = Field(default=None, validation_alias="WHERE", serialization_alias="WHERE")
@@ -2057,7 +2057,7 @@ class UpdateProgramsInput(GPPInput):
     include_deleted: bool | None = Field(default=None, validation_alias="includeDeleted", serialization_alias="includeDeleted")
 
 
-class UpdateProposalInput(GPPInput):
+class UpdateProposalInput(Input):
     """
     Input for updating a proposal.  Identify the program to update with one
     of `programId`, `proposalReference` or `programReference`.  If more than one of
@@ -2070,7 +2070,7 @@ class UpdateProposalInput(GPPInput):
     set: ProposalPropertiesInput = Field(validation_alias="SET", serialization_alias="SET")
 
 
-class UpdateTargetsInput(GPPInput):
+class UpdateTargetsInput(Input):
     """Target selection and update description. Use `SET` to specify the changes, `WHERE` to select the targets to update, and `LIMIT` to control the size of the return value."""
     set: TargetPropertiesInput = Field(validation_alias="SET", serialization_alias="SET")
     where: WhereTarget | None = Field(default=None, validation_alias="WHERE", serialization_alias="WHERE")
@@ -2078,27 +2078,27 @@ class UpdateTargetsInput(GPPInput):
     include_deleted: bool | None = Field(default=None, validation_alias="includeDeleted", serialization_alias="includeDeleted")
 
 
-class UserProfileInput(GPPInput):
+class UserProfileInput(Input):
     given_name: str | None = Field(default=None, validation_alias="givenName", serialization_alias="givenName")
     family_name: str | None = Field(default=None, validation_alias="familyName", serialization_alias="familyName")
     credit_name: str | None = Field(default=None, validation_alias="creditName", serialization_alias="creditName")
     email: str | None = None
 
 
-class UserSuppliedEphemeris(GPPInput):
+class UserSuppliedEphemeris(Input):
     """Input for a user-supplied ephemeris. Both sites must be specified (but may be empty)."""
     gn: list[UserSuppliedEphemerisElement]
     gs: list[UserSuppliedEphemerisElement]
 
 
-class UserSuppliedEphemerisElement(GPPInput):
+class UserSuppliedEphemerisElement(Input):
     """Input for an element in a user-supplied ephemeris. All values must be specified."""
     when: Timestamp | None = None
     coordinates: CoordinatesInput | None = None
     velocity: OffsetInput | None = None
 
 
-class VisitorInput(GPPInput):
+class VisitorInput(Input):
     mode: VisitorObservingModeType | None = None
     central_wavelength: WavelengthInput | None = Field(default=None, validation_alias="centralWavelength", serialization_alias="centralWavelength")
     ags_diameter: AngleInput | None = Field(default=None, validation_alias="agsDiameter", serialization_alias="agsDiameter")
@@ -2107,7 +2107,7 @@ class VisitorInput(GPPInput):
     total_request_time: TimeSpanInput | None = Field(default=None, validation_alias="totalRequestTime", serialization_alias="totalRequestTime")
 
 
-class WavelengthDitherInput(GPPInput):
+class WavelengthDitherInput(Input):
     """WavelengthDither, choose one of the available units"""
     picometers: int | None = None
     angstroms: BigDecimal | None = None
@@ -2115,7 +2115,7 @@ class WavelengthDitherInput(GPPInput):
     micrometers: BigDecimal | None = None
 
 
-class WavelengthInput(GPPInput):
+class WavelengthInput(Input):
     """Wavelength, choose one of the available units"""
     picometers: PosInt | None = None
     angstroms: PosBigDecimal | None = None
@@ -2123,7 +2123,7 @@ class WavelengthInput(GPPInput):
     micrometers: PosBigDecimal | None = None
 
 
-class WhereAngle(GPPInput):
+class WhereAngle(Input):
     and_: list[WhereAngle] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereAngle] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
     not_: WhereAngle | None = Field(default=None, validation_alias="NOT", serialization_alias="NOT")
@@ -2139,7 +2139,7 @@ class WhereAngle(GPPInput):
     hours: WhereOrderBigDecimal | None = None
 
 
-class WhereAttachment(GPPInput):
+class WhereAttachment(Input):
     """Attachment filter options. All specified items must match."""
     and_: list[WhereAttachment] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereAttachment] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
@@ -2152,7 +2152,7 @@ class WhereAttachment(GPPInput):
     program: WhereProgram | None = None
 
 
-class WhereAttachmentType(GPPInput):
+class WhereAttachmentType(Input):
     """
     Filters on equality of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'EQ: FINDER'
@@ -2163,11 +2163,11 @@ class WhereAttachmentType(GPPInput):
     nin: list[AttachmentType] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereBoolean(GPPInput):
+class WhereBoolean(Input):
     eq: bool | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
 
 
-class WhereCalculatedObservationWorkflow(GPPInput):
+class WhereCalculatedObservationWorkflow(Input):
     """
     Matches on the current state of the ObservationWorkflow, which may be in the
     process of being updated on the server.  Use the 'calculationState' if, for
@@ -2179,7 +2179,7 @@ class WhereCalculatedObservationWorkflow(GPPInput):
     workflow_state: WhereOrderObservationWorkflowState | None = Field(default=None, validation_alias="workflowState", serialization_alias="workflowState")
 
 
-class WhereCallForProposals(GPPInput):
+class WhereCallForProposals(Input):
     and_: list[WhereCallForProposals] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereCallForProposals] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
     not_: WhereCallForProposals | None = Field(default=None, validation_alias="NOT", serialization_alias="NOT")
@@ -2192,7 +2192,7 @@ class WhereCallForProposals(GPPInput):
     gemini: WhereGeminiCallProperties | None = None
 
 
-class WhereConfigurationRequest(GPPInput):
+class WhereConfigurationRequest(Input):
     """Configuration request filter options.  All specified items must match."""
     and_: list[WhereConfigurationRequest] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereConfigurationRequest] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
@@ -2206,7 +2206,7 @@ class WhereConfigurationRequest(GPPInput):
     updated_at: WhereOrderTimestamp | None = Field(default=None, validation_alias="updatedAt", serialization_alias="updatedAt")
 
 
-class WhereDataset(GPPInput):
+class WhereDataset(Input):
     """Dataset filter options.  All specified items must match."""
     and_: list[WhereDataset] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereDataset] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
@@ -2225,7 +2225,7 @@ class WhereDataset(GPPInput):
     end: WhereOptionOrderTimestamp | None = None
 
 
-class WhereDatasetChronicleEntry(GPPInput):
+class WhereDatasetChronicleEntry(Input):
     """
     Allows filtering of DatasetChronicleEntry (see Query -> datasetChronicleEntries)
     based on a number of criteria.
@@ -2250,7 +2250,7 @@ class WhereDatasetChronicleEntry(GPPInput):
     mod_comment: WhereBoolean | None = Field(default=None, validation_alias="modComment", serialization_alias="modComment")
 
 
-class WhereDatasetReference(GPPInput):
+class WhereDatasetReference(Input):
     is_null: bool | None = Field(default=None, validation_alias="IS_NULL", serialization_alias="IS_NULL")
     label: WhereString | None = None
     observation: WhereObservationReference | None = None
@@ -2258,7 +2258,7 @@ class WhereDatasetReference(GPPInput):
     exposure_index: WhereOrderPosInt | None = Field(default=None, validation_alias="exposureIndex", serialization_alias="exposureIndex")
 
 
-class WhereEqDatabaseOperation(GPPInput):
+class WhereEqDatabaseOperation(Input):
     """
     Filters on equality (or not) of the database operation.  All supplied
     criteria must match, but usually only one is selected.
@@ -2269,21 +2269,21 @@ class WhereEqDatabaseOperation(GPPInput):
     nin: list[DatabaseOperation] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqExecutionEventType(GPPInput):
+class WhereEqExecutionEventType(Input):
     eq: ExecutionEventType | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
     neq: ExecutionEventType | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
     in_: list[ExecutionEventType] | None = Field(default=None, validation_alias="IN", serialization_alias="IN")
     nin: list[ExecutionEventType] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqFocalPlane(GPPInput):
+class WhereEqFocalPlane(Input):
     eq: FocalPlane | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
     neq: FocalPlane | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
     in_: list[FocalPlane] | None = Field(default=None, validation_alias="IN", serialization_alias="IN")
     nin: list[FocalPlane] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqGeminiCallForProposalsType(GPPInput):
+class WhereEqGeminiCallForProposalsType(Input):
     """
     Filters on equality (or not) of the call for proposals type.  All supplied
     criteria must match, but usually only one is selected.
@@ -2294,7 +2294,7 @@ class WhereEqGeminiCallForProposalsType(GPPInput):
     nin: list[GeminiCallForProposalsType] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqInstrument(GPPInput):
+class WhereEqInstrument(Input):
     """
     Filters on equality (or not) of the instrument and the supplied criteria.
     All supplied criteria must match, but usually only one is selected.  E.g.
@@ -2306,7 +2306,7 @@ class WhereEqInstrument(GPPInput):
     nin: list[Instrument] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqPartner(GPPInput):
+class WhereEqPartner(Input):
     """
     Filters on equality (or not) of the property value and the supplied criteria.
     All supplied criteria must match, but usually only one is selected.  E.g.
@@ -2318,7 +2318,7 @@ class WhereEqPartner(GPPInput):
     nin: list[Partner] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqPartnerLinkType(GPPInput):
+class WhereEqPartnerLinkType(Input):
     """
     Filters on equality (or not) of the partner link type. All supplied criteria
     must match, but usually only one is selected.
@@ -2329,7 +2329,7 @@ class WhereEqPartnerLinkType(GPPInput):
     nin: list[PartnerLinkType] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqProgramType(GPPInput):
+class WhereEqProgramType(Input):
     """
     Filters on equality (or not) of the program type and the supplied criteria.
     All supplied criteria must match, but usually only one is selected.  E.g.
@@ -2341,7 +2341,7 @@ class WhereEqProgramType(GPPInput):
     nin: list[ProgramType] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqProgramUserRole(GPPInput):
+class WhereEqProgramUserRole(Input):
     """
     Filters on equality (or not) of the program user role type and the supplied
     criteria. All supplied criteria must match, but usually only one is selected.
@@ -2352,7 +2352,7 @@ class WhereEqProgramUserRole(GPPInput):
     nin: list[ProgramUserRole] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqProposalStatus(GPPInput):
+class WhereEqProposalStatus(Input):
     """
     Filters on equality of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'EQ: "SUBMITTED'
@@ -2363,7 +2363,7 @@ class WhereEqProposalStatus(GPPInput):
     nin: list[ProposalStatus] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqScienceSubtype(GPPInput):
+class WhereEqScienceSubtype(Input):
     """
     Filters on equality (or not) of the science subtype and the supplied criteria.
     All supplied criteria must match, but usually only one is selected.  E.g.
@@ -2376,7 +2376,7 @@ class WhereEqScienceSubtype(GPPInput):
     nin: list[ScienceSubtype] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqSite(GPPInput):
+class WhereEqSite(Input):
     """
     Filters on equality (or not) of the site property. All supplied criteria must
     match, but usually only one is selected.
@@ -2387,7 +2387,7 @@ class WhereEqSite(GPPInput):
     nin: list[Site] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqStepId(GPPInput):
+class WhereEqStepId(Input):
     """
     Filters on equality (or not) of the property value and the supplied criteria.
     All supplied criteria must match, but usually only one is selected.  E.g.
@@ -2399,7 +2399,7 @@ class WhereEqStepId(GPPInput):
     nin: list[StepId] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqTargetDisposition(GPPInput):
+class WhereEqTargetDisposition(Input):
     """
     Filters on equality (or not) of the target disposition and the supplied criteria.
     All supplied criteria must match, but usually only one is selected.  E.g.
@@ -2411,7 +2411,7 @@ class WhereEqTargetDisposition(GPPInput):
     nin: list[TargetDisposition] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqToOActivation(GPPInput):
+class WhereEqToOActivation(Input):
     """
     Filters on equality (or not) of the property value and the supplied criteria.
     All supplied criteria must match, but usually only one is selected.  E.g.
@@ -2423,7 +2423,7 @@ class WhereEqToOActivation(GPPInput):
     nin: list[ToOActivation] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqUserType(GPPInput):
+class WhereEqUserType(Input):
     """
     Filters on equality (or not) of the user type value and the supplied criteria.
     All supplied criteria must match, but usually only one is selected.
@@ -2434,7 +2434,7 @@ class WhereEqUserType(GPPInput):
     nin: list[UserType] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereEqVisitId(GPPInput):
+class WhereEqVisitId(Input):
     """
     Filters on equality (or not) of the property value and the supplied criteria.
     All supplied criteria must match, but usually only one is selected.  E.g.
@@ -2446,7 +2446,7 @@ class WhereEqVisitId(GPPInput):
     nin: list[VisitId] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereExecutionEvent(GPPInput):
+class WhereExecutionEvent(Input):
     """ExecutionEvent filter options."""
     and_: list[WhereExecutionEvent] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereExecutionEvent] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
@@ -2464,7 +2464,7 @@ class WhereExecutionEvent(GPPInput):
     dataset_stage: WhereOrderDatasetStage | None = Field(default=None, validation_alias="datasetStage", serialization_alias="datasetStage")
 
 
-class WhereGeminiCallProperties(GPPInput):
+class WhereGeminiCallProperties(Input):
     """
     Gemini-specific call for proposals filter options. All specified items must
     match.  Only Gemini calls can match a `WhereGeminiCallProperties` filter.
@@ -2473,7 +2473,7 @@ class WhereGeminiCallProperties(GPPInput):
     allows_non_partner_pi: WhereBoolean | None = Field(default=None, validation_alias="allowsNonPartnerPi", serialization_alias="allowsNonPartnerPi")
 
 
-class WhereGroup(GPPInput):
+class WhereGroup(Input):
     and_: list[WhereGroup] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereGroup] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
     not_: WhereGroup | None = Field(default=None, validation_alias="NOT", serialization_alias="NOT")
@@ -2482,7 +2482,7 @@ class WhereGroup(GPPInput):
     description: WhereOptionString | None = None
 
 
-class WhereImagingConfigOption(GPPInput):
+class WhereImagingConfigOption(Input):
     """
     Imaging instrument configuration option matcher.  Configure with the
     properties of interest and pass it to the 'imagingConfigOptions' query
@@ -2498,7 +2498,7 @@ class WhereImagingConfigOption(GPPInput):
     capability: WhereOptionEqImagingCapability | None = None
 
 
-class WhereObservation(GPPInput):
+class WhereObservation(Input):
     """Observation filter options.  All specified items must match."""
     and_: list[WhereObservation] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereObservation] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
@@ -2515,14 +2515,14 @@ class WhereObservation(GPPInput):
     calibration_role: WhereOptionEqCalibrationRole | None = Field(default=None, validation_alias="calibrationRole", serialization_alias="calibrationRole")
 
 
-class WhereObservationReference(GPPInput):
+class WhereObservationReference(Input):
     is_null: bool | None = Field(default=None, validation_alias="IS_NULL", serialization_alias="IS_NULL")
     label: WhereString | None = None
     program: WhereProgramReference | None = None
     index: WhereOrderPosInt | None = None
 
 
-class WhereObservatoryEq(GPPInput):
+class WhereObservatoryEq(Input):
     """
     Filters on equality of the observatory.  All supplied criteria must match, but
     usually only one is selected.  E.g., 'EQ: GEMINI'
@@ -2533,12 +2533,12 @@ class WhereObservatoryEq(GPPInput):
     nin: list[Observatory] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionBoolean(GPPInput):
+class WhereOptionBoolean(Input):
     is_null: bool | None = Field(default=None, validation_alias="IS_NULL", serialization_alias="IS_NULL")
     eq: bool | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
 
 
-class WhereOptionEqCalculationState(GPPInput):
+class WhereOptionEqCalculationState(Input):
     is_null: bool | None = Field(default=None, validation_alias="IS_NULL", serialization_alias="IS_NULL")
     eq: CalculationState | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
     neq: CalculationState | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
@@ -2546,7 +2546,7 @@ class WhereOptionEqCalculationState(GPPInput):
     nin: list[CalculationState] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionEqCalibrationRole(GPPInput):
+class WhereOptionEqCalibrationRole(Input):
     """
     Filters on equality (or not) of the property value and the supplied criteria.
     All supplied criteria must match, but usually only one is selected.  E.g.
@@ -2560,7 +2560,7 @@ class WhereOptionEqCalibrationRole(GPPInput):
     nin: list[CalibrationRole] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionEqEducationalStatus(GPPInput):
+class WhereOptionEqEducationalStatus(Input):
     """
     Filters on equality (or not) of the user educational status and the supplied
     criteria. All supplied criteria must match, but usually only one is selected.
@@ -2572,7 +2572,7 @@ class WhereOptionEqEducationalStatus(GPPInput):
     nin: list[EducationalStatus] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionEqExchangePartner(GPPInput):
+class WhereOptionEqExchangePartner(Input):
     """
     Filters on equality (or not) of the (optional) exchange partner. All supplied
     criteria must match, but usually only one is selected.
@@ -2584,7 +2584,7 @@ class WhereOptionEqExchangePartner(GPPInput):
     nin: list[ExchangePartner] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionEqGender(GPPInput):
+class WhereOptionEqGender(Input):
     """
     Filters on equality (or not) of the user reported geender and the supplied
     criteria. All supplied criteria must match, but usually only one is selected.
@@ -2596,7 +2596,7 @@ class WhereOptionEqGender(GPPInput):
     nin: list[Gender] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionEqImagingCapability(GPPInput):
+class WhereOptionEqImagingCapability(Input):
     """
     Filters on equality (or not) of the ImagingCapability property. All
     supplied criteria must match, but usually only one is selected.
@@ -2608,7 +2608,7 @@ class WhereOptionEqImagingCapability(GPPInput):
     nin: list[ImagingCapability] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionEqInstrument(GPPInput):
+class WhereOptionEqInstrument(Input):
     """
     Filters on equality (or not) of the instrument. All supplied criteria must
     match, but usually only one is selected.
@@ -2620,7 +2620,7 @@ class WhereOptionEqInstrument(GPPInput):
     nin: list[Instrument] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionEqObservingModeType(GPPInput):
+class WhereOptionEqObservingModeType(Input):
     """
     Filters on equality (or not) of the observing mode type. All supplied criteria
     must match, but usually only one is selected.
@@ -2632,7 +2632,7 @@ class WhereOptionEqObservingModeType(GPPInput):
     nin: list[ObservingModeType] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionEqPartner(GPPInput):
+class WhereOptionEqPartner(Input):
     """
     Filters on equality (or not) of the (optional) partner. All supplied criteria
     must match, but usually only one is selected.
@@ -2644,7 +2644,7 @@ class WhereOptionEqPartner(GPPInput):
     nin: list[Partner] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionEqQaState(GPPInput):
+class WhereOptionEqQaState(Input):
     """
     Filters on equality (or not) of the property value and the supplied criteria.
     All supplied criteria must match, but usually only one is selected.  E.g.
@@ -2658,7 +2658,7 @@ class WhereOptionEqQaState(GPPInput):
     nin: list[DatasetQaState] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionEqSite(GPPInput):
+class WhereOptionEqSite(Input):
     """
     Filters on equality of an optional site property.  All supplied criteria must
     match, but usually only one is selected.
@@ -2670,7 +2670,7 @@ class WhereOptionEqSite(GPPInput):
     nin: list[Site] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionEqSpectroscopyCapability(GPPInput):
+class WhereOptionEqSpectroscopyCapability(Input):
     """
     Filters on equality (or not) of the SpectroscopyCapability property. All
     supplied criteria must match, but usually only one is selected.
@@ -2682,7 +2682,7 @@ class WhereOptionEqSpectroscopyCapability(GPPInput):
     nin: list[SpectroscopyCapability] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionEqTacCategory(GPPInput):
+class WhereOptionEqTacCategory(Input):
     """
     Filters on equality (or not) of the property value and the supplied criteria.
     All supplied criteria must match, but usually only one is selected.  E.g.
@@ -2696,7 +2696,7 @@ class WhereOptionEqTacCategory(GPPInput):
     nin: list[TacCategory] | None = Field(default=None, validation_alias="NIN", serialization_alias="NIN")
 
 
-class WhereOptionOrderScienceBand(GPPInput):
+class WhereOptionOrderScienceBand(Input):
     """
     Filters on equality or order comparisons of science bands.  All supplied
     criteria must match, but usually only one is selected.
@@ -2712,7 +2712,7 @@ class WhereOptionOrderScienceBand(GPPInput):
     lte: ScienceBand | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOptionOrderTimestamp(GPPInput):
+class WhereOptionOrderTimestamp(Input):
     """
     Filters on equality or order comparisons of an optional timestamp property.  All
     supplied criteria must match, but usually only one is selected.  Note that a
@@ -2729,7 +2729,7 @@ class WhereOptionOrderTimestamp(GPPInput):
     lte: Timestamp | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOptionString(GPPInput):
+class WhereOptionString(Input):
     """String matching options."""
     is_null: bool | None = Field(default=None, validation_alias="IS_NULL", serialization_alias="IS_NULL")
     eq: NonEmptyString | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
@@ -2741,7 +2741,7 @@ class WhereOptionString(GPPInput):
     match_case: bool | None = Field(default=None, validation_alias="MATCH_CASE", serialization_alias="MATCH_CASE")
 
 
-class WhereOrderAttachmentId(GPPInput):
+class WhereOrderAttachmentId(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -2757,7 +2757,7 @@ class WhereOrderAttachmentId(GPPInput):
     lte: AttachmentId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderBigDecimal(GPPInput):
+class WhereOrderBigDecimal(Input):
     """
     Filters on equality or order comparisons of BigDecimal properties.  All supplied
     criteria must match, but usually only one is selected.
@@ -2772,7 +2772,7 @@ class WhereOrderBigDecimal(GPPInput):
     lte: BigDecimal | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderCalculationState(GPPInput):
+class WhereOrderCalculationState(Input):
     eq: CalculationState | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
     neq: CalculationState | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
     in_: list[CalculationState] | None = Field(default=None, validation_alias="IN", serialization_alias="IN")
@@ -2783,7 +2783,7 @@ class WhereOrderCalculationState(GPPInput):
     lte: CalculationState | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderCallForProposalsId(GPPInput):
+class WhereOrderCallForProposalsId(Input):
     """
     Filters on equality or order comparisons of call for proposals ids.  All
     supplied criteria must match, but usually only one is selected.
@@ -2798,7 +2798,7 @@ class WhereOrderCallForProposalsId(GPPInput):
     lte: CallForProposalsId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderChronicleId(GPPInput):
+class WhereOrderChronicleId(Input):
     """
     Filters on equality or order comparisons of the chronicle id.  All supplied
     criteria must match, but usually only one is selected.
@@ -2813,7 +2813,7 @@ class WhereOrderChronicleId(GPPInput):
     lte: ChronicleId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderConfigurationRequestId(GPPInput):
+class WhereOrderConfigurationRequestId(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -2829,7 +2829,7 @@ class WhereOrderConfigurationRequestId(GPPInput):
     lte: ConfigurationRequestId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderConfigurationRequestStatus(GPPInput):
+class WhereOrderConfigurationRequestStatus(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -2845,7 +2845,7 @@ class WhereOrderConfigurationRequestStatus(GPPInput):
     lte: ConfigurationRequestStatus | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderDatasetId(GPPInput):
+class WhereOrderDatasetId(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -2861,7 +2861,7 @@ class WhereOrderDatasetId(GPPInput):
     lte: DatasetId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderDatasetStage(GPPInput):
+class WhereOrderDatasetStage(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -2877,7 +2877,7 @@ class WhereOrderDatasetStage(GPPInput):
     lte: DatasetStage | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderDate(GPPInput):
+class WhereOrderDate(Input):
     """
     Filters on equality or order comparisons of the Date property.  All supplied
     criteria must match, but usually only one is selected.  Dates are specified
@@ -2893,7 +2893,7 @@ class WhereOrderDate(GPPInput):
     lte: Date | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderExecutionEventId(GPPInput):
+class WhereOrderExecutionEventId(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -2909,7 +2909,7 @@ class WhereOrderExecutionEventId(GPPInput):
     lte: ExecutionEventId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderGroupId(GPPInput):
+class WhereOrderGroupId(Input):
     eq: GroupId | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
     neq: GroupId | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
     in_: list[GroupId] | None = Field(default=None, validation_alias="IN", serialization_alias="IN")
@@ -2920,7 +2920,7 @@ class WhereOrderGroupId(GPPInput):
     lte: GroupId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderInt(GPPInput):
+class WhereOrderInt(Input):
     """
     Filters on equality or order comparisons of the integer property.  All supplied
     criteria must match, but usually only one is selected.
@@ -2935,7 +2935,7 @@ class WhereOrderInt(GPPInput):
     lte: int | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderLong(GPPInput):
+class WhereOrderLong(Input):
     """
     Filters on equality or order comparisons of long property.  All supplied
     criteria must match, but usually only one is selected.
@@ -2950,7 +2950,7 @@ class WhereOrderLong(GPPInput):
     lte: Long | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderObservationId(GPPInput):
+class WhereOrderObservationId(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -2966,7 +2966,7 @@ class WhereOrderObservationId(GPPInput):
     lte: ObservationId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderObservationWorkflowState(GPPInput):
+class WhereOrderObservationWorkflowState(Input):
     """
     Filters on equality or order comparisons of the workflow state.  All supplied
     criteria must match, but usually only one is selected.
@@ -2981,7 +2981,7 @@ class WhereOrderObservationWorkflowState(GPPInput):
     lte: ObservationWorkflowState | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderPosBigDecimal(GPPInput):
+class WhereOrderPosBigDecimal(Input):
     """
     Filters on equality or order comparisons of PosBigDecimal properties.  All
     supplied criteria must match, but usually only one is selected.
@@ -2996,7 +2996,7 @@ class WhereOrderPosBigDecimal(GPPInput):
     lte: PosBigDecimal | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderPosInt(GPPInput):
+class WhereOrderPosInt(Input):
     """
     Filters on equality or order comparisons of the PosInt property.  All supplied
     criteria must match, but usually only one is selected.
@@ -3011,7 +3011,7 @@ class WhereOrderPosInt(GPPInput):
     lte: PosInt | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderProgramId(GPPInput):
+class WhereOrderProgramId(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -3027,7 +3027,7 @@ class WhereOrderProgramId(GPPInput):
     lte: ProgramId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderProgramNoteId(GPPInput):
+class WhereOrderProgramNoteId(Input):
     """
     Filters on equality or order comparisons of the program note Id. All supplied
     criteria must match, but usually only one is selected.
@@ -3042,7 +3042,7 @@ class WhereOrderProgramNoteId(GPPInput):
     lte: ProgramNoteId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderProgramUserId(GPPInput):
+class WhereOrderProgramUserId(Input):
     """
     Filters on equality or order comparisons of the program user id.  All supplied
     criteria must match, but usually only one is selected.
@@ -3057,7 +3057,7 @@ class WhereOrderProgramUserId(GPPInput):
     lte: ProgramUserId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderSemester(GPPInput):
+class WhereOrderSemester(Input):
     """
     Filters on equality or order comparisons of Semester.  All supplied
     criteria must match, but usually only one is selected.  E.g.,
@@ -3073,7 +3073,7 @@ class WhereOrderSemester(GPPInput):
     lte: Semester | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderSequenceCommand(GPPInput):
+class WhereOrderSequenceCommand(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -3089,7 +3089,7 @@ class WhereOrderSequenceCommand(GPPInput):
     lte: SequenceCommand | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderSequenceType(GPPInput):
+class WhereOrderSequenceType(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -3105,7 +3105,7 @@ class WhereOrderSequenceType(GPPInput):
     lte: SequenceType | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderSlewStage(GPPInput):
+class WhereOrderSlewStage(Input):
     """
     Filters on equality or order comparisons of the SlewStage.  All supplied
     criteria must match, but usually only one is selected.
@@ -3120,7 +3120,7 @@ class WhereOrderSlewStage(GPPInput):
     lte: SlewStage | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderStepStage(GPPInput):
+class WhereOrderStepStage(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -3136,7 +3136,7 @@ class WhereOrderStepStage(GPPInput):
     lte: StepStage | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderTargetId(GPPInput):
+class WhereOrderTargetId(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -3152,7 +3152,7 @@ class WhereOrderTargetId(GPPInput):
     lte: TargetId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderTimestamp(GPPInput):
+class WhereOrderTimestamp(Input):
     """
     Filters on equality or order comparisons of the property.  All supplied
     criteria must match, but usually only one is selected.  E.g., 'GT = 2'
@@ -3168,7 +3168,7 @@ class WhereOrderTimestamp(GPPInput):
     lte: Timestamp | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WhereOrderUserId(GPPInput):
+class WhereOrderUserId(Input):
     eq: UserId | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
     neq: UserId | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
     in_: list[UserId] | None = Field(default=None, validation_alias="IN", serialization_alias="IN")
@@ -3179,14 +3179,14 @@ class WhereOrderUserId(GPPInput):
     lte: UserId | None = Field(default=None, validation_alias="LTE", serialization_alias="LTE")
 
 
-class WherePartnerLink(GPPInput):
+class WherePartnerLink(Input):
     """Partner link filter options.  All specified items much match."""
     link_type: WhereEqPartnerLinkType | None = Field(default=None, validation_alias="linkType", serialization_alias="linkType")
     gemini_partner: WhereOptionEqPartner | None = Field(default=None, validation_alias="geminiPartner", serialization_alias="geminiPartner")
     exchange_partner: WhereOptionEqExchangePartner | None = Field(default=None, validation_alias="exchangePartner", serialization_alias="exchangePartner")
 
 
-class WhereProgram(GPPInput):
+class WhereProgram(Input):
     """Program filter options.  All specified items must match."""
     and_: list[WhereProgram] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereProgram] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
@@ -3203,7 +3203,7 @@ class WhereProgram(GPPInput):
     active_end: WhereOrderDate | None = Field(default=None, validation_alias="activeEnd", serialization_alias="activeEnd")
 
 
-class WhereProgramNote(GPPInput):
+class WhereProgramNote(Input):
     """Program note filter options.  All specified items must match."""
     and_: list[WhereProgramNote] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereProgramNote] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
@@ -3215,7 +3215,7 @@ class WhereProgramNote(GPPInput):
     is_private: WhereBoolean | None = Field(default=None, validation_alias="isPrivate", serialization_alias="isPrivate")
 
 
-class WhereProgramReference(GPPInput):
+class WhereProgramReference(Input):
     is_null: bool | None = Field(default=None, validation_alias="IS_NULL", serialization_alias="IS_NULL")
     label: WhereString | None = None
     semester: WhereOrderSemester | None = None
@@ -3225,7 +3225,7 @@ class WhereProgramReference(GPPInput):
     science_subtype: WhereEqScienceSubtype | None = Field(default=None, validation_alias="scienceSubtype", serialization_alias="scienceSubtype")
 
 
-class WhereProgramUser(GPPInput):
+class WhereProgramUser(Input):
     """Program user options.  All specified items must match."""
     and_: list[WhereProgramUser] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereProgramUser] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
@@ -3242,7 +3242,7 @@ class WhereProgramUser(GPPInput):
     has_data_access: WhereBoolean | None = Field(default=None, validation_alias="hasDataAccess", serialization_alias="hasDataAccess")
 
 
-class WhereProposal(GPPInput):
+class WhereProposal(Input):
     """Proposal filter options.  All specified items must match."""
     is_null: bool | None = Field(default=None, validation_alias="IS_NULL", serialization_alias="IS_NULL")
     and_: list[WhereProposal] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
@@ -3253,7 +3253,7 @@ class WhereProposal(GPPInput):
     call: WhereCallForProposals | None = None
 
 
-class WhereProposalPartnerEntry(GPPInput):
+class WhereProposalPartnerEntry(Input):
     """Proposal partner entry filter options. The set of partners is scanned for a matching partner and percentage entry."""
     and_: list[WhereProposalPartnerEntry] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereProposalPartnerEntry] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
@@ -3262,21 +3262,21 @@ class WhereProposalPartnerEntry(GPPInput):
     percent: WhereOrderInt | None = None
 
 
-class WhereProposalPartners(GPPInput):
+class WhereProposalPartners(Input):
     """Proposal partners matching.  Use `MATCH` for detailed matching options, `EQ` to just match against a partners list, and/or `isJoint` for checking joint vs individual proposals"""
     match: WhereProposalPartnerEntry | None = Field(default=None, validation_alias="MATCH", serialization_alias="MATCH")
     eq: list[Partner] | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
     is_joint: bool | None = Field(default=None, validation_alias="isJoint", serialization_alias="isJoint")
 
 
-class WhereProposalReference(GPPInput):
+class WhereProposalReference(Input):
     is_null: bool | None = Field(default=None, validation_alias="IS_NULL", serialization_alias="IS_NULL")
     label: WhereString | None = None
     semester: WhereOrderSemester | None = None
     semester_index: WhereOrderPosInt | None = Field(default=None, validation_alias="semesterIndex", serialization_alias="semesterIndex")
 
 
-class WhereSpectroscopyConfigOption(GPPInput):
+class WhereSpectroscopyConfigOption(Input):
     """
     Spectroscopy instrument configuration option matcher.  Configure with the
     properties of interest and pass it to the 'spectroscopyConfigOptions' query
@@ -3298,7 +3298,7 @@ class WhereSpectroscopyConfigOption(GPPInput):
     wavelength_coverage: WhereWavelength | None = Field(default=None, validation_alias="wavelengthCoverage", serialization_alias="wavelengthCoverage")
 
 
-class WhereString(GPPInput):
+class WhereString(Input):
     """String matching options."""
     eq: NonEmptyString | None = Field(default=None, validation_alias="EQ", serialization_alias="EQ")
     neq: NonEmptyString | None = Field(default=None, validation_alias="NEQ", serialization_alias="NEQ")
@@ -3309,7 +3309,7 @@ class WhereString(GPPInput):
     match_case: bool | None = Field(default=None, validation_alias="MATCH_CASE", serialization_alias="MATCH_CASE")
 
 
-class WhereTarget(GPPInput):
+class WhereTarget(Input):
     """Target filter options.  All specified items must match."""
     and_: list[WhereTarget] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereTarget] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
@@ -3321,7 +3321,7 @@ class WhereTarget(GPPInput):
     calibration_role: WhereOptionEqCalibrationRole | None = Field(default=None, validation_alias="calibrationRole", serialization_alias="calibrationRole")
 
 
-class WhereUser(GPPInput):
+class WhereUser(Input):
     """User filter options.  All specified items must match."""
     is_null: bool | None = Field(default=None, validation_alias="IS_NULL", serialization_alias="IS_NULL")
     and_: list[WhereUser] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
@@ -3333,14 +3333,14 @@ class WhereUser(GPPInput):
     profile: WhereUserProfile | None = None
 
 
-class WhereUserProfile(GPPInput):
+class WhereUserProfile(Input):
     given_name: WhereOptionString | None = Field(default=None, validation_alias="givenName", serialization_alias="givenName")
     credit_name: WhereOptionString | None = Field(default=None, validation_alias="creditName", serialization_alias="creditName")
     family_name: WhereOptionString | None = Field(default=None, validation_alias="familyName", serialization_alias="familyName")
     email: WhereOptionString | None = None
 
 
-class WhereWavelength(GPPInput):
+class WhereWavelength(Input):
     and_: list[WhereWavelength] | None = Field(default=None, validation_alias="AND", serialization_alias="AND")
     or_: list[WhereWavelength] | None = Field(default=None, validation_alias="OR", serialization_alias="OR")
     not_: WhereWavelength | None = Field(default=None, validation_alias="NOT", serialization_alias="NOT")

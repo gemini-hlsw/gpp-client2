@@ -5,7 +5,7 @@ import pytest
 
 from gpp_client2 import AsyncGPPClient
 from gpp_client2._generated.models import Program
-from gpp_client2.errors import GPPReadOnlyError
+from gpp_client2.errors import ReadOnlyError
 from tests.conftest import graphql_response
 
 
@@ -32,7 +32,7 @@ async def test_get_all(make_async_client):
 async def test_read_only(make_async_client):
     client, handler = make_async_client(read_only=True)
     async with client:
-        with pytest.raises(GPPReadOnlyError):
+        with pytest.raises(ReadOnlyError):
             await client.programs.delete_by_id("p-1")
     assert handler.requests == []
 
