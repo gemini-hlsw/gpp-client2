@@ -5,8 +5,8 @@ covers the whole API: programs, observations, targets, attachments, calls
 for proposals, scheduler data, and observation workflow states, over
 GraphQL, REST, and WebSocket subscriptions.
 
-It is the second generation of the GPP client, redesigned from scratch and
-built end to end by an AI coding agent. One package talks to any GPP
+It is the second generation of the GPP client, redesigned from scratch.
+One package talks to any GPP
 deployment. Which one, development, staging, or production, is a choice you
 make at runtime, not at install time.
 

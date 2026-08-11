@@ -1,7 +1,6 @@
 # Working with AI agents
 
-This client was designed and built by an AI coding agent, and it ships with
-a tool to make AI agents better at using it: an agent skill.
+This client ships with a tool to make AI agents better at using it: an agent skill.
 
 ## The bundled skill
 

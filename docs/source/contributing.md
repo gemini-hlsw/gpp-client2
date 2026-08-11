@@ -37,6 +37,26 @@ Write the operation in the right domain directory, name it
 The result is a typed method on both clients and a CLI command, with no
 further wiring.
 
+## Changing what an existing query selects
+
+Every method's selection - including the wide GOATS and scheduler
+queries - is a plain GraphQL file. To add or remove fields, edit the
+operation (for example `graphql/operations/goats/queries.graphql`; shared
+fragments live in `graphql/operations/_shared/`), run
+`uv run python -m codegen generate`, and commit the source together with
+the regenerated output.
+
+Environment differences are handled for you. Codegen validates the edited
+selection against every committed environment schema:
+
+- A field only development serves is kept in development's query text and
+  pruned from the environments that cannot serve it, where the model
+  attribute stays `UNSET` at runtime.
+- A field no environment serves fails the build, so a typo cannot ship.
+- The `graphql/availability.json` diff shows which environments serve
+  each field, and `uv run python -m codegen readiness` reports when the
+  others catch up.
+
 ## The conformance rule
 
 Coverage gaps fail tests, not reviews. The conformance suite checks that

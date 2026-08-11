@@ -70,11 +70,22 @@ wants the same view of the data:
 - `watch_observation_updates(executable_only=)` streams calculation-state
   changes (see {doc}`subscriptions`).
 
+What these queries select is defined in
+`graphql/operations/scheduler/queries.graphql` (with fragments alongside
+in `fragments.graphql`); to widen or trim the selections, edit those
+files and regenerate - see {doc}`contributing`.
+
 ## GOATS
 
 `gpp.goats.get_programs()` and `gpp.goats.get_observations(program_id)`
 return the bulk shapes the GOATS tool consumes: wide selections tuned for
 ingesting many items at once rather than inspecting one.
+
+The selections themselves are plain GraphQL in
+`graphql/operations/goats/queries.graphql`. Adding or removing a field is
+an edit to that file plus `codegen generate`; see {doc}`contributing` for
+the process and how fields not yet available in every environment are
+handled.
 
 ## Programs, observations, targets, calls for proposals
 

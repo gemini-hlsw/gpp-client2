@@ -1,8 +1,8 @@
 # gpp-client2
 
 Python client for the Gemini Program Platform (GPP) - the second
-generation, redesigned from scratch and built end to end by an AI coding
-agent. Everything about it is versioned separately from the original
+generation, redesigned from scratch. Everything about it is versioned
+separately from the original
 client: the distribution is `gpp-client2`, the import is `gpp_client2`,
 and the command is `gpp2`, so both generations install side by side.
 
@@ -191,18 +191,19 @@ the client constructor; results print as JSON.
 
 ## Development
 
-```bash
-uv sync                                  # install everything
-uv run pytest                            # offline test suite
-uv run ruff check . && uv run mypy       # lint + types
-uv run python -m codegen generate        # regenerate after editing operations
-uv run python -m codegen check           # CI: fail if artifacts are stale
-uv run python -m codegen readiness       # can we promote yet?
-uv run python -m codegen download        # refresh schemas (needs a token)
-uv run python -m codegen scaffold <name> # start a new domain
-uv run pytest -m live                    # read-only smoke tests, real deployment
-GPP_LIVE_WRITE=1 uv run pytest -m live   # + write round-trips (see below)
-```
+| Command | What it does |
+| --- | --- |
+| `uv sync` | Install everything |
+| `uv run pytest` | Offline test suite (fast, no network) |
+| `uv run ruff check . && uv run mypy` | Lint and strict typing |
+| `uv run python -m codegen generate` | Regenerate after editing operations |
+| `uv run python -m codegen check` | CI: fail if committed artifacts are stale |
+| `uv run python -m codegen readiness` | Cross-environment promotion report |
+| `uv run python -m codegen download [env]` | Refresh schemas (needs a token) |
+| `uv run python -m codegen scaffold <name>` | Start a new domain |
+| `uv run sphinx-build -W docs/source docs/_build` | Build the documentation |
+| `uv run pytest -m live` | Read-only smoke tests against a real deployment |
+| `GPP_LIVE_WRITE=1 uv run pytest -m live` | Also run write round-trips (see below) |
 
 ### Live testing
 
@@ -280,6 +281,28 @@ for someone to notice.
 2. `uv run python -m codegen generate`
 3. Commit the source *and* generated changes; CI verifies they match.
 
+### Changing what an existing query selects
+
+The selections behind every method - including the wide GOATS and
+scheduler queries - are plain GraphQL files, not code. To add or remove
+fields from, say, `goats.get_observations`, edit
+`graphql/operations/goats/queries.graphql` (shared fragments live in
+`graphql/operations/_shared/` and `<domain>/fragments.graphql`), run
+`uv run python -m codegen generate`, and commit both. The models and the
+per-environment query texts follow automatically.
+
+You do not have to think about which environments serve a new field -
+codegen does:
+
+- A field only development serves stays in development's query text and
+  is pruned from staging's and production's. On those environments the
+  model attribute is the `UNSET` sentinel; nothing breaks at runtime.
+- A field no committed schema serves fails `codegen generate` - a typo
+  cannot ship.
+- The `graphql/availability.json` diff in the same commit shows exactly
+  which environments serve the new field, and
+  `uv run python -m codegen readiness` reports when the rest catch up.
+
 ### Adding a domain
 
 `uv run python -m codegen scaffold <domain>` creates the skeleton and prints
@@ -293,6 +316,5 @@ the wiring steps; the conformance tests enforce completion.
 
 ## Not yet ported from the original client
 
-The site-status page scraper, the Typer CLI, and Sphinx docs. The
-architecture reserves their places: the CLI can derive from the same
-operation specs the domain bases come from.
+The site-status page scraper (it screen-scrapes a status web page rather
+than an API); everything else from the original client has a home here.
