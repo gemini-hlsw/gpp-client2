@@ -51,6 +51,14 @@ reflection at startup - no generated file, cannot drift, and
   coverage gap is a test failure, not a review comment.
 - Operation names follow `<verb><Resource>[By<Key>]` so method names derive
   (see `codegen/naming.py`); rename operations rather than special-casing.
+- Every user-visible change (new feature, fix, removal, behavior change -
+  anything a library user would notice) ships with a towncrier fragment in
+  `changelog.d/` in the same commit: `<issue>.<type>.md` or
+  `+<slug>.<type>.md`, types `feat|fix|perf|docs|removal|misc` (see
+  `changelog.d/README.md`). NEVER edit `CHANGELOG.md` by hand; it is
+  compiled by `towncrier build` at release.
+- Commit messages follow Conventional Commits: `type(scope): summary`,
+  same types as the fragments plus `test|refactor|chore|ci`.
 - The public-API skill (`.claude/skills/gpp-client2/SKILL.md`) documents every
   client attribute and public method; `tests/test_skill_doc.py` fails when
   the API changes without the skill being updated. Update the skill in the

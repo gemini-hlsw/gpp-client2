@@ -65,6 +65,26 @@ surfaces are identical, that the CLI exposes every method, and that the
 bundled agent skill documents every public method. If you extend the API,
 the tests tell you every place that has to keep up.
 
+## Changelog and commit messages
+
+`CHANGELOG.md` is compiled by [towncrier](https://towncrier.readthedocs.io/)
+and never edited by hand. Record a change the moment you make it: drop a
+one-sentence fragment in `changelog.d/`, named `<issue>.<type>.md` (or
+`+<slug>.<type>.md` when no issue exists), with the type one of `feat`,
+`fix`, `perf`, `docs`, `removal`, or `misc`. Any change a user of the
+library would notice needs one, in the same commit as the change.
+
+```bash
+echo "Add the site_status domain." > changelog.d/+site-status.feat.md
+uv run towncrier build --draft            # preview
+uv run towncrier build --version X.Y.Z    # at release, before tagging
+```
+
+Commit messages follow
+[Conventional Commits](https://www.conventionalcommits.org/):
+`type(scope): summary`, with the same types as the fragments plus
+`test`, `refactor`, `chore`, and `ci`.
+
 ## Live tests
 
 The offline suite is the default and runs everywhere. Tests marked `live`

@@ -235,3 +235,14 @@ regression test.
   gap are gone.** There is no replay on reconnect - after re-calling
   `watch_*`, re-fetch current state with the corresponding `get_*` before
   trusting the stream again.
+
+## Contributing to this repository
+
+When changing gpp-client2 itself (not just using it), two process rules
+apply on top of the hard rules in `CLAUDE.md`:
+
+- Any user-visible change needs a towncrier fragment in `changelog.d/`
+  (`+<slug>.<type>.md`, types `feat|fix|perf|docs|removal|misc`) in the
+  same commit. `CHANGELOG.md` is compiled by towncrier - never edit it
+  directly.
+- Commit messages follow Conventional Commits (`type(scope): summary`).
