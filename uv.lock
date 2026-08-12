@@ -339,7 +339,6 @@ dev = [
 
 [[package]]
 name = "gqlforge"
-version = "0.1.0"
 source = { editable = "gqlforge" }
 dependencies = [
     { name = "graphql-core" },

@@ -15,6 +15,10 @@ uv run sphinx-build -W docs/source docs/_build   # the documentation
 uv run towncrier build --draft           # preview the changelog
 ```
 
+Release: `uv run towncrier build --version X.Y.Z` here, commit, tag
+`gqlforge-vX.Y.Z`, push the tag - release.yaml (repo root) publishes to
+PyPI via Trusted Publishing.
+
 The CLI itself (`gqlforge generate|check|readiness|download|scaffold`)
 runs from a *consumer's* root - exercise it against gpp-client2 by
 running it from `../gpp-client2/`.

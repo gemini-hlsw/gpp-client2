@@ -1,0 +1,59 @@
+# Publishes one workspace member to PyPI when its release tag is pushed.
+#
+# Tag streams: gpp-client2-vX.Y.Z releases gpp-client2, gqlforge-vX.Y.Z
+# releases gqlforge (uv-dynamic-versioning derives the version from the
+# tag via each package's pattern-prefix). Authentication is PyPI Trusted
+# Publishing (OIDC) - no API tokens; each project must be registered on
+# PyPI with this repo, this workflow file, and the "pypi" environment.
+#
+# Release procedure (from the member directory):
+#   uv run towncrier build --version X.Y.Z   # compile CHANGELOG.md
+#   git commit, then tag <package>-vX.Y.Z and push the tag.
+
+name: Release
+
+on:
+  push:
+    tags:
+      - "gpp-client2-v*"
+      - "gqlforge-v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # dynamic versioning reads tags from history
+
+      - name: Resolve package and version from the tag
+        run: |
+          echo "PACKAGE=${GITHUB_REF_NAME%-v*}" >> "$GITHUB_ENV"
+          echo "VERSION=${GITHUB_REF_NAME##*-v}" >> "$GITHUB_ENV"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --all-packages --all-extras
+
+      - name: Test the released package
+        working-directory: ${{ env.PACKAGE }}
+        run: uv run pytest
+
+      - name: Build
+        run: uv build --package "$PACKAGE"
+
+      - name: The built version must match the tag
+        run: |
+          ls dist/
+          test -f "dist/$(echo "$PACKAGE" | tr - _)-$VERSION.tar.gz"
+
+      - name: Publish to PyPI (trusted publishing)
+        run: uv publish

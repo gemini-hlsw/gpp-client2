@@ -46,13 +46,20 @@ cd gqlforge && uv run pytest              # codegen suite (see its CLAUDE.md)
    schema_sync.yaml), `SCHEMA_SYNC_TOKEN` (PR-capable, for
    schema_sync.yaml), and the `LIVE_TESTS_ENABLED=true` repo variable to
    arm the nightly live runs.
-2. **ReadTheDocs**: two independent top-level projects on the same
+2. **PyPI Trusted Publishing registration** (release.yaml is committed;
+   no tokens involved): on PyPI, add a pending publisher for each of
+   `gpp-client2` and `gqlforge` - repository `gemini-hlsw/gpp-client2`,
+   workflow `release.yaml`, environment `pypi` - and create the `pypi`
+   environment in the GitHub repo settings. Releases are tag-driven:
+   `gpp-client2-vX.Y.Z` / `gqlforge-vX.Y.Z` (uv-dynamic-versioning
+   pattern-prefix per package).
+3. **ReadTheDocs**: two independent top-level projects on the same
    repo, each with its own subdomain - `gpp-client2` with "Build
    configuration file" `gpp-client2/.readthedocs.yaml`, and `gqlforge`
    with `gqlforge/.readthedocs.yaml` (-> gqlforge.readthedocs.io). Not
    subprojects (Dan's decision, 2026-08-11): gqlforge keeps its own URL,
    which also survives the eventual repo split unchanged. Both Sphinx
    trees and RTD configs are committed.
-3. **Eventual gqlforge split**: when it leaves the monorepo, flip
+4. **Eventual gqlforge split**: when it leaves the monorepo, flip
    `[tool.uv.sources]` in gpp-client2 from `workspace = true` to a
    version pin and repoint the gqlforge RTD project's Git URL.

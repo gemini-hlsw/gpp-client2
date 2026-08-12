@@ -114,4 +114,7 @@ no generated file, cannot drift, and `tests/test_cli.py` pins the rule.
 5. **Token hygiene**: Dan's prod token passed through a chat transcript;
    rotate it.
 6. **Release**: the distribution is `gpp-client2` (Dan's decision,
-   2026-08-10); tag `vX.Y.Z` for uv-dynamic-versioning before any release.
+   2026-08-10). Procedure: `uv run towncrier build --version X.Y.Z` here,
+   commit, tag `gpp-client2-vX.Y.Z`, push the tag - release.yaml tests,
+   builds, and publishes via PyPI Trusted Publishing (needs the one-time
+   publisher registration, see the root CLAUDE.md roadmap).
