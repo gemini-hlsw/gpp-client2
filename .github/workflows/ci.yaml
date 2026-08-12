@@ -48,3 +48,8 @@ jobs:
       - name: gqlforge tests
         working-directory: gqlforge
         run: uv run pytest
+
+      - name: Docs build (both Sphinx trees, warnings are errors)
+        run: |
+          uv run sphinx-build -W -q -j auto gpp-client2/docs/source gpp-client2/docs/_build
+          uv run sphinx-build -W -q -j auto gqlforge/docs/source gqlforge/docs/_build
