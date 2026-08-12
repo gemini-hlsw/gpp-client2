@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "gqlforge"
-version = "0.0.0" # bumped by release-please; never edit by hand
+version = "0.1.0" # bumped by release-please; never edit by hand
 description = "Multi-schema GraphQL-to-Python codegen: one operations tree, pruned per environment, emitting pydantic models and identical sync/async clients."
 readme = "README.md"
 license = { file = "LICENSE" }
