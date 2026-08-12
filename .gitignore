@@ -27,3 +27,4 @@ htmlcov/
 gpp-client2/docs/_build/
 gqlforge/docs/_build/
 gpp-client2/docs/source/cli/
+gqlforge/docs/source/_showcase/gen/

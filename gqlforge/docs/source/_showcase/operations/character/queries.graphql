@@ -1,0 +1,32 @@
+# Fetch one character: the essentials, plus where they were last seen.
+query getCharacterById($id: ID!) {
+  character(id: $id) {
+    id
+    name
+    status
+    species
+    image
+    location {
+      name
+      dimension
+    }
+  }
+}
+
+# Page through all characters, optionally filtered by name, status,
+# species, type, or gender.
+query getCharacters($page: Int, $filter: FilterCharacter) {
+  characters(page: $page, filter: $filter) {
+    info {
+      count
+      pages
+      next
+    }
+    results {
+      id
+      name
+      status
+      species
+    }
+  }
+}

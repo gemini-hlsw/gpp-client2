@@ -40,7 +40,8 @@ with Client("https://api.example.com/graphql", token="...") as api:
 Sync and async clients, typed models, subscriptions over
 graphql-transport-ws, and a raw `api.graphql(...)` escape hatch - all
 generated. ({doc}`configuration` covers bring-your-own-runtime for
-curated clients.)
+curated clients.) To see exactly this against a live public API -
+inputs, emitted code, and real output - read the {doc}`showcase`.
 
 ## How it works
 
@@ -89,6 +90,7 @@ that client is its reference consumer.
 :hidden:
 :maxdepth: 1
 
+showcase
 configuration
 domains
 docstrings
