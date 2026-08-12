@@ -28,7 +28,7 @@ from gpp_client2.errors import (
 try:
     __version__ = version("gpp-client2")
 except PackageNotFoundError:  # pragma: no cover - not installed
-    __version__ = "0.0.0"
+    __version__ = "0.1.0"
 
 __all__ = [
     "ENVIRONMENTS",

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "gpp-client2"
-version = "0.0.0" # bumped by release-please; never edit by hand
+version = "0.1.0" # bumped by release-please; never edit by hand
 description = "Gemini Program Platform client."
 readme = "README.md"
 authors = [{ name = "NOIRLab" }]
