@@ -21,16 +21,15 @@ cd gqlforge && uv run pytest              # codegen suite (see its CLAUDE.md)
 
 ## Repo-wide rules
 
-- Every user-visible change (new feature, fix, removal, behavior change -
-  anything a library user would notice) ships with a towncrier fragment in
-  the same commit, in the changelog.d/ of the project it changes
-  (`gpp-client2/changelog.d/` or `gqlforge/changelog.d/`):
-  `<issue>.<type>.md` or `+<slug>.<type>.md`, types
-  `feat|fix|perf|docs|removal|misc` (see either changelog.d/README.md).
-  NEVER edit a CHANGELOG.md by hand; both are compiled by
-  `towncrier build` at release.
 - Commit messages follow Conventional Commits: `type(scope): summary`,
-  same types as the fragments plus `test|refactor|chore|ci`.
+  types `feat|fix|perf|docs|removal|misc|test|refactor|chore|ci`. They
+  are the changelog: release-please compiles each package's
+  CHANGELOG.md and next version from the commits touching that package,
+  so a user-visible change MUST carry a user-comprehensible
+  `feat|fix|perf|removal` subject line (`feat!:` or a
+  `BREAKING CHANGE:` footer for breaking changes). NEVER edit a
+  CHANGELOG.md, `release-please` version line, or the release PR by
+  hand.
 - Agent skills live at `.claude/skills/`: `gpp-client2` (using the
   client library) and `gqlforge` (using the codegen). Each is pinned by
   a skill-doc test in its project; update the skill in the same change
@@ -46,13 +45,16 @@ cd gqlforge && uv run pytest              # codegen suite (see its CLAUDE.md)
    schema_sync.yaml), `SCHEMA_SYNC_TOKEN` (PR-capable, for
    schema_sync.yaml), and the `LIVE_TESTS_ENABLED=true` repo variable to
    arm the nightly live runs.
-2. **PyPI Trusted Publishing registration** (release.yaml is committed;
-   no tokens involved): on PyPI, add a pending publisher for each of
+2. **Release automation setup** (release-please.yaml is committed; no
+   tokens involved): on PyPI, add a pending publisher for each of
    `gpp-client2` and `gqlforge` - repository `gemini-hlsw/gpp-client2`,
-   workflow `release.yaml`, environment `pypi` - and create the `pypi`
-   environment in the GitHub repo settings. Releases are tag-driven:
-   `gpp-client2-vX.Y.Z` / `gqlforge-vX.Y.Z` (uv-dynamic-versioning
-   pattern-prefix per package).
+   workflow `release-please.yaml`, environment `pypi`. On GitHub, create
+   the `pypi` environment and enable Settings -> Actions -> "Allow
+   GitHub Actions to create and approve pull requests". Releasing is
+   then: merge the release PR release-please keeps open per package
+   (version bump + changelog from Conventional Commits; tags
+   `gpp-client2-vX.Y.Z` / `gqlforge-vX.Y.Z`), and the same workflow
+   publishes to PyPI.
 3. **ReadTheDocs**: two independent top-level projects on the same
    repo, each with its own subdomain - `gpp-client2` with "Build
    configuration file" `gpp-client2/.readthedocs.yaml`, and `gqlforge`

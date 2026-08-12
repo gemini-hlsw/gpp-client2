@@ -245,9 +245,9 @@ When changing gpp-client2 itself (not just using it), two process rules
 apply on top of the hard rules in the root and per-project CLAUDE.md
 files:
 
-- Any user-visible change needs a towncrier fragment in the changed project's `changelog.d/`
-  (`gpp-client2/changelog.d/` or `gqlforge/changelog.d/`)
-  (`+<slug>.<type>.md`, types `feat|fix|perf|docs|removal|misc`) in the
-  same commit. `CHANGELOG.md` is compiled by towncrier - never edit it
-  directly.
-- Commit messages follow Conventional Commits (`type(scope): summary`).
+- Commit messages follow Conventional Commits (`type(scope): summary`)
+  and ARE the changelog: release-please compiles each package's
+  `CHANGELOG.md` and version from them, so a user-visible change needs a
+  user-comprehensible `feat|fix|perf|removal` subject line (`feat!:` or
+  a `BREAKING CHANGE:` footer when breaking). Never edit a
+  `CHANGELOG.md` or the release PR by hand.

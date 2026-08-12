@@ -66,22 +66,14 @@ jobs:
         working-directory: gpp-client2
         run: uv run pytest
 
-      - name: Changelog fragment
-        # Availability changes are user-visible; give the sync PR its
-        # towncrier entry. The fixed slug keeps nightly re-runs of an
-        # unmerged PR from stacking duplicate fragments.
-        run: |
-          if ! git diff --quiet -- gpp-client2/graphql/availability.json; then
-            echo "Update environment availability from the nightly schema sync." \
-              > gpp-client2/changelog.d/+schema-sync.misc.md
-          fi
-
       - name: Open or update PR
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.SCHEMA_SYNC_TOKEN || github.token }}
           branch: bot/schema-sync
-          commit-message: "chore: sync environment schemas"
+          # feat so the availability change lands in release-please's
+          # changelog (availability changes are user-visible).
+          commit-message: "feat(schemas): sync environment schemas and availability"
           title: "Schema sync"
           body: |
             Nightly schema refresh. Review `gpp-client2/graphql/availability.json` for

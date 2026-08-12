@@ -1,9 +1,10 @@
 [build-system]
-requires = ["hatchling", "uv-dynamic-versioning"]
+requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
 name = "gpp-client2"
+version = "0.0.0" # bumped by release-please; never edit by hand
 description = "Gemini Program Platform client."
 readme = "README.md"
 authors = [{ name = "NOIRLab" }]
@@ -27,7 +28,6 @@ dependencies = [
     "typer>=0.12",
     "websockets>=13",
 ]
-dynamic = ["version"]
 keywords = ["gemini", "gpp", "client", "program", "platform"]
 
 [project.scripts]
@@ -48,17 +48,6 @@ docs = [
     "sphinxcontrib-typer>=0.9.1",
 ]
 
-[tool.hatch.version]
-source = "uv-dynamic-versioning"
-
-[tool.uv-dynamic-versioning]
-# Monorepo tag streams: this package releases on gpp-client2-vX.Y.Z tags,
-# gqlforge on gqlforge-vX.Y.Z. Prerelease tags carry normal PEP 440
-# semantics; nothing about the version encodes a deployment environment.
-style = "pep440"
-pattern-prefix = "gpp-client2-"
-fallback-version = "0.0.0"
-
 [tool.hatch.build.targets.wheel]
 packages = ["src/gpp_client2"]
 
@@ -72,7 +61,6 @@ dev = [
     "pytest>=8.3",
     "pytest-asyncio>=0.25",
     "ruff>=0.9",
-    "towncrier>=25.8.0",
 ]
 
 [tool.uv.sources]
@@ -94,48 +82,6 @@ domains_dir = "src/gpp_client2/domains"
 environments = "gpp_client2.environments:ENVIRONMENTS"
 download_token = "gpp_client2.config:find_download_token"
 token_env = "GPP_TOKEN"
-
-# CHANGELOG.md is assembled by towncrier from fragments in changelog.d/ -
-# never edit it by hand. Fragment types mirror Conventional Commits types.
-# Release: uv run towncrier build --version X.Y.Z (before tagging vX.Y.Z).
-[tool.towncrier]
-package = "gpp_client2"
-package_dir = "src"
-directory = "changelog.d"
-filename = "CHANGELOG.md"
-title_format = "## {version} ({project_date})"
-issue_format = "[#{issue}](https://github.com/gemini-hlsw/gpp-client2/issues/{issue})"
-underlines = ["", "", ""]
-
-[[tool.towncrier.type]]
-directory = "feat"
-name = "Added"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "fix"
-name = "Fixed"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "perf"
-name = "Performance"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "docs"
-name = "Documentation"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "removal"
-name = "Removed"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "misc"
-name = "Misc"
-showcontent = true
 
 # Strict typing applies to the shipped package. The codegen package is a
 # dev-only tool manipulating graphql-core AST nodes whose stubs fight every

@@ -1,1 +1,0 @@
-Add a showcase page: the Rick and Morty API end to end - the emitted models, domain class, and console transcript on the page are regenerated from the committed corpus snapshot at every docs build, so they cannot drift from the emitters.

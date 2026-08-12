@@ -21,5 +21,6 @@ uv run ruff check .          # lint everything, from anywhere
 ```
 
 Each project's README and docs are the authoritative guide for working
-inside it. Repo-wide conventions (Conventional Commits, towncrier
-changelog fragments, the generated-code rules) are in `CLAUDE.md`.
+inside it. Repo-wide conventions (Conventional Commits, which
+release-please turns into each package's changelog and releases, and
+the generated-code rules) are in `CLAUDE.md`.

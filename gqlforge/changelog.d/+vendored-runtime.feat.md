@@ -1,1 +1,0 @@
-Vendor a complete runtime when no runtime_package is configured: UNSET bases, sync+async httpx executors, graphql-transport-ws subscriptions, and a default Client/AsyncClient - a working client from nothing but a schema and queries.

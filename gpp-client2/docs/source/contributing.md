@@ -84,27 +84,20 @@ the tests tell you every place that has to keep up.
 
 ## Changelog and commit messages
 
-`CHANGELOG.md` is compiled by [towncrier](https://towncrier.readthedocs.io/)
-and never edited by hand. Record a change the moment you make it: drop a
-one-sentence fragment in `changelog.d/`, named `<issue>.<type>.md` (or
-`+<slug>.<type>.md` when no issue exists), with the type one of `feat`,
-`fix`, `perf`, `docs`, `removal`, or `misc`. Any change a user of the
-library would notice needs one, in the same commit as the change.
-
-```bash
-echo "Add the site_status domain." > changelog.d/+site-status.feat.md
-uv run towncrier build --draft            # preview
-uv run towncrier build --version X.Y.Z    # at release, before tagging
-```
-
-`gqlforge` keeps its own changelog the same way, in
-`gqlforge/changelog.d/` - put the fragment in the project the change
-touches.
-
 Commit messages follow
 [Conventional Commits](https://www.conventionalcommits.org/):
-`type(scope): summary`, with the same types as the fragments plus
-`test`, `refactor`, `chore`, and `ci`.
+`type(scope): summary`, with `type` one of `feat`, `fix`, `perf`,
+`docs`, `removal`, `misc`, `test`, `refactor`, `chore`, or `ci`. They
+are not just style:
+[release-please](https://github.com/googleapis/release-please) compiles
+each package's `CHANGELOG.md` and next version straight from the
+commits that touch it, so any change a user of the library would notice
+must carry a `feat`/`fix`/`perf`/`removal` subject line written for
+those users (breaking changes say `feat!:` or add a
+`BREAKING CHANGE:` footer). `CHANGELOG.md` is never edited by hand.
+
+Releasing is merging the release PR that release-please keeps open for
+the package; the same workflow then publishes to PyPI.
 
 ## Live tests
 

@@ -1,0 +1,73 @@
+# Release automation: release-please maintains one release PR per package
+# from the Conventional Commit history (version bump in pyproject.toml,
+# CHANGELOG.md section). Merging that PR creates the <package>-vX.Y.Z tag
+# and GitHub Release, and the publish job below ships the package to PyPI
+# in the same run via Trusted Publishing - no API tokens anywhere.
+#
+# One-time setup this workflow needs:
+#   - PyPI: a trusted publisher per package (repo gemini-hlsw/gpp-client2,
+#     workflow release-please.yaml, environment pypi).
+#   - GitHub: a "pypi" environment, and Settings -> Actions -> "Allow
+#     GitHub Actions to create and approve pull requests" enabled.
+
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      releases_created: ${{ steps.rp.outputs.releases_created }}
+      paths_released: ${{ steps.rp.outputs.paths_released }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: rp
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  publish:
+    needs: release-please
+    if: needs.release-please.outputs.releases_created == 'true'
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        path: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --all-packages --all-extras
+
+      - name: Test the released package
+        working-directory: ${{ matrix.path }}
+        run: uv run pytest
+
+      - name: Build
+        run: uv build --package "${{ matrix.path }}"
+
+      - name: The built version must match the release tag
+        env:
+          TAG: ${{ needs.release-please.outputs[format('{0}--tag_name', matrix.path)] }}
+        run: |
+          ls dist/
+          test -f "dist/$(echo "${{ matrix.path }}" | tr - _)-${TAG##*-v}.tar.gz"
+
+      - name: Publish to PyPI (trusted publishing)
+        run: uv publish

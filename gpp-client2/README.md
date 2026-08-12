@@ -207,7 +207,6 @@ directory (`gpp-client2/`).
 | `uv run gqlforge download [env]` | Refresh schemas (needs a token) |
 | `uv run gqlforge scaffold <name>` | Start a new domain |
 | `uv run sphinx-build -W docs/source docs/_build` | Build the documentation |
-| `uv run towncrier build --draft` | Preview the changelog compiled from `changelog.d/` |
 | `uv run pytest -m live` | Read-only smoke tests against a real deployment |
 | `GPP_LIVE_WRITE=1 uv run pytest -m live` | Also run write round-trips (see below) |
 
@@ -295,9 +294,10 @@ for someone to notice.
    `<verb><Resource>[By<Key>]` so its method name derives automatically.
 2. `uv run gqlforge generate`
 3. Commit the source *and* generated changes; CI verifies they match.
-   Like any user-visible change, include a changelog fragment in
-   `changelog.d/` (see `changelog.d/README.md`) and use a Conventional
-   Commits message (`type(scope): summary`).
+   Use a Conventional Commits message (`type(scope): summary`) - like
+   any user-visible change, it needs a `feat`/`fix` subject line users
+   would understand, because release-please compiles the changelog
+   from the commits.
 
 ### Changing what an existing query selects
 

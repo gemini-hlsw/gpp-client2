@@ -20,7 +20,6 @@ uv run pytest -m live                    # read-only tests against a real deploy
 GPP_LIVE_WRITE=1 uv run pytest -m live   # + write round-trips (see rules below)
 uv run gpp2 --help                        # the CLI (every domain method is a command)
 uv run sphinx-build -W docs/source docs/_build  # build the documentation
-uv run towncrier build --draft           # preview the changelog
 ```
 
 ## Architecture in one breath
@@ -114,7 +113,7 @@ no generated file, cannot drift, and `tests/test_cli.py` pins the rule.
 5. **Token hygiene**: Dan's prod token passed through a chat transcript;
    rotate it.
 6. **Release**: the distribution is `gpp-client2` (Dan's decision,
-   2026-08-10). Procedure: `uv run towncrier build --version X.Y.Z` here,
-   commit, tag `gpp-client2-vX.Y.Z`, push the tag - release.yaml tests,
-   builds, and publishes via PyPI Trusted Publishing (needs the one-time
-   publisher registration, see the root CLAUDE.md roadmap).
+   2026-08-10). Merge the `gpp-client2` release PR that release-please
+   keeps open - it carries the version bump and changelog compiled from
+   Conventional Commits, and the workflow publishes to PyPI (needs the
+   one-time setup in the root CLAUDE.md roadmap).

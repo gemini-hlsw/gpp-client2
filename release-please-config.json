@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "bump-minor-pre-major": true,
+  "include-component-in-tag": true,
+  "changelog-sections": [
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "perf", "section": "Performance" },
+    { "type": "removal", "section": "Removals" },
+    { "type": "docs", "section": "Documentation" },
+    { "type": "refactor", "section": "Refactoring", "hidden": true },
+    { "type": "test", "section": "Tests", "hidden": true },
+    { "type": "chore", "section": "Chores", "hidden": true },
+    { "type": "ci", "section": "CI", "hidden": true }
+  ],
+  "packages": {
+    "gpp-client2": {
+      "release-type": "python",
+      "package-name": "gpp-client2",
+      "component": "gpp-client2"
+    },
+    "gqlforge": {
+      "release-type": "python",
+      "package-name": "gqlforge",
+      "component": "gqlforge"
+    }
+  }
+}
